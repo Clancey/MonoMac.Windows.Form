@@ -31,14 +31,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\MonoMac.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Core" />
     <Reference Include="nunit.core, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
     <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
+    <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\monomac\src\MonoMac.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -51,9 +51,20 @@
     <Compile Include="Forms\TextBox.cs" />
     <Compile Include="Forms\Label.cs" />
     <Compile Include="Forms\AnchorStyles.cs" />
+    <Compile Include="Forms\IControl.cs" />
+    <Compile Include="Keys.cs" />
+    <Compile Include="EventArgs\KeyEventArgs.cs" />
+    <Compile Include="EventArgs\KeyEventHandler.cs" />
+    <Compile Include="EventArgs\KeyPressEventArgs.cs" />
+    <Compile Include="EventArgs\KeyPressEventHandler.cs" />
+    <Compile Include="Forms\Control.cs" />
+    <Compile Include="Utils\KeyUtil.cs" />
+    <Compile Include="Forms\RightToLeft.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Forms\" />
+    <Folder Include="EventArgs\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

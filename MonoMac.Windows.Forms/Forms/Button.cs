@@ -7,7 +7,7 @@ namespace System.Windows.Forms
 {
 	
 	[MonoMac.Foundation.Register("Button")]
-	public partial class Button : NSButton
+	public partial class Button : NSButton, IControl
 	{
 		public Button () : base()
 		{
@@ -29,15 +29,22 @@ namespace System.Windows.Forms
 			}
 		}
 
-		[Export("buttonAction:")]
-		public EventHandler Clicked { get; set; }
-
 		public string Name { get; set; }
 
 		public int TabIndex {
 			get { return Tag; }
 			set { Tag = value; }
 		}
+		#region Events
+		[Export("buttonAction:")]
+		public EventHandler Clicked { get; set; }
+
+
+        public KeyEventHandler OnKeyDown { get; set; }
+        public KeyPressEventHandler OnKeyPress { get; set; }
+        public KeyEventHandler OnKeyUp { get; set; }
+		
+		#endregion
 
 		//TODO: consolidate
 		public SizeF Size {
@@ -49,6 +56,7 @@ namespace System.Windows.Forms
 			get { return this.Frame.Location; }
 			set { this.Frame = new RectangleF (value, this.Frame.Size); }
 		}
+
 	}
 }
 

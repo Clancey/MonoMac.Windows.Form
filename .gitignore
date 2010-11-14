@@ -47,3 +47,4 @@ BASE.*
 
 /nunit-result.xml
 /test-results
+*.DS_Store
