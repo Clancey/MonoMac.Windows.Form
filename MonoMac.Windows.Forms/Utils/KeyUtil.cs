@@ -104,7 +104,7 @@ namespace System.Windows.Forms
 		public static Keys GetKeys(NSEvent theEvent)
 		{
 			Initialize();
-			
+			//TODO: Make modifiers work
 			var nskey = Enum.ToObject(typeof(NSKey),theEvent.KeyCode);		
 			try
 			{

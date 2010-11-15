@@ -1,58 +1,87 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 class MyForm : Form
 {
-	TextBox textBox1;
-	TextBox textBox2;
-	TextBox textBox3;
+
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.ComboBox comboBox1;
 	public MyForm ()
 	{
-		this.Text = "Winform Built with monomac";
-		var button1 = new Button ();
-		button1.Location = new PointF (100, 70);
-		button1.Size = new SizeF (100, 30);
-		button1.TabIndex = 10;
-		button1.Clicked += button1_Click;
+  			this.button1 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.SuspendLayout();
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(78, 76);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "button1";
+            //this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // textBox1
+            // 
+            //this.textBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.textBox1.Font = new System.Drawing.Font("Arial", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(78, 118);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 26);
+            this.textBox1.TabIndex = 1;
+            //this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(78, 156);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.TabIndex = 2;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(78, 41);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(80, 17);
+            this.checkBox1.TabIndex = 3;
+            this.checkBox1.Text = "checkBox1";
+            //this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // comboBox1
+            // 
+            //this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(78, 200);
+            //this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            //this.comboBox1.TabIndex = 4;
 		
-		textBox1 = new TextBox ();
-		textBox1.Location = new System.Drawing.Point (109, 40);
-		textBox1.Name = "textBox1";
-		textBox1.Size = new System.Drawing.Size (236, 20);
-		textBox1.TabIndex = 1;
-		textBox1.OnKeyUp = textbox1_KeyDown;
-		textBox1.BackColor = Color.Green;
+            comboBox1.DataSource = new List<string>() {"test", "test2", "test3"};
 		
-		textBox2 = new TextBox ();
-		textBox2.Location = new System.Drawing.Point (109, 100);
-		textBox2.Name = "textBox2";
-		textBox2.Size = new System.Drawing.Size (236, 20);
-		textBox2.TabIndex = 3;
-		textBox2.Text = "tb2";
-		
-		textBox3 = new TextBox ();
-		textBox3.Location = new System.Drawing.Point (109, 140);
-		textBox3.Name = "textBox3";
-		textBox3.Size = new System.Drawing.Size (236, 20);
-		textBox3.TabIndex = 2;
-		textBox3.Text = "tb3";
-		
-		var label1 = new Label ();
-		label1.AutoSize = true;
-		label1.Location = new System.Drawing.Point (28, 44);
-		label1.Name = "label1";
-		label1.Size = new System.Drawing.Size (75, 13);
-		label1.TabIndex = 5;
-		label1.Text = "My Label:";
-		
-		
-		Controls.Add (button1);
-		Controls.Add (textBox1);
-		Controls.Add (textBox2);
-		Controls.Add (textBox3);
-		Controls.Add (label1);
-		
-		var test = Controls.Count;
+            // 
+            // Form1
+            // 
+            //this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(292, 266);
+            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.button1);
+            this.Name = "Form1";
+            this.Text = "Form1";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
 		
 		
 	}
@@ -60,7 +89,7 @@ class MyForm : Form
 	private void textbox1_KeyDown(object sender, KeyEventArgs e)
 	{
 		textBox2.Text = e.KeyValue.ToString() ;
-		textBox3.Text = ((Keys)e.KeyValue).ToString()+ (e.Shift ? " + Shift" : "") + (e.Alt ? " + Alt" : "");
+		//textBox3.Text = ((Keys)e.KeyValue).ToString()+ (e.Shift ? " + Shift" : "") + (e.Alt ? " + Alt" : "");
 	}
 	
     private void button1_Click(object sender, EventArgs e)

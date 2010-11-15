@@ -8,7 +8,7 @@ namespace System.Windows.Forms
 		{
 			this.Selectable = false;
 			this.Editable = false;
-			this.Font = NSFont.FromFontName ("Arial", 10);
+			//this.Font = NSFont.FromFontName ("Arial", 10);
 			this.Bordered = false;
 		}
 		public bool AutoSize { get; set; }

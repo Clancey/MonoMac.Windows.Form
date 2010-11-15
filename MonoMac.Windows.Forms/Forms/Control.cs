@@ -17,6 +17,11 @@ namespace System.Windows.Forms
             get { return this.Frame.Location; }
             set { this.Frame = new RectangleF(value, this.Frame.Size); }
         }
+		
+		public bool Visible{
+			get{ return Hidden;}
+			set {Hidden = value;}
+		}
 		/*
 		public Color BackColor 
 		{

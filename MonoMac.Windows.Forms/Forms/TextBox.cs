@@ -59,6 +59,23 @@ namespace System.Windows.Forms
 			set { this.Frame = new RectangleF (value, this.Frame.Size); }
 		}
 		
+		public bool Visible{
+			get{ return Hidden;}
+			set {Hidden = value;}
+		}
+		
+		public new System.Drawing.Font Font
+		{
+			get {
+				return new System.Drawing.Font(base.Font.FontName, base.Font.PointSize, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			}
+			set {
+				base.Font = MonoMac.AppKit.NSFont.FromFontName(value.Name,value.Size);
+				
+			}
+		}
+		
+		
 		public Color BackColor {
 			get {
 				return Color.FromArgb( (int)BackgroundColor.AlphaComponent

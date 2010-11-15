@@ -14,18 +14,18 @@ namespace System.Windows.Forms
 			this.BezelStyle = NSBezelStyle.Rounded;
 			
 			this.Activated += delegate(object sender, EventArgs e) {
-				if (Clicked != null)
-					Clicked (sender, e);
+				if (Click != null)
+					Click (sender, e);
 			};
 			this.Frame = new System.Drawing.RectangleF (0, 0, 0, 0);
-			this.Font = NSFont.FromFontName("Arial",11);
+			//this.Font = NSFont.FromFontName("Arial",11);
 			
 		}
 		public string Text {
 			get { return this.Title; }
 			set {
 				this.Title = value;
-				this.SizeToFit ();
+				resize();
 			}
 		}
 
@@ -37,7 +37,7 @@ namespace System.Windows.Forms
 		}
 		#region Events
 		[Export("buttonAction:")]
-		public EventHandler Clicked { get; set; }
+		public EventHandler Click { get; set; }
 
 
         public KeyEventHandler OnKeyDown { get; set; }
@@ -55,6 +55,30 @@ namespace System.Windows.Forms
 		public PointF Location {
 			get { return this.Frame.Location; }
 			set { this.Frame = new RectangleF (value, this.Frame.Size); }
+		}
+		
+		public new System.Drawing.Font Font
+		{
+			get {
+				return new System.Drawing.Font(base.Font.FontName, base.Font.PointSize, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			}
+			set {
+				base.Font = MonoMac.AppKit.NSFont.FromFontName(value.Name,value.Size);
+				
+			}
+		}
+		
+		public bool Visible{
+			get{ return Hidden;}
+			set {Hidden = value;}
+		}
+		private bool autoSize;
+		public bool AutoSize{get{ return autoSize;}set {autoSize = value; resize();}}
+		private void resize ()
+		{
+			if (!AutoSize)
+				return;
+			this.SizeToFit ();
 		}
 
 	}

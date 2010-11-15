@@ -60,6 +60,10 @@
     <Compile Include="Forms\Control.cs" />
     <Compile Include="Utils\KeyUtil.cs" />
     <Compile Include="Forms\RightToLeft.cs" />
+    <Compile Include="Forms\CheckBox.cs" />
+    <Compile Include="Forms\CheckState.cs" />
+    <Compile Include="Forms\CheckedListBox.cs" />
+    <Compile Include="Forms\ComboBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Forms\" />
