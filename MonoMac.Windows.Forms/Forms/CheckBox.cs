@@ -44,7 +44,7 @@ namespace System.Windows.Forms
 		public bool ThreeState
 		{
 			get{ return this.AllowsMixedState;}
-			set { this.SetAllowsMixedState(value);}
+			set { this.AllowsMixedState = value;}
 		}
 	}
 }

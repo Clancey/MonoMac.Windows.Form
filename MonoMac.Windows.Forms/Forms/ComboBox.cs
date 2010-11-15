@@ -14,6 +14,8 @@ namespace System.Windows.Forms
 		{
 			
 		}
+		public string DisplayMember {get;set;}
+		public string ValueMember {get;set;}
 		ComboBoxDataSource _dataSource = new ComboBoxDataSource();
 		public new object DataSource {
 			get {
@@ -21,11 +23,15 @@ namespace System.Windows.Forms
 			}
 			set {
 				UsesDataSource = true;
-				_dataSource = new ComboBoxDataSource(value,"","");
+				_dataSource = new ComboBoxDataSource(value,DisplayMember,DisplayMember);
 				base.DataSource = _dataSource;
 			}
 		}
-		
+		public object SelectedItem
+		{
+			get{return _dataSource.dataArray[this.SelectedIndex];}
+			//TODO: set
+		}
         public SizeF Size
         {
             get { return this.Frame.Size; }
