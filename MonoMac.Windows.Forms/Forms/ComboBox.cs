@@ -100,6 +100,7 @@ namespace System.Windows.Forms
 				return dataArray.Length;
 			}
 			
+			Dictionary<string,NSString> returnValue = new Dictionary<string, NSString>();
 			public override NSObject ObjectValueForItem (NSComboBox comboBox, int index)
 			{
 				object l = dataArray[index];
@@ -108,8 +109,10 @@ namespace System.Windows.Forms
 					theString = getPropertyStringValue(l,DisplayMember);
 				else
 					theString = l.ToString();
-					
-				return new NSString(theString);
+				if (!returnValue.ContainsKey(theString))					
+					returnValue.Add(theString,new NSString(theString));
+				var returnString = returnValue[theString];
+				return returnString;
 			}
 			
 			public object GetSelectedValue(NSComboBox comboBox)

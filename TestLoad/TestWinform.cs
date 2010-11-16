@@ -5,11 +5,11 @@ using System.Collections.Generic;
 class MyForm : Form
 {
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.ComboBox comboBox1;
+    private System.Windows.Forms.Button button1;
+    private System.Windows.Forms.TextBox textBox1;
+    private System.Windows.Forms.TextBox textBox2;
+    private System.Windows.Forms.CheckBox checkBox1;
+    private System.Windows.Forms.ComboBox comboBox1;
 	public MyForm ()
 	{
   			this.button1 = new System.Windows.Forms.Button();
@@ -23,7 +23,7 @@ class MyForm : Form
             // 
             this.button1.Location = new System.Drawing.Point(78, 76);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(75, 25);
             this.button1.TabIndex = 0;
             this.button1.Text = "button1";
             //this.button1.UseVisualStyleBackColor = true;
@@ -61,7 +61,7 @@ class MyForm : Form
             //this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(78, 200);
             //this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.Size = new System.Drawing.Size(121, 25);
             //this.comboBox1.TabIndex = 4;
 		
             comboBox1.DataSource = new List<string>() {"test", "test2", "test3"};

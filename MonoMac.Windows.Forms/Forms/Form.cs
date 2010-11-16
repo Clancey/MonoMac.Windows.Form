@@ -159,7 +159,7 @@ namespace System.Windows.Forms
 			//TODO: Make it work, It doesn't work as is
 			public void SetTab ()
 			{
-				
+				/*
 				var controls = theForm.ContentView.Subviews.OrderBy (x => x.Tag).ToList ();
 				for (int i = 0; i < controls.Count - 1; i++)
 				{
@@ -167,6 +167,7 @@ namespace System.Windows.Forms
 					var nextControl = controls[i + 1];
 					firstControl.NextResponder = nextControl;
 				}
+				*/
 				
 			}
 		}
