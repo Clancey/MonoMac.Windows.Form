@@ -6,24 +6,27 @@ namespace System.Windows.Forms
 	[MonoMac.Foundation.Register("Form")]
 	public partial class Application : NSApplication
 	{
+		static ApplicationContext context;
 		public Application ()
 		{
 			
 		}
 		public static void Run(Func<Form> mainForm)
 		{
-			
-			Run (new ApplicationContext (mainForm));
+			context = new ApplicationContext (mainForm);
+			Run (context);
 		}
 		
 		public static void Run ()
 		{
-			Run (new ApplicationContext ());
+			context = new ApplicationContext();
+			Run (context);
 		}
 
 		public static void Run (Form mainForm)
 		{
-			Run (new ApplicationContext (mainForm));
+			context = new ApplicationContext (mainForm);
+			Run (context);
 		}
 
 		public static void Run (NSWindow mainForm)

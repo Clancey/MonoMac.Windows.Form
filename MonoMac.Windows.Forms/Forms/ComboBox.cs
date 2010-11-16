@@ -14,8 +14,10 @@ namespace System.Windows.Forms
 		{
 			
 		}
-		public string DisplayMember {get;set;}
-		public string ValueMember {get;set;}
+		private string displayMember;
+		public string DisplayMember {get{return displayMember; }set{displayMember = value; _dataSource.DisplayMember = value; }}
+		private string valueMember;
+		public string ValueMember {get{return valueMember; }set{ valueMember = value; _dataSource.ValueMember = value;}}
 		ComboBoxDataSource _dataSource = new ComboBoxDataSource();
 		public new object DataSource {
 			get {
@@ -23,7 +25,7 @@ namespace System.Windows.Forms
 			}
 			set {
 				UsesDataSource = true;
-				_dataSource = new ComboBoxDataSource(value,DisplayMember,DisplayMember);
+				_dataSource = new ComboBoxDataSource(value){DisplayMember = displayMember};
 				base.DataSource = _dataSource;
 			}
 		}
@@ -54,6 +56,11 @@ namespace System.Windows.Forms
 				
 			}
 		}
+		public object SelectedValue
+		{
+			get{return _dataSource.GetSelectedValue(this);}
+			set {_dataSource.SetSelectedValue(this,value);}
+		}
 		
 		public class ComboBoxDataSource : NSComboBoxDataSource
 		{
@@ -67,23 +74,19 @@ namespace System.Windows.Forms
 				dataArray = inArray;
 			}
 			
-			public ComboBoxDataSource (object theObject,string displayMember,string valueMember)
+			public ComboBoxDataSource (object theObject)
 			{
 				if(theObject is IList)
 				{
 					var inArray = theObject as IList;
 					dataArray = inArray.Cast<object>().ToArray();
-					if(dataArray[0] is string)
+					strings = new List<string>();
+					foreach(var obj in dataArray)
 					{
-						strings = dataArray.Cast<string>().ToList();	
-					}
-					else if(!string.IsNullOrEmpty(DisplayMember))
-					{
-						foreach(var obj in dataArray)
-						{
-							strings = new List<string>();
-							strings.Add(getPropertyValue(obj,DisplayMember));
-						}
+						if(string.IsNullOrEmpty(DisplayMember))
+							strings.Add(obj.ToString());
+						else
+							strings.Add(getPropertyStringValue(obj,DisplayMember));
 					}
 				}
 			}
@@ -92,25 +95,49 @@ namespace System.Windows.Forms
 			{
 			}
 			
-			//[Export ("numberOfItemsInComboBox:")]
 			public override int ItemCount (NSComboBox comboBox)
 			{
 				return dataArray.Length;
 			}
-			//[Export ("comboBox:objetValueForItemAtIndex:")]
+			
 			public override NSObject ObjectValueForItem (NSComboBox comboBox, int index)
 			{
 				object l = dataArray[index];
 				string theString = "";
-				if(l is string)
-				{
-					theString = l as string;
-				}
-				else if (!string.IsNullOrEmpty(DisplayMember))
-				{
-					theString = getPropertyValue(l,DisplayMember);
-				}
+				if (!string.IsNullOrEmpty(DisplayMember))
+					theString = getPropertyStringValue(l,DisplayMember);
+				else
+					theString = l.ToString();
+					
 				return new NSString(theString);
+			}
+			
+			public object GetSelectedValue(NSComboBox comboBox)
+			{
+				object l = dataArray[comboBox.SelectedIndex];
+				if(!string.IsNullOrEmpty(DisplayMember))
+				{
+					//Use Display Property if they didnt set ValueMember
+					var valueMember = string.IsNullOrEmpty(ValueMember) ? DisplayMember : ValueMember;
+					return getPropertyValue(l,valueMember);
+				}
+				else
+				{
+					return l.ToString();
+				}
+			}
+			
+			public void SetSelectedValue(NSComboBox combobox,object value)
+			{
+				if(string.IsNullOrEmpty(DisplayMember))
+				{
+					combobox.SelectItem(dataArray.ToList().IndexOf(value));
+					return;
+				}
+				var valueMember = string.IsNullOrEmpty(ValueMember) ? DisplayMember : ValueMember;
+				var found = dataArray.Where(x=> getPropertyValue(x,valueMember) == value).FirstOrDefault();
+				combobox.SelectItem(dataArray.ToList().IndexOf(found));
+				
 			}
 			
 			public override int IndexOfItem (NSComboBox comboBox, string value)
@@ -118,13 +145,22 @@ namespace System.Windows.Forms
 				return strings.IndexOf(value);
 			}
 			
-			private string getPropertyValue(object inObject, string propertyName)
+			private string getPropertyStringValue(object inObject, string propertyName)
 			{
 				PropertyInfo[] props = inObject.GetType().GetProperties();
 				PropertyInfo prop = props.Select(p => p).Where(p =>  p.Name == propertyName).FirstOrDefault();
 					if (prop != null)
 						return prop.GetValue(inObject,null).ToString();
 				return "";
+			}
+			
+			private object getPropertyValue(object inObject, string propertyName)
+			{
+				PropertyInfo[] props = inObject.GetType().GetProperties();
+				PropertyInfo prop = props.Select(p => p).Where(p =>  p.Name == propertyName).FirstOrDefault();
+					if (prop != null)
+						return prop.GetValue(inObject,null).ToString();
+				return null;
 			}
 						                  
 				                                           
