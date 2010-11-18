@@ -46,12 +46,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MonoMac.Windows.Forms\MonoMac.Windows.Forms.csproj">
-      <Project>{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}</Project>
-      <Name>MonoMac.Windows.Forms</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="main.cs" />
     <Compile Include="Forms\ButtonTest.cs" />
     <Compile Include="Test.cs" />
@@ -61,5 +55,11 @@
   <ItemGroup>
     <Folder Include="Forms\" />
     <Folder Include="MonoMac\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MonoMac.Windows.Forms\MonoMac.Windows.Forms.csproj">
+      <Project>{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}</Project>
+      <Name>MonoMac.Windows.Forms</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

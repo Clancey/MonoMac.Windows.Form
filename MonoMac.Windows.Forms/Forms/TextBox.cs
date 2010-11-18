@@ -10,14 +10,13 @@ namespace System.Windows.Forms
 		{
 			this.Selectable = true;
 			this.Editable = true;
+			//this.BackgroundColor = NSColor.Clear;
 		}
 
 		public virtual string Text {
 			get { return this.StringValue; }
 			set { this.StringValue = value; }
 		}
-
-		public string Name { get; set; }
 
 		public int TabIndex {
 			get { return Tag; }
@@ -49,44 +48,70 @@ namespace System.Windows.Forms
 		#endregion
 
 		//TODO: consolidate
-		public SizeF Size {
-			get { return this.Frame.Size; }
-			set { this.Frame = new RectangleF (this.Frame.Location, value); }
-		}
-
-		public PointF Location {
-			get { return this.Frame.Location; }
-			set { this.Frame = new RectangleF (value, this.Frame.Size); }
+			
+		//TODO: make it work
+		public float Left{get;set;}
+		public float Right {get { if (this.Superview == null) return -1;return  (this.Frame.X + this.Width) - this.Superview.Frame.Width ;}}
+		
+		public float Top{ get{ return this.Location.Y;}
+			set { this.Location = new PointF(this.Location.Y,value);}
 		}
 		
-		public bool Visible{
-			get{ return Hidden;}
-			set {Hidden = value;}
-		}
-		
-		public new System.Drawing.Font Font
+		public void Focus()
 		{
-			get {
-				return new System.Drawing.Font(base.Font.FontName, base.Font.PointSize, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			}
-			set {
-				base.Font = MonoMac.AppKit.NSFont.FromFontName(value.Name,value.Size);
-				
+			this.BecomeFirstResponder();
+		}
+		public void Clear()
+		{
+			this.Text = string.Empty;	
+		}
+		public HorizontalAlignment TextAlign
+		{
+			set
+			{
+				switch(value)
+				{
+				case HorizontalAlignment.Left:
+					this.Alignment  = (uint)NSTextAlignment.Left;
+					break;
+				case HorizontalAlignment.Center:
+					this.Alignment  = (uint)NSTextAlignment.Center;
+					break;
+				case HorizontalAlignment.Right:
+					this.Alignment  = (uint)NSTextAlignment.Right;
+					break;
+				default : this.Alignment = (uint) NSTextAlignment.Left;
+					break;
+				}
+					
 			}
 		}
-		
+			
 		
 		public Color BackColor {
 			get {
-				return Color.FromArgb( (int)BackgroundColor.AlphaComponent
-				                      ,(int)BackgroundColor.RedComponent
-				                      ,(int)BackgroundColor.GreenComponent
-				                      ,(int)BackgroundColor.BlueComponent());
+				BackgroundColor = BackgroundColor.ColorUsingColorSpaceName(NSColorSpace.CalibratedRGB);
+				if(BackgroundColor == null)
+					BackgroundColor = NSColor.Clear;
+				int alpha = 0;
+				int red = 0;
+				int green = 0;
+				int blue = 0;
+				 alpha = (int)BackgroundColor.AlphaComponent;
+				 red = (int)(BackgroundColor.RedComponent);
+				 green = (int)BackgroundColor.GreenComponent;
+				 blue = (int)BackgroundColor.BlueComponent();
+				if(alpha == 0 && red == 0 && green == 0 && blue == 0)
+					return Color.Transparent;
+				return Color.FromArgb( alpha
+				                      ,red
+				                      ,green
+				                      ,blue);
 			}
 			set { BackgroundColor = NSColor.FromCalibratedRGBA(value.R
 			                                                   ,value.G
 			                                                   ,value.B
-			                                                   ,value.A);
+			                                                   ,value.A).ColorUsingColorSpaceName(NSColorSpace.CalibratedRGB);
 			}
 		}
 		public RightToLeft RightToLeft{

@@ -8,12 +8,13 @@ using System.Linq;
 using System.Collections.Generic;
 namespace System.Windows.Forms
 {
-	public class ComboBox : NSComboBox
+	public class ComboBox : NSComboBox, IControl
 	{
 		public ComboBox () : base ()
 		{
 			
 		}
+		public Color BackColor {get;set;}
 		private string displayMember;
 		public string DisplayMember {get{return displayMember; }set{displayMember = value; _dataSource.DisplayMember = value; }}
 		private string valueMember;
@@ -34,17 +35,20 @@ namespace System.Windows.Forms
 			get{return _dataSource.dataArray[this.SelectedIndex];}
 			//TODO: set
 		}
-        public SizeF Size
-        {
-            get { return this.Frame.Size; }
-            set { this.Frame = new RectangleF(this.Frame.Location, value); }
-        }
+		public SizeF Size {
+			get { return this.Frame.Size; }
+			set { this.Frame = new RectangleF (this.Frame.Location, value); }
+		}
 
-        public PointF Location
-        {
-            get { return this.Frame.Location; }
-            set { this.Frame = new RectangleF(value, this.Frame.Size); }
-        }
+		public PointF Location {
+			get { return this.Frame.Location; }
+			set { this.Frame = new RectangleF (value, this.Frame.Size); }
+		}
+		
+		public bool Visible{
+			get{ return Hidden;}
+			set {Hidden = value;}
+		}
 		
 		public new System.Drawing.Font Font
 		{
@@ -62,6 +66,12 @@ namespace System.Windows.Forms
 			set {_dataSource.SetSelectedValue(this,value);}
 		}
 		
+		#region Events
+		
+	    public KeyPressEventHandler OnKeyPress { get; set; }
+        public KeyEventHandler OnKeyUp { get; set; }
+        public KeyEventHandler OnKeyDown { get; set; }
+		#endregion
 		public class ComboBoxDataSource : NSComboBoxDataSource
 		{
 			public object[] dataArray;

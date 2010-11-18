@@ -22,22 +22,9 @@ namespace System.Windows.Forms
 			get{ return Hidden;}
 			set {Hidden = value;}
 		}
-		/*
-		public Color BackColor 
-		{
-			get 
-			{
-				return Color.FromArgb( BackgroundColor.AlphaComponent
-				                      ,BackgroundColor.RedComponent
-				                      ,BackgroundColor.GreenComponent
-				                      ,BackgroundColor.BlueComponent());
-			}
-			set 
-			{ 
-				BackgroundColor = NSColor.FromCalibratedRGBA(value.R ,value.G ,value.B ,value.A);
-			}
-		}
-		*/
+		
+		public Color BackColor {get;set;}
+		
 
         #region Key Events
 

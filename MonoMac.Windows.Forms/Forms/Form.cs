@@ -43,11 +43,14 @@ namespace System.Windows.Forms
 			this.MakeKeyAndOrderFront (this);
 			Controls.SetTab ();
 		}
-
+		
+		
+		/*
 		public SizeF ClientSize {
 			get { return this.Frame.Size; }
 			set { this.SetFrame (new RectangleF (this.Frame.Location, value), true, true); }
 		}
+		*/
 
 		public controls Controls {
 			get {
@@ -56,10 +59,12 @@ namespace System.Windows.Forms
 				return theControls;
 			}
 		}
+		/*
 		public string Name {
 			get { return this.FrameAutosaveName; }
 			set { this.FrameAutosaveName = value; }
 		}
+		*/
 		public string Text {
 			get { return this.Title; }
 			set { this.Title = value; }
@@ -77,7 +82,103 @@ namespace System.Windows.Forms
 		{
 			
 		}
+		public override void BecomeKeyWindow ()
+		{
+			base.BecomeKeyWindow ();
+			if(Load != null)
+				Load(this,new EventArgs());
+		}
+		public EventHandler Load {get;set;}
+		
+		#region From Template
+			public string Name { get; set; }
+		public SizeF Size {
+			get { return this.Frame.Size; }
+			set { this.SetFrame( new RectangleF (this.Frame.Location, value),true); }
+		}
 
+		public PointF Location {
+			get { return this.Frame.Location; }
+			set { this.SetFrame(new RectangleF (value, this.Frame.Size),true); }
+		}
+		/*
+		public Rectangle ClientRectangle
+		{
+			get{ return Rectangle.Round(this.ContentView.Bounds);}
+			set{ this.Bounds = value;}
+		}
+		*/
+		public SizeF ClientSize
+		{
+			get {return this.Frame.Size;}
+			set {this.SetFrame( new RectangleF(this.Frame.Location, value),true);}
+		}
+		
+		public float Width
+		{
+			get{return this.Size.Width;}
+			set {this.Size = new SizeF(value,this.Size.Height);}
+		}
+		
+		public float Height
+		{
+			get{return this.Size.Height;}
+			set {this.Size = new SizeF(this.Size.Width,value);}
+		}
+		
+		public BorderStyle BorderStyle{get;set;}
+
+		/*
+		public bool Focused
+		{
+			get {
+				if(this.CurrentEditor == null)
+					return false;
+				return this.Window.FirstResponder == this.CurrentEditor;}
+		}
+		*/
+		
+		public virtual void Refresh()
+		{
+			this.Display();
+		}
+		/*
+		public virtual void Invalidate(Region region)
+		{
+			var rect = region.GetBounds(Graphics.FromHwnd (this.Handle));
+			this.SetNeedsDisplayInRect(rect);
+		}
+		
+		public virtual void Invalidate()
+		{
+			this.SetNeedsDisplay();	
+		}
+		
+		public new System.Drawing.Font Font
+		{
+			get {
+				return new System.Drawing.Font(base.Font.FontName, base.Font.PointSize, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			}
+			set {
+				base.Font = MonoMac.AppKit.NSFont.FromFontName(value.Name,value.Size);
+				
+			}
+		}
+		*/
+		
+		public EventHandler AutoSizeChanged{get;set;}
+		public EventHandler AutoValidateChanged {get;set;}
+		public MouseEventHandler MouseDown {get;set;}
+		public MouseEventHandler MouseUp {get;set;}
+		public EventHandler GotFocus {get;set;}
+		public MouseEventHandler MouseMove {get;set;}
+		public MouseEventHandler MouseDoubleClick{get;set;}
+		public EventHandler SizeChanged {get;set;}
+		
+				
+		
+		#endregion
+				
 		public class controls
 		{
 			private Form theForm;
@@ -85,6 +186,7 @@ namespace System.Windows.Forms
 			{
 				theForm = form;
 			}
+
 
 			public void Add (NSView item)
 			{

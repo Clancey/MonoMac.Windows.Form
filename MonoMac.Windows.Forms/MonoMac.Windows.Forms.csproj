@@ -31,7 +31,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Core" />
     <Reference Include="nunit.core, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
     <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
@@ -39,10 +38,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\monomac\src\MonoMac.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\System.Drawing.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="DialogResult.cs" />
     <Compile Include="Forms\Button.cs" />
     <Compile Include="Forms\MessageBox.cs" />
     <Compile Include="Forms\Form.cs" />
@@ -52,7 +54,6 @@
     <Compile Include="Forms\Label.cs" />
     <Compile Include="Forms\AnchorStyles.cs" />
     <Compile Include="Forms\IControl.cs" />
-    <Compile Include="Keys.cs" />
     <Compile Include="EventArgs\KeyEventArgs.cs" />
     <Compile Include="EventArgs\KeyEventHandler.cs" />
     <Compile Include="EventArgs\KeyPressEventArgs.cs" />
@@ -64,11 +65,48 @@
     <Compile Include="Forms\CheckState.cs" />
     <Compile Include="Forms\CheckedListBox.cs" />
     <Compile Include="Forms\ComboBox.cs" />
+    <Compile Include="Forms\UserControl.cs" />
+    <Compile Include="EventArgs\MouseEventArgs.cs" />
+    <Compile Include="EventArgs\MouseEventHandler.cs" />
+    <Compile Include="EventArgs\PaintEventArgs.cs" />
+    <Compile Include="EventArgs\PaintEventHandler.cs" />
+    <Compile Include="EventArgs\MouseButtons.cs" />
+    <Compile Include="Forms\Border3DStyle.cs" />
+    <Compile Include="Forms\BorderStyle.cs" />
+    <Compile Include="Forms\HorizontalAlignment.cs" />
+    <Compile Include="Forms\Keys.cs" />
+    <Compile Include="Forms\DialogResult.cs" />
+    <Compile Include="Templates\UserControlTemplate.g.cs">
+      <DependentUpon>UserControlTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\ControlTemplate.g.cs">
+      <DependentUpon>ControlTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\DrawingTemplate.g.cs">
+      <DependentUpon>DrawingTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ListBox.cs" />
+    <Compile Include="Forms\DataTable.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Forms\" />
     <Folder Include="EventArgs\" />
     <Folder Include="Utils\" />
+    <Folder Include="Templates\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="Templates\UserControlTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UserControlTemplate.g.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\ControlTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ControlTemplate.g.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\DrawingTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DrawingTemplate.g.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
 </Project>

@@ -47,6 +47,10 @@
       <DependentUpon>MainMenu.xib</DependentUpon>
     </Compile>
     <Compile Include="TestWinform.cs" />
+    <Compile Include="GH_slider.cs" />
+    <Compile Include="Roundbutton.cs" />
+    <Compile Include="GH_SliderInputMode.cs" />
+    <Compile Include="FileNewForm.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainMenu.xib" />
@@ -54,12 +58,12 @@
   <ItemGroup>
     <None Include="Info.plist" />
   </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Mono\MonoMac\v0.0\Mono.MonoMac.targets" />
   <ItemGroup>
     <ProjectReference Include="..\MonoMac.Windows.Forms\MonoMac.Windows.Forms.csproj">
       <Project>{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}</Project>
       <Name>MonoMac.Windows.Forms</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\Mono\MonoMac\v0.0\Mono.MonoMac.targets" />
 </Project>

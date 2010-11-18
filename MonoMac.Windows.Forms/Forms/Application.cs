@@ -32,12 +32,14 @@ namespace System.Windows.Forms
 		public static void Run (NSWindow mainForm)
 		{
 			NSApplication.Init ();
+			NSApplication.InitDrawingBridge();
 			NSApplication.Main (new string[]{});
 		}
 		
 		public static void Run (ApplicationContext context)
 		{
 			NSApplication.Init ();
+			NSApplication.InitDrawingBridge();
 			NSApplication.Main (new string[]{});
 			
 		}

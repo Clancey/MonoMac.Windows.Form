@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoMac.Windows.Forms", "MonoMac.Windows.Forms\MonoMac.Windows.Forms.csproj", "{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestLoad", "TestLoad\TestLoad.csproj", "{CCDAA602-7A9C-463B-ABD3-719D843B7E91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoMac.Windows.Forms.Tests", "MonoMac.Windows.Forms.Tests\MonoMac.Windows.Forms.Tests.csproj", "{7D9AB81F-5880-4304-B481-E4552E243B67}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoMac.Windows.Forms", "MonoMac.Windows.Forms\MonoMac.Windows.Forms.csproj", "{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,22 +12,19 @@ Global
 		Default|Any CPU = Default|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7D9AB81F-5880-4304-B481-E4552E243B67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D9AB81F-5880-4304-B481-E4552E243B67}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D9AB81F-5880-4304-B481-E4552E243B67}.Default|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D9AB81F-5880-4304-B481-E4552E243B67}.Default|Any CPU.Build.0 = Debug|Any CPU
-		{7D9AB81F-5880-4304-B481-E4552E243B67}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D9AB81F-5880-4304-B481-E4552E243B67}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CCDAA602-7A9C-463B-ABD3-719D843B7E91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CCDAA602-7A9C-463B-ABD3-719D843B7E91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCDAA602-7A9C-463B-ABD3-719D843B7E91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCDAA602-7A9C-463B-ABD3-719D843B7E91}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}.Default|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}.Default|Any CPU.Build.0 = Debug|Any CPU
 		{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = TestLoad\TestLoad.csproj
+		StartupItems = $0
+		$0.Item = TestLoad\TestLoad.csproj
 	EndGlobalSection
 EndGlobal
