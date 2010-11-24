@@ -23,6 +23,7 @@ namespace System.Windows.Forms
 	        //[tableView setFocusRingType:NSFocusRingTypeNone];
 	
 			column = new NSTableColumn(new NSString(@"Column"));
+			column.DataCell.Editable = false;
 			tableView.AddColumn(column);
 			tableView.HeaderView = null;
 	

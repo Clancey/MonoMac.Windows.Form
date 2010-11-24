@@ -87,26 +87,15 @@ namespace System.Windows.Forms
 			}
 		}
 			
-		
+		private Color backcolor;
 		public Color BackColor {
 			get {
 				BackgroundColor = BackgroundColor.ColorUsingColorSpaceName(NSColorSpace.CalibratedRGB);
-				if(BackgroundColor == null)
-					BackgroundColor = NSColor.Clear;
-				int alpha = 0;
-				int red = 0;
-				int green = 0;
-				int blue = 0;
-				 alpha = (int)BackgroundColor.AlphaComponent;
-				 red = (int)(BackgroundColor.RedComponent);
-				 green = (int)BackgroundColor.GreenComponent;
-				 blue = (int)BackgroundColor.BlueComponent();
-				if(alpha == 0 && red == 0 && green == 0 && blue == 0)
-					return Color.Transparent;
-				return Color.FromArgb( alpha
-				                      ,red
-				                      ,green
-				                      ,blue);
+				backcolor = Color.FromArgb( (int)BackgroundColor.AlphaComponent
+				                      ,(int)BackgroundColor.RedComponent
+				                      ,(int)BackgroundColor.GreenComponent
+				                      ,(int)BackgroundColor.BlueComponent());
+				return backcolor;
 			}
 			set { BackgroundColor = NSColor.FromCalibratedRGBA(value.R
 			                                                   ,value.G
