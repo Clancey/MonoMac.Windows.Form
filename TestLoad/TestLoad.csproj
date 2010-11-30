@@ -39,7 +39,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\monomac\src\MonoMac.dll</HintPath>
+      <HintPath>..\..\monomacTrunk\src\MonoMac.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -47,10 +47,7 @@
       <DependentUpon>MainMenu.xib</DependentUpon>
     </Compile>
     <Compile Include="TestWinform.cs" />
-    <Compile Include="GH_slider.cs" />
     <Compile Include="Roundbutton.cs" />
-    <Compile Include="GH_SliderInputMode.cs" />
-    <Compile Include="FileNewForm.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainMenu.xib" />

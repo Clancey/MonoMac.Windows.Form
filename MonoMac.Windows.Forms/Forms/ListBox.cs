@@ -7,11 +7,11 @@ using System.Collections;
 using System.Reflection;
 namespace System.Windows.Forms
 {
-	public class ListBox : NSScrollView
+	public partial class ListBox : NSScrollView
 	{
 		private NSTableView tableView;
 		private NSTableColumn column;
-		
+		private NSString colString = new NSString("ListBox");
 		public ListBox () : base ()
 		{
 	        tableView = new NSTableView();
@@ -22,7 +22,7 @@ namespace System.Windows.Forms
 			tableView.AllowsColumnSelection = false;
 	        //[tableView setFocusRingType:NSFocusRingTypeNone];
 	
-			column = new NSTableColumn(new NSString(@"Column"));
+			column = new NSTableColumn(colString);
 			column.DataCell.Editable = false;
 			tableView.AddColumn(column);
 			tableView.HeaderView = null;
@@ -33,12 +33,30 @@ namespace System.Windows.Forms
 			//this.AutoresizingMask = NSViewResizingMask.HeightSizable;
 			this.DocumentView = tableView;
 	
-    /*
-			table = new NSTableView();
-			table.AddColumn(column);
-			table.SizeToFit();
-			this.ContentView.AddSubview(table);
-			*/
+		}
+		
+		//public virtual NSFont Font {get;set;}
+		public virtual NSView CurrentEditor {
+			get { return tableView.CurrentEditor;}
+		}
+		
+		public Color BackColor {
+			get {
+				tableView.BackgroundColor = tableView.BackgroundColor.ColorUsingColorSpaceName(NSColorSpace.CalibratedRGB);
+				return  Color.FromArgb( (int)tableView.BackgroundColor.AlphaComponent
+				                      ,(int)tableView.BackgroundColor.RedComponent
+				                      ,(int)tableView.BackgroundColor.GreenComponent
+				                      ,(int)tableView.BackgroundColor.BlueComponent());
+			}
+			set { tableView.BackgroundColor = NSColor.FromCalibratedRGBA(value.R
+			                                                   ,value.G
+			                                                   ,value.B
+			                                                   ,value.A).ColorUsingColorSpaceName(NSColorSpace.CalibratedRGB);
+			}
+		}
+		public virtual void SetNeedsDisplay()
+		{
+			tableView.SetNeedsDisplay();
 		}
 		
 		public string DisplayMember {get;set;}
@@ -57,19 +75,6 @@ namespace System.Windows.Forms
 			}
 		}
 		
-		public SizeF Size
-		{
-			get{ return this.Frame.Size;	}
-			set{this.SetFrameSize(value);}
-				                       
-		}
-		
-	public PointF Location
-		{
-			get{ return this.Frame.Location;	}
-			set{this.SetFrameOrigin(value);}
-				                       
-		}
 		public class ListboxDataSource : NSTableViewDataSource
 		{
 			public object[] dataArray; 
@@ -79,8 +84,7 @@ namespace System.Windows.Forms
 				lbox = listBox;
 				if(theObject is IList)
 				{
-					var inArray = theObject as IList;
-					dataArray = inArray.Cast<object>().ToArray();
+					dataArray = (theObject as IList).Cast<object>().ToArray();
 					
 				}
 			}

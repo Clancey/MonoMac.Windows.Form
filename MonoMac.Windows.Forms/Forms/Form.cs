@@ -41,7 +41,24 @@ namespace System.Windows.Forms
 		public void Show ()
 		{
 			this.MakeKeyAndOrderFront (this);
-			Controls.SetTab ();
+			//Controls.SetTab ();
+		}
+		public void Close()
+		{
+			if(NSApplication.SharedApplication.ModalWindow == this)
+				NSApplication.SharedApplication.StopModal();
+			this.PerformClose(this);
+		}
+		
+		public void ShowDialog()
+		{
+			
+			//this.MakeKeyAndOrderFront (this);
+			NSApplication.SharedApplication.BeginSheet(this,NSApplication.SharedApplication.MainWindow);
+			NSApplication.SharedApplication.RunModalForWindow(this);
+			NSApplication.SharedApplication.EndSheet(this);
+			this.OrderOut(this);
+			//NSApplication.SharedApplication.BeginSheet(this,NSApplication.SharedApplication.MainWindow);
 		}
 		
 		

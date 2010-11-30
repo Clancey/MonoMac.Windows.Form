@@ -17,6 +17,7 @@ namespace System.Windows.Forms
 			initialized = true;
 			keyNames = new Hashtable();
 			modifiers = new Hashtable();
+			
 			keyNames.Add(NSKey.Backslash,Keys.OemBackslash);
 			keyNames.Add(NSKey.CapsLock,Keys.Capital);
 			keyNames.Add(NSKey.Comma,Keys.Oemcomma);

@@ -3,11 +3,12 @@ using System.Drawing;
 using MonoMac.AppKit;
 namespace System.Windows.Forms
 {
-	public class CheckBox : Button
+	public partial class CheckBox : Button
 	{
 		public CheckBox () : base()
 		{
 			this.SetButtonType(NSButtonType.Switch);
+			
 		}
 		
 		public bool Checked 

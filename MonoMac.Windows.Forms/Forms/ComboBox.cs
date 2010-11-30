@@ -8,7 +8,7 @@ using System.Linq;
 using System.Collections.Generic;
 namespace System.Windows.Forms
 {
-	public class ComboBox : NSComboBox, IControl
+	public partial class ComboBox : NSComboBox, IControl
 	{
 		public ComboBox () : base ()
 		{
@@ -35,31 +35,7 @@ namespace System.Windows.Forms
 			get{return _dataSource.dataArray[this.SelectedIndex];}
 			//TODO: set
 		}
-		public SizeF Size {
-			get { return this.Frame.Size; }
-			set { this.Frame = new RectangleF (this.Frame.Location, value); }
-		}
-
-		public PointF Location {
-			get { return this.Frame.Location; }
-			set { this.Frame = new RectangleF (value, this.Frame.Size); }
-		}
 		
-		public bool Visible{
-			get{ return Hidden;}
-			set {Hidden = value;}
-		}
-		
-		public new System.Drawing.Font Font
-		{
-			get {
-				return new System.Drawing.Font(base.Font.FontName, base.Font.PointSize, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			}
-			set {
-				base.Font = MonoMac.AppKit.NSFont.FromFontName(value.Name,value.Size);
-				
-			}
-		}
 		public object SelectedValue
 		{
 			get{return _dataSource.GetSelectedValue(this);}

@@ -41,7 +41,6 @@ namespace System.Windows.Forms
 			NSApplication.Init ();
 			NSApplication.InitDrawingBridge();
 			NSApplication.Main (new string[]{});
-			
 		}
 	}
 }

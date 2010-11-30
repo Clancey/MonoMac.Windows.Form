@@ -86,16 +86,14 @@ namespace System.Windows.Forms
 					
 			}
 		}
-			
-		private Color backcolor;
+		
 		public Color BackColor {
 			get {
 				BackgroundColor = BackgroundColor.ColorUsingColorSpaceName(NSColorSpace.CalibratedRGB);
-				backcolor = Color.FromArgb( (int)BackgroundColor.AlphaComponent
+				return Color.FromArgb( (int)BackgroundColor.AlphaComponent
 				                      ,(int)BackgroundColor.RedComponent
 				                      ,(int)BackgroundColor.GreenComponent
 				                      ,(int)BackgroundColor.BlueComponent());
-				return backcolor;
 			}
 			set { BackgroundColor = NSColor.FromCalibratedRGBA(value.R
 			                                                   ,value.G

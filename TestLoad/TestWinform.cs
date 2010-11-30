@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using TestLoad;
+using MonoMac.AppKit;
 class MyForm : Form
 {
 
@@ -24,6 +25,7 @@ class MyForm : Form
 		lbox.Size = new SizeF(100,75);
 		lbox.Location = new PointF(300,10);		
 		lbox.DataSource = new List<string> { "test", "test2", "test3", "test4", "test5", "test6", "test7" };
+		lbox.BackColor = Color.Green;
 		
 		btn = new RoundButton();		
 		btn.Size = new SizeF(100,30);
@@ -67,6 +69,7 @@ class MyForm : Form
 		this.checkBox1.Size = new System.Drawing.Size (80, 17);
 		this.checkBox1.TabIndex = 3;
 		this.checkBox1.Text = "checkBox1";
+		this.checkBox1.BackColor = Color.Aqua;
 		//this.checkBox1.UseVisualStyleBackColor = true;
 		// 
 		// comboBox1
@@ -110,12 +113,18 @@ class MyForm : Form
 	private void button1_Click (object sender, EventArgs e)
 	{
 		Form testForm = new Form ();
-		testForm.Show ();
-		MessageBox.Show ("I was clicked");
+		var btn = new Button();
+		btn.Click += delegate{
+			testForm.Close();	
+		};
+		testForm.Controls.Add(btn);
+		testForm.ShowDialog ();
+		//MessageBox.Show ("I was clicked");
 		
 	}
 	public static void Main (string[] args)
 	{
-		Application.Run (delegate() { return new MyForm (); });
+		Application.Run (delegate() { 
+			return new MyForm (); });
 	}
 }

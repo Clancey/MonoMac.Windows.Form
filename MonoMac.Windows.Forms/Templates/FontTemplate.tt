@@ -19,37 +19,23 @@ namespace System.Windows.Forms
 string[] subfolders = new string[]{ @"UserControl",
 							  @"Button",
 							  @"TextBox",
-							  @"ComboBox",
-							  @"ListBox"};
+							  @"ComboBox"};
 foreach(var folder in subfolders)
 {
 #>
 	public partial class <#= folder #> 
-	{		
-		
-		public override void DrawRect (RectangleF dirtyRect)
+	{	
+		public new System.Drawing.Font Font
 		{
-			using (var graphics = Graphics.FromHwnd(this.Handle))
-			{
-				var events = new PaintEventArgs(graphics,Rectangle.Round(dirtyRect));
-				OnPaintBackground(events);
-				OnPaint(events);
+			get {
+				if(base.Font == null)
+					return new System.Drawing.Font ("Arial", 10f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+				return new System.Drawing.Font(base.Font.FontName, base.Font.PointSize, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			}
-		}
-		
-		protected virtual void OnPaint(PaintEventArgs e)
-        {
-			base.DrawRect(e.ClipRectangle);
-        }
-        
-		protected virtual void OnPaintBackground(PaintEventArgs e)
-		{
-			if(BackColor == null)
-				BackColor = Color.Transparent;
-			if(BackColor == Color.Transparent)
-				return;
-			Pen pen = new Pen(BackColor);
-			e.Graphics.DrawRectangle(pen,e.ClipRectangle);
+			set {
+				base.Font = MonoMac.AppKit.NSFont.FromFontName(value.Name,value.Size);
+				
+			}
 		}
 	}
 	
