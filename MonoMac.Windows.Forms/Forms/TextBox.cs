@@ -26,24 +26,7 @@ namespace System.Windows.Forms
 		
 		#region Events
 		
-		public override void KeyDown (NSEvent theEvent)
-		{
-			base.KeyDown (theEvent);
-			if(OnKeyDown != null)
-				OnKeyDown(this,new KeyEventArgs(theEvent));
-		}
-		public override void KeyUp (NSEvent theEvent)
-		{
-			base.KeyUp (theEvent);
-            if (OnKeyUp != null)
-                OnKeyUp(this, new KeyEventArgs(theEvent));
-			if(OnKeyPress != null)
-				OnKeyPress(this, new KeyPressEventArgs(theEvent.Characters.ToCharArray()[0]));
-		}
-		
-	    public KeyPressEventHandler OnKeyPress { get; set; }
-        public KeyEventHandler OnKeyUp { get; set; }
-        public KeyEventHandler OnKeyDown { get; set; }
+
 
 		#endregion
 

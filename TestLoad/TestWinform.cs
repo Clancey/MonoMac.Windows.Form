@@ -34,7 +34,7 @@ class MyForm : Form
         trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
 		  // The Maximum property sets the value of the track bar when
         // the slider is all the way to the right.
-        trackBar1.Maximum = 30;
+        trackBar1.Maximum = 30;	
 
         // The TickFrequency property establishes how many positions
         // are between each tick-mark.
@@ -47,6 +47,8 @@ class MyForm : Form
         // The SmallChange property sets how many positions to move
         // if the keyboard arrows are used to move the slider.
         trackBar1.SmallChange = 2;
+		trackBar1.Value = 20;	
+		trackBar1.Minimum = 10;
 		
 		btn = new RoundButton();		
 		btn.Size = new SizeF(100,30);
@@ -101,8 +103,13 @@ class MyForm : Form
 		this.comboBox1.Size = new System.Drawing.Size (121, 25);
 		//this.comboBox1.TabIndex = 4;
 		
-		comboBox1.DataSource = new List<string> { "test", "test2", "test3" };
-		
+		comboBox1.DataSource = new List<ComboBoxItems>{new ComboBoxItems("test1",1),new ComboBoxItems("test2",2)}; //new List<string> { "test", "test2", "test3" };
+		comboBox1.DisplayMember = "Display";
+		comboBox1.ValueMember = "Value";
+		comboBox1.SelectedValueChanged += delegate
+		{
+			textBox2.Text = comboBox1.SelectedValue.ToString();	
+		};
 		// 
 		// Form1
 		// 

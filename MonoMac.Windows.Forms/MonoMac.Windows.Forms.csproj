@@ -88,6 +88,9 @@
       <DependentUpon>FontTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="Forms\TrackBar.cs" />
+    <Compile Include="Templates\KeyPressEventsTemplate.g.cs">
+      <DependentUpon>KeyPressEventsTemplate.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Forms\" />
@@ -112,6 +115,10 @@
     <None Include="Templates\FontTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FontTemplate.g.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\KeyPressEventsTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>KeyPressEventsTemplate.g.cs</LastGenOutput>
     </None>
   </ItemGroup>
 </Project>

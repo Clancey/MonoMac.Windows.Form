@@ -89,15 +89,15 @@ namespace System.Windows.Forms
 		public object components { get; set; }
 		public void SuspendLayout ()
 		{
-			
+				
 		}
 		public void ResumeLayout (bool action)
 		{
-			
+			this.ContentView.DisplayIfNeeded();
 		}
 		public void PerformLayout ()
 		{
-			
+			this.ContentView.SetNeedsDisplayInRect(this.ContentView.Frame);
 		}
 		public override void BecomeKeyWindow ()
 		{

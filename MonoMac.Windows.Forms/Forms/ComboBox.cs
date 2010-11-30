@@ -12,7 +12,12 @@ namespace System.Windows.Forms
 	{
 		public ComboBox () : base ()
 		{
-			
+			this.Activated += delegate(object sender, EventArgs e) {
+				if(SelectedIndexChanged != null)
+					SelectedIndexChanged(sender,e);
+				if(SelectedValueChanged != null)
+					SelectedValueChanged(sender,e);
+			};	
 		}
 		public Color BackColor {get;set;}
 		private string displayMember;
@@ -41,12 +46,16 @@ namespace System.Windows.Forms
 			get{return _dataSource.GetSelectedValue(this);}
 			set {_dataSource.SetSelectedValue(this,value);}
 		}
-		
+		public override void DidChange (NSNotification notification)
+		{
+			base.DidChange (notification);
+			if(TextChanged != null)
+				TextChanged(this,new EventArgs());
+		}
 		#region Events
-		
-	    public KeyPressEventHandler OnKeyPress { get; set; }
-        public KeyEventHandler OnKeyUp { get; set; }
-        public KeyEventHandler OnKeyDown { get; set; }
+		public EventHandler SelectedIndexChanged {get;set;}
+		public EventHandler SelectedValueChanged {get;set;}
+		public EventHandler TextChanged {get;set;}
 		#endregion
 		public class ComboBoxDataSource : NSComboBoxDataSource
 		{
@@ -115,7 +124,7 @@ namespace System.Windows.Forms
 					return l.ToString();
 				}
 			}
-			
+
 			public void SetSelectedValue(NSComboBox combobox,object value)
 			{
 				if(string.IsNullOrEmpty(DisplayMember))

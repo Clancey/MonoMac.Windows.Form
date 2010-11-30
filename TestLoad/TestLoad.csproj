@@ -48,6 +48,7 @@
     </Compile>
     <Compile Include="TestWinform.cs" />
     <Compile Include="Roundbutton.cs" />
+    <Compile Include="ComboBoxItems.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainMenu.xib" />

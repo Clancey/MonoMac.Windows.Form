@@ -22,17 +22,27 @@ namespace System.Windows.Forms
 		public int Maximum 
 		{
 			get { return (int)this.MaxValue;}
-			set{this.MaxValue = (double)value;}
+			set{this.MaxValue = (double)value;
+				setTickMarks();}
+		}
+		public int Minimum 
+		{
+			get { return (int)this.MinValue;}
+			set{this.MinValue = (double)value;
+				setTickMarks();}
 		}
 		private int tickFrequency = 1;
 		public int TickFrequency
 		{
 			get { return tickFrequency;}
 			set { 
-				tickFrequency = value; 
-				var count = (Maximum ) / tickFrequency;
-				this.TickMarksCount = count + 1;
+				tickFrequency = value;
 			}
+		}
+		private void setTickMarks()
+		{
+			var count = (Maximum - Minimum) / tickFrequency;
+			this.TickMarksCount = count +  1;
 		}
 		public int LargeChange
 		{
