@@ -46,16 +46,9 @@ namespace System.Windows.Forms
 			get{return _dataSource.GetSelectedValue(this);}
 			set {_dataSource.SetSelectedValue(this,value);}
 		}
-		public override void DidChange (NSNotification notification)
-		{
-			base.DidChange (notification);
-			if(TextChanged != null)
-				TextChanged(this,new EventArgs());
-		}
 		#region Events
 		public EventHandler SelectedIndexChanged {get;set;}
 		public EventHandler SelectedValueChanged {get;set;}
-		public EventHandler TextChanged {get;set;}
 		#endregion
 		public class ComboBoxDataSource : NSComboBoxDataSource
 		{

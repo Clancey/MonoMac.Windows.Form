@@ -23,6 +23,14 @@ namespace System.Windows.Forms
 				OnKeyPress(this, new KeyPressEventArgs(theEvent.Characters.ToCharArray()[0]));
 		}
 		
+		public override void DidChange (NSNotification notification)
+		{
+			base.DidChange (notification);
+			if(TextChanged != null)
+				TextChanged(this,new EventArgs());
+		}
+		
+		public EventHandler TextChanged {get;set;}
 	    public KeyPressEventHandler OnKeyPress { get; set; }
         public KeyEventHandler OnKeyUp { get; set; }
         public KeyEventHandler OnKeyDown { get; set; }
@@ -46,6 +54,14 @@ namespace System.Windows.Forms
 				OnKeyPress(this, new KeyPressEventArgs(theEvent.Characters.ToCharArray()[0]));
 		}
 		
+		public override void DidChange (NSNotification notification)
+		{
+			base.DidChange (notification);
+			if(TextChanged != null)
+				TextChanged(this,new EventArgs());
+		}
+		
+		public EventHandler TextChanged {get;set;}
 	    public KeyPressEventHandler OnKeyPress { get; set; }
         public KeyEventHandler OnKeyUp { get; set; }
         public KeyEventHandler OnKeyDown { get; set; }
