@@ -87,6 +87,7 @@
     <Compile Include="Templates\FontTemplate.g.cs">
       <DependentUpon>FontTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Forms\TrackBar.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Forms\" />

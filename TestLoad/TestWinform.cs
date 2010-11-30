@@ -13,6 +13,7 @@ class MyForm : Form
 	private System.Windows.Forms.CheckBox checkBox1;
 	private System.Windows.Forms.ComboBox comboBox1;
 	ListBox lbox;
+	private TrackBar trackBar1;
 	private RoundButton btn;
 	public MyForm ()
 	{
@@ -26,6 +27,26 @@ class MyForm : Form
 		lbox.Location = new PointF(300,10);		
 		lbox.DataSource = new List<string> { "test", "test2", "test3", "test4", "test5", "test6", "test7" };
 		lbox.BackColor = Color.Green;
+		
+		trackBar1 = new TrackBar();
+		trackBar1.Location = new PointF(300,90);
+		
+        trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+		  // The Maximum property sets the value of the track bar when
+        // the slider is all the way to the right.
+        trackBar1.Maximum = 30;
+
+        // The TickFrequency property establishes how many positions
+        // are between each tick-mark.
+        trackBar1.TickFrequency = 5;
+
+        // The LargeChange property sets how many positions to move
+        // if the bar is clicked on either side of the slider.
+        trackBar1.LargeChange = 3;
+
+        // The SmallChange property sets how many positions to move
+        // if the keyboard arrows are used to move the slider.
+        trackBar1.SmallChange = 2;
 		
 		btn = new RoundButton();		
 		btn.Size = new SizeF(100,30);
@@ -95,6 +116,7 @@ class MyForm : Form
 		this.Controls.Add (this.textBox1);
 		this.Controls.Add (this.button1);
 		this.Controls.Add (this.btn);
+		this.Controls.Add(this.trackBar1);
 		this.Name = "Form1";
 		this.Text = "Form1";
 		this.ResumeLayout (false);
@@ -122,6 +144,12 @@ class MyForm : Form
 		//MessageBox.Show ("I was clicked");
 		
 	}
+	
+	private void trackBar1_Scroll(object sender, System.EventArgs e)
+    {
+        // Display the trackbar value in the text box.
+        textBox1.Text = "" + trackBar1.Value;
+    }
 	public static void Main (string[] args)
 	{
 		Application.Run (delegate() { 

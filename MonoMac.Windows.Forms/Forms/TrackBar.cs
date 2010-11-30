@@ -1,0 +1,47 @@
+using System;
+using MonoMac.AppKit;
+using System.Drawing;
+namespace System.Windows.Forms
+{
+	public partial class TrackBar : NSSlider
+	{
+		public TrackBar () : base ()
+		{
+			this.Frame = new RectangleF(0,0,100,25);
+			this.Activated += delegate(object sender, EventArgs e) {
+				if(Scroll != null)
+					Scroll(sender,e);
+			};
+		}
+		
+		public int Value
+		{
+			get{return this.IntValue;}
+			set {this.IntValue = value;}
+		}
+		public int Maximum 
+		{
+			get { return (int)this.MaxValue;}
+			set{this.MaxValue = (double)value;}
+		}
+		private int tickFrequency = 1;
+		public int TickFrequency
+		{
+			get { return tickFrequency;}
+			set { 
+				tickFrequency = value; 
+				var count = (Maximum ) / tickFrequency;
+				this.TickMarksCount = count + 1;
+			}
+		}
+		public int LargeChange
+		{
+			get;set;}
+		public int SmallChange {get;set;}
+		
+		public virtual Color BackColor{get;set;}
+		
+		public virtual EventHandler Scroll {get;set;}
+	}
+}
+
