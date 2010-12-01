@@ -71,19 +71,11 @@ namespace System.Windows.Forms
 		}
 		
 		public Color BackColor {
-			get {
-				BackgroundColor = BackgroundColor.ColorUsingColorSpaceName(NSColorSpace.CalibratedRGB);
-				return Color.FromArgb( (int)BackgroundColor.AlphaComponent
-				                      ,(int)BackgroundColor.RedComponent
-				                      ,(int)BackgroundColor.GreenComponent
-				                      ,(int)BackgroundColor.BlueComponent());
-			}
-			set { BackgroundColor = NSColor.FromCalibratedRGBA(value.R
-			                                                   ,value.G
-			                                                   ,value.B
-			                                                   ,value.A).ColorUsingColorSpaceName(NSColorSpace.CalibratedRGB);
+			get {return BackgroundColor.ToColor();}
+			set { BackgroundColor = value.ToNSColor();
 			}
 		}
+		
 		public RightToLeft RightToLeft{
 			get{ 
 				switch(this.BaseWritingDirection)

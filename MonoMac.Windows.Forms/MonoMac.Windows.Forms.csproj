@@ -49,17 +49,14 @@
     <Compile Include="Forms\ApplicationContext.cs" />
     <Compile Include="Forms\TextBox.cs" />
     <Compile Include="Forms\Label.cs" />
-    <Compile Include="Forms\AnchorStyles.cs" />
     <Compile Include="Forms\IControl.cs" />
     <Compile Include="EventArgs\KeyEventArgs.cs" />
     <Compile Include="EventArgs\KeyEventHandler.cs" />
     <Compile Include="EventArgs\KeyPressEventArgs.cs" />
     <Compile Include="EventArgs\KeyPressEventHandler.cs" />
     <Compile Include="Forms\Control.cs" />
-    <Compile Include="Utils\KeyUtil.cs" />
     <Compile Include="Forms\RightToLeft.cs" />
     <Compile Include="Forms\CheckBox.cs" />
-    <Compile Include="Forms\CheckState.cs" />
     <Compile Include="Forms\CheckedListBox.cs" />
     <Compile Include="Forms\ComboBox.cs" />
     <Compile Include="Forms\UserControl.cs" />
@@ -68,11 +65,6 @@
     <Compile Include="EventArgs\PaintEventArgs.cs" />
     <Compile Include="EventArgs\PaintEventHandler.cs" />
     <Compile Include="EventArgs\MouseButtons.cs" />
-    <Compile Include="Forms\Border3DStyle.cs" />
-    <Compile Include="Forms\BorderStyle.cs" />
-    <Compile Include="Forms\HorizontalAlignment.cs" />
-    <Compile Include="Forms\Keys.cs" />
-    <Compile Include="Forms\DialogResult.cs" />
     <Compile Include="Templates\UserControlTemplate.g.cs">
       <DependentUpon>UserControlTemplate.tt</DependentUpon>
     </Compile>
@@ -91,12 +83,29 @@
     <Compile Include="Templates\KeyPressEventsTemplate.g.cs">
       <DependentUpon>KeyPressEventsTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utils\KeyUtil.cs" />
+    <Compile Include="Extenders\ColorExtenders.cs" />
+    <Compile Include="Utils\Util.cs" />
+    <Compile Include="Forms\DataGridViewButtonCell.cs" />
+    <Compile Include="Forms\DataGridViewButtonColumn.cs" />
+    <Compile Include="Forms\DataGridViewCheckBoxColumn.cs" />
+    <Compile Include="Forms\DataGridViewCheckBoxCell.cs" />
+    <Compile Include="Enums\SelectionMode.cs" />
+    <Compile Include="Enums\AnchorStyles.cs" />
+    <Compile Include="Enums\Border3DStyle.cs" />
+    <Compile Include="Enums\BorderStyle.cs" />
+    <Compile Include="Enums\DialogResult.cs" />
+    <Compile Include="Enums\HorizontalAlignment.cs" />
+    <Compile Include="Enums\Keys.cs" />
+    <Compile Include="Enums\CheckState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Forms\" />
     <Folder Include="EventArgs\" />
-    <Folder Include="Utils\" />
     <Folder Include="Templates\" />
+    <Folder Include="Utils\" />
+    <Folder Include="Extenders\" />
+    <Folder Include="Enums\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

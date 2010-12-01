@@ -42,7 +42,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\monomac\src\MonoMac.dll</HintPath>
+      <HintPath>..\..\monomacTrunk\src\MonoMac.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

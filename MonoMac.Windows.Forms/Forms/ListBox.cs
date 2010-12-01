@@ -9,30 +9,37 @@ namespace System.Windows.Forms
 {
 	public partial class ListBox : NSScrollView
 	{
-		private NSTableView tableView;
-		private NSTableColumn column;
-		private NSString colString = new NSString("ListBox");
+		public NSTableView tableView;
+		public NSTableColumn column;
+		public NSString colString = new NSString("ListBox");
 		public ListBox () : base ()
 		{
-	        tableView = new NSTableView();
-	
-	        tableView.AllowsEmptySelection = true;
-			tableView.AllowsMultipleSelection = true;
-			tableView.AllowsColumnResizing = true;
-			tableView.AllowsColumnSelection = false;
-	        //[tableView setFocusRingType:NSFocusRingTypeNone];
-	
-			column = new NSTableColumn(colString);
-			column.DataCell.Editable = false;
-			tableView.AddColumn(column);
-			tableView.HeaderView = null;
-	
+			SetupTable();
+			SetupColumn();
 			this.AutohidesScrollers  = true;
 			this.HasVerticalScroller = true;
 			this.HasHorizontalScroller = false;
 			//this.AutoresizingMask = NSViewResizingMask.HeightSizable;
 			this.DocumentView = tableView;
-	
+		}
+		public virtual void SetupTable()
+		{
+	        tableView = new NSTableView();	
+	        tableView.AllowsEmptySelection = true;
+			tableView.AllowsMultipleSelection = true;
+			tableView.AllowsColumnResizing = true;
+			tableView.AllowsColumnSelection = false;
+			tableView.HeaderView = null;
+			tableView.Activated += delegate(object sender, EventArgs e) {
+				if(SelectedValueChanged != null)
+					SelectedValueChanged(sender,e);
+			};
+		}
+		public virtual void SetupColumn()
+		{
+			column = new NSTableColumn(colString);
+			column.DataCell.Editable = false;
+			tableView.AddColumn(column);
 		}
 		
 		//public virtual NSFont Font {get;set;}
@@ -41,24 +48,22 @@ namespace System.Windows.Forms
 		}
 		
 		public Color BackColor {
-			get {
-				tableView.BackgroundColor = tableView.BackgroundColor.ColorUsingColorSpaceName(NSColorSpace.CalibratedRGB);
-				return  Color.FromArgb( (int)tableView.BackgroundColor.AlphaComponent
-				                      ,(int)tableView.BackgroundColor.RedComponent
-				                      ,(int)tableView.BackgroundColor.GreenComponent
-				                      ,(int)tableView.BackgroundColor.BlueComponent());
-			}
-			set { tableView.BackgroundColor = NSColor.FromCalibratedRGBA(value.R
-			                                                   ,value.G
-			                                                   ,value.B
-			                                                   ,value.A).ColorUsingColorSpaceName(NSColorSpace.CalibratedRGB);
-			}
+			get { return tableView.BackgroundColor.ToColor();}
+			set { tableView.BackgroundColor = value.ToNSColor();}
 		}
 		public virtual void SetNeedsDisplay()
 		{
 			tableView.SetNeedsDisplay();
 		}
-		
+		private SelectionMode selectionMode;
+		public SelectionMode SelectionMode {
+			get{return selectionMode;}
+			set{selectionMode = value;
+				tableView.AllowsMultipleSelection = selectionMode == SelectionMode.MultiExtended ||
+													selectionMode == SelectionMode.MultiSimple;
+				
+			}
+		}
 		public string DisplayMember {get;set;}
 		public string ValueMember {get;set;}
 		ListboxDataSource _dataSource = new ListboxDataSource();
@@ -74,6 +79,18 @@ namespace System.Windows.Forms
 				
 			}
 		}
+		
+		public void ClearSelected()
+		{
+			tableView.SelectRows(new NSIndexSet(),false);	
+		}
+		
+		
+		
+		#region events
+		public EventHandler SelectedValueChanged {get;set;}
+		
+		#endregion
 		
 		public class ListboxDataSource : NSTableViewDataSource
 		{
@@ -100,7 +117,9 @@ namespace System.Windows.Forms
 				if(string.IsNullOrEmpty(lbox.DisplayMember))
 					returnString = new NSString(dataArray[row].ToString());
 				else
-					returnString =  new NSString(getPropertyStringValue(dataArray[row],lbox.DisplayMember));
+					returnString =  new NSString(Util.GetPropertyStringValue(dataArray[row],lbox.DisplayMember));
+				if(tableColumn.DataCell is DataGridViewButtonCell)
+					(tableColumn.DataCell as DataGridViewButtonCell).Text = returnString;
 				return returnString;
 				
 			}
@@ -109,27 +128,7 @@ namespace System.Windows.Forms
 				if(lbox == null)
 					return 0;
 				return dataArray.Count();
-			}
-			
-			private string getPropertyStringValue(object inObject, string propertyName)
-			{
-				PropertyInfo[] props = inObject.GetType().GetProperties();
-				PropertyInfo prop = props.Select(p => p).Where(p =>  p.Name == propertyName).FirstOrDefault();
-					if (prop != null)
-						return prop.GetValue(inObject,null).ToString();
-				return "";
-			}
-			
-			private object getPropertyValue(object inObject, string propertyName)
-			{
-				PropertyInfo[] props = inObject.GetType().GetProperties();
-				PropertyInfo prop = props.Select(p => p).Where(p =>  p.Name == propertyName).FirstOrDefault();
-					if (prop != null)
-						return prop.GetValue(inObject,null).ToString();
-				return null;
-			}
-			
-			
+			}			
 		}
 	}
 }
