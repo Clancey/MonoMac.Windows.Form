@@ -47,6 +47,19 @@ namespace System.Windows.Forms
 			get { return tableView.CurrentEditor;}
 		}
 		
+		private new float AlphaValue {
+			get {
+				return base.AlphaValue;
+			}
+			set {
+				base.AlphaValue = value;
+			}
+		}
+		private new bool AcceptsFirstMouse (NSEvent theEvent)
+		{
+			return base.AcceptsFirstMouse (theEvent);
+		}
+		
 		public Color BackColor {
 			get { return tableView.BackgroundColor.ToColor();}
 			set { tableView.BackgroundColor = value.ToNSColor();}

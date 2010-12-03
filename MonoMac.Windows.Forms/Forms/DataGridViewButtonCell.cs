@@ -15,7 +15,6 @@ namespace System.Windows.Forms
 					Click (sender, e);
 			};
 		}
-		
 		public string Text {
 			get { return this.Title; }
 			set {

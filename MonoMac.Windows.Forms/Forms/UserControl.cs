@@ -10,6 +10,12 @@ namespace System.Windows.Forms
 	{		
 		public string Text {get;set;}
 		public Color BackColor {get;set;}
+		
+		public override bool IsFlipped {
+			get {
+				return true;
+			}
+		}
 
 	}
 }

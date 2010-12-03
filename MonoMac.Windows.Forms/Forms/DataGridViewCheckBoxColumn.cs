@@ -5,7 +5,7 @@ using MonoMac.Foundation;
 
 namespace System.Windows.Forms
 {
-	public class DataGridViewCheckBoxColumn : DataGridViewButtonColumn
+	public partial class DataGridViewCheckBoxColumn : DataGridViewButtonColumn
 	{
 		public DataGridViewCheckBoxColumn () : base ()
 		{

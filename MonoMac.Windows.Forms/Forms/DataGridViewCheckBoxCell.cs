@@ -9,6 +9,7 @@ namespace System.Windows.Forms
 			this.SetButtonType(NSButtonType.Switch);
 		}
 		
+		
 		public bool Checked 
 		{
 			get { return this.State == NSCellStateValue.On;}

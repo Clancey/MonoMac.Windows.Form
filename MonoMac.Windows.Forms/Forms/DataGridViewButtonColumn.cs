@@ -5,7 +5,7 @@ using MonoMac.Foundation;
 
 namespace System.Windows.Forms
 {
-	public class DataGridViewButtonColumn : NSTableColumn
+	public partial class DataGridViewButtonColumn : NSTableColumn
 	{
 		public DataGridViewButtonColumn () : base ()
 		{

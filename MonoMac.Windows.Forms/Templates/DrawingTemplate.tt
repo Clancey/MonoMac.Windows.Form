@@ -21,7 +21,7 @@ string[] subfolders = new string[]{ @"UserControl",
 							  @"TextBox",
 							  @"ComboBox",
 							  @"ListBox",
-							  @"TrackBar"};
+							  @"TrackBar",};
 foreach(var folder in subfolders)
 {
 #>

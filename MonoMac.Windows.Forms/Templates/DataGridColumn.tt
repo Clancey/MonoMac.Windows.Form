@@ -1,0 +1,37 @@
+﻿<#@ template language="C#v3.5" hostspecific="True" #>
+<#@ output extension=".g.cs" #>
+<#@ assembly name="System.Xml"#>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Collections.Generic" #>
+using System;
+using System.Collections;
+using System.Linq;
+using MonoMac.AppKit;
+using System.Drawing;
+using MonoMac.Foundation;
+namespace System.Windows.Forms
+{
+<#
+ 
+string[] subfolders = new string[]{ @"DataGridViewButtonColumn",
+							  @"DataGridViewCheckBoxColumn",
+							 };
+foreach(var folder in subfolders)
+{
+#>
+	public partial class <#= folder #> 
+	{	
+		
+	}
+	
+	
+<#
+}
+
+#>
+}
+
+
