@@ -70,14 +70,14 @@ namespace System.Windows.Forms
 			this.SetNeedsDisplay();	
 		}
 		
-		public EventHandler AutoSizeChanged{get;set;}
-		public EventHandler AutoValidateChanged {get;set;}
-		public MouseEventHandler MouseDown {get;set;}
-		public MouseEventHandler MouseUp {get;set;}
-		public EventHandler GotFocus {get;set;}
-		public MouseEventHandler MouseMove {get;set;}
-		public MouseEventHandler MouseDoubleClick{get;set;}
-		public EventHandler SizeChanged {get;set;}
+		public event EventHandler AutoSizeChanged;
+		public event EventHandler AutoValidateChanged;
+		public event MouseEventHandler MouseDown ;
+		public event MouseEventHandler MouseUp;
+		public event EventHandler GotFocus;
+		public event MouseEventHandler MouseMove;
+		public event MouseEventHandler MouseDoubleClick;
+		public event EventHandler SizeChanged;
 		
 				
 	}
@@ -147,14 +147,14 @@ namespace System.Windows.Forms
 			this.SetNeedsDisplay();	
 		}
 		
-		public EventHandler AutoSizeChanged{get;set;}
-		public EventHandler AutoValidateChanged {get;set;}
-		public MouseEventHandler MouseDown {get;set;}
-		public MouseEventHandler MouseUp {get;set;}
-		public EventHandler GotFocus {get;set;}
-		public MouseEventHandler MouseMove {get;set;}
-		public MouseEventHandler MouseDoubleClick{get;set;}
-		public EventHandler SizeChanged {get;set;}
+		public event EventHandler AutoSizeChanged;
+		public event EventHandler AutoValidateChanged;
+		public event MouseEventHandler MouseDown ;
+		public event MouseEventHandler MouseUp;
+		public event EventHandler GotFocus;
+		public event MouseEventHandler MouseMove;
+		public event MouseEventHandler MouseDoubleClick;
+		public event EventHandler SizeChanged;
 		
 				
 	}
@@ -224,14 +224,14 @@ namespace System.Windows.Forms
 			this.SetNeedsDisplay();	
 		}
 		
-		public EventHandler AutoSizeChanged{get;set;}
-		public EventHandler AutoValidateChanged {get;set;}
-		public MouseEventHandler MouseDown {get;set;}
-		public MouseEventHandler MouseUp {get;set;}
-		public EventHandler GotFocus {get;set;}
-		public MouseEventHandler MouseMove {get;set;}
-		public MouseEventHandler MouseDoubleClick{get;set;}
-		public EventHandler SizeChanged {get;set;}
+		public event EventHandler AutoSizeChanged;
+		public event EventHandler AutoValidateChanged;
+		public event MouseEventHandler MouseDown ;
+		public event MouseEventHandler MouseUp;
+		public event EventHandler GotFocus;
+		public event MouseEventHandler MouseMove;
+		public event MouseEventHandler MouseDoubleClick;
+		public event EventHandler SizeChanged;
 		
 				
 	}
@@ -301,14 +301,14 @@ namespace System.Windows.Forms
 			this.SetNeedsDisplay();	
 		}
 		
-		public EventHandler AutoSizeChanged{get;set;}
-		public EventHandler AutoValidateChanged {get;set;}
-		public MouseEventHandler MouseDown {get;set;}
-		public MouseEventHandler MouseUp {get;set;}
-		public EventHandler GotFocus {get;set;}
-		public MouseEventHandler MouseMove {get;set;}
-		public MouseEventHandler MouseDoubleClick{get;set;}
-		public EventHandler SizeChanged {get;set;}
+		public event EventHandler AutoSizeChanged;
+		public event EventHandler AutoValidateChanged;
+		public event MouseEventHandler MouseDown ;
+		public event MouseEventHandler MouseUp;
+		public event EventHandler GotFocus;
+		public event MouseEventHandler MouseMove;
+		public event MouseEventHandler MouseDoubleClick;
+		public event EventHandler SizeChanged;
 		
 				
 	}
@@ -378,14 +378,14 @@ namespace System.Windows.Forms
 			this.SetNeedsDisplay();	
 		}
 		
-		public EventHandler AutoSizeChanged{get;set;}
-		public EventHandler AutoValidateChanged {get;set;}
-		public MouseEventHandler MouseDown {get;set;}
-		public MouseEventHandler MouseUp {get;set;}
-		public EventHandler GotFocus {get;set;}
-		public MouseEventHandler MouseMove {get;set;}
-		public MouseEventHandler MouseDoubleClick{get;set;}
-		public EventHandler SizeChanged {get;set;}
+		public event EventHandler AutoSizeChanged;
+		public event EventHandler AutoValidateChanged;
+		public event MouseEventHandler MouseDown ;
+		public event MouseEventHandler MouseUp;
+		public event EventHandler GotFocus;
+		public event MouseEventHandler MouseMove;
+		public event MouseEventHandler MouseDoubleClick;
+		public event EventHandler SizeChanged;
 		
 				
 	}
@@ -455,14 +455,14 @@ namespace System.Windows.Forms
 			this.SetNeedsDisplay();	
 		}
 		
-		public EventHandler AutoSizeChanged{get;set;}
-		public EventHandler AutoValidateChanged {get;set;}
-		public MouseEventHandler MouseDown {get;set;}
-		public MouseEventHandler MouseUp {get;set;}
-		public EventHandler GotFocus {get;set;}
-		public MouseEventHandler MouseMove {get;set;}
-		public MouseEventHandler MouseDoubleClick{get;set;}
-		public EventHandler SizeChanged {get;set;}
+		public event EventHandler AutoSizeChanged;
+		public event EventHandler AutoValidateChanged;
+		public event MouseEventHandler MouseDown ;
+		public event MouseEventHandler MouseUp;
+		public event EventHandler GotFocus;
+		public event MouseEventHandler MouseMove;
+		public event MouseEventHandler MouseDoubleClick;
+		public event EventHandler SizeChanged;
 		
 				
 	}

@@ -26,8 +26,8 @@ namespace System.Windows.Forms
 			{
 				if(IsFlipped)
 				{
-					graphics.TranslateTransform(dirtyRect.X , dirtyRect.Height + dirtyRect.Y);
-					graphics.ScaleTransform(1.0f,-1.0f);
+					//graphics.TranslateTransform(dirtyRect.X , dirtyRect.Height + dirtyRect.Y);
+					//graphics.ScaleTransform(1.0f,-1.0f);
 				}
 				var events = new PaintEventArgs (graphics, Rectangle.Round (dirtyRect));
 				Parent.onPaintBackground (events);
@@ -44,30 +44,26 @@ namespace System.Windows.Forms
 			PointF point = this.ConvertPointfromView(theEvent.LocationInWindow,null);
 			
 			var button = (MouseButtons)theEvent.ButtonNumber;
-			if (Parent.MouseUp != null)
-				this.Parent.MouseUp (Parent, new MouseEventArgs (button, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+			this.Parent.FireMouseUp (Parent, new MouseEventArgs (button, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
 			base.MouseUp (theEvent);
 		}
 		public override void MouseDown (NSEvent theEvent)
 		{
 			PointF point = this.ConvertPointfromView(theEvent.LocationInWindow,null);
-			if (Parent.MouseDown != null)
-				this.Parent.MouseDown (Parent, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+			this.Parent.FireMouseDown (Parent, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
 			base.MouseDown (theEvent);
 		}
 		public override void MouseDragged (NSEvent theEvent)
 		{
 			PointF point = this.ConvertPointfromView(theEvent.LocationInWindow,null);
-			if (Parent.MouseMove != null)
-				this.Parent.MouseMove (Parent, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+			this.Parent.FireMouseMove (Parent, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
 			
 			base.MouseDragged (theEvent);
 		}
 		public override void MouseMoved (NSEvent theEvent)
 		{
 			PointF point = theEvent.LocationInWindow;
-			if (Parent.MouseMove != null)
-				this.Parent.MouseMove (Parent, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+			this.Parent.FireMouseMove (Parent, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
 			base.MouseMoved (theEvent);
 		}
 	}
@@ -295,14 +291,29 @@ namespace System.Windows.Forms
 
 
 
-		public EventHandler AutoSizeChanged { get; set; }
-		public EventHandler AutoValidateChanged { get; set; }
-		public MouseEventHandler MouseDown { get; set; }
-		public MouseEventHandler MouseUp { get; set; }
-		public EventHandler GotFocus { get; set; }
-		public MouseEventHandler MouseMove { get; set; }
-		public MouseEventHandler MouseDoubleClick { get; set; }
-		public EventHandler SizeChanged { get; set; }
+		public event EventHandler AutoSizeChanged;
+		public event EventHandler AutoValidateChanged;
+		public void FireMouseDown(object sender,MouseEventArgs e)
+		{
+			if(MouseDown !=null)
+				MouseDown(sender,e);
+		}
+		public event MouseEventHandler MouseDown;
+		public void FireMouseUp(object sender, MouseEventArgs e)
+		{
+			if(MouseUp != null)
+				MouseUp(sender,e);
+		}
+		public event MouseEventHandler MouseUp;
+		public event EventHandler GotFocus;
+		public void FireMouseMove(object sender,MouseEventArgs e)
+		{
+			if(MouseMove != null)
+				MouseMove(sender,e);
+		}
+		public event MouseEventHandler MouseMove;
+		public event MouseEventHandler MouseDoubleClick;
+		public event EventHandler SizeChanged;
 
 
 

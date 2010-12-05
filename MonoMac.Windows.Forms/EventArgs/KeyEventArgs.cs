@@ -11,7 +11,7 @@ namespace System.Windows.Forms
         private readonly Keys keyData;
         private bool suppressKeyPress;
 		private NSEvent TheEvent;
-		
+
         public KeyEventArgs(NSEvent theEvent)
         {
             this.keyData = KeyUtil.GetKeys(theEvent);

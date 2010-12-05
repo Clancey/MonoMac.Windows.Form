@@ -33,8 +33,8 @@ namespace System.Windows.Forms
 			set { Tag = value; }
 		}
 		#region Events
-		[Export("buttonAction:")]
-		public EventHandler Click { get; set; }
+		//[Export("buttonAction:")]
+		public event EventHandler Click;
 
 		
 		#endregion
@@ -45,6 +45,18 @@ namespace System.Windows.Forms
 		}
 		
 		public DialogResult DialogResult {get;set;}
+		/*
+		public override void MouseUp (NSEvent theEvent)
+		{
+			
+			PointF point = theEvent.LocationInWindow;
+			
+
+			if(MouseUp != null)
+				MouseUp(this, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+			base.MouseUp (theEvent);
+		}
+		*/
 
 		private bool autoSize;
 		public bool AutoSize{get{ return autoSize;}set {autoSize = value; resize();}}

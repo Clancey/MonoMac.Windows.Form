@@ -14,6 +14,8 @@ namespace System.Windows.Forms
 			using (var graphics = Graphics.FromHwnd(this.Handle))
 			{
 				var events = new PaintEventArgs(graphics,Rectangle.Round(dirtyRect));
+				//graphics.TranslateTransform(dirtyRect.X , dirtyRect.Height + dirtyRect.Y);
+				//graphics.ScaleTransform(1.0f,-1.0f);
 				OnPaintBackground(events);
 				OnPaint(events);
 			}
@@ -44,6 +46,8 @@ namespace System.Windows.Forms
 			using (var graphics = Graphics.FromHwnd(this.Handle))
 			{
 				var events = new PaintEventArgs(graphics,Rectangle.Round(dirtyRect));
+				//graphics.TranslateTransform(dirtyRect.X , dirtyRect.Height + dirtyRect.Y);
+				//graphics.ScaleTransform(1.0f,-1.0f);
 				OnPaintBackground(events);
 				OnPaint(events);
 			}
@@ -74,6 +78,8 @@ namespace System.Windows.Forms
 			using (var graphics = Graphics.FromHwnd(this.Handle))
 			{
 				var events = new PaintEventArgs(graphics,Rectangle.Round(dirtyRect));
+				//graphics.TranslateTransform(dirtyRect.X , dirtyRect.Height + dirtyRect.Y);
+				//graphics.ScaleTransform(1.0f,-1.0f);
 				OnPaintBackground(events);
 				OnPaint(events);
 			}
@@ -104,6 +110,8 @@ namespace System.Windows.Forms
 			using (var graphics = Graphics.FromHwnd(this.Handle))
 			{
 				var events = new PaintEventArgs(graphics,Rectangle.Round(dirtyRect));
+				//graphics.TranslateTransform(dirtyRect.X , dirtyRect.Height + dirtyRect.Y);
+				//graphics.ScaleTransform(1.0f,-1.0f);
 				OnPaintBackground(events);
 				OnPaint(events);
 			}
@@ -134,6 +142,8 @@ namespace System.Windows.Forms
 			using (var graphics = Graphics.FromHwnd(this.Handle))
 			{
 				var events = new PaintEventArgs(graphics,Rectangle.Round(dirtyRect));
+				//graphics.TranslateTransform(dirtyRect.X , dirtyRect.Height + dirtyRect.Y);
+				//graphics.ScaleTransform(1.0f,-1.0f);
 				OnPaintBackground(events);
 				OnPaint(events);
 			}
@@ -164,6 +174,8 @@ namespace System.Windows.Forms
 			using (var graphics = Graphics.FromHwnd(this.Handle))
 			{
 				var events = new PaintEventArgs(graphics,Rectangle.Round(dirtyRect));
+				//graphics.TranslateTransform(dirtyRect.X , dirtyRect.Height + dirtyRect.Y);
+				//graphics.ScaleTransform(1.0f,-1.0f);
 				OnPaintBackground(events);
 				OnPaint(events);
 			}

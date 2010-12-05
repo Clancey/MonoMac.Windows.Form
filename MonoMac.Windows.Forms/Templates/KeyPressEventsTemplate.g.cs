@@ -19,8 +19,8 @@ namespace System.Windows.Forms
 			base.KeyUp (theEvent);
             if (OnKeyUp != null)
                 OnKeyUp(this, new KeyEventArgs(theEvent));
-			if(OnKeyPress != null)
-				OnKeyPress(this, new KeyPressEventArgs(theEvent.Characters.ToCharArray()[0]));
+			if(KeyPress != null)
+				KeyPress(this, new KeyPressEventArgs(theEvent.Characters.ToCharArray()[0]));
 		}
 		
 		public override void DidChange (NSNotification notification)
@@ -30,10 +30,10 @@ namespace System.Windows.Forms
 				TextChanged(this,new EventArgs());
 		}
 		
-		public EventHandler TextChanged {get;set;}
-	    public KeyPressEventHandler OnKeyPress { get; set; }
-        public KeyEventHandler OnKeyUp { get; set; }
-        public KeyEventHandler OnKeyDown { get; set; }
+		public event EventHandler TextChanged;
+	    public event KeyPressEventHandler KeyPress;
+        public event KeyEventHandler OnKeyUp;
+        public event KeyEventHandler OnKeyDown;
 	}
 	
 	
@@ -50,8 +50,8 @@ namespace System.Windows.Forms
 			base.KeyUp (theEvent);
             if (OnKeyUp != null)
                 OnKeyUp(this, new KeyEventArgs(theEvent));
-			if(OnKeyPress != null)
-				OnKeyPress(this, new KeyPressEventArgs(theEvent.Characters.ToCharArray()[0]));
+			if(KeyPress != null)
+				KeyPress(this, new KeyPressEventArgs(theEvent.Characters.ToCharArray()[0]));
 		}
 		
 		public override void DidChange (NSNotification notification)
@@ -61,10 +61,10 @@ namespace System.Windows.Forms
 				TextChanged(this,new EventArgs());
 		}
 		
-		public EventHandler TextChanged {get;set;}
-	    public KeyPressEventHandler OnKeyPress { get; set; }
-        public KeyEventHandler OnKeyUp { get; set; }
-        public KeyEventHandler OnKeyDown { get; set; }
+		public event EventHandler TextChanged;
+	    public event KeyPressEventHandler KeyPress;
+        public event KeyEventHandler OnKeyUp;
+        public event KeyEventHandler OnKeyDown;
 	}
 	
 	
