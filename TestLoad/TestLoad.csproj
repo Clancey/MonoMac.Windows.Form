@@ -40,7 +40,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\monomacTrunk\src\MonoMac.dll</HintPath>
     </Reference>
-    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\mono\mcs\class\lib\net_2_0\System.Drawing.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainMenu.xib.designer.cs">

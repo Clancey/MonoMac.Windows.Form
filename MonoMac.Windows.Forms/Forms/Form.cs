@@ -24,11 +24,6 @@ namespace System.Windows.Forms
 		{
 			using (var graphics = Graphics.FromHwnd (this.Handle))
 			{
-				if(IsFlipped)
-				{
-					//graphics.TranslateTransform(dirtyRect.X , dirtyRect.Height + dirtyRect.Y);
-					//graphics.ScaleTransform(1.0f,-1.0f);
-				}
 				var events = new PaintEventArgs (graphics, Rectangle.Round (dirtyRect));
 				Parent.onPaintBackground (events);
 				Parent.onPaint (events);
@@ -133,6 +128,11 @@ namespace System.Windows.Forms
 		}
 		public void onPaint (PaintEventArgs e)
 		{
+			if(ContentView.IsFlipped)
+			{
+				e.Graphics.TranslateTransform(e.ClipRectangle.X , e.ClipRectangle.Height + e.ClipRectangle.Y);
+				e.Graphics.ScaleTransform(1.0f,-1.0f);
+			}
 			OnPaint (e);
 		}
 		protected virtual void OnPaint (PaintEventArgs e)

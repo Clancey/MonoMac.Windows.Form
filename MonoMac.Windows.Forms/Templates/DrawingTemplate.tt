@@ -21,7 +21,7 @@ string[] subfolders = new string[]{ @"UserControl",
 							  @"TextBox",
 							  @"ComboBox",
 							  @"ListBox",
-							  @"TrackBar",};
+							  };
 foreach(var folder in subfolders)
 {
 #>
@@ -30,11 +30,10 @@ foreach(var folder in subfolders)
 		
 		public override void DrawRect (RectangleF dirtyRect)
 		{
+			
 			using (var graphics = Graphics.FromHwnd(this.Handle))
 			{
 				var events = new PaintEventArgs(graphics,Rectangle.Round(dirtyRect));
-				//graphics.TranslateTransform(dirtyRect.X , dirtyRect.Height + dirtyRect.Y);
-				//graphics.ScaleTransform(1.0f,-1.0f);
 				OnPaintBackground(events);
 				OnPaint(events);
 			}
@@ -42,6 +41,10 @@ foreach(var folder in subfolders)
 		
 		protected virtual void OnPaint(PaintEventArgs e)
         {
+			if(IsFlipped)
+			{
+				Util.FlipDrawing(e.ClipRectangle);
+			}
 			base.DrawRect(e.ClipRectangle);
         }
         
