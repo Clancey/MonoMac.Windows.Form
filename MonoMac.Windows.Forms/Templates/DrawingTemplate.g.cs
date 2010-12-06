@@ -18,15 +18,14 @@ namespace System.Windows.Forms
 				OnPaintBackground(events);
 				OnPaint(events);
 			}
+			if(shouldDraw)
+				base.DrawRect(dirtyRect);
 		}
 		
+		public bool shouldDraw;
 		protected virtual void OnPaint(PaintEventArgs e)
         {
-			if(IsFlipped)
-			{
-				Util.FlipDrawing(e.ClipRectangle);
-			}
-			base.DrawRect(e.ClipRectangle);
+        	shouldDraw = true;
         }
         
 		protected virtual void OnPaintBackground(PaintEventArgs e)
@@ -53,15 +52,14 @@ namespace System.Windows.Forms
 				OnPaintBackground(events);
 				OnPaint(events);
 			}
+			if(shouldDraw)
+				base.DrawRect(dirtyRect);
 		}
 		
+		public bool shouldDraw;
 		protected virtual void OnPaint(PaintEventArgs e)
         {
-			if(IsFlipped)
-			{
-				Util.FlipDrawing(e.ClipRectangle);
-			}
-			base.DrawRect(e.ClipRectangle);
+        	shouldDraw = true;
         }
         
 		protected virtual void OnPaintBackground(PaintEventArgs e)
@@ -88,15 +86,14 @@ namespace System.Windows.Forms
 				OnPaintBackground(events);
 				OnPaint(events);
 			}
+			if(shouldDraw)
+				base.DrawRect(dirtyRect);
 		}
 		
+		public bool shouldDraw;
 		protected virtual void OnPaint(PaintEventArgs e)
         {
-			if(IsFlipped)
-			{
-				Util.FlipDrawing(e.ClipRectangle);
-			}
-			base.DrawRect(e.ClipRectangle);
+        	shouldDraw = true;
         }
         
 		protected virtual void OnPaintBackground(PaintEventArgs e)
@@ -123,15 +120,14 @@ namespace System.Windows.Forms
 				OnPaintBackground(events);
 				OnPaint(events);
 			}
+			if(shouldDraw)
+				base.DrawRect(dirtyRect);
 		}
 		
+		public bool shouldDraw;
 		protected virtual void OnPaint(PaintEventArgs e)
         {
-			if(IsFlipped)
-			{
-				Util.FlipDrawing(e.ClipRectangle);
-			}
-			base.DrawRect(e.ClipRectangle);
+        	shouldDraw = true;
         }
         
 		protected virtual void OnPaintBackground(PaintEventArgs e)
@@ -158,15 +154,48 @@ namespace System.Windows.Forms
 				OnPaintBackground(events);
 				OnPaint(events);
 			}
+			if(shouldDraw)
+				base.DrawRect(dirtyRect);
 		}
 		
+		public bool shouldDraw;
 		protected virtual void OnPaint(PaintEventArgs e)
         {
-			if(IsFlipped)
+        	shouldDraw = true;
+        }
+        
+		protected virtual void OnPaintBackground(PaintEventArgs e)
+		{
+			if(BackColor == null)
+				BackColor = Color.Transparent;
+			if(BackColor == Color.Transparent)
+				return;
+			Pen pen = new Pen(BackColor);
+			e.Graphics.DrawRectangle(pen,e.ClipRectangle);
+		}
+	}
+	
+	
+	public partial class TrackBar 
+	{		
+		
+		public override void DrawRect (RectangleF dirtyRect)
+		{
+			
+			using (var graphics = Graphics.FromHwnd(this.Handle))
 			{
-				Util.FlipDrawing(e.ClipRectangle);
+				var events = new PaintEventArgs(graphics,Rectangle.Round(dirtyRect));
+				OnPaintBackground(events);
+				OnPaint(events);
 			}
-			base.DrawRect(e.ClipRectangle);
+			if(shouldDraw)
+				base.DrawRect(dirtyRect);
+		}
+		
+		public bool shouldDraw;
+		protected virtual void OnPaint(PaintEventArgs e)
+        {
+        	shouldDraw = true;
         }
         
 		protected virtual void OnPaintBackground(PaintEventArgs e)

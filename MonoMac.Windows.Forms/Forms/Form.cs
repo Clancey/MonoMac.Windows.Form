@@ -19,7 +19,7 @@ namespace System.Windows.Forms
 			get { return true; }
 		}
 
-
+		public bool shouldDraw;
 		public override void DrawRect (RectangleF dirtyRect)
 		{
 			using (var graphics = Graphics.FromHwnd (this.Handle))
@@ -28,10 +28,8 @@ namespace System.Windows.Forms
 				Parent.onPaintBackground (events);
 				Parent.onPaint (events);
 			}
-		}
-		public void PaintRect (RectangleF dirtyRect)
-		{
-			base.DrawRect (dirtyRect);
+			if(shouldDraw)
+				base.DrawRect(dirtyRect);
 		}
 
 		public override void MouseUp (NSEvent theEvent)
@@ -122,24 +120,15 @@ namespace System.Windows.Forms
 		/// Drawing stuff
 		/// </summary>
 
-		public void DrawRect (RectangleF dirtyRect)
-		{
-			
-		}
 		public void onPaint (PaintEventArgs e)
 		{
-			if(ContentView.IsFlipped)
-			{
-				e.Graphics.TranslateTransform(e.ClipRectangle.X , e.ClipRectangle.Height + e.ClipRectangle.Y);
-				e.Graphics.ScaleTransform(1.0f,-1.0f);
-			}
 			OnPaint (e);
 		}
 		protected virtual void OnPaint (PaintEventArgs e)
 		{
 			if (Paint != null)
 				Paint (this, e);
-			(this.ContentView as View).PaintRect (e.ClipRectangle);
+			(this.ContentView as View).shouldDraw = true;
 			
 		}
 		public Graphics CreateGraphics ()

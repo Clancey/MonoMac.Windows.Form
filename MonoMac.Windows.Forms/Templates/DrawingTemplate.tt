@@ -21,6 +21,7 @@ string[] subfolders = new string[]{ @"UserControl",
 							  @"TextBox",
 							  @"ComboBox",
 							  @"ListBox",
+							  @"TrackBar",
 							  };
 foreach(var folder in subfolders)
 {
@@ -37,15 +38,14 @@ foreach(var folder in subfolders)
 				OnPaintBackground(events);
 				OnPaint(events);
 			}
+			if(shouldDraw)
+				base.DrawRect(dirtyRect);
 		}
 		
+		public bool shouldDraw;
 		protected virtual void OnPaint(PaintEventArgs e)
         {
-			if(IsFlipped)
-			{
-				Util.FlipDrawing(e.ClipRectangle);
-			}
-			base.DrawRect(e.ClipRectangle);
+        	shouldDraw = true;
         }
         
 		protected virtual void OnPaintBackground(PaintEventArgs e)
