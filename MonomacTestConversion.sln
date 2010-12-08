@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestLoad", "TestLoad\TestLoad.csproj", "{CCDAA602-7A9C-463B-ABD3-719D843B7E91}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoMac.Windows.Forms", "MonoMac.Windows.Forms\MonoMac.Windows.Forms.csproj", "{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoMac.Windows.Forms.Tests", "MonoMac.Windows.Forms.Tests\MonoMac.Windows.Forms.Tests.csproj", "{7D9AB81F-5880-4304-B481-E4552E243B67}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{7489C34A-8B61-463E-9D5F-2D6A94A8A508}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListboxSample", "ListboxSample\ListboxSample.csproj", "{A0E8435D-FF47-411B-95F7-0302E6DE6D9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestLoad", "TestLoad\TestLoad.csproj", "{CCDAA602-7A9C-463B-ABD3-719D843B7E91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +24,12 @@ Global
 		{7D9AB81F-5880-4304-B481-E4552E243B67}.Default|Any CPU.Build.0 = Debug|Any CPU
 		{7D9AB81F-5880-4304-B481-E4552E243B67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D9AB81F-5880-4304-B481-E4552E243B67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0E8435D-FF47-411B-95F7-0302E6DE6D9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0E8435D-FF47-411B-95F7-0302E6DE6D9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0E8435D-FF47-411B-95F7-0302E6DE6D9E}.Default|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0E8435D-FF47-411B-95F7-0302E6DE6D9E}.Default|Any CPU.Build.0 = Debug|Any CPU
+		{A0E8435D-FF47-411B-95F7-0302E6DE6D9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0E8435D-FF47-411B-95F7-0302E6DE6D9E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CCDAA602-7A9C-463B-ABD3-719D843B7E91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CCDAA602-7A9C-463B-ABD3-719D843B7E91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCDAA602-7A9C-463B-ABD3-719D843B7E91}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -30,6 +40,10 @@ Global
 		{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}.Default|Any CPU.Build.0 = Debug|Any CPU
 		{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A0E8435D-FF47-411B-95F7-0302E6DE6D9E} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
+		{CCDAA602-7A9C-463B-ABD3-719D843B7E91} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = TestLoad\TestLoad.csproj

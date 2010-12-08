@@ -10,6 +10,7 @@ namespace System.Windows.Forms
 		{
 			this.Selectable = true;
 			this.Editable = true;
+			Multiline = true;
 			//this.BackgroundColor = NSColor.Clear;
 		}
 
@@ -17,12 +18,19 @@ namespace System.Windows.Forms
 			get { return this.StringValue; }
 			set { this.StringValue = value; }
 		}
-
-		public int TabIndex {
-			get { return Tag; }
-			set { Tag = value; }
-		}
+		
 		public AnchorStyles Anchor { get; set; }
+		
+		public string[] Lines
+		{
+			get{return this.StringValue.Split(new char[] { '\n' });}
+			set{this.StringValue = "";
+				foreach(var val in value)
+				{ StringValue+= val + "\n";}
+			}
+		}
+		
+		public bool Multiline{get;set;}
 		
 		#region Events
 		

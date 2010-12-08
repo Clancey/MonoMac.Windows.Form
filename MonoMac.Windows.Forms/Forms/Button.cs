@@ -28,16 +28,15 @@ namespace System.Windows.Forms
 			}
 		}
 
-		public int TabIndex {
-			get { return Tag; }
-			set { Tag = value; }
-		}
 		#region Events
 		//[Export("buttonAction:")]
 		public event EventHandler Click;
 
 		
 		#endregion
+		
+		[Obsolete("Not Implemented.", false)]
+		public bool UseVisualStyleBackColor {get;set;}
 
 		public Color BackColor {
 			get {return Cell.BackgroundColor.ToColor();	}

@@ -74,6 +74,7 @@ namespace System.Windows.Forms
 			theControls = new controls (this);
 			ContentView = new View (this);
 			setStyle();
+			//this.StandardWindowButton().Image
 		}
 		public bool MaximizeBox
 		{
@@ -139,6 +140,27 @@ namespace System.Windows.Forms
 			//graphics.Transform = new System.Drawing.Drawing2D.Matrix(1,0,0,-1,0,0);
 			return graphics;
 		}
+		
+		[Obsolete("Not Implemented.", false)]
+		public AutoScaleMode AutoScaleMode {get;set;}
+		
+		[Obsolete("Not Implemented.", false)]
+		public SizeF AutoScaleDimensions {get;set;}
+		
+		[Obsolete("Not Implemented.", false)]
+		public Icon Icon {get;set;}
+		
+		[Obsolete("Not Implemented.", false)]
+		public Button AcceptButton {get;set;}
+		
+		[Obsolete("Not Implemented.", false)]
+		public Button CancelButton {get;set;}
+		
+		public bool Visible {
+			get{return IsVisible;}
+			set{IsVisible = value;}
+		}
+		public bool Modal{get{return IsSheet;}}
 
 		public PaintEventHandler Paint { get; set; }
 
@@ -187,6 +209,7 @@ namespace System.Windows.Forms
 		{
 			
 		}
+		public DialogResult DialogResult{get;set;}
 		public void ResumeLayout (bool action)
 		{
 			this.ContentView.DisplayIfNeeded ();

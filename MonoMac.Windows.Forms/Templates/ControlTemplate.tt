@@ -84,6 +84,12 @@ foreach(var folder in subfolders)
 			this.SetNeedsDisplayInRect(rect);
 		}
 		
+		[Obsolete("Not Implemented.", false)]
+		public int TabIndex {get;set;}
+		
+		[Obsolete("Not Implemented.", false)]
+		public AutoScaleMode AutoScaleMode {get;set;}
+		
 		public virtual void Invalidate()
 		{
 			this.SetNeedsDisplay();	

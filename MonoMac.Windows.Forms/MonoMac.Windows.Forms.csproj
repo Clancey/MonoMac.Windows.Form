@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -68,20 +68,11 @@
     <Compile Include="EventArgs\PaintEventArgs.cs" />
     <Compile Include="EventArgs\PaintEventHandler.cs" />
     <Compile Include="EventArgs\MouseButtons.cs" />
-    <Compile Include="Templates\UserControlTemplate.g.cs">
-      <DependentUpon>UserControlTemplate.tt</DependentUpon>
-    </Compile>
     <Compile Include="Templates\ControlTemplate.g.cs">
       <DependentUpon>ControlTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Templates\DrawingTemplate.g.cs">
-      <DependentUpon>DrawingTemplate.tt</DependentUpon>
-    </Compile>
     <Compile Include="Forms\ListBox.cs" />
     <Compile Include="Forms\DataTable.cs" />
-    <Compile Include="Templates\FontTemplate.g.cs">
-      <DependentUpon>FontTemplate.tt</DependentUpon>
-    </Compile>
     <Compile Include="Forms\TrackBar.cs" />
     <Compile Include="Templates\KeyPressEventsTemplate.g.cs">
       <DependentUpon>KeyPressEventsTemplate.tt</DependentUpon>
@@ -108,6 +99,20 @@
     <Compile Include="Enums\MessageBoxIcon.cs" />
     <Compile Include="Enums\ControlStyles.cs" />
     <Compile Include="EmptyObject.cs" />
+    <Compile Include="Extenders\NSIndexSetExtender.cs" />
+    <Compile Include="Interfaces\IWin32Window.cs" />
+    <Compile Include="Enums\MessageBoxDefaultButton.cs" />
+    <Compile Include="Enums\AutoScaleMode.cs" />
+    <Compile Include="Templates\DrawingTemplate.g.cs">
+      <DependentUpon>DrawingTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\FontTemplate.g.cs">
+      <DependentUpon>FontTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\UserControlTemplate.g.cs">
+      <DependentUpon>UserControlTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Enums\ComboBoxStyle.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Forms\" />
@@ -116,16 +121,21 @@
     <Folder Include="Utils\" />
     <Folder Include="Extenders\" />
     <Folder Include="Enums\" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="Templates\UserControlTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>UserControlTemplate.g.cs</LastGenOutput>
-    </None>
     <None Include="Templates\ControlTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ControlTemplate.g.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\KeyPressEventsTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>KeyPressEventsTemplate.g.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\DataGridColumn.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DataGridColumn.g.cs</LastGenOutput>
     </None>
     <None Include="Templates\DrawingTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -135,13 +145,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FontTemplate.g.cs</LastGenOutput>
     </None>
-    <None Include="Templates\KeyPressEventsTemplate.tt">
+    <None Include="Templates\UserControlTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>KeyPressEventsTemplate.g.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\DataGridColumn.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DataGridColumn.g.cs</LastGenOutput>
+      <LastGenOutput>UserControlTemplate.g.cs</LastGenOutput>
     </None>
   </ItemGroup>
 </Project>

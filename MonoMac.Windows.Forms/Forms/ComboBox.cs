@@ -18,7 +18,11 @@ namespace System.Windows.Forms
 				if(SelectedValueChanged != null)
 					SelectedValueChanged(sender,e);
 			};	
+			
 		}
+		
+		[Obsolete("Not Implemented.", false)]
+		public ComboBoxStyle DropDownStyle {get;set;}
 		public Color BackColor {get;set;}
 		private string displayMember;
 		public string DisplayMember {get{return displayMember; }set{displayMember = value; _dataSource.DisplayMember = value; }}
@@ -37,19 +41,39 @@ namespace System.Windows.Forms
 		}
 		public object SelectedItem
 		{
-			get{return _dataSource.dataArray[this.SelectedIndex];}
+			get{return _dataSource.dataArray[base.SelectedIndex];}
 			set{this.SelectItem(_dataSource.IndexOfItem(this,value));}
 		}
+		public override int SelectedIndex {
+			get {
+				if(!FormattingEnabled && base.SelectedIndex == -1)
+					return 0;
+				return base.SelectedIndex;
+			}
+		}
+		public bool FormattingEnabled {get;set;}
 		
 		public object SelectedValue
 		{
 			get{return _dataSource.GetSelectedValue(this);}
 			set {_dataSource.SetSelectedValue(this,value);}
 		}
+		public string Text
+		{
+			get{return this.StringValue;}
+			set{this.StringValue = value;}
+		}
 		#region Events
 		public EventHandler SelectedIndexChanged {get;set;}
 		public EventHandler SelectedValueChanged {get;set;}
 		#endregion
+		
+		
+		public object[] Items 
+		{
+			get{return _dataSource.dataArray;}
+			set{_dataSource.dataArray = value;}
+		}
 		public class ComboBoxDataSource : NSComboBoxDataSource
 		{
 			public object[] dataArray;
