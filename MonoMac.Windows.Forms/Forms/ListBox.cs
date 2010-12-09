@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 namespace System.Windows.Forms
 {
-	public partial class ListBox : NSScrollView
+	public partial class ListBox : ListBoxMouseView
 	{
 		public NSTableView tableView;
 		public NSTableColumn column;

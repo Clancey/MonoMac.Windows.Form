@@ -21,7 +21,9 @@ string[] subfolders = new string[]{ @"UserControl",
 							  @"TextBox",
 							  @"ComboBox",
 							  @"ListBox",
-							  @"TrackBar"};
+							  @"TrackBar",
+							  @"Panel",
+							  };
 foreach(var folder in subfolders)
 {
 #>
@@ -64,7 +66,27 @@ foreach(var folder in subfolders)
 			set {this.Size = new SizeF(this.Size.Width,value);}
 		}
 		
+		public AnchorStyles Anchor {get;set;}
 		public BorderStyle BorderStyle{get;set;}
+		
+		<# if(folder == "Panel") { #>
+		public bool Focused
+		{
+			get {return this.Window.FirstResponder == this;}
+		}
+		
+		public virtual void Refresh()
+		{
+			this.Display();
+		}
+		
+		
+		public virtual void Invalidate()
+		{
+			this.SetNeedsDisplayInRect(this.Frame);
+		}
+		
+		<# } else  { #>
 		
 		public bool Focused
 		{
@@ -78,6 +100,18 @@ foreach(var folder in subfolders)
 		{
 			this.Display();
 		}
+		
+		
+		public virtual void Invalidate()
+		{
+			this.SetNeedsDisplay();	
+		}
+		<# }  #>
+		
+		public void Focus()
+		{
+			this.BecomeFirstResponder();
+		}
 		public virtual void Invalidate(Region region)
 		{
 			var rect = region.GetBounds(Graphics.FromHwnd (this.Handle));
@@ -90,20 +124,100 @@ foreach(var folder in subfolders)
 		[Obsolete("Not Implemented.", false)]
 		public AutoScaleMode AutoScaleMode {get;set;}
 		
-		public virtual void Invalidate()
-		{
-			this.SetNeedsDisplay();	
-		}
-		
 		public event EventHandler AutoSizeChanged;
 		public event EventHandler AutoValidateChanged;
-		public event MouseEventHandler MouseDown ;
-		public event MouseEventHandler MouseUp;
 		public event EventHandler GotFocus;
-		public event MouseEventHandler MouseMove;
-		public event MouseEventHandler MouseDoubleClick;
 		public event EventHandler SizeChanged;
 		
+		#region Mouse
+		
+		// Mouse Down
+		public override void FireMouseDown (NSEvent theEvent)
+		{
+			PointF point = this.ConvertPointfromView(theEvent.LocationInWindow,null);
+			if(MouseDown!= null)
+				MouseDown(this,new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+		}
+		public override void RightMouseDown (NSEvent theEvent)
+		{
+			PointF point = this.ConvertPointfromView(theEvent.LocationInWindow,null);
+			if(MouseDown!= null)
+				MouseDown(this,new MouseEventArgs (MouseButtons.Right, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+		}
+		public override void FireOtherMouseDown (NSEvent theEvent)
+		{
+			PointF point = this.ConvertPointfromView(theEvent.LocationInWindow,null);
+			if(MouseDown!= null)
+				MouseDown(this,new MouseEventArgs (MouseButtons.Middle, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+		}
+		// Mouse Up
+		public override void FireMouseUp (NSEvent theEvent)
+		{
+			PointF point = this.ConvertPointfromView(theEvent.LocationInWindow,null);
+			if(MouseUp!= null)
+				MouseUp(this,new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+		}
+		public override void RightMouseUp (NSEvent theEvent)
+		{
+			PointF point = this.ConvertPointfromView(theEvent.LocationInWindow,null);
+			if(MouseUp!= null)
+				MouseUp(this,new MouseEventArgs (MouseButtons.Right, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+		}
+		public override void FireOtherMouseUp (NSEvent theEvent)
+		{
+			PointF point = this.ConvertPointfromView(theEvent.LocationInWindow,null);
+			if(MouseUp!= null)
+				MouseUp(this,new MouseEventArgs (MouseButtons.Middle, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+		}
+		// Mouse Move
+		public override void FireMouseMoved (NSEvent theEvent)
+		{
+			PointF point = this.ConvertPointfromView(theEvent.LocationInWindow,null);
+			if(MouseMove!= null)
+				MouseMove(this,new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+
+		}
+		
+		public override void FireScrollWheel (NSEvent theEvent)
+		{
+			PointF point = this.ConvertPointfromView(theEvent.LocationInWindow,null);
+			if(MouseWheel!= null)
+				MouseMove(this,new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+		}
+		
+		public override void FireMouseEntered (NSEvent theEvent)
+		{
+			PointF point = this.ConvertPointfromView(theEvent.LocationInWindow,null);
+			if(MouseEnter!= null)
+				MouseEnter(this,new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+		}
+		public override void FireMouseExited(NSEvent theEvent)
+		{
+			if(MouseLeave != null)
+				MouseLeave(this,new EventArgs());
+		}
+		public override void FireMouseDragged(NSEvent theEvent)
+		{
+			PointF point = this.ConvertPointfromView(theEvent.LocationInWindow,null);
+			if(MouseMove!= null)
+				MouseMove(this,new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));	
+		}
+		public override void FireRightMouseDragged(NSEvent theEvent)
+		{
+			PointF point = this.ConvertPointfromView(theEvent.LocationInWindow,null);
+			if(MouseMove!= null)
+				MouseMove(this,new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));	
+		}
+		public event MouseEventHandler MouseDown;
+		public event MouseEventHandler MouseUp;
+		public event MouseEventHandler MouseMove;
+		public event MouseEventHandler MouseDoubleClick;
+		public event MouseEventHandler MouseWheel;
+		public event EventHandler MouseEnter;
+		public event EventHandler MouseHover;
+		public event EventHandler MouseLeave;
+		
+		#endregion
 				
 	}
 	

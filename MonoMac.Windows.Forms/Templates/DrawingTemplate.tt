@@ -22,6 +22,7 @@ string[] subfolders = new string[]{ @"UserControl",
 							  @"ComboBox",
 							  @"ListBox",
 							  @"TrackBar",
+							  @"Panel",
 							  };
 foreach(var folder in subfolders)
 {
@@ -43,8 +44,12 @@ foreach(var folder in subfolders)
 		}
 		
 		public bool shouldDraw;
+		
+		public PaintEventHandler Paint { get; set; }
 		protected virtual void OnPaint(PaintEventArgs e)
         {
+			if (Paint != null)
+				Paint (this, e);
         	shouldDraw = true;
         }
         

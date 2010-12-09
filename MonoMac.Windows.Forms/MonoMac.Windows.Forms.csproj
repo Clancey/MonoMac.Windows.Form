@@ -58,7 +58,6 @@
     <Compile Include="EventArgs\KeyPressEventArgs.cs" />
     <Compile Include="EventArgs\KeyPressEventHandler.cs" />
     <Compile Include="Forms\Control.cs" />
-    <Compile Include="Forms\RightToLeft.cs" />
     <Compile Include="Forms\CheckBox.cs" />
     <Compile Include="Forms\CheckedListBox.cs" />
     <Compile Include="Forms\ComboBox.cs" />
@@ -68,9 +67,6 @@
     <Compile Include="EventArgs\PaintEventArgs.cs" />
     <Compile Include="EventArgs\PaintEventHandler.cs" />
     <Compile Include="EventArgs\MouseButtons.cs" />
-    <Compile Include="Templates\ControlTemplate.g.cs">
-      <DependentUpon>ControlTemplate.tt</DependentUpon>
-    </Compile>
     <Compile Include="Forms\ListBox.cs" />
     <Compile Include="Forms\DataTable.cs" />
     <Compile Include="Forms\TrackBar.cs" />
@@ -113,6 +109,14 @@
       <DependentUpon>UserControlTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="Enums\ComboBoxStyle.cs" />
+    <Compile Include="Templates\MouseTemplate.g.cs">
+      <DependentUpon>MouseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Panel.cs" />
+    <Compile Include="Enums\RightToLeft.cs" />
+    <Compile Include="Templates\ControlTemplate.g.cs">
+      <DependentUpon>ControlTemplate.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Forms\" />
@@ -148,6 +152,10 @@
     <None Include="Templates\UserControlTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UserControlTemplate.g.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\MouseTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MouseTemplate.g.cs</LastGenOutput>
     </None>
   </ItemGroup>
 </Project>

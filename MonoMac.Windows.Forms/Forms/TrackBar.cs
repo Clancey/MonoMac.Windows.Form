@@ -3,7 +3,7 @@ using MonoMac.AppKit;
 using System.Drawing;
 namespace System.Windows.Forms
 {
-	public partial class TrackBar : NSSlider
+	public partial class TrackBar : TrackBarMouseView
 	{
 		public TrackBar () : base ()
 		{

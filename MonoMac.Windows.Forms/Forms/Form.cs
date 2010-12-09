@@ -345,6 +345,13 @@ namespace System.Windows.Forms
 				theForm.ContentView.AddSubview (item);
 				SetTab ();
 			}
+			public void AddRange(NSView[] InControls)
+			{
+				foreach(var view in InControls)
+				{
+					theForm.ContentView.AddSubview(view);	
+				}
+			}
 
 			public void Clear ()
 			{

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Collections.Generic;
 namespace System.Windows.Forms
 {
-	public partial class ComboBox : NSComboBox, IControl
+	public partial class ComboBox : ComboBoxMouseView, IControl
 	{
 		public ComboBox () : base ()
 		{

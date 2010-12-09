@@ -3,10 +3,12 @@ using MonoMac.AppKit;
 using MonoMac.ObjCRuntime;
 using MonoMac.Foundation;
 using System.Drawing;
+using System.Collections.Generic;
 namespace System.Windows.Forms
 {
+	
 	[MonoMac.Foundation.Register("Button")]
-	public partial class Button : NSButton, IControl
+	public partial class Button : ButtonMouseView, IControl
 	{
 		public Button () : base()
 		{

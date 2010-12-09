@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListboxSample", "ListboxSam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestLoad", "TestLoad\TestLoad.csproj", "{CCDAA602-7A9C-463B-ABD3-719D843B7E91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MouseEvent", "MouseEvent\MouseEvent.csproj", "{CF09021C-2276-46ED-8DFC-158A07FCCBAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,12 @@ Global
 		{CCDAA602-7A9C-463B-ABD3-719D843B7E91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCDAA602-7A9C-463B-ABD3-719D843B7E91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCDAA602-7A9C-463B-ABD3-719D843B7E91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF09021C-2276-46ED-8DFC-158A07FCCBAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF09021C-2276-46ED-8DFC-158A07FCCBAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF09021C-2276-46ED-8DFC-158A07FCCBAB}.Default|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF09021C-2276-46ED-8DFC-158A07FCCBAB}.Default|Any CPU.Build.0 = Debug|Any CPU
+		{CF09021C-2276-46ED-8DFC-158A07FCCBAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF09021C-2276-46ED-8DFC-158A07FCCBAB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}.Default|Any CPU.ActiveCfg = Debug|Any CPU
@@ -44,6 +52,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A0E8435D-FF47-411B-95F7-0302E6DE6D9E} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
 		{CCDAA602-7A9C-463B-ABD3-719D843B7E91} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
+		{CF09021C-2276-46ED-8DFC-158A07FCCBAB} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = TestLoad\TestLoad.csproj

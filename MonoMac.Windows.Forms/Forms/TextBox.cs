@@ -4,7 +4,7 @@ using System.Drawing;
 namespace System.Windows.Forms
 {
 	[MonoMac.Foundation.Register("TextBox")]
-	public partial class TextBox : NSTextField, IControl
+	public partial class TextBox : TextBoxMouseView, IControl
 	{
 		public TextBox ()
 		{
@@ -18,8 +18,6 @@ namespace System.Windows.Forms
 			get { return this.StringValue; }
 			set { this.StringValue = value; }
 		}
-		
-		public AnchorStyles Anchor { get; set; }
 		
 		public string[] Lines
 		{
@@ -48,10 +46,6 @@ namespace System.Windows.Forms
 			set { this.Location = new PointF(this.Location.Y,value);}
 		}
 		
-		public void Focus()
-		{
-			this.BecomeFirstResponder();
-		}
 		public void Clear()
 		{
 			this.Text = string.Empty;	
