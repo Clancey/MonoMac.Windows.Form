@@ -20,7 +20,6 @@ Thumbs.db
 *.ilk
 *.log
 *.pidb
-*.g.cs
 .svn
 [Bb]in
 [Dd]ebug*/
