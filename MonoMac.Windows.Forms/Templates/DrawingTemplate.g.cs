@@ -31,7 +31,7 @@ namespace System.Windows.Forms
 				Paint (this, e);
         	shouldDraw = true;
         }
-        
+        public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{
 			if(BackColor == null)
@@ -44,7 +44,7 @@ namespace System.Windows.Forms
 	}
 	
 	
-	public partial class Button 
+	public partial class ButtonMouseView 
 	{		
 		
 		public override void DrawRect (RectangleF dirtyRect)
@@ -69,7 +69,7 @@ namespace System.Windows.Forms
 				Paint (this, e);
         	shouldDraw = true;
         }
-        
+        public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{
 			if(BackColor == null)
@@ -82,7 +82,7 @@ namespace System.Windows.Forms
 	}
 	
 	
-	public partial class TextBox 
+	public partial class TextBoxMouseView 
 	{		
 		
 		public override void DrawRect (RectangleF dirtyRect)
@@ -107,7 +107,7 @@ namespace System.Windows.Forms
 				Paint (this, e);
         	shouldDraw = true;
         }
-        
+        public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{
 			if(BackColor == null)
@@ -120,7 +120,7 @@ namespace System.Windows.Forms
 	}
 	
 	
-	public partial class ComboBox 
+	public partial class ComboBoxMouseView 
 	{		
 		
 		public override void DrawRect (RectangleF dirtyRect)
@@ -145,7 +145,7 @@ namespace System.Windows.Forms
 				Paint (this, e);
         	shouldDraw = true;
         }
-        
+        public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{
 			if(BackColor == null)
@@ -158,7 +158,7 @@ namespace System.Windows.Forms
 	}
 	
 	
-	public partial class ListBox 
+	public partial class ListBoxMouseView 
 	{		
 		
 		public override void DrawRect (RectangleF dirtyRect)
@@ -183,7 +183,7 @@ namespace System.Windows.Forms
 				Paint (this, e);
         	shouldDraw = true;
         }
-        
+        public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{
 			if(BackColor == null)
@@ -196,7 +196,7 @@ namespace System.Windows.Forms
 	}
 	
 	
-	public partial class TrackBar 
+	public partial class TrackBarMouseView 
 	{		
 		
 		public override void DrawRect (RectangleF dirtyRect)
@@ -221,7 +221,7 @@ namespace System.Windows.Forms
 				Paint (this, e);
         	shouldDraw = true;
         }
-        
+        public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{
 			if(BackColor == null)
@@ -234,7 +234,7 @@ namespace System.Windows.Forms
 	}
 	
 	
-	public partial class Panel 
+	public partial class PanelMouseView 
 	{		
 		
 		public override void DrawRect (RectangleF dirtyRect)
@@ -257,20 +257,17 @@ namespace System.Windows.Forms
         {
 			if (Paint != null)
 				Paint (this, e);
-			
-        		shouldDraw = true;
+        	shouldDraw = true;
         }
-        
+        public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{
-			
 			if(BackColor == null)
 				BackColor = Color.Transparent;
 			if(BackColor == Color.Transparent)
 				return;
 			Pen pen = new Pen(BackColor);
 			e.Graphics.DrawRectangle(pen,e.ClipRectangle);
-			
 		}
 	}
 	

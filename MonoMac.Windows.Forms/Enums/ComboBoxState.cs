@@ -1,3 +1,6 @@
+//
+// ComboBoxState.cs
+//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -17,20 +20,19 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-// Copyright (c) 2004 Novell, Inc.
+// Copyright (c) 2006 Novell, Inc.
 //
 // Authors:
-//	Peter Bartok	pbartok@novell.com
+//	Jonathan Pobst (monkey@jpobst.com)
 //
-//
 
-
-// COMPLETE
-
-namespace System.Windows.Forms {
-	public enum RightToLeft {
-		No	= 0,
-		Yes	= 1,
-		Inherit	= 2
+namespace System.Windows.Forms.VisualStyles
+{
+	public enum ComboBoxState
+	{
+		Normal = 1,
+		Hot = 2,
+		Pressed = 3,
+		Disabled = 4
 	}
 }

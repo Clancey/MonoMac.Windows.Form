@@ -9,22 +9,38 @@ using System.Collections.Generic;
 using System.ComponentModel;
 namespace System.Windows.Forms
 {
-	public partial class ListBox : ListBoxMouseView
+	
+	public partial class ListBox : Control//: ListBoxMouseView
 	{
+		internal ListBoxMouseView m_helper;
+		internal override NSView c_helper {
+			get {
+				return m_helper;
+			}
+			set {
+				m_helper = value as ListBoxMouseView;
+			}
+		}
 		public NSTableView tableView;
 		public NSTableColumn column;
 		private bool layoutSuspened;
 		public NSString colString = new NSString("ListBox");
 		public ListBox () : base ()
 		{
+			m_helper = new ListBoxMouseView();
 			_dataSource = new ListboxDataSource(this);
 			SetupTable();
 			SetupColumn();
-			this.AutohidesScrollers  = true;
-			this.HasVerticalScroller = true;
-			this.HasHorizontalScroller = false;
+			m_helper.AutohidesScrollers  = true;
+			m_helper.HasVerticalScroller = true;
+			m_helper.HasHorizontalScroller = false;
 			//this.AutoresizingMask = NSViewResizingMask.HeightSizable;
-			this.DocumentView = tableView;
+			m_helper.DocumentView = tableView;
+		}
+		
+		public static implicit operator NSView(ListBox lb)
+		{
+			return lb.c_helper;
 		}
 		public void BeginUpdate()
 		{
@@ -61,7 +77,7 @@ namespace System.Windows.Forms
 		public virtual NSView CurrentEditor {
 			get { return tableView.CurrentEditor;}
 		}
-		
+		/*
 		private new float AlphaValue {
 			get {
 				return base.AlphaValue;
@@ -74,7 +90,7 @@ namespace System.Windows.Forms
 		{
 			return base.AcceptsFirstMouse (theEvent);
 		}
-		
+		*/
 		public Color BackColor {
 			get { return tableView.BackgroundColor.ToColor();}
 			set { tableView.BackgroundColor = value.ToNSColor();}
@@ -96,7 +112,7 @@ namespace System.Windows.Forms
 		public string ValueMember {get;set;}
 		internal ListboxDataSource _dataSource;
 		
-		public new object DataSource {
+		public object DataSource {
 			get {
 				return _dataSource.dataArray;
 			}

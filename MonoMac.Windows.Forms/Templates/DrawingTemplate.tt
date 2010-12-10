@@ -17,12 +17,12 @@ namespace System.Windows.Forms
 <#
  
 string[] subfolders = new string[]{ @"UserControl",
-							  @"Button",
-							  @"TextBox",
-							  @"ComboBox",
-							  @"ListBox",
-							  @"TrackBar",
-							  @"Panel",
+							  @"ButtonMouseView",
+							  @"TextBoxMouseView",
+							  @"ComboBoxMouseView",
+							  @"ListBoxMouseView",
+							  @"TrackBarMouseView",
+							  @"PanelMouseView",
 							  };
 foreach(var folder in subfolders)
 {
@@ -52,7 +52,7 @@ foreach(var folder in subfolders)
 				Paint (this, e);
         	shouldDraw = true;
         }
-        
+        public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{
 			if(BackColor == null)

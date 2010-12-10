@@ -8,11 +8,21 @@ using System.Linq;
 using System.Collections.Generic;
 namespace System.Windows.Forms
 {
-	public partial class ComboBox : ComboBoxMouseView, IControl
+	public partial class ComboBox : Control // : ComboBoxMouseView, IControl
 	{
+		internal ComboBoxMouseView m_helper;
+		internal override NSView c_helper {
+			get {
+				return m_helper;
+			}
+			set {
+				m_helper = value as ComboBoxMouseView;
+			}
+		}
 		public ComboBox () : base ()
 		{
-			this.Activated += delegate(object sender, EventArgs e) {
+			m_helper = new ComboBoxMouseView();
+			m_helper.Activated += delegate(object sender, EventArgs e) {
 				if(SelectedIndexChanged != null)
 					SelectedIndexChanged(sender,e);
 				if(SelectedValueChanged != null)
@@ -34,16 +44,17 @@ namespace System.Windows.Forms
 				return _dataSource.dataArray;
 			}
 			set {
-				UsesDataSource = true;
+				m_helper.UsesDataSource = true;
 				_dataSource = new ComboBoxDataSource(value){DisplayMember = displayMember};
-				base.DataSource = _dataSource;
+				m_helper.DataSource = _dataSource;
 			}
 		}
 		public object SelectedItem
 		{
-			get{return _dataSource.dataArray[base.SelectedIndex];}
-			set{this.SelectItem(_dataSource.IndexOfItem(this,value));}
+			get{return _dataSource.dataArray[m_helper.SelectedIndex];}
+			set{m_helper.SelectItem(_dataSource.IndexOfItem(m_helper,value));}
 		}
+		/*
 		public override int SelectedIndex {
 			get {
 				if(!FormattingEnabled && base.SelectedIndex == -1)
@@ -51,17 +62,18 @@ namespace System.Windows.Forms
 				return base.SelectedIndex;
 			}
 		}
+		*/
 		public bool FormattingEnabled {get;set;}
 		
 		public object SelectedValue
 		{
-			get{return _dataSource.GetSelectedValue(this);}
-			set {_dataSource.SetSelectedValue(this,value);}
+			get{return _dataSource.GetSelectedValue(m_helper);}
+			set {_dataSource.SetSelectedValue(m_helper,value);}
 		}
 		public string Text
 		{
-			get{return this.StringValue;}
-			set{this.StringValue = value;}
+			get{return m_helper.StringValue;}
+			set{m_helper.StringValue = value;}
 		}
 		#region Events
 		public EventHandler SelectedIndexChanged {get;set;}

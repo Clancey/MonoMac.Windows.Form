@@ -15,7 +15,6 @@ class MyForm : Form
 	private System.Windows.Forms.ComboBox comboBox1;
 	private System.Windows.Forms.ListBox listbox1;
 	private System.Windows.Forms.TrackBar trackBar1;
-	private RoundButton roundButton1;
 	public MyForm ()
 	{
 		this.listbox1 = new System.Windows.Forms.ListBox();
@@ -47,13 +46,6 @@ class MyForm : Form
 		trackBar1.Value = 20;	
 		trackBar1.Minimum = 10;
 		// 
-		// roundButton1
-		// 
-		this.roundButton1 = new RoundButton();		
-		this.roundButton1.Size = new SizeF(100,30);
-		this.roundButton1.Location = new PointF(75,10);
-		this.roundButton1.Text = "test button";
-		// 
 		// button1
 		// 
 		this.button1.Location = new System.Drawing.Point (78, 76);
@@ -70,7 +62,7 @@ class MyForm : Form
 		this.textBox1.Font = new System.Drawing.Font ("Arial", 7f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 		this.textBox1.Location = new System.Drawing.Point (78, 118);
 		this.textBox1.Name = "textBox1";
-		this.textBox1.Size = new System.Drawing.Size (100, 100);
+		this.textBox1.Size = new System.Drawing.Size (100, 25);
 		this.textBox1.TabIndex = 1;
 		//this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
 		// 
@@ -115,7 +107,6 @@ class MyForm : Form
 		this.Controls.Add (this.textBox2);
 		this.Controls.Add (this.textBox1);
 		this.Controls.Add (this.button1);
-		this.Controls.Add (this.roundButton1);
 		this.Controls.Add(this.trackBar1);
 		this.Name = "Form1";
 		this.Text = "Form1";

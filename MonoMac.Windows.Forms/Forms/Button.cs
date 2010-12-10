@@ -8,24 +8,34 @@ namespace System.Windows.Forms
 {
 	
 	[MonoMac.Foundation.Register("Button")]
-	public partial class Button : ButtonMouseView, IControl
+	public partial class Button : Control //: ButtonMouseView, IControl
 	{
+		internal ButtonMouseView m_helper;
+		internal override  NSView c_helper {
+			get {
+				return m_helper;
+			}
+			set {
+				m_helper = value as ButtonMouseView;
+			}
+		}
 		public Button () : base()
 		{
-			this.BezelStyle = NSBezelStyle.Rounded;
+			m_helper = new ButtonMouseView();
+			m_helper.BezelStyle = NSBezelStyle.Rounded;
 			
-			this.Activated += delegate(object sender, EventArgs e) {
+			m_helper.Activated += delegate(object sender, EventArgs e) {
 				if (Click != null)
 					Click (sender, e);
 			};
-			this.Frame = new System.Drawing.RectangleF (0, 0, 100, 25);
+			m_helper.Frame = new System.Drawing.RectangleF (0, 0, 100, 25);
 			//this.Font = NSFont.FromFontName("Arial",11);
 			
 		}
 		public string Text {
-			get { return this.Title; }
+			get { return m_helper.Title; }
 			set {
-				this.Title = value;
+				m_helper.Title = value;
 				resize();
 			}
 		}
@@ -41,8 +51,8 @@ namespace System.Windows.Forms
 		public bool UseVisualStyleBackColor {get;set;}
 
 		public Color BackColor {
-			get {return Cell.BackgroundColor.ToColor();	}
-			set { Cell.BackgroundColor = value.ToNSColor();}
+			get {return m_helper.Cell.BackgroundColor.ToColor();	}
+			set { m_helper.Cell.BackgroundColor = value.ToNSColor();}
 		}
 		
 		public DialogResult DialogResult {get;set;}
@@ -65,7 +75,7 @@ namespace System.Windows.Forms
 		{
 			if (!AutoSize)
 				return;
-			this.SizeToFit ();
+			m_helper.SizeToFit ();
 		}
 
 	}

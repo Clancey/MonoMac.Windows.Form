@@ -23,7 +23,7 @@ namespace System.Windows.Forms
 	}
 	
 	
-	public partial class Button 
+	public partial class ButtonMouseView 
 	{	
 		public new System.Drawing.Font Font
 		{
@@ -40,7 +40,7 @@ namespace System.Windows.Forms
 	}
 	
 	
-	public partial class TextBox 
+	public partial class TextBoxMouseView 
 	{	
 		public new System.Drawing.Font Font
 		{
@@ -57,7 +57,7 @@ namespace System.Windows.Forms
 	}
 	
 	
-	public partial class ComboBox 
+	public partial class ComboBoxMouseView 
 	{	
 		public new System.Drawing.Font Font
 		{

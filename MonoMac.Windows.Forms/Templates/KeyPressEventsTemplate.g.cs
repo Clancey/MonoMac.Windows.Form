@@ -8,6 +8,7 @@ namespace System.Windows.Forms
 {
 	public partial class TextBox 
 	{	
+	/*
 		public override void KeyDown (NSEvent theEvent)
 		{
 			base.KeyDown (theEvent);
@@ -34,11 +35,13 @@ namespace System.Windows.Forms
 	    public event KeyPressEventHandler KeyPress;
         public event KeyEventHandler OnKeyUp;
         public event KeyEventHandler OnKeyDown;
+        */
 	}
 	
 	
 	public partial class ComboBox 
 	{	
+	/*
 		public override void KeyDown (NSEvent theEvent)
 		{
 			base.KeyDown (theEvent);
@@ -65,6 +68,7 @@ namespace System.Windows.Forms
 	    public event KeyPressEventHandler KeyPress;
         public event KeyEventHandler OnKeyUp;
         public event KeyEventHandler OnKeyDown;
+        */
 	}
 	
 	

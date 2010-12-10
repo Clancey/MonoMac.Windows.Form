@@ -28,13 +28,13 @@ namespace System.Windows.Forms
 				Parent.onPaintBackground (events);
 				Parent.onPaint (events);
 			}
-			if(shouldDraw)
-				base.DrawRect(dirtyRect);
+			if (shouldDraw)
+				base.DrawRect (dirtyRect);
 		}
 
 		public override void MouseUp (NSEvent theEvent)
 		{
-			PointF point = this.ConvertPointfromView(theEvent.LocationInWindow,null);
+			PointF point = this.ConvertPointfromView (theEvent.LocationInWindow, null);
 			
 			var button = (MouseButtons)theEvent.ButtonNumber;
 			this.Parent.FireMouseUp (Parent, new MouseEventArgs (button, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
@@ -42,13 +42,13 @@ namespace System.Windows.Forms
 		}
 		public override void MouseDown (NSEvent theEvent)
 		{
-			PointF point = this.ConvertPointfromView(theEvent.LocationInWindow,null);
+			PointF point = this.ConvertPointfromView (theEvent.LocationInWindow, null);
 			this.Parent.FireMouseDown (Parent, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
 			base.MouseDown (theEvent);
 		}
 		public override void MouseDragged (NSEvent theEvent)
 		{
-			PointF point = this.ConvertPointfromView(theEvent.LocationInWindow,null);
+			PointF point = this.ConvertPointfromView (theEvent.LocationInWindow, null);
 			this.Parent.FireMouseMove (Parent, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
 			
 			base.MouseDragged (theEvent);
@@ -61,61 +61,89 @@ namespace System.Windows.Forms
 		}
 	}
 
-
-
-	[MonoMac.Foundation.Register("Form")]
-	public partial class Form : NSWindow
+	[MonoMac.Foundation.Register("FormHelper")]
+	class FormHelper : NSWindow
 	{
+		Form m_parent;
+		internal FormHelper (Form parent, RectangleF r, NSWindowStyle ws, NSBackingStore back, bool flag) : base(r, ws, back, flag)
+		{
+			m_parent = parent;
+		}
+
+		public override void BecomeKeyWindow ()
+		{
+			base.BecomeKeyWindow ();
+			m_parent.CallLoad ();
+		}
+		
+	}
+
+	//[MonoMac.Foundation.Register("Form")]
+	public partial class Form : Control
+	{
+		//: NSWindow
+		internal FormHelper m_helper;
 		private bool maximizeBox = true;
 		private bool minimizeBox = true;
-		private controls theControls;
-		public Form () : base(new RectangleF (50, 50, 400, 400), (NSWindowStyle)(1 | (1 << 1) | (1 << 2) | (1 << 3)), NSBackingStore.Buffered, false)
+		//: base(new RectangleF (50, 50, 400, 400), (NSWindowStyle)(1 | (1 << 1) | (1 << 2) | (1 << 3)), NSBackingStore.Buffered, false)
+		public Form ()
 		{
-			theControls = new controls (this);
-			ContentView = new View (this);
-			setStyle();
+			m_helper = new FormHelper (this, new RectangleF (50, 50, 400, 400), (NSWindowStyle)(1 | (1 << 1) | (1 << 2) | (1 << 3)), NSBackingStore.Buffered, false);
+			m_helper.ContentView = new View (this);
+			setStyle ();
 			//this.StandardWindowButton().Image
 		}
-		public bool MaximizeBox
-		{
-			get {return maximizeBox;}
-			set {maximizeBox = value; setStyle();}
+		public bool MaximizeBox {
+			get { return maximizeBox; }
+			set {
+				maximizeBox = value;
+				setStyle ();
+			}
 		}
-		public bool MinimizeBox
-		{
-			get {return minimizeBox;}
-			set {minimizeBox = value; setStyle();}
+		public bool MinimizeBox {
+			get { return minimizeBox; }
+			set {
+				minimizeBox = value;
+				setStyle ();
+			}
 		}
-		private void setStyle()
+		private void setStyle ()
 		{
-			this.StyleMask = (NSWindowStyle)(1 |  (1 << 1)| (minimizeBox ? 4 : 1) | (maximizeBox ? 8 : 1));
+			m_helper.StyleMask = (NSWindowStyle)(1 | (1 << 1) | (minimizeBox ? 4 : 1) | (maximizeBox ? 8 : 1));
 		}
 		public void Show ()
 		{
-			this.MakeKeyAndOrderFront (this);
+			m_helper.MakeKeyAndOrderFront (m_helper);
 			//Controls.SetTab ();
 		}
 		public void Close ()
 		{
-			if (NSApplication.SharedApplication.ModalWindow == this)
+			if (NSApplication.SharedApplication.ModalWindow == m_helper)
 				NSApplication.SharedApplication.StopModal ();
-			this.PerformClose (this);
+			m_helper.PerformClose (m_helper);
 		}
 
+		internal NSView ContentView {
+			get { return m_helper.ContentView; }
+		}
 
 		public Rectangle ClientRectangle {
-			get { return Rectangle.Round (this.ContentView.Frame); }
+			get { return Rectangle.Round (m_helper.ContentView.Frame); }
 		}
-
-		public void ShowDialog ()
+		public DialogResult ShowDialog (IWin32Window parent)
+		{
+			return ShowDialog ();
+		}
+		public DialogResult ShowDialog ()
 		{
 			
 			//this.MakeKeyAndOrderFront (this);
-			NSApplication.SharedApplication.BeginSheet (this, NSApplication.SharedApplication.MainWindow);
-			NSApplication.SharedApplication.RunModalForWindow (this);
-			NSApplication.SharedApplication.EndSheet (this);
-			this.OrderOut (this);
+			NSApplication.SharedApplication.BeginSheet (m_helper, NSApplication.SharedApplication.MainWindow);
+			NSApplication.SharedApplication.RunModalForWindow (m_helper);
+			NSApplication.SharedApplication.EndSheet (m_helper);
+			m_helper.OrderOut (m_helper);
 			//NSApplication.SharedApplication.BeginSheet(this,NSApplication.SharedApplication.MainWindow);
+			return DialogResult.OK;
 		}
 		/// <summary>
 		/// Drawing stuff
@@ -128,39 +156,41 @@ namespace System.Windows.Forms
 		protected virtual void OnPaint (PaintEventArgs e)
 		{
 			if (Paint != null)
-				Paint (this, e);
-			(this.ContentView as View).shouldDraw = true;
+				Paint (m_helper, e);
+			(m_helper.ContentView as View).shouldDraw = true;
 			
 		}
 		public Graphics CreateGraphics ()
 		{
-		 	var graphics = Graphics.FromHwnd (ContentView.Handle);
+			var graphics = Graphics.FromHwnd (m_helper.ContentView.Handle);
 			
 			//graphics.TranslateTransform(Frame.Width / 2,Frame.Height / 2 );
 			//graphics.Transform = new System.Drawing.Drawing2D.Matrix(1,0,0,-1,0,0);
 			return graphics;
 		}
-		
+
 		[Obsolete("Not Implemented.", false)]
-		public AutoScaleMode AutoScaleMode {get;set;}
-		
+		public AutoScaleMode AutoScaleMode { get; set; }
+
 		[Obsolete("Not Implemented.", false)]
-		public SizeF AutoScaleDimensions {get;set;}
-		
+		public SizeF AutoScaleDimensions { get; set; }
+
 		[Obsolete("Not Implemented.", false)]
-		public Icon Icon {get;set;}
-		
+		public Icon Icon { get; set; }
+
 		[Obsolete("Not Implemented.", false)]
-		public Button AcceptButton {get;set;}
-		
+		public Button AcceptButton { get; set; }
+
 		[Obsolete("Not Implemented.", false)]
-		public Button CancelButton {get;set;}
-		
+		public Button CancelButton { get; set; }
+
 		public bool Visible {
-			get{return IsVisible;}
-			set{IsVisible = value;}
+			get { return m_helper.IsVisible; }
+			set { m_helper.IsVisible = value; }
 		}
-		public bool Modal{get{return IsSheet;}}
+		public bool Modal {
+			get { return m_helper.IsSheet; }
+		}
 
 		public PaintEventHandler Paint { get; set; }
 
@@ -171,7 +201,7 @@ namespace System.Windows.Forms
 		}
 		protected virtual void OnPaintBackground (PaintEventArgs e)
 		{
-			if (BackColor == null)
+			if (BackColor == Color.Empty)
 				BackColor = Color.Transparent;
 			if (BackColor == Color.Transparent)
 				return;
@@ -187,10 +217,10 @@ namespace System.Windows.Forms
 		}
 		*/
 
-		public controls Controls {
+		public override ControlCollection Controls {
 			get {
 				if (theControls == null)
-					theControls = new controls (this);
+					theControls = new ControlCollection (m_helper.ContentView);
 				return theControls;
 			}
 		}
@@ -201,26 +231,25 @@ namespace System.Windows.Forms
 		}
 		*/
 		public string Text {
-			get { return this.Title; }
-			set { this.Title = value; }
+			get { return m_helper.Title; }
+			set { m_helper.Title = value; }
 		}
 		public object components { get; set; }
 		public void SuspendLayout ()
 		{
 			
 		}
-		public DialogResult DialogResult{get;set;}
+		public DialogResult DialogResult { get; set; }
 		public void ResumeLayout (bool action)
 		{
-			this.ContentView.DisplayIfNeeded ();
+			m_helper.ContentView.DisplayIfNeeded ();
 		}
 		public void PerformLayout ()
 		{
-			this.ContentView.SetNeedsDisplayInRect (this.ContentView.Frame);
+			m_helper.ContentView.SetNeedsDisplayInRect (m_helper.ContentView.Frame);
 		}
-		public override void BecomeKeyWindow ()
+		internal void CallLoad ()
 		{
-			base.BecomeKeyWindow ();
 			if (Load != null)
 				Load (this, new EventArgs ());
 		}
@@ -228,14 +257,14 @@ namespace System.Windows.Forms
 
 		#region From Template
 		public string Name { get; set; }
-		public SizeF Size {
-			get { return this.Frame.Size; }
-			set { this.SetFrame (new RectangleF (this.Frame.Location, value), true); }
+		public override SizeF Size {
+			get { return m_helper.Frame.Size; }
+			set { m_helper.SetFrame (new RectangleF (m_helper.Frame.Location, value), true); }
 		}
 
-		public PointF Location {
-			get { return this.Frame.Location; }
-			set { this.SetFrame (new RectangleF (value, this.Frame.Size), true); }
+		public override PointF Location {
+			get { return m_helper.Frame.Location; }
+			set { m_helper.SetFrame (new RectangleF (value, m_helper.Frame.Size), true); }
 		}
 		/*
 		public Rectangle ClientRectangle
@@ -244,17 +273,17 @@ namespace System.Windows.Forms
 			set{ this.Bounds = value;}
 		}
 		*/
-		public SizeF ClientSize {
-			get { return this.Frame.Size; }
-			set { this.SetFrame (new RectangleF (this.Frame.Location, value), true); }
+		public override Size ClientSize {
+			get { return new Size ((int)m_helper.Frame.Size.Width, (int)m_helper.Frame.Size.Height); }
+			set { m_helper.SetFrame (new RectangleF (m_helper.Frame.Location, value), true); }
 		}
 
-		public float Width {
+		public override float Width {
 			get { return this.Size.Width; }
 			set { this.Size = new SizeF (value, this.Size.Height); }
 		}
 
-		public float Height {
+		public override float Height {
 			get { return this.Size.Height; }
 			set { this.Size = new SizeF (this.Size.Width, value); }
 		}
@@ -305,133 +334,33 @@ namespace System.Windows.Forms
 
 		public event EventHandler AutoSizeChanged;
 		public event EventHandler AutoValidateChanged;
-		public void FireMouseDown(object sender,MouseEventArgs e)
+		public void FireMouseDown (object sender, MouseEventArgs e)
 		{
-			if(MouseDown !=null)
-				MouseDown(sender,e);
+			if (MouseDown != null)
+				MouseDown (sender, e);
 		}
 		public event MouseEventHandler MouseDown;
-		public void FireMouseUp(object sender, MouseEventArgs e)
+		public void FireMouseUp (object sender, MouseEventArgs e)
 		{
-			if(MouseUp != null)
-				MouseUp(sender,e);
+			if (MouseUp != null)
+				MouseUp (sender, e);
 		}
 		public event MouseEventHandler MouseUp;
 		public event EventHandler GotFocus;
-		public void FireMouseMove(object sender,MouseEventArgs e)
+		public void FireMouseMove (object sender, MouseEventArgs e)
 		{
-			if(MouseMove != null)
-				MouseMove(sender,e);
+			if (MouseMove != null)
+				MouseMove (sender, e);
 		}
 		public event MouseEventHandler MouseMove;
 		public event MouseEventHandler MouseDoubleClick;
 		public event EventHandler SizeChanged;
-
-
-
+		
+		
+		
 		#endregion
-
-		public class controls
-		{
-			private Form theForm;
-			public controls (Form form)
-			{
-				theForm = form;
-			}
-
-
-			public void Add (NSView item)
-			{
-				theForm.ContentView.AddSubview (item);
-				SetTab ();
-			}
-			public void AddRange(NSView[] InControls)
-			{
-				foreach(var view in InControls)
-				{
-					theForm.ContentView.AddSubview(view);	
-				}
-			}
-
-			public void Clear ()
-			{
-				foreach (var view in theForm.ContentView.Subviews)
-				{
-					view.RemoveFromSuperview ();
-				}
-			}
-
-			public bool Contains (NSView item)
-			{
-				return theForm.ContentView.Subviews.Contains (item);
-			}
-
-			public void CopyTo (NSView[] array, int arrayIndex)
-			{
-				theForm.ContentView.Subviews.CopyTo (array, arrayIndex);
-			}
-
-			public bool Remove (NSView item)
-			{
-				item.RemoveFromSuperview ();
-				SetTab ();
-				return true;
-				
-			}
-
-			public int Count {
-				get { return theForm.ContentView.Subviews.Count (); }
-			}
-
-			public bool IsReadOnly {
-				get { return false; }
-			}
-
-			public int IndexOf (NSView item)
-			{
-				return theForm.ContentView.Subviews.ToList ().IndexOf (item);
-				
-			}
-
-			public void Insert (int index, NSView item)
-			{
-				if (index == 0)
-				{
-					theForm.ContentView.AddSubview (item, NSWindowOrderingMode.Below, null);
-					return;
-				}
-				
-				var rowBelow = theForm.ContentView.Subviews[index - 1];
-				theForm.ContentView.AddSubview (item, NSWindowOrderingMode.Below, rowBelow);
-				SetTab ();
-			}
-
-			public void RemoveAt (int index)
-			{
-				theForm.ContentView.Subviews[index].RemoveFromSuperview ();
-				SetTab ();
-			}
-
-			public NSView this[int index] {
-				get { return theForm.ContentView.Subviews[index]; }
-
-				set { theForm.ContentView.Subviews[index] = value; }
-			}
-			//TODO: Make it work, It doesn't work as is
-			public void SetTab ()
-			{
-			}
-		}
-			/*
-				var controls = theForm.ContentView.Subviews.OrderBy (x => x.Tag).ToList ();
-				for (int i = 0; i < controls.Count - 1; i++)
-				{
-					var firstControl = controls[i];
-					var nextControl = controls[i + 1];
-					firstControl.NextResponder = nextControl;
-				}
-				*/			
-			
-			}
+		
+		
+	}
 }
 

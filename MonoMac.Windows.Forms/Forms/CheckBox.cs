@@ -7,19 +7,19 @@ namespace System.Windows.Forms
 	{
 		public CheckBox () : base()
 		{
-			this.SetButtonType(NSButtonType.Switch);
+			m_helper.SetButtonType(NSButtonType.Switch);
 			
 		}
 		
 		public bool Checked 
 		{
-			get { return this.State == NSCellStateValue.On;}
-			set { this.State = value ? NSCellStateValue.On : NSCellStateValue.Off;}
+			get { return m_helper.State == NSCellStateValue.On;}
+			set { m_helper.State = value ? NSCellStateValue.On : NSCellStateValue.Off;}
 		}
 		public CheckState CheckState
 		{
 			get {
-				switch (this.State)
+				switch (m_helper.State)
 				{
 					case NSCellStateValue.On: return CheckState.Checked;
 					case NSCellStateValue.Off : return CheckState.Unchecked;
@@ -30,13 +30,13 @@ namespace System.Windows.Forms
 			set{
 				switch(value){
 				case System.Windows.Forms.CheckState.Checked :
-					this.State = NSCellStateValue.On;
+					m_helper.State = NSCellStateValue.On;
 					break;
 				case System.Windows.Forms.CheckState.Unchecked:
-					this.State = NSCellStateValue.Off;
+					m_helper.State = NSCellStateValue.Off;
 					break;
 				case System.Windows.Forms.CheckState.Indeterminate : 
-					this.State = NSCellStateValue.Mixed;
+					m_helper.State = NSCellStateValue.Mixed;
 					break;
 				}
 			}
@@ -44,8 +44,8 @@ namespace System.Windows.Forms
 		
 		public bool ThreeState
 		{
-			get{ return this.AllowsMixedState;}
-			set { this.AllowsMixedState = value;}
+			get{ return m_helper.AllowsMixedState;}
+			set { m_helper.AllowsMixedState = value;}
 		}
 	}
 }

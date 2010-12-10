@@ -80,7 +80,7 @@ namespace MouseEvent
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(320, 120);
             this.label9.Size = new System.Drawing.Size(35, 13);
-
+			/*
             // Mouse Panel
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
                 | System.Windows.Forms.AnchorStyles.Right);
@@ -95,7 +95,7 @@ namespace MouseEvent
             this.panel1.MouseLeave += new System.EventHandler(this.panel1_MouseLeave);
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
             this.panel1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseWheel);
-
+			 */
             // Clear Button
             this.clearButton.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
             this.clearButton.Location = new System.Drawing.Point(592, 504);
@@ -112,7 +112,7 @@ namespace MouseEvent
 
             // Set up how the form should be displayed and add the controls to the form.
             this.ClientSize = new System.Drawing.Size(696, 534);
-            this.Controls.AddRange(new MonoMac.AppKit.NSView[] {
+            this.Controls.AddRange(new Control[] {
                                         this.label9,this.label8,this.label7,this.label6,
                                         this.label5,this.label4,this.label3,this.label2,
                                         this.clearButton,this.panel1,this.label1});
@@ -167,8 +167,8 @@ namespace MouseEvent
             {
                 mousePath.AddLine(mouseDownLocation,mouseDownLocation);
             }
-            panel1.Focus();
-            panel1.Invalidate();
+           // panel1.Focus();
+           // panel1.Invalidate();
         }
 
         private void panel1_MouseEnter(object sender, System.EventArgs e) 
@@ -210,7 +210,7 @@ namespace MouseEvent
                 translateMatrix.Translate(0, numberOfPixelsToMove);
                 mousePath.Transform(translateMatrix);
             }
-            panel1.Invalidate();
+            //panel1.Invalidate();
         }
         private void panel1_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e) 
         {
@@ -222,7 +222,7 @@ namespace MouseEvent
                         FontFamily.GenericSerif, (int)FontStyle.Bold, 
                         fontSize, mouseUpLocation, StringFormat.GenericDefault);
 
-            panel1.Invalidate();
+            //panel1.Invalidate();
         }
 
         private void panel1_Paint(object sender, System.Windows.Forms.PaintEventArgs e) 
@@ -236,7 +236,7 @@ namespace MouseEvent
             // Clear the Panel display.
             mousePath.Dispose();
             mousePath = new System.Drawing.Drawing2D.GraphicsPath();
-            panel1.Invalidate();
+            //panel1.Invalidate();
         }
     }
 }

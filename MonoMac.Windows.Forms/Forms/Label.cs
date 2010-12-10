@@ -6,10 +6,10 @@ namespace System.Windows.Forms
 	{
 		public Label ()
 		{
-			this.Selectable = false;
-			this.Editable = false;
+			m_helper.Selectable = false;
+			m_helper.Editable = false;
 			//this.Font = NSFont.FromFontName ("Arial", 10);
-			this.Bordered = false;
+			m_helper.Bordered = false;
 		}
 		public bool AutoSize { get; set; }
 
@@ -20,15 +20,17 @@ namespace System.Windows.Forms
 				resize ();
 			}
 		}
+		/*
 		public override bool AcceptsFirstResponder ()
 		{
 			return false;
 		}
+		*/
 		private void resize ()
 		{
 			if (!AutoSize)
 				return;
-			this.SizeToFit ();
+			m_helper.SizeToFit ();
 		}
 	}
 }

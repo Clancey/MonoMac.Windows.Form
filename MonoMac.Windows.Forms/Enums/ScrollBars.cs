@@ -22,15 +22,15 @@
 // Authors:
 //	Peter Bartok	pbartok@novell.com
 //
-//
 
 
 // COMPLETE
 
 namespace System.Windows.Forms {
-	public enum RightToLeft {
-		No	= 0,
-		Yes	= 1,
-		Inherit	= 2
+	public enum ScrollBars {
+		None		= 0,
+		Horizontal	= 1,
+		Vertical	= 2,
+		Both		= 3
 	}
 }

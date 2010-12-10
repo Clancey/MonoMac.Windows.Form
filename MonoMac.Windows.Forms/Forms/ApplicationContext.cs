@@ -22,8 +22,8 @@ namespace System.Windows.Forms
 		{
 			if (mainFormFunc != null)
 				main_form = mainFormFunc ();
-			main_form.MakeKeyAndOrderFront (this);
-			main_form.DidChangeScreen += delegate(object sender, EventArgs e) { main_form.Display (); };
+			main_form.m_helper.MakeKeyAndOrderFront (this);
+			main_form.m_helper.DidChangeScreen += delegate(object sender, EventArgs e) { main_form.m_helper.Display (); };
 		}
 
 		public ApplicationContext (Form mainForm)

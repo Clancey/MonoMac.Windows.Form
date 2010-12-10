@@ -9,7 +9,6 @@ namespace System.Windows.Forms
 	public partial class UserControl : UserControlMouseView , IControl
 	{		
 		public string Text {get;set;}
-		public Color BackColor {get;set;}
 		
 		public override bool IsFlipped {
 			get {

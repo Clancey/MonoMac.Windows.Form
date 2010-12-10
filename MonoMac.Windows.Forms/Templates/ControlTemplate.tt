@@ -20,7 +20,6 @@ string[] subfolders = new string[]{ @"UserControl",
 							  @"Button",
 							  @"TextBox",
 							  @"ComboBox",
-							  @"ListBox",
 							  @"TrackBar",
 							  @"Panel",
 							  };
@@ -29,6 +28,7 @@ foreach(var folder in subfolders)
 #>
 	public partial class <#= folder #> 
 	{	
+		/*
 		public string Name { get; set; }
 		public SizeF Size {
 			get { return this.Frame.Size; }
@@ -54,7 +54,7 @@ foreach(var folder in subfolders)
 			get {return this.Bounds.Size;}
 			set {this.SetBoundsSize(value);}
 		}
-				public float Width
+		public float Width
 		{
 			get{return this.Size.Width;}
 			set {this.Size = new SizeF(value,this.Size.Height);}
@@ -208,6 +208,7 @@ foreach(var folder in subfolders)
 			if(MouseMove!= null)
 				MouseMove(this,new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));	
 		}
+		*/
 		public event MouseEventHandler MouseDown;
 		public event MouseEventHandler MouseUp;
 		public event MouseEventHandler MouseMove;
@@ -217,7 +218,7 @@ foreach(var folder in subfolders)
 		public event EventHandler MouseHover;
 		public event EventHandler MouseLeave;
 		
-		#endregion
+		//#endregion
 				
 	}
 	

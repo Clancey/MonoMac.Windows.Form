@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.MonoMac.Windows.Forms.Tests</string>
+	<string>com.yourcompany.TextboxSample</string>
 	<key>CFBundleName</key>
-	<string>MonoMac.Windows.Forms.Tests</string>
+	<string>TextboxSample</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSMinimumSystemVersion</key>

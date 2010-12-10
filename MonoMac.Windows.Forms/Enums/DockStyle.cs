@@ -17,20 +17,24 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-// Copyright (c) 2004 Novell, Inc.
+// Copyright (c) 2004-2005 Novell, Inc.
 //
 // Authors:
 //	Peter Bartok	pbartok@novell.com
-//
 //
 
 
 // COMPLETE
 
+using System.ComponentModel;
+
 namespace System.Windows.Forms {
-	public enum RightToLeft {
-		No	= 0,
-		Yes	= 1,
-		Inherit	= 2
+	public enum DockStyle {
+		None	= 0,
+		Top	= 1,
+		Bottom	= 2,
+		Left	= 3,
+		Right	= 4,
+		Fill	= 5
 	}
 }
