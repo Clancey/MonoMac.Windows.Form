@@ -30,14 +30,14 @@ class MyForm : Form
 		// 
 		// listbox1
 		// 
-		listbox1.Size = new SizeF(100,75);
-		listbox1.Location = new PointF(300,10);		
+		listbox1.Size = new Size(100,75);
+		listbox1.Location = new Point(300,10);		
 		listbox1.DataSource = new List<string> { "test", "test2", "test3", "test4", "test5", "test6", "test7" };
 		listbox1.BackColor = Color.Green;
 		// 
 		// trackBar1
 		// 
-		trackBar1.Location = new PointF(300,90);		
+		trackBar1.Location = new Point(300,90);		
         trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
         trackBar1.Maximum = 30;	
         trackBar1.TickFrequency = 5;

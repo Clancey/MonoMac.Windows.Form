@@ -7,14 +7,19 @@ using System.Collections;
 using System.Drawing.Drawing2D;
 namespace System.Windows.Forms
 {
-	public class View : NSView
+	public class View : NSView, IViewHelper
 	{
 		public Form Parent;
 
 		public View (Form parent)
 		{
 			Parent = parent;
+			Host = parent;
 		}
+		
+		public Control Host {get;set;}
+		public NSCursor Cursor {get;set;}
+		
 		public override bool IsFlipped {
 			get { return true; }
 		}
@@ -217,11 +222,11 @@ namespace System.Windows.Forms
 		}
 		*/
 
-		public override ControlCollection Controls {
+		internal override ControlCollection controls {
 			get {
-				if (theControls == null)
-					theControls = new ControlCollection (m_helper.ContentView);
-				return theControls;
+				if (child_controls == null)
+					child_controls = new ControlCollection (m_helper.ContentView);
+				return child_controls;
 			}
 		}
 		/*
@@ -257,13 +262,13 @@ namespace System.Windows.Forms
 
 		#region From Template
 		public string Name { get; set; }
-		public override SizeF Size {
-			get { return m_helper.Frame.Size; }
+		internal override Size size {
+			get { return Size.Round(m_helper.Frame.Size); }
 			set { m_helper.SetFrame (new RectangleF (m_helper.Frame.Location, value), true); }
 		}
 
-		public override PointF Location {
-			get { return m_helper.Frame.Location; }
+		internal override Point location {
+			get { return Point.Round(m_helper.Frame.Location); }
 			set { m_helper.SetFrame (new RectangleF (value, m_helper.Frame.Size), true); }
 		}
 		/*
@@ -273,21 +278,11 @@ namespace System.Windows.Forms
 			set{ this.Bounds = value;}
 		}
 		*/
-		public override Size ClientSize {
+		internal override Size clientSize {
 			get { return new Size ((int)m_helper.Frame.Size.Width, (int)m_helper.Frame.Size.Height); }
 			set { m_helper.SetFrame (new RectangleF (m_helper.Frame.Location, value), true); }
 		}
-
-		public override float Width {
-			get { return this.Size.Width; }
-			set { this.Size = new SizeF (value, this.Size.Height); }
-		}
-
-		public override float Height {
-			get { return this.Size.Height; }
-			set { this.Size = new SizeF (this.Size.Width, value); }
-		}
-
+		
 		public BorderStyle BorderStyle { get; set; }
 
 		/*

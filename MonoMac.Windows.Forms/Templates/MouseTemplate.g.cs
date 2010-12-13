@@ -6,8 +6,24 @@ using System.Drawing;
 using MonoMac.Foundation;
 namespace System.Windows.Forms
 {
-	public partial class ButtonMouseView : NSButton
+	public partial class ButtonHelper : NSButton , IViewHelper
 	{
+		public Control Host {get;set;}
+		public NSCursor Cursor {get;set;}
+		public override void ResetCursorRects ()
+		{
+			base.ResetCursorRects ();
+			if(Cursor == null)
+				Cursor = NSCursor.ArrowCursor;
+			this.AddCursorRectcursor(this.Bounds,Cursor);
+		}
+		public event EventHandler viewDidMoveToSuperview;
+		public override void ViewDidMoveToSuperview ()
+		{
+			base.ViewDidMoveToSuperview ();
+			if(viewDidMoveToSuperview != null)
+				viewDidMoveToSuperview(this,new EventArgs());
+		}
 		public override void MouseUp (NSEvent theEvent)
 		{
 			base.MouseUp (theEvent);
@@ -120,8 +136,24 @@ namespace System.Windows.Forms
 
 
 	
-	public partial class TextBoxMouseView : NSTextField
+	public partial class TextBoxMouseView : NSTextField , IViewHelper
 	{
+		public Control Host {get;set;}
+		public NSCursor Cursor {get;set;}
+		public override void ResetCursorRects ()
+		{
+			base.ResetCursorRects ();
+			if(Cursor == null)
+				Cursor = NSCursor.ArrowCursor;
+			this.AddCursorRectcursor(this.Bounds,Cursor);
+		}
+		public event EventHandler viewDidMoveToSuperview;
+		public override void ViewDidMoveToSuperview ()
+		{
+			base.ViewDidMoveToSuperview ();
+			if(viewDidMoveToSuperview != null)
+				viewDidMoveToSuperview(this,new EventArgs());
+		}
 		public override void MouseUp (NSEvent theEvent)
 		{
 			base.MouseUp (theEvent);
@@ -234,8 +266,24 @@ namespace System.Windows.Forms
 
 
 	
-	public partial class ComboBoxMouseView : NSComboBox
+	public partial class ComboBoxMouseView : NSComboBox , IViewHelper
 	{
+		public Control Host {get;set;}
+		public NSCursor Cursor {get;set;}
+		public override void ResetCursorRects ()
+		{
+			base.ResetCursorRects ();
+			if(Cursor == null)
+				Cursor = NSCursor.ArrowCursor;
+			this.AddCursorRectcursor(this.Bounds,Cursor);
+		}
+		public event EventHandler viewDidMoveToSuperview;
+		public override void ViewDidMoveToSuperview ()
+		{
+			base.ViewDidMoveToSuperview ();
+			if(viewDidMoveToSuperview != null)
+				viewDidMoveToSuperview(this,new EventArgs());
+		}
 		public override void MouseUp (NSEvent theEvent)
 		{
 			base.MouseUp (theEvent);
@@ -348,8 +396,24 @@ namespace System.Windows.Forms
 
 
 	
-	public partial class ListBoxMouseView : NSScrollView
+	public partial class ListBoxMouseView : NSScrollView , IViewHelper
 	{
+		public Control Host {get;set;}
+		public NSCursor Cursor {get;set;}
+		public override void ResetCursorRects ()
+		{
+			base.ResetCursorRects ();
+			if(Cursor == null)
+				Cursor = NSCursor.ArrowCursor;
+			this.AddCursorRectcursor(this.Bounds,Cursor);
+		}
+		public event EventHandler viewDidMoveToSuperview;
+		public override void ViewDidMoveToSuperview ()
+		{
+			base.ViewDidMoveToSuperview ();
+			if(viewDidMoveToSuperview != null)
+				viewDidMoveToSuperview(this,new EventArgs());
+		}
 		public override void MouseUp (NSEvent theEvent)
 		{
 			base.MouseUp (theEvent);
@@ -462,8 +526,24 @@ namespace System.Windows.Forms
 
 
 	
-	public partial class TrackBarMouseView : NSSlider
+	public partial class TrackBarMouseView : NSSlider , IViewHelper
 	{
+		public Control Host {get;set;}
+		public NSCursor Cursor {get;set;}
+		public override void ResetCursorRects ()
+		{
+			base.ResetCursorRects ();
+			if(Cursor == null)
+				Cursor = NSCursor.ArrowCursor;
+			this.AddCursorRectcursor(this.Bounds,Cursor);
+		}
+		public event EventHandler viewDidMoveToSuperview;
+		public override void ViewDidMoveToSuperview ()
+		{
+			base.ViewDidMoveToSuperview ();
+			if(viewDidMoveToSuperview != null)
+				viewDidMoveToSuperview(this,new EventArgs());
+		}
 		public override void MouseUp (NSEvent theEvent)
 		{
 			base.MouseUp (theEvent);
@@ -576,8 +656,24 @@ namespace System.Windows.Forms
 
 
 	
-	public partial class UserControlMouseView : NSControl
+	public partial class UserControlMouseView : NSControl , IViewHelper
 	{
+		public Control Host {get;set;}
+		public NSCursor Cursor {get;set;}
+		public override void ResetCursorRects ()
+		{
+			base.ResetCursorRects ();
+			if(Cursor == null)
+				Cursor = NSCursor.ArrowCursor;
+			this.AddCursorRectcursor(this.Bounds,Cursor);
+		}
+		public event EventHandler viewDidMoveToSuperview;
+		public override void ViewDidMoveToSuperview ()
+		{
+			base.ViewDidMoveToSuperview ();
+			if(viewDidMoveToSuperview != null)
+				viewDidMoveToSuperview(this,new EventArgs());
+		}
 		public override void MouseUp (NSEvent theEvent)
 		{
 			base.MouseUp (theEvent);
@@ -690,8 +786,24 @@ namespace System.Windows.Forms
 
 
 	
-	public partial class PanelMouseView : NSView
+	public partial class PanelMouseView : NSView , IViewHelper
 	{
+		public Control Host {get;set;}
+		public NSCursor Cursor {get;set;}
+		public override void ResetCursorRects ()
+		{
+			base.ResetCursorRects ();
+			if(Cursor == null)
+				Cursor = NSCursor.ArrowCursor;
+			this.AddCursorRectcursor(this.Bounds,Cursor);
+		}
+		public event EventHandler viewDidMoveToSuperview;
+		public override void ViewDidMoveToSuperview ()
+		{
+			base.ViewDidMoveToSuperview ();
+			if(viewDidMoveToSuperview != null)
+				viewDidMoveToSuperview(this,new EventArgs());
+		}
 		public override void MouseUp (NSEvent theEvent)
 		{
 			base.MouseUp (theEvent);

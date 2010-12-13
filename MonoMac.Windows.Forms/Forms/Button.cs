@@ -10,18 +10,19 @@ namespace System.Windows.Forms
 	[MonoMac.Foundation.Register("Button")]
 	public partial class Button : Control //: ButtonMouseView, IControl
 	{
-		internal ButtonMouseView m_helper;
+		internal ButtonHelper m_helper;
 		internal override  NSView c_helper {
 			get {
 				return m_helper;
 			}
 			set {
-				m_helper = value as ButtonMouseView;
+				m_helper = value as ButtonHelper;
 			}
 		}
 		public Button () : base()
 		{
-			m_helper = new ButtonMouseView();
+			m_helper = new ButtonHelper();
+			m_helper.Host = this;
 			m_helper.BezelStyle = NSBezelStyle.Rounded;
 			
 			m_helper.Activated += delegate(object sender, EventArgs e) {

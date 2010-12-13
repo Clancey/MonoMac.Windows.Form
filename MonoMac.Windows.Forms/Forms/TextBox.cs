@@ -20,9 +20,13 @@ namespace System.Windows.Forms
 		public TextBox ()
 		{
 			m_helper =  new TextBoxMouseView();
+			m_helper.Host = this;
 			m_helper.Selectable = true;
 			m_helper.Editable = true;
 			Multiline = true;
+			m_helper.viewDidMoveToSuperview += delegate(object sender, EventArgs e) {
+				ViewDidMoveToSuperview();
+			};
 			//this.BackgroundColor = NSColor.Clear;
 		}
 
@@ -46,16 +50,15 @@ namespace System.Windows.Forms
 				//TODO resize;
 			}
 		}
-		/*
-		public override void ViewDidMoveToSuperview ()
+		
+		public void ViewDidMoveToSuperview ()
 		{
-			base.ViewDidMoveToSuperview ();
 			
 			if(Dock ==  DockStyle.Fill)
-				this.Size =  this.Superview.Bounds.Size;
+				this.Size =  Size.Round(m_helper.Superview.Bounds.Size);
 			setScrollBars();
 		}
-		*/
+	
 		
 		private ScrollBars _scrollBars = ScrollBars.None;
 		public ScrollBars ScrollBars { 
@@ -106,8 +109,8 @@ namespace System.Windows.Forms
 		public float Left{get;set;}
 		public float Right {get { if (m_helper.Superview == null) return -1;return  (m_helper.Frame.X + this.Width) - m_helper.Superview.Frame.Width ;}}
 		
-		public float Top{ get{ return this.Location.Y;}
-			set { this.Location = new PointF(this.Location.Y,value);}
+		public int Top{ get{ return (int)this.Location.Y;}
+			set { this.Location = new Point((int)this.Location.Y,value);}
 		}
 		
 		public void Clear()

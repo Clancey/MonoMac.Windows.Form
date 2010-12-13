@@ -17,6 +17,7 @@ namespace System.Windows.Forms
 		public TrackBar () : base ()
 		{
 			m_helper = new TrackBarMouseView();
+			m_helper.Host = this;
 			m_helper.Frame = new RectangleF(0,0,100,25);
 			m_helper.Activated += delegate(object sender, EventArgs e) {
 				if(Scroll != null)

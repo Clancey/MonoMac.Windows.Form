@@ -16,7 +16,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG</DefineConstants>
+    <DefineConstants>DEBUG; NET_2_0</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -42,6 +42,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\mono\mcs\class\lib\net_2_0\System.Drawing.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -120,8 +121,63 @@
     <Compile Include="Enums\DockStyle.cs" />
     <Compile Include="Enums\ComboBoxState.cs" />
     <Compile Include="Enums\ScrollBars.cs" />
-    <Compile Include="Forms\Component.cs" />
     <Compile Include="Forms\ControlCollection.cs" />
+    <Compile Include="Interfaces\IViewHelper.cs" />
+    <Compile Include="Enums\ImageLayout.cs" />
+    <Compile Include="EventArgs\UICuesEventHandler.cs" />
+    <Compile Include="EventArgs\ControlEventHandler.cs" />
+    <Compile Include="EventArgs\DragEventHandler.cs" />
+    <Compile Include="EventArgs\GiveFeedbackEventHandler.cs" />
+    <Compile Include="EventArgs\InvalidateEventHandler.cs" />
+    <Compile Include="EventArgs\LayoutEventHandler.cs" />
+    <Compile Include="EventArgs\PreviewKeyDownEventHandler.cs" />
+    <Compile Include="EventArgs\QueryAccessibilityHelpEventHandler.cs" />
+    <Compile Include="EventArgs\HelpEventHandler.cs" />
+    <Compile Include="EventArgs\QueryContinueDragEventHandler.cs" />
+    <Compile Include="EventArgs\UICuesEventArgs.cs" />
+    <Compile Include="EventArgs\ControlEventArgs.cs" />
+    <Compile Include="EventArgs\DragEventArgs.cs" />
+    <Compile Include="EventArgs\GiveFeedbackEventArgs.cs" />
+    <Compile Include="EventArgs\InvalidateEventArgs.cs" />
+    <Compile Include="EventArgs\LayoutEventArgs.cs" />
+    <Compile Include="EventArgs\PreviewKeyDownEventArgs.cs" />
+    <Compile Include="EventArgs\QueryAccessibilityHelpEventArgs.cs" />
+    <Compile Include="EventArgs\HelpEventArgs.cs" />
+    <Compile Include="EventArgs\QueryContinueDragEventArgs.cs" />
+    <Compile Include="Enums\UICues.cs" />
+    <Compile Include="Enums\DragDropEffects.cs" />
+    <Compile Include="Interfaces\IDataObject.cs" />
+    <Compile Include="Enums\DragAction.cs" />
+    <Compile Include="Forms\Message.cs" />
+    <Compile Include="Forms\Binding.cs" />
+    <Compile Include="Forms\BindingMemberInfo.cs" />
+    <Compile Include="Interfaces\IBindableComponent.cs" />
+    <Compile Include="Forms\BindingManagerBase.cs" />
+    <Compile Include="EventArgs\DataSourceUpdateMode.cs" />
+    <Compile Include="Enums\ControlUpdateMode.cs" />
+    <Compile Include="EventArgs\ConvertEventHandler.cs" />
+    <Compile Include="EventArgs\BindingCompleteEventHandler.cs" />
+    <Compile Include="EventArgs\BindingCompleteEventArgs.cs" />
+    <Compile Include="EventArgs\ConvertEventArgs.cs" />
+    <Compile Include="Enums\BindingCompleteContext.cs" />
+    <Compile Include="Enums\BindingCompleteState.cs" />
+    <Compile Include="EventArgs\BindingManagerDataErrorEventHandler.cs" />
+    <Compile Include="EventArgs\BindingManagerDataErrorEventArgs.cs" />
+    <Compile Include="Forms\BindingContext.cs" />
+    <Compile Include="Forms\ControlBindingsCollection.cs" />
+    <Compile Include="Forms\BindingsCollection.cs" />
+    <Compile Include="Forms\BaseCollection.cs" />
+    <Compile Include="Forms\RelatedCurrencyManager.cs" />
+    <Compile Include="Forms\CurrencyManager.cs" />
+    <Compile Include="EventArgs\ItemChangedEventHandler.cs" />
+    <Compile Include="EventArgs\ListChangedEventHandler.cs" />
+    <Compile Include="EventArgs\ItemChangedEventArgs.cs" />
+    <Compile Include="Interfaces\ICurrencyManagerProvider.cs" />
+    <Compile Include="Interfaces\IBindingList.cs" />
+    <Compile Include="Forms\ListBindingConverter.cs" />
+    <Compile Include="Forms\PropertyManager.cs" />
+    <Compile Include="Forms\RelatedPropertyManager.cs" />
+    <Compile Include="Forms\ListBindingHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Forms\" />

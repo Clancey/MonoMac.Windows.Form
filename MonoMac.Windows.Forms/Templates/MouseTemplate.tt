@@ -17,7 +17,7 @@ namespace System.Windows.Forms
 <#
  
 Dictionary<string,string> controls = new Dictionary<string,string>();
-controls.Add("ButtonMouseView","NSButton");
+controls.Add("ButtonHelper","NSButton");
 controls.Add("TextBoxMouseView","NSTextField");
 controls.Add("ComboBoxMouseView","NSComboBox");
 controls.Add("ListBoxMouseView","NSScrollView");
@@ -29,8 +29,24 @@ controls.Add("PanelMouseView","NSView");
 foreach(var control in controls)
 {
 #>
-	public partial class <#= control.Key #> : <#= control.Value #>
+	public partial class <#= control.Key #> : <#= control.Value #> , IViewHelper
 	{
+		public Control Host {get;set;}
+		public NSCursor Cursor {get;set;}
+		public override void ResetCursorRects ()
+		{
+			base.ResetCursorRects ();
+			if(Cursor == null)
+				Cursor = NSCursor.ArrowCursor;
+			this.AddCursorRectcursor(this.Bounds,Cursor);
+		}
+		public event EventHandler viewDidMoveToSuperview;
+		public override void ViewDidMoveToSuperview ()
+		{
+			base.ViewDidMoveToSuperview ();
+			if(viewDidMoveToSuperview != null)
+				viewDidMoveToSuperview(this,new EventArgs());
+		}
 		public override void MouseUp (NSEvent theEvent)
 		{
 			base.MouseUp (theEvent);

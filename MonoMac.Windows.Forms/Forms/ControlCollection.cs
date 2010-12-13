@@ -42,6 +42,11 @@ namespace System.Windows.Forms
 		{
 			theView.Subviews.CopyTo (array, arrayIndex);
 		}
+		
+		public Control[] GetAllControls ()
+		{
+			return theView.Subviews.Select(x=> (x as IViewHelper).Host).ToArray();
+		}
 
 		public bool Remove (Control item)
 		{
@@ -84,8 +89,8 @@ namespace System.Windows.Forms
 			SetTab ();
 		}
 
-		public NSView this[int index] {
-			get { return theView.Subviews[index];}
+		public Control this[int index] {
+			get { return (theView.Subviews[index] as IViewHelper).Host ;	}
 
 			set { theView.Subviews[index] = value; }
 		}

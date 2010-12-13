@@ -44,7 +44,7 @@ namespace System.Windows.Forms
 	}
 	
 	
-	public partial class ButtonMouseView 
+	public partial class ButtonHelper 
 	{		
 		
 		public override void DrawRect (RectangleF dirtyRect)

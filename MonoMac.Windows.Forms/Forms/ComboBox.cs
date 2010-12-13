@@ -22,6 +22,7 @@ namespace System.Windows.Forms
 		public ComboBox () : base ()
 		{
 			m_helper = new ComboBoxMouseView();
+			m_helper.Host = this;
 			m_helper.Activated += delegate(object sender, EventArgs e) {
 				if(SelectedIndexChanged != null)
 					SelectedIndexChanged(sender,e);

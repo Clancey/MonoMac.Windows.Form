@@ -28,6 +28,7 @@ namespace System.Windows.Forms
 		public ListBox () : base ()
 		{
 			m_helper = new ListBoxMouseView();
+			m_helper.Host = this;
 			_dataSource = new ListboxDataSource(this);
 			SetupTable();
 			SetupColumn();
