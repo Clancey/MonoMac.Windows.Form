@@ -114,6 +114,10 @@ namespace System.Windows.Forms
 		}
 		private void setStyle ()
 		{
+			// 1 = NSWindowStyle.Titled
+			// 1 << 1 = NSWindowStyle.Closable;
+			// 4 = NSWindowStyle.Miniaturizable;
+			// 8 = NSWindowStyle.Resizable;
 			m_helper.StyleMask = (NSWindowStyle)(1 | (1 << 1) | (minimizeBox ? 4 : 1) | (maximizeBox ? 8 : 1));
 		}
 		public void Show ()
@@ -222,11 +226,11 @@ namespace System.Windows.Forms
 		}
 		*/
 
-		internal override ControlCollection controls {
+		internal override ControlCollection child_controls {
 			get {
-				if (child_controls == null)
-					child_controls = new ControlCollection (m_helper.ContentView);
-				return child_controls;
+				if (controls == null)
+					controls = new ControlCollection (this);
+				return controls;
 			}
 		}
 		/*
@@ -278,7 +282,7 @@ namespace System.Windows.Forms
 			set{ this.Bounds = value;}
 		}
 		*/
-		internal override Size clientSize {
+		internal override Size client_size {
 			get { return new Size ((int)m_helper.Frame.Size.Width, (int)m_helper.Frame.Size.Height); }
 			set { m_helper.SetFrame (new RectangleF (m_helper.Frame.Location, value), true); }
 		}
