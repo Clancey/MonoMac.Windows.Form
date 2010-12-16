@@ -46,40 +46,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Forms\Button.cs" />
-    <Compile Include="Forms\MessageBox.cs" />
-    <Compile Include="Forms\Form.cs" />
-    <Compile Include="Forms\Application.cs" />
-    <Compile Include="Forms\ApplicationContext.cs" />
-    <Compile Include="Forms\TextBox.cs" />
-    <Compile Include="Forms\Label.cs" />
-    <Compile Include="Forms\IControl.cs" />
     <Compile Include="EventArgs\KeyEventArgs.cs" />
     <Compile Include="EventArgs\KeyEventHandler.cs" />
     <Compile Include="EventArgs\KeyPressEventArgs.cs" />
     <Compile Include="EventArgs\KeyPressEventHandler.cs" />
-    <Compile Include="Forms\CheckBox.cs" />
-    <Compile Include="Forms\CheckedListBox.cs" />
-    <Compile Include="Forms\ComboBox.cs" />
-    <Compile Include="Forms\UserControl.cs" />
     <Compile Include="EventArgs\MouseEventArgs.cs" />
     <Compile Include="EventArgs\MouseEventHandler.cs" />
     <Compile Include="EventArgs\PaintEventArgs.cs" />
     <Compile Include="EventArgs\PaintEventHandler.cs" />
     <Compile Include="EventArgs\MouseButtons.cs" />
-    <Compile Include="Forms\ListBox.cs" />
-    <Compile Include="Forms\DataTable.cs" />
-    <Compile Include="Forms\TrackBar.cs" />
     <Compile Include="Templates\KeyPressEventsTemplate.g.cs">
       <DependentUpon>KeyPressEventsTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="Utils\KeyUtil.cs" />
     <Compile Include="Extenders\ColorExtenders.cs" />
     <Compile Include="Utils\Util.cs" />
-    <Compile Include="Forms\DataGridViewButtonCell.cs" />
-    <Compile Include="Forms\DataGridViewButtonColumn.cs" />
-    <Compile Include="Forms\DataGridViewCheckBoxColumn.cs" />
-    <Compile Include="Forms\DataGridViewCheckBoxCell.cs" />
     <Compile Include="Enums\SelectionMode.cs" />
     <Compile Include="Enums\AnchorStyles.cs" />
     <Compile Include="Enums\Border3DStyle.cs" />
@@ -112,7 +93,6 @@
     <Compile Include="Templates\MouseTemplate.g.cs">
       <DependentUpon>MouseTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Panel.cs" />
     <Compile Include="Enums\RightToLeft.cs" />
     <Compile Include="Templates\ControlTemplate.g.cs">
       <DependentUpon>ControlTemplate.tt</DependentUpon>
@@ -146,7 +126,6 @@
     <Compile Include="Enums\DragDropEffects.cs" />
     <Compile Include="Interfaces\IDataObject.cs" />
     <Compile Include="Enums\DragAction.cs" />
-    <Compile Include="Forms\Message.cs" />
     <Compile Include="Interfaces\IBindableComponent.cs" />
     <Compile Include="EventArgs\DataSourceUpdateMode.cs" />
     <Compile Include="Enums\ControlUpdateMode.cs" />
@@ -158,7 +137,6 @@
     <Compile Include="Enums\BindingCompleteState.cs" />
     <Compile Include="EventArgs\BindingManagerDataErrorEventHandler.cs" />
     <Compile Include="EventArgs\BindingManagerDataErrorEventArgs.cs" />
-    <Compile Include="Forms\BindingsCollection.cs" />
     <Compile Include="EventArgs\ItemChangedEventHandler.cs" />
     <Compile Include="EventArgs\ListChangedEventHandler.cs" />
     <Compile Include="EventArgs\ItemChangedEventArgs.cs" />
@@ -204,7 +182,6 @@
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\RelatedPropertyManager.cs">
       <Link>Forms\RelatedPropertyManager.cs</Link>
     </Compile>
-    <Compile Include="Forms\Control.Cocoa.cs" />
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\IBounds.cs">
       <Link>Forms\IBounds.cs</Link>
     </Compile>
@@ -298,9 +275,31 @@
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\ScrollOrientation.cs">
       <Link>Forms\ScrollOrientation.cs</Link>
     </Compile>
+    <Compile Include="System.Windows.Forms\Button.cs" />
+    <Compile Include="System.Windows.Forms\MessageBox.cs" />
+    <Compile Include="System.Windows.Forms\Form.cs" />
+    <Compile Include="System.Windows.Forms\Application.cs" />
+    <Compile Include="System.Windows.Forms\ApplicationContext.cs" />
+    <Compile Include="System.Windows.Forms\TextBox.cs" />
+    <Compile Include="System.Windows.Forms\Label.cs" />
+    <Compile Include="System.Windows.Forms\IControl.cs" />
+    <Compile Include="System.Windows.Forms\CheckBox.cs" />
+    <Compile Include="System.Windows.Forms\CheckedListBox.cs" />
+    <Compile Include="System.Windows.Forms\ComboBox.cs" />
+    <Compile Include="System.Windows.Forms\UserControl.cs" />
+    <Compile Include="System.Windows.Forms\ListBox.cs" />
+    <Compile Include="System.Windows.Forms\DataTable.cs" />
+    <Compile Include="System.Windows.Forms\TrackBar.cs" />
+    <Compile Include="System.Windows.Forms\DataGridViewButtonCell.cs" />
+    <Compile Include="System.Windows.Forms\DataGridViewButtonColumn.cs" />
+    <Compile Include="System.Windows.Forms\DataGridViewCheckBoxColumn.cs" />
+    <Compile Include="System.Windows.Forms\DataGridViewCheckBoxCell.cs" />
+    <Compile Include="System.Windows.Forms\Panel.cs" />
+    <Compile Include="System.Windows.Forms\Message.cs" />
+    <Compile Include="System.Windows.Forms\BindingsCollection.cs" />
+    <Compile Include="System.Windows.Forms\Control.Cocoa.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Forms\" />
     <Folder Include="EventArgs\" />
     <Folder Include="Templates\" />
     <Folder Include="Utils\" />
@@ -308,6 +307,7 @@
     <Folder Include="Enums\" />
     <Folder Include="Interfaces\" />
     <Folder Include="System.Windows.Forms.Layout\" />
+    <Folder Include="System.Windows.Forms\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
