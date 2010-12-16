@@ -61,25 +61,11 @@
     <Compile Include="Utils\KeyUtil.cs" />
     <Compile Include="Extenders\ColorExtenders.cs" />
     <Compile Include="Utils\Util.cs" />
-    <Compile Include="Enums\SelectionMode.cs" />
-    <Compile Include="Enums\AnchorStyles.cs" />
-    <Compile Include="Enums\Border3DStyle.cs" />
-    <Compile Include="Enums\BorderStyle.cs" />
-    <Compile Include="Enums\DialogResult.cs" />
-    <Compile Include="Enums\HorizontalAlignment.cs" />
-    <Compile Include="Enums\Keys.cs" />
-    <Compile Include="Enums\CheckState.cs" />
     <Compile Include="Templates\DataGridColumn.g.cs">
       <DependentUpon>DataGridColumn.tt</DependentUpon>
     </Compile>
-    <Compile Include="Enums\MessageBoxButtons.cs" />
-    <Compile Include="Enums\MessageBoxIcon.cs" />
-    <Compile Include="Enums\ControlStyles.cs" />
     <Compile Include="EmptyObject.cs" />
     <Compile Include="Extenders\NSIndexSetExtender.cs" />
-    <Compile Include="Interfaces\IWin32Window.cs" />
-    <Compile Include="Enums\MessageBoxDefaultButton.cs" />
-    <Compile Include="Enums\AutoScaleMode.cs" />
     <Compile Include="Templates\DrawingTemplate.g.cs">
       <DependentUpon>DrawingTemplate.tt</DependentUpon>
     </Compile>
@@ -89,19 +75,13 @@
     <Compile Include="Templates\UserControlTemplate.g.cs">
       <DependentUpon>UserControlTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Enums\ComboBoxStyle.cs" />
     <Compile Include="Templates\MouseTemplate.g.cs">
       <DependentUpon>MouseTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Enums\RightToLeft.cs" />
     <Compile Include="Templates\ControlTemplate.g.cs">
       <DependentUpon>ControlTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Enums\DockStyle.cs" />
-    <Compile Include="Enums\ComboBoxState.cs" />
-    <Compile Include="Enums\ScrollBars.cs" />
     <Compile Include="Interfaces\IViewHelper.cs" />
-    <Compile Include="Enums\ImageLayout.cs" />
     <Compile Include="EventArgs\UICuesEventHandler.cs" />
     <Compile Include="EventArgs\ControlEventHandler.cs" />
     <Compile Include="EventArgs\DragEventHandler.cs" />
@@ -122,158 +102,124 @@
     <Compile Include="EventArgs\QueryAccessibilityHelpEventArgs.cs" />
     <Compile Include="EventArgs\HelpEventArgs.cs" />
     <Compile Include="EventArgs\QueryContinueDragEventArgs.cs" />
-    <Compile Include="Enums\UICues.cs" />
-    <Compile Include="Enums\DragDropEffects.cs" />
-    <Compile Include="Interfaces\IDataObject.cs" />
-    <Compile Include="Enums\DragAction.cs" />
-    <Compile Include="Interfaces\IBindableComponent.cs" />
     <Compile Include="EventArgs\DataSourceUpdateMode.cs" />
-    <Compile Include="Enums\ControlUpdateMode.cs" />
     <Compile Include="EventArgs\ConvertEventHandler.cs" />
     <Compile Include="EventArgs\BindingCompleteEventHandler.cs" />
     <Compile Include="EventArgs\BindingCompleteEventArgs.cs" />
     <Compile Include="EventArgs\ConvertEventArgs.cs" />
-    <Compile Include="Enums\BindingCompleteContext.cs" />
-    <Compile Include="Enums\BindingCompleteState.cs" />
     <Compile Include="EventArgs\BindingManagerDataErrorEventHandler.cs" />
     <Compile Include="EventArgs\BindingManagerDataErrorEventArgs.cs" />
     <Compile Include="EventArgs\ItemChangedEventHandler.cs" />
     <Compile Include="EventArgs\ListChangedEventHandler.cs" />
     <Compile Include="EventArgs\ItemChangedEventArgs.cs" />
-    <Compile Include="Interfaces\ICurrencyManagerProvider.cs" />
-    <Compile Include="Interfaces\IBindingList.cs" />
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\BaseCollection.cs">
-      <Link>Forms\BaseCollection.cs</Link>
+      <Link>System.Windows.Forms\BaseCollection.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\Binding.cs">
-      <Link>Forms\Binding.cs</Link>
+      <Link>System.Windows.Forms\Binding.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\BindingContext.cs">
-      <Link>Forms\BindingContext.cs</Link>
+      <Link>System.Windows.Forms\BindingContext.cs</Link>
     </Compile>
     <Compile Include="MonoTODOAttribute.cs" />
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\BindingManagerBase.cs">
-      <Link>Forms\BindingManagerBase.cs</Link>
+      <Link>System.Windows.Forms\BindingManagerBase.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\BindingMemberInfo.cs">
-      <Link>Forms\BindingMemberInfo.cs</Link>
+      <Link>System.Windows.Forms\BindingMemberInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\ControlBindingsCollection.cs">
-      <Link>Forms\ControlBindingsCollection.cs</Link>
+      <Link>System.Windows.Forms\ControlBindingsCollection.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\CurrencyManager.cs">
-      <Link>Forms\CurrencyManager.cs</Link>
+      <Link>System.Windows.Forms\CurrencyManager.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\build\common\Consts.cs.in">
       <Link>Consts.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\ListBindingConverter.cs">
-      <Link>Forms\ListBindingConverter.cs</Link>
+      <Link>System.Windows.Forms\ListBindingConverter.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\ListBindingHelper.cs">
-      <Link>Forms\ListBindingHelper.cs</Link>
+      <Link>System.Windows.Forms\ListBindingHelper.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\PropertyManager.cs">
-      <Link>Forms\PropertyManager.cs</Link>
+      <Link>System.Windows.Forms\PropertyManager.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\RelatedCurrencyManager.cs">
-      <Link>Forms\RelatedCurrencyManager.cs</Link>
+      <Link>System.Windows.Forms\RelatedCurrencyManager.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\RelatedPropertyManager.cs">
-      <Link>Forms\RelatedPropertyManager.cs</Link>
+      <Link>System.Windows.Forms\RelatedPropertyManager.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\IBounds.cs">
-      <Link>Forms\IBounds.cs</Link>
+      <Link>System.Windows.Forms\IBounds.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\IDropTarget.cs">
-      <Link>Forms\IDropTarget.cs</Link>
+      <Link>System.Windows.Forms\IDropTarget.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\IWindowTarget.cs">
-      <Link>Forms\IWindowTarget.cs</Link>
+      <Link>System.Windows.Forms\IWindowTarget.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms.Layout\ArrangedElementCollection.cs">
       <Link>System.Windows.Forms.Layout\ArrangedElementCollection.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\LayoutEngine.cs">
-      <Link>Forms\LayoutEngine.cs</Link>
+      <Link>System.Windows.Forms\LayoutEngine.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\Padding.cs">
-      <Link>Forms\Padding.cs</Link>
+      <Link>System.Windows.Forms\Padding.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\AutoSizeMode.cs">
-      <Link>Forms\AutoSizeMode.cs</Link>
+      <Link>System.Windows.Forms\AutoSizeMode.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\GetChildAtPointSkip.cs">
-      <Link>Forms\GetChildAtPointSkip.cs</Link>
+      <Link>System.Windows.Forms\GetChildAtPointSkip.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\IContainerControl.cs">
-      <Link>Forms\IContainerControl.cs</Link>
+      <Link>System.Windows.Forms\IContainerControl.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\ContainerControl.cs">
-      <Link>Forms\ContainerControl.cs</Link>
+      <Link>System.Windows.Forms\ContainerControl.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\ScrollableControl.cs">
-      <Link>Forms\ScrollableControl.cs</Link>
+      <Link>System.Windows.Forms\ScrollableControl.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\PreProcessControlState.cs">
-      <Link>Forms\PreProcessControlState.cs</Link>
+      <Link>System.Windows.Forms\PreProcessControlState.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\BoundsSpecified.cs">
-      <Link>Forms\BoundsSpecified.cs</Link>
+      <Link>System.Windows.Forms\BoundsSpecified.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\LeftRightAlignment.cs">
-      <Link>Forms\LeftRightAlignment.cs</Link>
-    </Compile>
-    <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\ImplicitHScrollBar.cs">
-      <Link>Forms\ImplicitHScrollBar.cs</Link>
-    </Compile>
-    <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\ImplicitVScrollBar.cs">
-      <Link>Forms\ImplicitVScrollBar.cs</Link>
-    </Compile>
-    <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\HScrollBar.cs">
-      <Link>Forms\HScrollBar.cs</Link>
-    </Compile>
-    <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\VScrollBar.cs">
-      <Link>Forms\VScrollBar.cs</Link>
-    </Compile>
-    <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\ScrollBar.cs">
-      <Link>Forms\ScrollBar.cs</Link>
-    </Compile>
-    <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\HScrollProperties.cs">
-      <Link>Forms\HScrollProperties.cs</Link>
-    </Compile>
-    <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\ScrollProperties.cs">
-      <Link>Forms\ScrollProperties.cs</Link>
-    </Compile>
-    <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\VScrollProperties.cs">
-      <Link>Forms\VScrollProperties.cs</Link>
+      <Link>System.Windows.Forms\LeftRightAlignment.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\ScrollEventHandler.cs">
-      <Link>Forms\ScrollEventHandler.cs</Link>
+      <Link>System.Windows.Forms\ScrollEventHandler.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\ScrollEventArgs.cs">
-      <Link>Forms\ScrollEventArgs.cs</Link>
+      <Link>System.Windows.Forms\ScrollEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\MWFCategoryAttribute.cs">
-      <Link>Forms\MWFCategoryAttribute.cs</Link>
+      <Link>System.Windows.Forms\MWFCategoryAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\ValidationConstraints.cs">
-      <Link>Forms\ValidationConstraints.cs</Link>
+      <Link>System.Windows.Forms\ValidationConstraints.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\ButtonState.cs">
-      <Link>Forms\ButtonState.cs</Link>
+      <Link>System.Windows.Forms\ButtonState.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\AutoValidate.cs">
-      <Link>Forms\AutoValidate.cs</Link>
+      <Link>System.Windows.Forms\AutoValidate.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\Timer.cs">
-      <Link>Forms\Timer.cs</Link>
+      <Link>System.Windows.Forms\Timer.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\ScrollEventType.cs">
-      <Link>Forms\ScrollEventType.cs</Link>
+      <Link>System.Windows.Forms\ScrollEventType.cs</Link>
     </Compile>
     <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\ScrollOrientation.cs">
-      <Link>Forms\ScrollOrientation.cs</Link>
+      <Link>System.Windows.Forms\ScrollOrientation.cs</Link>
     </Compile>
     <Compile Include="System.Windows.Forms\Button.cs" />
     <Compile Include="System.Windows.Forms\MessageBox.cs" />
@@ -297,17 +243,73 @@
     <Compile Include="System.Windows.Forms\Panel.cs" />
     <Compile Include="System.Windows.Forms\Message.cs" />
     <Compile Include="System.Windows.Forms\BindingsCollection.cs" />
-    <Compile Include="System.Windows.Forms\Control.Cocoa.cs" />
+    <Compile Include="System.Windows.Forms\IBindableComponent.cs" />
+    <Compile Include="System.Windows.Forms\IBindingList.cs" />
+    <Compile Include="System.Windows.Forms\ICurrencyManagerProvider.cs" />
+    <Compile Include="System.Windows.Forms\IDataObject.cs" />
+    <Compile Include="System.Windows.Forms\IWin32Window.cs" />
+    <Compile Include="System.Windows.Forms\AnchorStyles.cs" />
+    <Compile Include="System.Windows.Forms\AutoScaleMode.cs" />
+    <Compile Include="System.Windows.Forms\BindingCompleteContext.cs" />
+    <Compile Include="System.Windows.Forms\BindingCompleteState.cs" />
+    <Compile Include="System.Windows.Forms\Border3DStyle.cs" />
+    <Compile Include="System.Windows.Forms\BorderStyle.cs" />
+    <Compile Include="System.Windows.Forms\CheckState.cs" />
+    <Compile Include="System.Windows.Forms\ComboBoxState.cs" />
+    <Compile Include="System.Windows.Forms\ComboBoxStyle.cs" />
+    <Compile Include="System.Windows.Forms\ControlStyles.cs" />
+    <Compile Include="System.Windows.Forms\ControlUpdateMode.cs" />
+    <Compile Include="System.Windows.Forms\DialogResult.cs" />
+    <Compile Include="System.Windows.Forms\DockStyle.cs" />
+    <Compile Include="System.Windows.Forms\DragAction.cs" />
+    <Compile Include="System.Windows.Forms\DragDropEffects.cs" />
+    <Compile Include="System.Windows.Forms\HorizontalAlignment.cs" />
+    <Compile Include="System.Windows.Forms\ImageLayout.cs" />
+    <Compile Include="System.Windows.Forms\Keys.cs" />
+    <Compile Include="System.Windows.Forms\MessageBoxButtons.cs" />
+    <Compile Include="System.Windows.Forms\MessageBoxDefaultButton.cs" />
+    <Compile Include="System.Windows.Forms\MessageBoxIcon.cs" />
+    <Compile Include="System.Windows.Forms\RightToLeft.cs" />
+    <Compile Include="System.Windows.Forms\ScrollBars.cs" />
+    <Compile Include="System.Windows.Forms\SelectionMode.cs" />
+    <Compile Include="System.Windows.Forms\UICues.cs" />
+    <Compile Include="System.Windows.Forms\Control.cs" />
+    <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\PaddingConverter.cs">
+      <Link>System.Windows.Forms\PaddingConverter.cs</Link>
+    </Compile>
+    <Compile Include="System.Windows.Forms\ContainerControl.cocoa.cs" />
+    <Compile Include="Extenders\FontExtender.cs" />
+    <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\MWFDescriptionAttribute.cs">
+      <Link>System.Windows.Forms\MWFDescriptionAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\mono\mcs\class\Managed.Windows.Forms\System.Windows.Forms\LayoutSettings.cs">
+      <Link>System.Windows.Forms\LayoutSettings.cs</Link>
+    </Compile>
+    <Compile Include="System.Windows.Forms\ScrollableControl.cocoa.cs" />
+    <Compile Include="Extenders\NSViewExtender.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />
     <Folder Include="Templates\" />
     <Folder Include="Utils\" />
     <Folder Include="Extenders\" />
-    <Folder Include="Enums\" />
     <Folder Include="Interfaces\" />
     <Folder Include="System.Windows.Forms.Layout\" />
     <Folder Include="System.Windows.Forms\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Forms\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

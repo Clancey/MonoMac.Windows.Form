@@ -20,6 +20,7 @@ namespace System.Windows.Forms
 		public Control Host {get;set;}
 		public NSCursor Cursor {get;set;}
 		
+		
 		public override bool IsFlipped {
 			get { return true; }
 		}
@@ -84,7 +85,7 @@ namespace System.Windows.Forms
 	}
 
 	//[MonoMac.Foundation.Register("Form")]
-	public partial class Form : Control
+	public partial class Form : ContainerControl
 	{
 		//: NSWindow
 		internal FormHelper m_helper;
@@ -98,6 +99,30 @@ namespace System.Windows.Forms
 			setStyle ();
 			//this.StandardWindowButton().Image
 		}
+		
+		
+		#region Private variables
+		
+		private bool		        autoscale;
+		#endregion
+		
+		#region Public Instance Variables
+		
+		[MWFCategory("Layout")]
+		public bool AutoScale {
+			get {
+				return autoscale;
+			}
+
+			set {
+				if (value)
+					AutoScaleMode = AutoScaleMode.None;
+				autoscale = value;
+			}
+		}
+		#endregion
+		
+		
 		public bool MaximizeBox {
 			get { return maximizeBox; }
 			set {
@@ -226,7 +251,7 @@ namespace System.Windows.Forms
 		}
 		*/
 
-		internal override ControlCollection child_controls {
+		internal override ControlCollection controls {
 			get {
 				if (controls == null)
 					controls = new ControlCollection (this);
@@ -244,12 +269,12 @@ namespace System.Windows.Forms
 			set { m_helper.Title = value; }
 		}
 		public object components { get; set; }
+		public DialogResult DialogResult { get; set; }
 		public void SuspendLayout ()
 		{
 			
 		}
-		public DialogResult DialogResult { get; set; }
-		public void ResumeLayout (bool action)
+		internal override void performLayout ()
 		{
 			m_helper.ContentView.DisplayIfNeeded ();
 		}
@@ -274,17 +299,6 @@ namespace System.Windows.Forms
 		internal override Point location {
 			get { return Point.Round(m_helper.Frame.Location); }
 			set { m_helper.SetFrame (new RectangleF (value, m_helper.Frame.Size), true); }
-		}
-		/*
-		public Rectangle ClientRectangle
-		{
-			get{ return Rectangle.Round(this.ContentView.Bounds);}
-			set{ this.Bounds = value;}
-		}
-		*/
-		internal override Size client_size {
-			get { return new Size ((int)m_helper.Frame.Size.Width, (int)m_helper.Frame.Size.Height); }
-			set { m_helper.SetFrame (new RectangleF (m_helper.Frame.Location, value), true); }
 		}
 		
 		public BorderStyle BorderStyle { get; set; }
