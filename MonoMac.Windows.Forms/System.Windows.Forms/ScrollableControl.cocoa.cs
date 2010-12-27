@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using MonoMac.AppKit;
+using System.ComponentModel;
 namespace System.Windows.Forms
 {
 	public partial class ScrollableControl
@@ -16,136 +17,7 @@ namespace System.Windows.Forms
 		}
 		
 		private void Recalculate (bool doLayout) {
-			if (!IsHandleCreated) {
-				return;
-			}
-
-			Size canvas = canvas_size;
-			Size client = ClientSize;
-
-			canvas.Width += auto_scroll_margin.Width;
-			canvas.Height += auto_scroll_margin.Height;
-
-			int right_edge = client.Width;
-			int bottom_edge = client.Height;
-			int prev_right_edge;
-			int prev_bottom_edge;
-
-			bool hscroll_visible;
-			bool vscroll_visible;
-
-			do {
-				prev_right_edge = right_edge;
-				prev_bottom_edge = bottom_edge;
-
-				if ((force_hscroll_visible || (canvas.Width > right_edge && auto_scroll)) && client.Width > 0) {
-					hscroll_visible = true;
-					bottom_edge = client.Height - SystemInformation.HorizontalScrollBarHeight;
-				} else {
-					hscroll_visible = false;
-					bottom_edge = client.Height;
-				}
-
-				if ((force_vscroll_visible || (canvas.Height > bottom_edge && auto_scroll)) && client.Height > 0) {
-					vscroll_visible = true;
-					right_edge = client.Width - SystemInformation.VerticalScrollBarWidth;
-				} else {
-					vscroll_visible = false;
-					right_edge = client.Width;
-				}
-
-			} while (right_edge != prev_right_edge || bottom_edge != prev_bottom_edge);
-
-			if (right_edge < 0) right_edge = 0;
-			if (bottom_edge < 0) bottom_edge = 0;
-
-			Rectangle hscroll_bounds;
-			Rectangle vscroll_bounds;
-
-			hscroll_bounds = new Rectangle (0, client.Height - SystemInformation.HorizontalScrollBarHeight,
-							ClientRectangle.Width, SystemInformation.HorizontalScrollBarHeight);
-			vscroll_bounds = new Rectangle (client.Width - SystemInformation.VerticalScrollBarWidth, 0,
-							SystemInformation.VerticalScrollBarWidth, ClientRectangle.Height);
-
-			/* the ScrollWindow calls here are needed
-			 * because (this explanation sucks):
-			 * 
-			 * when we transition from having a scrollbar to
-			 * not having one, we won't receive a scrollbar
-			 * moved (value changed) event, so we need to
-			 * manually scroll the canvas.
-			 * 
-			 * if you can fix this without requiring the
-			 * ScrollWindow calls, pdb and toshok will each
-			 * pay you $5.
-			*/
-
-			if (!vscrollbar.Visible) {
-				vscrollbar.Value = 0;
-			}
-			if (!hscrollbar.Visible) {
-				hscrollbar.Value = 0;
-			}
-
-			/* Manually setting the size of the thumb should be done before
-			 * the other assignments */
-			if (hscroll_visible) {
-				hscrollbar.manual_thumb_size = right_edge;
-				hscrollbar.LargeChange = right_edge;
-				hscrollbar.SmallChange = 5;
-				hscrollbar.Maximum = canvas.Width - 1;
-			} else {
-				if (hscrollbar != null && hscrollbar.VisibleInternal) {
-					ScrollWindow (- scroll_position.X, 0);
-				}
-				scroll_position.X = 0;
-			}
-
-			if (vscroll_visible) {
-				vscrollbar.manual_thumb_size = bottom_edge;
-				vscrollbar.LargeChange = bottom_edge;
-				vscrollbar.SmallChange = 5;
-				vscrollbar.Maximum = canvas.Height - 1;
-			} else {
-				if (vscrollbar != null && vscrollbar.VisibleInternal) {
-					ScrollWindow (0, - scroll_position.Y);
-				}
-				scroll_position.Y = 0;
-			}
-
-			if (hscroll_visible && vscroll_visible) {
-				hscroll_bounds.Width -= SystemInformation.VerticalScrollBarWidth;
-				vscroll_bounds.Height -= SystemInformation.HorizontalScrollBarHeight;
-
-				sizegrip.Bounds = new Rectangle (hscroll_bounds.Right,
-								 vscroll_bounds.Bottom,
-								 SystemInformation.VerticalScrollBarWidth,
-								 SystemInformation.HorizontalScrollBarHeight);
-			}
-			
-			SuspendLayout ();
-
-			hscrollbar.SetBoundsInternal (hscroll_bounds.X, hscroll_bounds.Y, hscroll_bounds.Width, hscroll_bounds.Height, BoundsSpecified.None);
-			hscrollbar.Visible = hscroll_visible;
-			if (hscrollbar.Visible)
-				hscrollbar.c_helper.Superview.BringToFront();
-
-			vscrollbar.SetBoundsInternal (vscroll_bounds.X, vscroll_bounds.Y, vscroll_bounds.Width, vscroll_bounds.Height, BoundsSpecified.None);
-			vscrollbar.Visible = vscroll_visible;
-			if (vscrollbar.Visible)
-				vscrollbar.c_helper.Superview.BringToFront();
-
-			UpdateSizeGripVisible ();
-
-			ResumeLayout (doLayout);
-			
-			// We should now scroll the active control into view, 
-			// the funny part is that ScrollableControl does not have 
-			// the concept of active control.
-			ContainerControl container = this as ContainerControl;
-			if (container != null && container.ActiveControl != null) {
-				ScrollControlIntoView (container.ActiveControl);
-			}
+		//TODO: make work
 		}
 		
 		public ScrollableControl() {
@@ -183,7 +55,225 @@ namespace System.Windows.Forms
 			//UpdateSizeGripVisible ();
 		}
 		
+		#region Public Instance Properties
+		
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public Point AutoScrollPosition {
+			get {
+				return DisplayRectangle.Location;
+			}
+
+			set {
+				if (value != AutoScrollPosition) {
+					m_helper.ScrollPoint(value);
+				}
+			}
+		}
+		
+		public override Rectangle DisplayRectangle {
+			get {
+				if (auto_scroll) {
+					display_rectangle = Rectangle.Round(m_helper.VisibleRect());
+				}
+				else {
+					display_rectangle = base.DisplayRectangle;
+				}
+
+				if (dock_padding != null) {
+					display_rectangle.X += dock_padding.Left;
+					display_rectangle.Y += dock_padding.Top;
+					display_rectangle.Width -= dock_padding.Left + dock_padding.Right;
+					display_rectangle.Height -= dock_padding.Top + dock_padding.Bottom;
+				}
+
+				return display_rectangle;
+			}
+		}
+		#endregion // Public Instance Properties
+		
+		#region Public Instance Methods
+		
+		public void ScrollControlIntoView(Control activeControl) {
+			int	corner_x;
+			int	corner_y;
+
+			Rectangle within = new Rectangle ();
+			within.Size = ClientSize;
+			
+			if (!AutoScroll || (!m_helper.HasHorizontalRuler && !m_helper.HasVerticalRuler)) {
+				return;
+			}
+
+			if (!Contains(activeControl)) {
+				return;
+			}
+
+			m_helper.ScrollRectToVisible(new RectangleF(activeControl.Location,activeControl.Size));
+		}
+		
+		#endregion //Public Instance methods
+		
+		#region Protected Instance Method
+		
+
+		protected bool HScroll {
+			get {
+				return m_helper.HasHorizontalRuler;
+			}
+
+			set {
+				 m_helper.HasHorizontalRuler = value;
+			}
+		}
+		
+		protected bool VScroll {
+			get {
+				return m_helper.HasVerticalRuler;
+			}
+
+			set {
+					m_helper.HasVerticalRuler = value;
+			}
+		}
+		
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected override void OnLayout(LayoutEventArgs levent) {
+			CalculateCanvasSize (true);
+
+			AdjustFormScrollbars(AutoScroll);	// Dunno what the logic is. Passing AutoScroll seems to match MS behaviour
+			base.OnLayout(levent);
+		}
+		
+		
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected override void OnVisibleChanged(EventArgs e) {
+			if (Visible) {
+				//UpdateChildrenZOrder ();
+				PerformLayout(this, "Visible");
+			}
+			base.OnVisibleChanged(e);
+		}
+
+		
+		protected virtual Point ScrollToControl (Control activeControl)
+		{
+			int corner_x;
+			int corner_y;
+
+			Rectangle within = new Rectangle ();
+			within.Size = ClientSize;
+
+
+			// If the control is above the top or the left, move it down and right until it aligns 
+			// with the top/left.
+			// If the control is below the bottom or to the right, move it up/left until it aligns
+			// with the bottom/right, but do never move it further than the top/left side.
+			int x_diff = 0, y_diff = 0;
+			
+			if (activeControl.Top <= 0 || activeControl.Height >= within.Height)
+				y_diff = -activeControl.Top;
+			else if (activeControl.Bottom > within.Height)
+				y_diff = within.Height - activeControl.Bottom;
+
+			if (activeControl.Left <= 0 || activeControl.Width >= within.Width)
+				x_diff = -activeControl.Left;
+			else if (activeControl.Right > within.Width)
+				x_diff = within.Width - activeControl.Right;
+
+			corner_x = AutoScrollPosition.X + x_diff;
+			corner_y = AutoScrollPosition.Y + y_diff;
+			
+			return new Point (corner_x, corner_y);
+		}
+		
+		#endregion //Protected Instance Method
+		
 		#region Internal and Private Methods
+		
+		internal virtual void CalculateCanvasSize (bool canOverride) {
+			Control		child;
+			int		num_of_children;
+			int		width;
+			int		height;
+			int		extra_width;
+			int		extra_height;
+
+			num_of_children = Controls.Count;
+			width = 0;
+			height = 0;
+			extra_width = m_helper.HorizontalScroller == null ? 0 :  m_helper.HorizontalScroller.IntValue;
+			extra_height = m_helper.VerticalScroller == null ? 0 : m_helper.VerticalScroller.IntValue;
+			if (dock_padding != null) {
+				extra_width += dock_padding.Right;
+				extra_height += dock_padding.Bottom;
+			}
+
+			for (int i = 0; i < num_of_children; i++) {
+				child = Controls[i];
+				if (child.Dock == DockStyle.Right) {
+					extra_width += child.Width;
+				} else if (child.Dock == DockStyle.Bottom) {
+					extra_height += child.Height;
+				}
+			}
+
+			if (!auto_scroll_min_size.IsEmpty) {
+				width = auto_scroll_min_size.Width;
+				height = auto_scroll_min_size.Height;
+			}
+
+			for (int i = 0; i < num_of_children; i++) {
+				child = Controls[i];
+
+				switch(child.Dock) {
+					case DockStyle.Left: {
+						if ((child.Right + extra_width) > width) {
+							width = child.Right + extra_width;
+						}
+						continue;
+					}
+
+					case DockStyle.Top: {
+						if ((child.Bottom + extra_height) > height) {
+							height = child.Bottom + extra_height;
+						}
+						continue;
+					}
+
+					case DockStyle.Fill:
+					case DockStyle.Right:
+					case DockStyle.Bottom: {
+						continue;
+					}
+
+					default: {
+						AnchorStyles	anchor;
+
+						anchor = child.Anchor;
+
+						if (((anchor & AnchorStyles.Left) != 0) && ((anchor & AnchorStyles.Right) == 0)) {
+							if ((child.Right + extra_width) > width) {
+								width = child.Right + extra_width;
+							}
+						}
+
+						if (((anchor & AnchorStyles.Top) != 0) || ((anchor & AnchorStyles.Bottom) == 0)) {
+							if ((child.Bottom + extra_height) > height) {
+								height = child.Bottom + extra_height;
+							}
+						}
+						continue;
+					}
+				}
+			}
+
+			canvas_size.Width = width;
+			canvas_size.Height = height;
+		}
+		
 		private void ScrollWindow(int XOffset, int YOffset) {
 			int	num_of_children;
 

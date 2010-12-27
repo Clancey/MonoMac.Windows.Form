@@ -287,6 +287,8 @@
     </Compile>
     <Compile Include="System.Windows.Forms\ScrollableControl.cocoa.cs" />
     <Compile Include="Extenders\NSViewExtender.cs" />
+    <Compile Include="System.Windows.Forms\Timer.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\Locale.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />
@@ -296,20 +298,6 @@
     <Folder Include="Interfaces\" />
     <Folder Include="System.Windows.Forms.Layout\" />
     <Folder Include="System.Windows.Forms\" />
-    <Folder Include="Forms\" />
-    <Folder Include="Forms\" />
-    <Folder Include="Forms\" />
-    <Folder Include="Forms\" />
-    <Folder Include="Forms\" />
-    <Folder Include="Forms\" />
-    <Folder Include="Forms\" />
-    <Folder Include="Forms\" />
-    <Folder Include="Forms\" />
-    <Folder Include="Forms\" />
-    <Folder Include="Forms\" />
-    <Folder Include="Forms\" />
-    <Folder Include="Forms\" />
-    <Folder Include="Forms\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
