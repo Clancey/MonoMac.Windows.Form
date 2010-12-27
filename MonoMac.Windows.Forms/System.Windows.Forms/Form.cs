@@ -15,6 +15,7 @@ namespace System.Windows.Forms
 		{
 			Parent = parent;
 			Host = parent;
+			this.AutoresizingMask = (NSViewResizingMask.HeightSizable | NSViewResizingMask.WidthSizable);
 		}
 		
 		public Control Host {get;set;}
@@ -100,6 +101,14 @@ namespace System.Windows.Forms
 			//this.StandardWindowButton().Image
 		}
 		
+		internal override NSView c_helper {
+			get {
+				return m_helper.ContentView;
+			}
+			set {
+				base.c_helper = value;
+			}
+		}
 		
 		#region Private variables
 		
@@ -253,9 +262,9 @@ namespace System.Windows.Forms
 
 		internal override ControlCollection controls {
 			get {
-				if (controls == null)
-					controls = new ControlCollection (this);
-				return controls;
+				if (child_controls == null)
+					child_controls = new ControlCollection (this);
+				return child_controls;
 			}
 		}
 		/*

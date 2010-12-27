@@ -12,7 +12,8 @@ namespace System.Windows.Forms
 	
 	[ComVisible(true)]
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
-	public partial class Control : Component , IBindableComponent, IWin32Window , IDropTarget, IBounds, ISynchronizeInvoke
+	public partial class Control : Component , IBindableComponent, IWin32Window ,  IBounds
+		//, IDropTarget,ISynchronizeInvoke
 	{
 		internal virtual NSView c_helper { get; set; }
 		#region constructors
@@ -73,6 +74,12 @@ namespace System.Windows.Forms
 		RightToLeft             right_to_left; // drawing direction for control		
 		internal int layout_suspended;
 		bool                    causes_validation; // tracks if validation is executed on changes
+		bool                    tab_stop; // is the control a tab stop?
+		bool layout_pending; // true if our parent needs to re-layout us
+		internal bool			is_toplevel;		// tracks if the control is a toplevel window
+		ControlStyles           control_style; // rather win32-specific, style bits for control
+		
+		Padding padding;
 		#endregion
 		
 		#region Public Instance Variables
@@ -209,7 +216,7 @@ namespace System.Windows.Forms
 			Control	current = this;
 
 			while (current!=null) {
-				if ((current is IContainerControl) && ((current.control_style & ControlStyles.ContainerControl)!=0)) {
+				if ((current is IContainerControl) && (( ControlStyles.ContainerControl)!=0)) {
 					return (IContainerControl)current;
 				}
 				current = current.parent;
@@ -218,7 +225,8 @@ namespace System.Windows.Forms
 		}
 		
 		public Control GetNextControl(Control ctl, bool forward) {
-
+			//TODO:
+			/*
 			if (!this.Contains(ctl)) {
 				ctl = this;
 			}
@@ -232,8 +240,14 @@ namespace System.Windows.Forms
 
 			if (ctl != this) {
 				return ctl;
-			}
+			}*/
 			return null;
+		}
+	
+		private bool IsContainerAutoScaling (Control c)
+		{
+			ContainerControl cc = FindContainer (c);
+			return (cc != null) && cc.IsAutoScaling;
 		}
 		
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
@@ -266,30 +280,47 @@ namespace System.Windows.Forms
 
 			ResumeLayout ();
 		}
+		
+		[EditorBrowsable (EditorBrowsableState.Advanced)]
+		protected virtual bool ScaleChildren {
+			get { return ScaleChildrenInternal; }
+		}
+
+		internal virtual bool ScaleChildrenInternal {
+			get { return true; }
+		}
 
 		public bool SelectNextControl(Control ctl, bool forward, bool tabStopOnly, bool nested, bool wrap) {
-			Control c;
+			return c_helper.NextResponder.BecomeFirstResponder();
+		}
+		
+				public void SetBounds(int x, int y, int width, int height) {
+			SetBounds(x, y, width, height, BoundsSpecified.All);
+		}
 
-			if (!this.Contains(ctl) || (!nested && (ctl.parent != this))) {
-				ctl = null;
-			}
-			c = ctl;
-			do {
-				c = GetNextControl(c, forward);
-				if (c == null) {
-					if (wrap) {
-						wrap = false;
-						continue;
-					}
-					break;
-				}
-				if (c.CanSelect && ((c.parent == this) || nested) && (c.tab_stop || !tabStopOnly)) {
-					c.Select (true, true);
-					return true;
-				}
-			} while (c != ctl); // If we wrap back to ourselves we stop
+		public void SetBounds(int x, int y, int width, int height, BoundsSpecified specified) {
+			// Fill in the values that were not specified
+			if ((specified & BoundsSpecified.X) == 0)
+				x = Left;
+			if ((specified & BoundsSpecified.Y) == 0)
+				y = Top;
+			if ((specified & BoundsSpecified.Width) == 0)
+				width = Width;
+			if ((specified & BoundsSpecified.Height) == 0)
+				height = Height;
+		
+			SetBoundsInternal (x, y, width, height, specified);
+		}
 
-			return false;
+		internal void SetBoundsInternal (int x, int y, int width, int height, BoundsSpecified specified)
+		{
+			Bounds = new Rectangle(x,y,width,height);
+			// If the user explicitly moved or resized us, recalculate our anchor distances
+			//if (specified != BoundsSpecified.None)
+			//	UpdateDistances ();
+			
+			if (parent != null)
+				parent.PerformLayout(this, "Bounds");
 		}
 		
 		public void SuspendLayout ()
@@ -302,6 +333,7 @@ namespace System.Windows.Forms
 		}
 
 		public void ResumeLayout(bool performLayout) {
+			/*
 			if (layout_suspended > 0) {
 				layout_suspended--;
 			}
@@ -318,11 +350,12 @@ namespace System.Windows.Forms
 					performLayout();
 				}
 			}
+			*/
 		}
 		
 		internal virtual void performLayout ()
 		{
-			m_helper.ContentView.DisplayIfNeeded ();
+			c_helper.DisplayIfNeeded ();
 		}
 		
 		#endregion
@@ -346,12 +379,12 @@ namespace System.Windows.Forms
 			}
 
 			if ((specified & BoundsSpecified.Width) == BoundsSpecified.Width && !GetStyle (ControlStyles.FixedWidth)) {
-				int border = (this.bounds.Width - this.client_size.Width);
+				int border = (this.bounds.Width - this.clientSize.Width);
 				bounds.Width = (int)Math.Round ((bounds.Width - border) * factor.Width + border);
 			}
 			if ((specified & BoundsSpecified.Height) == BoundsSpecified.Height && !GetStyle (ControlStyles.FixedHeight)) {
-				int border = (this is ComboBox) ? (ThemeEngine.Current.Border3DSize.Height * 2) :
-					(this.bounds.Height - this.client_size.Height);
+				int border = //(this is ComboBox) ? (ThemeEngine.Current.Border3DSize.Height * 2) :
+					(this.bounds.Height - this.clientSize.Height);
 				bounds.Height = (int)Math.Round ((bounds.Height - border) * factor.Height + border);
 			}
 
@@ -361,11 +394,12 @@ namespace System.Windows.Forms
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
 		protected virtual void ScaleControl (SizeF factor, BoundsSpecified specified)
 		{
-			Rectangle new_bounds = GetScaledBounds (bounds, factor, specified);
+			Rectangle new_bounds = GetScaledBounds (Bounds, factor, specified);
 
 			SetBounds (new_bounds.X, new_bounds.Y, new_bounds.Width, new_bounds.Height, specified);
 		}
-		
+		//TODO: fixme
+		/*  
 		[EditorBrowsable (EditorBrowsableState.Never)]
 		protected virtual void ScaleCore (float dx, float dy)
 		{
@@ -381,6 +415,7 @@ namespace System.Windows.Forms
 
 			ResumeLayout ();
 		}
+		*/
 		
 		
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -388,8 +423,8 @@ namespace System.Windows.Forms
 			LayoutEventArgs levent = new LayoutEventArgs(affectedControl, affectedProperty);
 
 			foreach (Control c in Controls.GetAllControls ())
-				if (c.recalculate_distances)
-					c.UpdateDistances ();
+				//if (c.recalculate_distances)
+				//	c.UpdateDistances ();
 
 			if (layout_suspended > 0) {
 				layout_pending = true;
@@ -430,9 +465,9 @@ namespace System.Windows.Forms
 		}
 		
 		protected virtual bool ProcessCmdKey(ref Message msg, Keys keyData) {
-			if ((context_menu != null) && context_menu.ProcessCmdKey(ref msg, keyData)) {
-				return true;
-			}
+			//if ((context_menu != null) && context_menu.ProcessCmdKey(ref msg, keyData)) {
+			//	return true;
+			//}
 
 			if (parent != null) {
 				return parent.ProcessCmdKey(ref msg, keyData);
@@ -476,7 +511,71 @@ namespace System.Windows.Forms
 		#region Private and Internal Methods
 		
 		
+		
+		private void ChangeParent(Control new_parent) {
+			bool		pre_enabled;
+			bool		pre_visible;
+			Font		pre_font;
+			Color		pre_fore_color;
+			Color		pre_back_color;
+			RightToLeft	pre_rtl;
 
+			// These properties are inherited from our parent
+			// Get them pre parent-change and then send events
+			// if they are changed after we have our new parent
+			pre_enabled = Enabled;
+			pre_visible = Visible;
+			pre_font = Font;
+			pre_fore_color = ForeColor;
+			pre_back_color = BackColor;
+			pre_rtl = RightToLeft;
+			// MS doesn't seem to send a CursorChangedEvent
+
+			parent = new_parent;
+
+			Form frm = this as Form;
+			if (frm == null && IsHandleCreated) {
+				IntPtr parent_handle = IntPtr.Zero;
+				if (new_parent != null && new_parent.IsHandleCreated)
+					new_parent.c_helper.AddSubview(this);
+				else
+					this.c_helper.RemoveFromSuperview();
+			}
+			
+			OnParentChanged(EventArgs.Empty);
+
+			if (pre_enabled != Enabled) {
+				OnEnabledChanged(EventArgs.Empty);
+			}
+
+			if (pre_visible != Visible) {
+				OnVisibleChanged(EventArgs.Empty);
+			}
+
+			if (pre_font != Font) {
+				OnFontChanged(EventArgs.Empty);
+			}
+
+			if (pre_fore_color != ForeColor) {
+				OnForeColorChanged(EventArgs.Empty);
+			}
+
+			if (pre_back_color != BackColor) {
+				OnBackColorChanged(EventArgs.Empty);
+			}
+
+			if (pre_rtl != RightToLeft) {
+				// MS sneaks a OnCreateControl and OnHandleCreated in here, I guess
+				// because when RTL changes they have to recreate the win32 control
+				// We don't really need that (until someone runs into compatibility issues)
+				OnRightToLeftChanged(EventArgs.Empty);
+			}
+
+
+			if ((binding_context == null)) {
+				OnBindingContextChanged(EventArgs.Empty);
+			}
+		}
 		
 		internal virtual void FireEnter () {
 			OnEnter (EventArgs.Empty);
@@ -508,7 +607,7 @@ namespace System.Windows.Forms
 			container = GetContainerControl();
 			if (container != null && (Control)container != control) {
 				container.ActiveControl = control;
-				if (container.ActiveControl == control && !control.has_focus && control.IsHandleCreated)
+				if (container.ActiveControl == control && !control.Focused && control.IsHandleCreated)
 					control.c_helper.BecomeFirstResponder();
 			}
 			else if (control.IsHandleCreated) {
@@ -541,12 +640,12 @@ namespace System.Windows.Forms
 			get {
 				IntPtr focused_window;
 
-				focused_window = c_helper.Window.FirstResponder;
+				focused_window = c_helper.Window.FirstResponder.Handle;
 				if (IsHandleCreated) {
 					if (focused_window == Handle)
 						return true;
 
-					foreach (Control child_control in child_controls.GetAllControls ())
+					foreach (Control child_control in controls.GetAllControls ())
 						if (child_control.InternalContainsFocus)
 							return true;
 				}
@@ -558,7 +657,7 @@ namespace System.Windows.Forms
 		
 
 		internal bool VisibleInternal {
-			get { return is_visible; }
+			get { return !c_helper.IsHiddenOrHasHiddenAncestor; }
 		}
 		
 		#endregion
@@ -606,9 +705,14 @@ namespace System.Windows.Forms
 				}
 			}
 		}
-		public Rectangle Bounds {
+		
+		internal virtual Rectangle bounds {
 			get { return Rectangle.Round (c_helper.Bounds); }
 			set { c_helper.Bounds = value; }
+		}
+		public Rectangle Bounds {
+			get { return bounds; }
+			set { bounds = value; }
 		}
 
 		public bool CanFocus {
@@ -639,7 +743,7 @@ namespace System.Windows.Forms
 		internal virtual ControlCollection controls {
 			get {
 				if (child_controls == null)
-					child_controls = new ControlCollection (c_helper);
+					child_controls = new ControlCollection (this);
 				return child_controls;
 			}
 		}
@@ -734,8 +838,11 @@ namespace System.Windows.Forms
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool IsHandleCreated {
 			get {
-				if (c_helper == null || c_helper.Window.Handle == IntPtr.Zero)
+				
+				if (c_helper == null)
 					return false;
+				//else if(c_helper.Window.Handle == IntPtr.Zero)
+				//	return false;
 
 				return true;
 			}
@@ -810,7 +917,7 @@ namespace System.Windows.Forms
 		
 		public int Right{
 			get {
-				return this.Location.X+this.Location.Width;
+				return this.Location.X+this.Size.Width;
 			}
 		}
 
@@ -923,7 +1030,7 @@ namespace System.Windows.Forms
 			EventHandler eh = (EventHandler)(Events [BackColorChangedEvent]);
 			if (eh != null)
 				eh (this, e);
-			for (int i=0; i<child_controls.Count; i++) ((child_controls[i] as IViewHelper).Host).OnParentBackColorChanged(e);
+			for (int i=0; i<controls.Count; i++) ((controls[i] as IViewHelper).Host).OnParentBackColorChanged(e);
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -931,7 +1038,7 @@ namespace System.Windows.Forms
 			EventHandler eh = (EventHandler)(Events [BackgroundImageChangedEvent]);
 			if (eh != null)
 				eh (this, e);
-			for (int i=0; i<child_controls.Count; i++) ((child_controls[i] as IViewHelper).Host).OnParentBackgroundImageChanged(e);
+			for (int i=0; i<controls.Count; i++) ((controls[i] as IViewHelper).Host).OnParentBackgroundImageChanged(e);
 		}
 
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
@@ -948,7 +1055,7 @@ namespace System.Windows.Forms
 			EventHandler eh = (EventHandler)(Events [BindingContextChangedEvent]);
 			if (eh != null)
 				eh (this, e);
-			for (int i=0; i<child_controls.Count; i++)  ((child_controls[i] as IViewHelper).Host).OnParentBindingContextChanged(e);
+			for (int i=0; i<controls.Count; i++)  ((controls[i] as IViewHelper).Host).OnParentBindingContextChanged(e);
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1019,7 +1126,7 @@ namespace System.Windows.Forms
 			if (eh != null)
 				eh (this, e);
 
-			for (int i = 0; i < child_controls.Count; i++) ((child_controls[i] as IViewHelper).Host).OnParentCursorChanged (e);
+			for (int i = 0; i < controls.Count; i++) ((controls[i] as IViewHelper).Host).OnParentCursorChanged (e);
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1090,7 +1197,7 @@ namespace System.Windows.Forms
 			EventHandler eh = (EventHandler)(Events [FontChangedEvent]);
 			if (eh != null)
 				eh (this, e);
-			for (int i=0; i<child_controls.Count; i++) ((child_controls[i] as IViewHelper).Host).OnParentFontChanged(e);
+			for (int i=0; i<controls.Count; i++) ((controls[i] as IViewHelper).Host).OnParentFontChanged(e);
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1098,7 +1205,7 @@ namespace System.Windows.Forms
 			EventHandler eh = (EventHandler)(Events [ForeColorChangedEvent]);
 			if (eh != null)
 				eh (this, e);
-			for (int i=0; i<child_controls.Count; i++) ((child_controls[i] as IViewHelper).Host).OnParentForeColorChanged(e);
+			for (int i=0; i<controls.Count; i++) ((controls[i] as IViewHelper).Host).OnParentForeColorChanged(e);
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1456,7 +1563,7 @@ namespace System.Windows.Forms
 			EventHandler eh = (EventHandler)(Events [RightToLeftChangedEvent]);
 			if (eh != null)
 				eh (this, e);
-			for (int i=0; i<child_controls.Count; i++) (child_controls[i] as IViewHelper).Host.OnParentRightToLeftChanged(e);
+			for (int i=0; i<controls.Count; i++) (controls[i] as IViewHelper).Host.OnParentRightToLeftChanged(e);
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -2027,38 +2134,24 @@ namespace System.Windows.Forms
 
 				Form form_value = value as Form;
 				Form form_owner = owner as Form;
-				bool owner_permits_toplevels = (owner is MdiClient) || (form_owner != null && form_owner.IsMdiContainer);
+				//TODO:
+				bool owner_permits_toplevels = true;// (owner is MdiClient) || (form_owner != null && form_owner.IsMdiContainer);
 				bool child_is_toplevel = value.GetTopLevel();
-				bool child_is_mdichild = form_value != null && form_value.IsMdiChild;
+				bool child_is_mdichild =  false;//form_value != null && form_value.IsMdiChild;
 
 				if (child_is_toplevel && !(owner_permits_toplevels && child_is_mdichild))
 					throw new ArgumentException("Cannot add a top level control to a control.", "value");
-				
+				/*
 				if (child_is_mdichild && form_value.MdiParent != null && form_value.MdiParent != owner && form_value.MdiParent != owner.Parent) {
 					throw new ArgumentException ("Form cannot be added to the Controls collection that has a valid MDI parent.", "value");
 				}
+				*/
 				
-				value.recalculate_distances = true;
+				//value.recalculate_distances = true;
 				
 				if (Contains (value)) {
 					owner.PerformLayout();
 					return;
-				}
-
-				if (value.tab_index == -1) {
-					int	end;
-					int	index;
-					int	use;
-
-					use = 0;
-					end = owner.child_controls.Count;
-					for (int i = 0; i < end; i++) {
-						index = owner.child_controls[i].tab_index;
-						if (index >= use) {
-							use = index + 1;
-						}
-					}
-					value.tab_index = use;
 				}
 
 				if (value.parent != null) {
@@ -2070,10 +2163,10 @@ namespace System.Windows.Forms
 
 				value.ChangeParent(owner);
 
-				value.InitLayout();
+				//value.InitLayout();
 
-				if (owner.Visible)
-					owner.UpdateChildrenZOrder();
+				//if (owner.Visible)
+				//	owner.UpdateChildrenZOrder();
 				owner.PerformLayout(value, "Parent");
 				owner.OnControlAdded(new ControlEventArgs(value));
 			}
@@ -2102,9 +2195,9 @@ namespace System.Windows.Forms
 				impl_list.Add (control);
 
 				control.ChangeParent (owner);
-				control.InitLayout ();
-				if (owner.Visible)
-					owner.UpdateChildrenZOrder ();
+				//control.InitLayout ();
+				//if (owner.Visible)
+				//	owner.UpdateChildrenZOrder ();
 				
 				// If we are adding a new control that isn't
 				// visible, don't trigger a layout
@@ -2274,16 +2367,16 @@ namespace System.Windows.Forms
 				owner.PerformLayout(value, "Parent");
 				owner.OnControlRemoved(new ControlEventArgs(value));
 
-				ContainerControl container = owner.InternalGetContainerControl ();
-				if (container != null) { 
+				//ContainerControl container = owner.InternalGetContainerControl ();
+				//if (container != null) { 
 					// Inform any container controls about the loss of a child control
 					// so that they can update their active control
-					container.ChildControlRemoved (value);
-				}
+				//	container.ChildControlRemoved (value);
+				//}
 
 				value.ChangeParent(null);
 
-				owner.UpdateChildrenZOrder();
+				//owner.UpdateChildrenZOrder();
 			}
 
 			internal virtual void RemoveImplicit (Control control)
@@ -2295,7 +2388,7 @@ namespace System.Windows.Forms
 					owner.OnControlRemoved (new ControlEventArgs (control));
 				}
 				control.ChangeParent (null);
-				owner.UpdateChildrenZOrder ();
+				//owner.UpdateChildrenZOrder ();
 			}
 
 			public void RemoveAt (int index)
@@ -2338,7 +2431,7 @@ namespace System.Windows.Forms
 				} else {
 					list.Insert(newIndex, child);
 				}
-				child.UpdateZOrder();
+				//child.UpdateZOrder();
 				owner.PerformLayout();
 			}
 

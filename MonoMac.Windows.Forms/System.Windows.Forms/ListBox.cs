@@ -142,7 +142,7 @@ namespace System.Windows.Forms
 		public object[] SelectedItems
 		{
 			get{
-				var selIndex = tableView.SelectedRows();
+				var selIndex = tableView.SelectedRows;
 				List<object> rows = new List<object>();
 				for (int i = (int)selIndex.FirstIndex; i <= (int)selIndex.LastIndex;)
 				{
