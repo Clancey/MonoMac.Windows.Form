@@ -1,5 +1,5 @@
 //
-// BindingCompleteContext.cs
+// PreProcessControlState.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -29,9 +29,13 @@
 
 namespace System.Windows.Forms
 {
-	public enum BindingCompleteContext
+#if NET_2_0
+	public 
+#endif
+	enum PreProcessControlState
 	{
-		ControlUpdate = 0,
-		DataSourceUpdate = 1
+		MessageProcessed = 0,
+		MessageNeeded = 1,
+		MessageNotNeeded = 2
 	}
 }

@@ -1,5 +1,5 @@
 //
-// BindingCompleteContext.cs
+// ValidationConstraints.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -27,11 +27,18 @@
 //
 
 
+#if NET_2_0
 namespace System.Windows.Forms
 {
-	public enum BindingCompleteContext
+	[Flags]
+	public enum ValidationConstraints
 	{
-		ControlUpdate = 0,
-		DataSourceUpdate = 1
+		None = 0,
+		Selectable = 1,
+		Enabled = 2,
+		Visible = 4,
+		TabStop = 8,
+		ImmediateChildren = 16
 	}
 }
+#endif

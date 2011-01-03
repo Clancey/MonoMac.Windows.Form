@@ -1,6 +1,3 @@
-//
-// BindingCompleteContext.cs
-//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -20,18 +17,26 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-// Copyright (c) 2006 Novell, Inc.
+// Copyright (c) 2004 Novell, Inc.
 //
 // Authors:
-//	Jonathan Pobst (monkey@jpobst.com)
+//	Peter Bartok	pbartok@novell.com
 //
 
+// COMPLETE
 
 namespace System.Windows.Forms
 {
-	public enum BindingCompleteContext
+	[Flags]
+	public enum BoundsSpecified
 	{
-		ControlUpdate = 0,
-		DataSourceUpdate = 1
+		None		= 0x00000000,
+		X		= 0x00000001,
+		Y		= 0x00000002,
+		Location	= 0x00000003,
+		Width		= 0x00000004,
+		Height		= 0x00000008,
+		Size		= 0x0000000c,
+		All		= 0x0000000f
 	}
 }

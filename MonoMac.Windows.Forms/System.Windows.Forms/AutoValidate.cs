@@ -1,5 +1,5 @@
 //
-// BindingCompleteContext.cs
+// AutoValidate.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -29,9 +29,11 @@
 
 namespace System.Windows.Forms
 {
-	public enum BindingCompleteContext
+	public enum AutoValidate
 	{
-		ControlUpdate = 0,
-		DataSourceUpdate = 1
+		Inherit = -1,
+		Disable = 0,
+		EnablePreventFocusChange = 1,
+		EnableAllowFocusChange = 2
 	}
 }

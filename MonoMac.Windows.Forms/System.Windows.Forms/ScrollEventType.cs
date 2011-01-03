@@ -1,6 +1,3 @@
-//
-// BindingCompleteContext.cs
-//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -20,18 +17,28 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-// Copyright (c) 2006 Novell, Inc.
+// Copyright (c) 2004-2005 Novell, Inc.
 //
 // Authors:
-//	Jonathan Pobst (monkey@jpobst.com)
+//	Peter Bartok	pbartok@novell.com
 //
 
 
-namespace System.Windows.Forms
-{
-	public enum BindingCompleteContext
-	{
-		ControlUpdate = 0,
-		DataSourceUpdate = 1
+// COMPLETE
+
+using System.Runtime.InteropServices;
+
+namespace System.Windows.Forms {
+	[ComVisible(true)]
+	public enum ScrollEventType {
+		SmallDecrement	= 0,
+		SmallIncrement	= 1,
+		LargeDecrement	= 2,
+		LargeIncrement	= 3,
+		ThumbPosition	= 4,
+		ThumbTrack	= 5,
+		First		= 6,
+		Last		= 7,
+		EndScroll	= 8
 	}
 }

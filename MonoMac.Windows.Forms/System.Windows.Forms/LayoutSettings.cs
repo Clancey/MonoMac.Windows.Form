@@ -1,6 +1,3 @@
-//
-// BindingCompleteContext.cs
-//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -20,18 +17,25 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-// Copyright (c) 2006 Novell, Inc.
 //
-// Authors:
-//	Jonathan Pobst (monkey@jpobst.com)
+// Author:
+//   Miguel de Icaza (miguel@gnome.org)
 //
+// (C) 2004 Novell, Inc.
+//
+#if NET_2_0
+using System;
+using System.ComponentModel;
+using System.Windows.Forms.Layout;
 
+namespace System.Windows.Forms {
 
-namespace System.Windows.Forms
-{
-	public enum BindingCompleteContext
-	{
-		ControlUpdate = 0,
-		DataSourceUpdate = 1
+	public abstract class LayoutSettings {
+		public virtual LayoutEngine LayoutEngine {
+			get {
+				return null;
+			}
+		}
 	}
 }
+#endif

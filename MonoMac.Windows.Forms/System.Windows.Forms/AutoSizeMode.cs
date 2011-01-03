@@ -1,5 +1,5 @@
 //
-// BindingCompleteContext.cs
+// AutoSizeMode.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -29,9 +29,9 @@
 
 namespace System.Windows.Forms
 {
-	public enum BindingCompleteContext
+	public enum AutoSizeMode
 	{
-		ControlUpdate = 0,
-		DataSourceUpdate = 1
+		GrowAndShrink = 0,
+		GrowOnly = 1
 	}
 }

@@ -1,5 +1,5 @@
 //
-// BindingCompleteContext.cs
+// GetChildAtPointSkip.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -29,9 +29,15 @@
 
 namespace System.Windows.Forms
 {
-	public enum BindingCompleteContext
+	[Flags]
+#if NET_2_0
+	public 
+#endif
+	enum GetChildAtPointSkip
 	{
-		ControlUpdate = 0,
-		DataSourceUpdate = 1
+		None = 0,
+		Invisible = 1,
+		Disabled = 2,
+		Transparent = 4
 	}
 }

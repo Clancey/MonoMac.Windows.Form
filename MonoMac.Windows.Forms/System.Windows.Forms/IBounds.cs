@@ -1,5 +1,5 @@
-//
-// BindingCompleteContext.cs
+﻿//
+// IBounds.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -20,18 +20,23 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-// Copyright (c) 2006 Novell, Inc.
+// Copyright (c) 2008 Novell, Inc.
 //
 // Authors:
 //	Jonathan Pobst (monkey@jpobst.com)
 //
 
+#if NET_2_0
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Drawing;
 
 namespace System.Windows.Forms
 {
-	public enum BindingCompleteContext
+	interface IBounds
 	{
-		ControlUpdate = 0,
-		DataSourceUpdate = 1
+		Rectangle Bounds { get; }
 	}
 }
+#endif

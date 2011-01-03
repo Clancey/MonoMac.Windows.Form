@@ -1,6 +1,3 @@
-//
-// BindingCompleteContext.cs
-//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -22,16 +19,20 @@
 //
 // Copyright (c) 2006 Novell, Inc.
 //
-// Authors:
-//	Jonathan Pobst (monkey@jpobst.com)
-//
+#if NET_2_0
 
+using System;
+using System.Drawing;
+using System.ComponentModel;
 
-namespace System.Windows.Forms
-{
-	public enum BindingCompleteContext
-	{
-		ControlUpdate = 0,
-		DataSourceUpdate = 1
+namespace System.Windows.Forms {
+
+	public interface IDropTarget {
+		void OnDragDrop (DragEventArgs e);
+		void OnDragEnter (DragEventArgs e);
+		void OnDragLeave (EventArgs e);
+		void OnDragOver (DragEventArgs e);
 	}
+
 }
+#endif

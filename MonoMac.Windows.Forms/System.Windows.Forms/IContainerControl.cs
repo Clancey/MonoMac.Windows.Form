@@ -1,6 +1,3 @@
-//
-// BindingCompleteContext.cs
-//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -20,18 +17,23 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-// Copyright (c) 2006 Novell, Inc.
+// Copyright (c) 2004 Novell, Inc.
 //
 // Authors:
-//	Jonathan Pobst (monkey@jpobst.com)
+//	Peter Bartok	pbartok@novell.com
 //
 
 
-namespace System.Windows.Forms
-{
-	public enum BindingCompleteContext
-	{
-		ControlUpdate = 0,
-		DataSourceUpdate = 1
+// COMPLETE
+
+namespace System.Windows.Forms {
+	public interface IContainerControl {
+		#region Public Instance Properties
+		Control ActiveControl {get; set;}
+		#endregion	// Public Instance Properties
+
+		#region Public Instance Methods
+		bool ActivateControl(Control active);
+		#endregion	// Public Instance Methods
 	}
 }
