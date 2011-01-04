@@ -53,6 +53,10 @@ namespace System.Windows.Forms
 			c_helper = new NSView ();
 			MaximumSize = DefaultMaximumSize;
 			MinimumSize = DefaultMinimumSize;
+			is_enabled = true;
+			control_style = ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | 
+					ControlStyles.Selectable | ControlStyles.StandardClick | 
+					ControlStyles.StandardDoubleClick;
 		}
 
 		public static implicit operator NSView (Control control)
@@ -78,6 +82,12 @@ namespace System.Windows.Forms
 		bool layout_pending; // true if our parent needs to re-layout us
 		internal bool			is_toplevel;		// tracks if the control is a toplevel window
 		ControlStyles           control_style; // rather win32-specific, style bits for control
+		internal bool		is_entered;		// is the mouse inside the control?
+		bool                    is_captured; // tracks if the control has captured the mouse
+		bool 					is_enabled;
+		
+		
+		private AutoSizeMode auto_size_mode;
 		
 		Padding padding;
 		#endregion
@@ -459,6 +469,10 @@ namespace System.Windows.Forms
 		
 		#region Protected Instance Methods
 		
+		protected internal AutoSizeMode GetAutoSizeMode () 
+		{
+			return auto_size_mode;
+		}
 		
 		protected bool GetTopLevel() {
 			return is_toplevel;
@@ -504,6 +518,14 @@ namespace System.Windows.Forms
 			container = GetContainerControl();
 			if (container != null && (Control)container != this)
 				container.ActiveControl = this;
+		}
+		
+		protected void SetAutoSizeMode (AutoSizeMode mode)
+		{
+			if (auto_size_mode != mode) {
+				auto_size_mode = mode;
+				PerformLayout (this, "AutoSizeMode");
+			}
 		}
 
 		#endregion
@@ -662,7 +684,7 @@ namespace System.Windows.Forms
 		
 		#endregion
 
-		#region members
+		#region Public Instance Properties
 		public virtual AnchorStyles Anchor { get; set; }
 
 		public virtual Point AutoScrollOffset {
@@ -717,6 +739,57 @@ namespace System.Windows.Forms
 
 		public bool CanFocus {
 			get { return c_helper.AcceptsFirstResponder (); }
+		}
+		
+		
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool CanSelect {
+			get {
+				Control	parent;
+
+				if (!GetStyle(ControlStyles.Selectable)) {
+					return false;
+				}
+
+				parent = this;
+				while (parent != null) {
+					if (!parent.Visible || !parent.Enabled) {
+						return false;
+					}
+
+					parent = parent.parent;
+				}
+				return true;
+			}
+		}
+
+		
+		
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool Capture {
+			get {
+				return this.is_captured;
+			}
+
+			set {
+				// Call OnMouseCaptureChanged when we get WM_CAPTURECHANGED.
+				if (value != is_captured) {
+					if (value) {
+						is_captured = true;
+						c_helper.BecomeFirstResponder();
+						//XplatUI.GrabWindow(Handle, IntPtr.Zero);
+					} else {
+						if (IsHandleCreated)
+							c_helper.ResignFirstResponder();
+						is_captured = false;
+					}
+				}
+			}
 		}
 
 
@@ -780,14 +853,59 @@ namespace System.Windows.Forms
 			}
 		}
 		public virtual DockStyle Dock { get; set; }
-
+		
+		
+		[DispId(-514)]
+		[Localizable(true)]
+		[MWFCategory("Behavior")]
 		public bool Enabled {
-			get { return c_helper.AcceptsFirstResponder (); }
+			get {return enabled;
+			}
+
+			set {
+				enabled = value;
+				OnEnabledChanged (EventArgs.Empty);
+			}
 		}
-		//TODO: Setter
+		
+		internal virtual bool enabled
+		{
+			get {
+				if (!is_enabled) {
+					return false;
+				}
+
+				if (parent != null) {
+					return parent.Enabled;
+				}
+
+				return true;
+			}
+
+			set {
+				if (this.is_enabled == value)
+					return;
+
+				bool old_value = is_enabled;
+
+				is_enabled = value;
+
+				//if (!value)
+				//	UpdateCursor ();
+
+				if (old_value != value && !value && this.Focused)
+					SelectNextControl(this, true, true, true, true);
+			}
+			
+		}
 
 		public virtual bool Focused {
-			get { return c_helper == c_helper.Window.FirstResponder; }
+			get { 
+				if (c_helper == null)
+					return false;
+				if(c_helper.Window == null)
+					return false;
+				return c_helper == c_helper.Window.FirstResponder; }
 		}
 
 		internal virtual NSFont font { get; set; }
@@ -922,7 +1040,7 @@ namespace System.Windows.Forms
 		}
 
 		public bool Visible {
-			get { return c_helper.Hidden; }
+			get { return !c_helper.IsHiddenOrHasHiddenAncestor; }
 			set { c_helper.Hidden = value; }
 		}
 

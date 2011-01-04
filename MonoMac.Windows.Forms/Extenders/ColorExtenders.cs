@@ -9,18 +9,18 @@ namespace System.Windows.Forms
         {
 			if (clr == null)
 				return Color.Transparent;
-			clr = clr.ColorUsingColorSpaceName(NSColorSpace.CalibratedRGB);
+			clr.UsingColorSpace(NSColorSpace.CalibratedRGB);
 			return Color.FromArgb( (int)clr.AlphaComponent
 				                      ,(int)clr.RedComponent
 				                      ,(int)clr.GreenComponent
-				                      ,(int)clr.BlueComponent());
+				                      ,(int)clr.BlueComponent);
         }
         public static NSColor ToNSColor(this Color clr)
         {
-			 return NSColor.FromCalibratedRGBA(clr.R
+			 return NSColor.FromCalibratedRgba(clr.R
                                                ,clr.G
                                                ,clr.B
-                                               ,clr.A).ColorUsingColorSpaceName(NSColorSpace.CalibratedRGB);
+                                               ,clr.A).UsingColorSpace(NSColorSpace.CalibratedRGB);
         }
     }   
 }

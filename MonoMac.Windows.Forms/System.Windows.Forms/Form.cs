@@ -98,6 +98,7 @@ namespace System.Windows.Forms
 			m_helper = new FormHelper (this, new RectangleF (50, 50, 400, 400), (NSWindowStyle)(1 | (1 << 1) | (1 << 2) | (1 << 3)), NSBackingStore.Buffered, false);
 			m_helper.ContentView = new View (this);
 			setStyle ();
+			m_helper.AcceptsMouseMovedEvents = true;
 			//this.StandardWindowButton().Image
 		}
 		

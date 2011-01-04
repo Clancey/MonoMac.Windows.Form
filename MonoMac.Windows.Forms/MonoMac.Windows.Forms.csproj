@@ -34,14 +34,14 @@
     <Reference Include="System.Core" />
     <Reference Include="nunit.core, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
     <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
-    <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\monomacTrunk\src\MonoMac.dll</HintPath>
-    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\System.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\MonoMac.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -113,7 +113,6 @@
     <Compile Include="EventArgs\ListChangedEventHandler.cs" />
     <Compile Include="EventArgs\ItemChangedEventArgs.cs" />
     <Compile Include="MonoTODOAttribute.cs" />
-    <Compile Include="System.Windows.Forms\Button.cs" />
     <Compile Include="System.Windows.Forms\MessageBox.cs" />
     <Compile Include="System.Windows.Forms\Form.cs" />
     <Compile Include="System.Windows.Forms\Application.cs" />
@@ -123,7 +122,6 @@
     <Compile Include="System.Windows.Forms\IControl.cs" />
     <Compile Include="System.Windows.Forms\CheckBox.cs" />
     <Compile Include="System.Windows.Forms\CheckedListBox.cs" />
-    <Compile Include="System.Windows.Forms\ComboBox.cs" />
     <Compile Include="System.Windows.Forms\UserControl.cs" />
     <Compile Include="System.Windows.Forms\ListBox.cs" />
     <Compile Include="System.Windows.Forms\DataTable.cs" />
@@ -211,6 +209,12 @@
     <Compile Include="System.Windows.Forms.Layout\ArrangedElementCollection.cs" />
     <Compile Include="System.Windows.Forms.Layout\LayoutEngine.cs" />
     <Compile Include="Consts.cs.in" />
+    <Compile Include="System.Windows.Forms\ButtonBase.cs" />
+    <Compile Include="System.Windows.Forms\Button.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\Button.cs" />
+    <Compile Include="System.Windows.Forms\IButtonControl.cs" />
+    <Compile Include="System.Windows.Forms\ButtonBase.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\ComboBox.cocoa.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />

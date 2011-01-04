@@ -352,7 +352,6 @@ namespace System.Windows.Forms
 		public event MouseEventHandler MouseDown;
 		public event MouseEventHandler MouseUp;
 		public event MouseEventHandler MouseMove;
-		public event MouseEventHandler MouseDoubleClick;
 		public event MouseEventHandler MouseWheel;
 		public event EventHandler MouseEnter;
 		public event EventHandler MouseHover;
