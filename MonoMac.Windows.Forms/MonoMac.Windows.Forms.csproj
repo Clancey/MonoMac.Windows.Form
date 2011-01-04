@@ -111,7 +111,6 @@
     <Compile Include="EventArgs\ItemChangedEventArgs.cs" />
     <Compile Include="MonoTODOAttribute.cs" />
     <Compile Include="System.Windows.Forms\MessageBox.cs" />
-    <Compile Include="System.Windows.Forms\Form.cs" />
     <Compile Include="System.Windows.Forms\Application.cs" />
     <Compile Include="System.Windows.Forms\ApplicationContext.cs" />
     <Compile Include="System.Windows.Forms\TextBox.cs" />
@@ -215,6 +214,17 @@
     <Compile Include="System.Windows.Forms\CheckBox.cs" />
     <Compile Include="System.Windows.Forms\Appearance.cs" />
     <Compile Include="System.Windows.Forms\TextFormatFlags.cs" />
+    <Compile Include="System.Windows.Forms\ListControl.cs" />
+    <Compile Include="System.Windows.Forms\ListControlConvertEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\ListControlConvertEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\DrawMode.cs" />
+    <Compile Include="System.Windows.Forms\AutoCompleteMode.cs" />
+    <Compile Include="System.Windows.Forms\AutoCompleteSource.cs" />
+    <Compile Include="System.Windows.Forms\AutoCompleteStringCollection.cs" />
+    <Compile Include="System.Windows.Forms\FlatStyle.cs" />
+    <Compile Include="System.Windows.Forms\MeasureItemEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\MeasureItemEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\Form.cocoa.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />

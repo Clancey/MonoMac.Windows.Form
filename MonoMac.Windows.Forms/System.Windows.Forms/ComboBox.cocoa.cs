@@ -1,14 +1,19 @@
 using System;
+using System.Collections;
+using System.ComponentModel;
+using System.ComponentModel.Design;
+using System.ComponentModel.Design.Serialization;
 using System.Drawing;
+using System.Globalization;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
-using System.Collections;
-using System.Reflection;
 using System.Linq;
 using System.Collections.Generic;
 namespace System.Windows.Forms
 {
-	public partial class ComboBox : Control // : ComboBoxMouseView, IControl
+	public partial class ComboBox : Control //ListControl 
 	{
 		internal ComboBoxMouseView m_helper;
 		internal override NSView c_helper {
@@ -24,15 +29,20 @@ namespace System.Windows.Forms
 			m_helper = new ComboBoxMouseView();
 			m_helper.Host = this;
 			m_helper.Activated += delegate(object sender, EventArgs e) {
-				if(SelectedIndexChanged != null)
-					SelectedIndexChanged(sender,e);
+				//TODO: implemetn ListControl
 				if(SelectedValueChanged != null)
 					SelectedValueChanged(sender,e);
+				//OnSelectedIndexChanged(e);
+				//OnSelectedValueChanged(e);
 			};	
 			
 		}
+		public event EventHandler SelectedValueChanged;
 		
 		[Obsolete("Not Implemented.", false)]
+		[DefaultValue (ComboBoxStyle.DropDown)]
+		[RefreshProperties(RefreshProperties.Repaint)]
+		[MWFCategory("Appearance")]
 		public ComboBoxStyle DropDownStyle {get;set;}
 		public Color BackColor {get;set;}
 		private string displayMember;
@@ -40,6 +50,11 @@ namespace System.Windows.Forms
 		private string valueMember;
 		public string ValueMember {get{return valueMember; }set{ valueMember = value; _dataSource.ValueMember = value;}}
 		ComboBoxDataSource _dataSource = new ComboBoxDataSource();
+		
+		[DefaultValue ((string)null)]
+		[AttributeProvider (typeof (IListSource))]
+		[RefreshProperties (RefreshProperties.Repaint)]
+		[MWFCategory("Data")]
 		public new object DataSource {
 			get {
 				return _dataSource.dataArray;
@@ -50,6 +65,11 @@ namespace System.Windows.Forms
 				m_helper.DataSource = _dataSource;
 			}
 		}
+		
+
+		[Browsable (false)]
+		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
+		[Bindable(true)]
 		public object SelectedItem
 		{
 			get{return _dataSource.dataArray[m_helper.SelectedIndex];}
@@ -57,13 +77,11 @@ namespace System.Windows.Forms
 		}
 		/*
 		public override int SelectedIndex {
-			get {
-				if(!FormattingEnabled && base.SelectedIndex == -1)
-					return 0;
-				return base.SelectedIndex;
-			}
+			get { return m_helper.SelectedIndex; }
+			//set { m_helper.SelectedIndex = value;}
 		}
 		*/
+		
 		public bool FormattingEnabled {get;set;}
 		
 		public object SelectedValue
@@ -71,17 +89,20 @@ namespace System.Windows.Forms
 			get{return _dataSource.GetSelectedValue(m_helper);}
 			set {_dataSource.SetSelectedValue(m_helper,value);}
 		}
-		public string Text
-		{
-			get{return m_helper.StringValue;}
-			set{m_helper.StringValue = value;}
+		
+		
+		[Bindable (true)]
+		[Localizable (true)]
+		public override string Text {
+			get { return m_helper.StringValue; }
+			set { m_helper.StringValue = value; }
 		}
-		#region Events
-		public EventHandler SelectedIndexChanged {get;set;}
-		public EventHandler SelectedValueChanged {get;set;}
-		#endregion
 		
-		
+		[DesignerSerializationVisibility (DesignerSerializationVisibility.Content)]
+		[Localizable (true)]
+		[Editor ("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + Consts.AssemblySystem_Design, typeof (System.Drawing.Design.UITypeEditor))]
+		[MergableProperty (false)]
+		[MWFCategory("Data")]
 		public object[] Items 
 		{
 			get{return _dataSource.dataArray;}
