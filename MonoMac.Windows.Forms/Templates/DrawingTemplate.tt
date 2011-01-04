@@ -23,29 +23,25 @@ string[] subfolders = new string[]{ @"UserControl",
 							  @"ListBoxMouseView",
 							  @"TrackBarMouseView",
 							  @"PanelMouseView",
+							  @"UserControlMouseView",
 							  };
 foreach(var folder in subfolders)
 {
 #>
 	public partial class <#= folder #> 
-	{		
-		
+	{	
+		public bool shouldDraw {get;set;}
 		public override void DrawRect (RectangleF dirtyRect)
 		{
-			
-			using (var graphics = Graphics.FromHwnd(this.Handle))
+			using (var graphics = Graphics.FromHwnd (this.Handle))
 			{
-				var events = new PaintEventArgs(graphics,Rectangle.Round(dirtyRect));
-				OnPaintBackground(events);
-				OnPaint(events);
+				var events = new PaintEventArgs (graphics, Rectangle.Round (dirtyRect));
+				Host.Draw (events);
 			}
-			if(shouldDraw)
-				base.DrawRect(dirtyRect);
+			if (shouldDraw)
+				base.DrawRect (dirtyRect);
 		}
-		
-		public bool shouldDraw;
-		
-		public PaintEventHandler Paint { get; set; }
+			
 		protected virtual void OnPaint(PaintEventArgs e)
         {
 			if (Paint != null)

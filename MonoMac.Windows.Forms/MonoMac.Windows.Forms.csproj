@@ -72,9 +72,6 @@
     <Compile Include="Templates\FontTemplate.g.cs">
       <DependentUpon>FontTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Templates\UserControlTemplate.g.cs">
-      <DependentUpon>UserControlTemplate.tt</DependentUpon>
-    </Compile>
     <Compile Include="Templates\MouseTemplate.g.cs">
       <DependentUpon>MouseTemplate.tt</DependentUpon>
     </Compile>
@@ -120,7 +117,6 @@
     <Compile Include="System.Windows.Forms\TextBox.cs" />
     <Compile Include="System.Windows.Forms\Label.cs" />
     <Compile Include="System.Windows.Forms\IControl.cs" />
-    <Compile Include="System.Windows.Forms\CheckBox.cs" />
     <Compile Include="System.Windows.Forms\CheckedListBox.cs" />
     <Compile Include="System.Windows.Forms\UserControl.cs" />
     <Compile Include="System.Windows.Forms\ListBox.cs" />
@@ -215,6 +211,10 @@
     <Compile Include="System.Windows.Forms\IButtonControl.cs" />
     <Compile Include="System.Windows.Forms\ButtonBase.cocoa.cs" />
     <Compile Include="System.Windows.Forms\ComboBox.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\CheckBox.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\CheckBox.cs" />
+    <Compile Include="System.Windows.Forms\Appearance.cs" />
+    <Compile Include="System.Windows.Forms\TextFormatFlags.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />
@@ -246,10 +246,6 @@
     <None Include="Templates\FontTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FontTemplate.g.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\UserControlTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>UserControlTemplate.g.cs</LastGenOutput>
     </None>
     <None Include="Templates\MouseTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

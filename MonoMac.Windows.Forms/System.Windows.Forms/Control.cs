@@ -215,6 +215,30 @@ namespace System.Windows.Forms
 		#region Public Instance Methods
 		
 		
+		public void DrawToBitmap (Bitmap bitmap, Rectangle targetBounds)
+		{
+			Graphics g = Graphics.FromImage (bitmap);
+			
+			// Only draw within the target bouds, and up to the size of the control
+			g.IntersectClip (targetBounds);
+			g.IntersectClip (Bounds);
+			
+			// Logic copied from WmPaint
+			PaintEventArgs pea = new PaintEventArgs (g, targetBounds);
+			
+			if (!GetStyle (ControlStyles.Opaque))
+				OnPaintBackground (pea);
+
+			OnPaintBackgroundInternal (pea);
+
+			OnPaintInternal (pea);
+
+			//if (!pea.Handled)
+				OnPaint (pea);
+			
+			g.Dispose ();
+		}
+		
 		internal ContainerControl FindContainer (Control c)
 		{
 			while ((c != null) && !(c is ContainerControl))
@@ -531,9 +555,6 @@ namespace System.Windows.Forms
 		#endregion
 		
 		#region Private and Internal Methods
-		
-		
-		
 		private void ChangeParent(Control new_parent) {
 			bool		pre_enabled;
 			bool		pre_visible;
@@ -599,6 +620,12 @@ namespace System.Windows.Forms
 			}
 		}
 		
+		internal void Draw(PaintEventArgs events)
+		{
+			OnPaintBackground(events);
+			OnPaint(events);
+		}
+		
 		internal virtual void FireEnter () {
 			OnEnter (EventArgs.Empty);
 		}
@@ -614,7 +641,23 @@ namespace System.Windows.Forms
 		internal virtual void FireValidated () {
 			OnValidated (EventArgs.Empty);
 		}
-
+		
+		
+		internal void FireMouseDown (object sender, MouseEventArgs e)
+		{
+			OnMouseDown(e);
+		}
+		
+		internal void FireMouseUp (object sender, MouseEventArgs e)
+		{
+			OnMouseUp(e);
+		}
+		
+		internal void FireMouseMove (object sender, MouseEventArgs e)
+		{
+			OnMouseUp(e);
+		}
+		
 		protected internal bool GetStyle(ControlStyles flag) {
 			return (control_style & flag) != 0;
 		}
@@ -1079,14 +1122,10 @@ namespace System.Windows.Forms
 		
 		// This method exists so controls overriding OnPaintBackground can have default background painting done
 		internal virtual void PaintControlBackground (PaintEventArgs pevent) {
-
-	
-	
 			if (background_image == null) {
 					Rectangle paintRect = new Rectangle(pevent.ClipRectangle.X, pevent.ClipRectangle.Y, pevent.ClipRectangle.Width, pevent.ClipRectangle.Height);
 					Brush pen =  new SolidBrush(BackColor);//ThemeEngine.Current.ResPool.GetSolidBrush(BackColor);
 					pevent.Graphics.FillRectangle(pen, paintRect);
-				
 				return;
 			}
 
@@ -1544,6 +1583,7 @@ namespace System.Windows.Forms
 			PaintEventHandler eh = (PaintEventHandler)(Events [PaintEvent]);
 			if (eh != null)
 				eh (this, e);
+			(c_helper as IViewHelper).shouldDraw = true;
 		}
 
 		internal virtual void OnPaintBackgroundInternal(PaintEventArgs e) {

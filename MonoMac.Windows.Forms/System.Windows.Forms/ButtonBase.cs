@@ -55,8 +55,11 @@ namespace System.Windows.Forms {
 #endif
 		private bool			use_mnemonic;
 		private bool			use_visual_style_back_color;
+		
+		
+		private TextFormatFlags		text_format_flags;
 		#endregion	// Local Variables
-
+		
 
 		#region Public Properties
 #if NET_2_0

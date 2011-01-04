@@ -30,19 +30,16 @@ using System.Drawing.Text;
 using System.Runtime.InteropServices;
 
 namespace System.Windows.Forms {
-#if NET_2_0
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
 	[ComVisible (true)]
 	[Designer ("System.Windows.Forms.Design.ButtonBaseDesigner, " + Consts.AssemblySystem_Design,
 		   "System.ComponentModel.Design.IDesigner")]
-#endif
 	public partial class Button : ButtonBase, IButtonControl {
 		#region Local variables
 		DialogResult	dialog_result;
 		#endregion	// Local variables
 
 		#region Public Properties
-#if NET_2_0
 		[Browsable (true)]
 		[Localizable (true)]
 		[DefaultValue (AutoSizeMode.GrowOnly)]
@@ -51,7 +48,6 @@ namespace System.Windows.Forms {
 			get { return base.GetAutoSizeMode (); }
 			set { base.SetAutoSizeMode (value); }
 		}
-#endif
 
 		[DefaultValue (DialogResult.None)]
 		[MWFCategory("Behavior")]
@@ -60,7 +56,6 @@ namespace System.Windows.Forms {
 			set { dialog_result = value; }
 		}
 		#endregion	// Public Properties
-
 
 		#region Public Methods
 		public virtual void NotifyDefault (bool value)	// IButtonControl
@@ -93,7 +88,6 @@ namespace System.Windows.Forms {
 			base.OnClick (e);
 		}
 
-#if NET_2_0
 		protected override void OnFontChanged (EventArgs e)
 		{
 			base.OnFontChanged (e);
@@ -108,20 +102,16 @@ namespace System.Windows.Forms {
 		{
 			base.OnMouseLeave (e);
 		}
-#endif
 
 		protected override void OnMouseUp (MouseEventArgs mevent)
 		{
 			base.OnMouseUp (mevent);
 		}
 
-#if NET_2_0
 		protected override void OnTextChanged (EventArgs e)
 		{
 			base.OnTextChanged (e);
 		}
-#endif
-		
 		#endregion	// Protected Methods
 
 		#region Events
@@ -132,18 +122,12 @@ namespace System.Windows.Forms {
 			remove { base.DoubleClick -= value; }
 		}
 
-#if NET_2_0
 		[Browsable (false)]
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
 		public new event MouseEventHandler MouseDoubleClick {
 			add { base.MouseDoubleClick += value; }
 			remove { base.MouseDoubleClick -= value; }
 		}
-#endif
 		#endregion	// Events
-
-		#region	Internal methods
-
-		#endregion	// Internal methods
 	}
 }
