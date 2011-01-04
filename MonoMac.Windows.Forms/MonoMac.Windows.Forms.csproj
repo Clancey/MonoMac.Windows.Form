@@ -110,15 +110,10 @@
     <Compile Include="EventArgs\ListChangedEventHandler.cs" />
     <Compile Include="EventArgs\ItemChangedEventArgs.cs" />
     <Compile Include="MonoTODOAttribute.cs" />
-    <Compile Include="System.Windows.Forms\MessageBox.cs" />
     <Compile Include="System.Windows.Forms\Application.cs" />
     <Compile Include="System.Windows.Forms\ApplicationContext.cs" />
-    <Compile Include="System.Windows.Forms\TextBox.cs" />
-    <Compile Include="System.Windows.Forms\Label.cs" />
     <Compile Include="System.Windows.Forms\IControl.cs" />
     <Compile Include="System.Windows.Forms\CheckedListBox.cs" />
-    <Compile Include="System.Windows.Forms\UserControl.cs" />
-    <Compile Include="System.Windows.Forms\ListBox.cs" />
     <Compile Include="System.Windows.Forms\DataTable.cs" />
     <Compile Include="System.Windows.Forms\TrackBar.cs" />
     <Compile Include="System.Windows.Forms\DataGridViewButtonCell.cs" />
@@ -225,6 +220,11 @@
     <Compile Include="System.Windows.Forms\MeasureItemEventArgs.cs" />
     <Compile Include="System.Windows.Forms\MeasureItemEventHandler.cs" />
     <Compile Include="System.Windows.Forms\Form.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\Label.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\ListBox.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\MessageBox.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\TextBox.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\UserControl.cocoa.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />
