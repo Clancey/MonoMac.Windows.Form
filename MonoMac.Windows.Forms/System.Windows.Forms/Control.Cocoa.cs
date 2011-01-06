@@ -655,7 +655,7 @@ namespace System.Windows.Forms
 		
 		internal void FireMouseMove (object sender, MouseEventArgs e)
 		{
-			OnMouseUp(e);
+			OnMouseMove(e);
 		}
 		
 		protected internal bool GetStyle(ControlStyles flag) {
@@ -1412,12 +1412,11 @@ namespace System.Windows.Forms
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected virtual void OnInvalidated(InvalidateEventArgs e) {
-			if(c_helper != null)
-				c_helper.SetNeedsDisplayInRect(e.InvalidRect);
-
 			InvalidateEventHandler eh = (InvalidateEventHandler)(Events [InvalidatedEvent]);
 			if (eh != null)
 				eh (this, e);
+			if(c_helper != null)
+				c_helper.SetNeedsDisplayInRect(e.InvalidRect);
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]

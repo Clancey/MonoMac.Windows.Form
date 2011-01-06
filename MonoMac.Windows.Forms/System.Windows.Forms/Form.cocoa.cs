@@ -188,7 +188,7 @@ namespace System.Windows.Forms
 		/// <summary>
 		/// Drawing stuff
 		/// </summary>
-
+		/*
 		public void onPaint (PaintEventArgs e)
 		{
 			OnPaint (e);
@@ -200,6 +200,7 @@ namespace System.Windows.Forms
 			(m_helper.ContentView as View).shouldDraw = true;
 			
 		}
+		*/
 		public Graphics CreateGraphics ()
 		{
 			var graphics = Graphics.FromHwnd (m_helper.ContentView.Handle);
@@ -231,7 +232,8 @@ namespace System.Windows.Forms
 		public bool Modal {
 			get { return m_helper.IsSheet; }
 		}
-
+		
+		/*
 		public PaintEventHandler Paint { get; set; }
 
 		public Color BackColor { get; set; }
@@ -249,7 +251,7 @@ namespace System.Windows.Forms
 			e.Graphics.DrawRectangle (pen, e.ClipRectangle);
 		}
 
-
+		 */
 		/*
 		public SizeF ClientSize {
 			get { return this.Frame.Size; }
@@ -353,8 +355,6 @@ namespace System.Windows.Forms
 
 		public event EventHandler AutoSizeChanged;
 		public event EventHandler AutoValidateChanged;
-		public event MouseEventHandler MouseMove;
-		public event MouseEventHandler MouseDoubleClick;
 		public event EventHandler SizeChanged;
 		
 		
