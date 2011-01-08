@@ -19,6 +19,11 @@ namespace System.Windows.Forms
 		}
 		public TextBox ()
 		{
+			//this.BackgroundColor = NSColor.Clear;
+		}
+		
+		internal override void CreateHelper ()
+		{			
 			m_helper =  new TextBoxMouseView();
 			m_helper.Host = this;
 			m_helper.Selectable = true;
@@ -27,7 +32,6 @@ namespace System.Windows.Forms
 			m_helper.viewDidMoveToSuperview += delegate(object sender, EventArgs e) {
 				ViewDidMoveToSuperview();
 			};
-			//this.BackgroundColor = NSColor.Clear;
 		}
 
 		public virtual string Text {

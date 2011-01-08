@@ -27,6 +27,11 @@ namespace System.Windows.Forms
 		public NSString colString = new NSString("ListBox");
 		public ListBox () : base ()
 		{
+
+		}
+		
+		internal override void CreateHelper ()
+		{
 			m_helper = new ListBoxMouseView();
 			m_helper.Host = this;
 			_dataSource = new ListboxDataSource(this);

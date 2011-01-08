@@ -225,6 +225,9 @@
     <Compile Include="System.Windows.Forms\TrackBar.cocoa.cs" />
     <Compile Include="System.Windows.Forms\CheckedListBox.cocoa.cs" />
     <Compile Include="System.Windows.Forms\Control.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\Control.cs" />
+    <Compile Include="System.Windows.Forms\ImeMode.cs" />
+    <Compile Include="System.Windows.Forms\AmbientProperties.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />

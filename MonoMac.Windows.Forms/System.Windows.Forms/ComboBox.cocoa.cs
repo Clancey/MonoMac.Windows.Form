@@ -37,6 +37,17 @@ namespace System.Windows.Forms
 			};	
 			
 		}
+		internal override void CreateHelper ()
+		{m_helper = new ComboBoxMouseView();
+			m_helper.Host = this;
+			m_helper.Activated += delegate(object sender, EventArgs e) {
+				//TODO: implemetn ListControl
+				//if(SelectedValueChanged != null)
+					SelectedValueChanged(sender,e);
+				//OnSelectedIndexChanged(e);
+				//OnSelectedValueChanged(e);
+			};	
+		}
 		public event EventHandler SelectedValueChanged;
 		
 		[Obsolete("Not Implemented.", false)]

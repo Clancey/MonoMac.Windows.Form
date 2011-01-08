@@ -110,11 +110,14 @@ namespace System.Windows.Forms
 		//: base(new RectangleF (50, 50, 400, 400), (NSWindowStyle)(1 | (1 << 1) | (1 << 2) | (1 << 3)), NSBackingStore.Buffered, false)
 		public Form ()
 		{
+			setStyle ();
+			//this.StandardWindowButton().Image
+		}
+		internal override void CreateHelper ()
+		{
 			m_helper = new FormHelper (this, new RectangleF (50, 50, 400, 400), (NSWindowStyle)(1 | (1 << 1) | (1 << 2) | (1 << 3)), NSBackingStore.Buffered, false);
 			m_helper.ContentView = new View (this);
-			setStyle ();
 			m_helper.AcceptsMouseMovedEvents = true;
-			//this.StandardWindowButton().Image
 		}
 		
 		internal override NSView c_helper {
@@ -318,9 +321,10 @@ namespace System.Windows.Forms
 
 		#region From Template
 		public string Name { get; set; }
-		internal override Size size {
-			get { return Size.Round(m_helper.Frame.Size); }
-			set { m_helper.SetFrame (new RectangleF (m_helper.Frame.Location, value), true); }
+		internal override Rectangle bounds {
+			get { return Rectangle.Round(m_helper.Frame); }
+			set { 
+				m_helper.SetFrame (value, true); }
 		}
 
 		internal override Point location {
