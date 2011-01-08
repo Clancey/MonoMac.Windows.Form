@@ -13,6 +13,12 @@ namespace System.Windows.Forms
 		{
 			Host = parent;
 			this.AutoresizingMask = (NSViewResizingMask.HeightSizable | NSViewResizingMask.WidthSizable);
+			
+		}
+		
+		public override void ViewDidMoveToWindow ()
+		{
+			base.ViewDidMoveToWindow ();
 		}
 		
 		public Control Host {get;set;}
@@ -34,7 +40,7 @@ namespace System.Windows.Forms
 			if (shouldDraw)
 				base.DrawRect (dirtyRect);
 		}
-
+		
 		public override void MouseUp (NSEvent theEvent)
 		{
 			PointF point = this.ConvertPointfromView (theEvent.LocationInWindow, null);
@@ -60,7 +66,7 @@ namespace System.Windows.Forms
 		{
 			PointF point = theEvent.LocationInWindow;
 			this.Host.FireMouseMove (Host, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
-			base.MouseMoved (theEvent);
+			//base.MouseMoved (theEvent);
 		}
 	}
 
@@ -72,11 +78,24 @@ namespace System.Windows.Forms
 		{
 			m_parent = parent;
 		}
-
+		
+		private bool hasLoaded = false;
 		public override void BecomeKeyWindow ()
 		{
 			base.BecomeKeyWindow ();
-			m_parent.CallLoad ();
+			if(!hasLoaded)
+			{
+				m_parent.CallLoad ();
+				hasLoaded = true;
+			}
+		}
+		
+		
+		
+		public override void MouseMoved (NSEvent theEvent)
+		{
+			this.ContentView.MouseMoved(theEvent);
+			base.MouseMoved (theEvent);
 		}
 		
 	}
