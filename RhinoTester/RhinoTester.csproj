@@ -3,15 +3,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{CCDAA602-7A9C-463B-ABD3-719D843B7E91}</ProjectGuid>
+    <ProjectGuid>{9065F419-62B4-4600-B0DF-E6791F7AEE5A}</ProjectGuid>
     <ProjectTypeGuids>{1C533B1C-72DD-4CB1-9F6B-BF11D93BCFBE};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
-    <RootNamespace>TestLoad</RootNamespace>
-    <StartupObject>MyForm</StartupObject>
-    <AssemblyName>TestLoad</AssemblyName>
+    <RootNamespace>RhinoTester</RootNamespace>
+    <AssemblyName>RhinoTester</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <StartupObject>RhinoTester.MainClass</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,7 +22,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <additionalargs>-v</additionalargs>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="Custom" command="export NSZombieEnabled=YES" />
+      </CustomCommands>
+    </CustomCommands>
+    <EnvironmentVariables>
+      <EnvironmentVariables>
+        <Variable name="NSZombieEnabled" value="" />
+      </EnvironmentVariables>
+    </EnvironmentVariables>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -42,10 +51,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\MonoMac.dll</HintPath>
     </Reference>
+    <Reference Include="RhinoCommon, Version=5.0.15005.0, Culture=neutral, PublicKeyToken=552281e97c755530">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>RhinoCommon.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestWinform.cs" />
-    <Compile Include="ComboBoxItems.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="MainMenu.xib.designer.cs">
       <DependentUpon>MainMenu.xib</DependentUpon>
     </Compile>
@@ -56,12 +68,12 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Mono\MonoMac\v0.0\Mono.MonoMac.targets" />
   <ItemGroup>
+    <Page Include="MainMenu.xib" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\MonoMac.Windows.Forms\System.Windows.Forms.csproj">
       <Project>{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}</Project>
       <Name>System.Windows.Forms</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="MainMenu.xib" />
   </ItemGroup>
 </Project>

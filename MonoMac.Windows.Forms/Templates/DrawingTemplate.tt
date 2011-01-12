@@ -41,13 +41,14 @@ foreach(var folder in subfolders)
 			if (shouldDraw)
 				base.DrawRect (dirtyRect);
 		}
-			
+		/*
 		protected virtual void OnPaint(PaintEventArgs e)
         {
 			if (Paint != null)
 				Paint (this, e);
         	shouldDraw = true;
         }
+        */
         public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{

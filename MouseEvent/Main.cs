@@ -80,7 +80,7 @@ namespace MouseEvent
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(320, 120);
             this.label9.Size = new System.Drawing.Size(35, 13);
-			/*
+			
             // Mouse Panel
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
                 | System.Windows.Forms.AnchorStyles.Right);
@@ -95,7 +95,7 @@ namespace MouseEvent
             this.panel1.MouseLeave += new System.EventHandler(this.panel1_MouseLeave);
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
             this.panel1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseWheel);
-			 */
+			 
             // Clear Button
             this.clearButton.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
             this.clearButton.Location = new System.Drawing.Point(592, 504);
@@ -222,7 +222,7 @@ namespace MouseEvent
                         FontFamily.GenericSerif, (int)FontStyle.Bold, 
                         fontSize, mouseUpLocation, StringFormat.GenericDefault);
 
-            //panel1.Invalidate();
+            panel1.Invalidate();
         }
 
         private void panel1_Paint(object sender, System.Windows.Forms.PaintEventArgs e) 

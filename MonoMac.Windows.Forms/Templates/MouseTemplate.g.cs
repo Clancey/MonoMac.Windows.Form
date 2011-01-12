@@ -790,6 +790,20 @@ namespace System.Windows.Forms
 	{
 		public Control Host {get;set;}
 		public NSCursor Cursor {get;set;}
+		public override RectangleF Frame {
+			get {
+				return base.Frame;
+			}
+			set {
+				this.RemoveTrackingArea((Host as Panel).trackingArea);
+				(Host as Panel).trackingArea = new NSTrackingArea(value,(NSTrackingAreaOptions.MouseEnteredAndExited |
+			                                                             NSTrackingAreaOptions.MouseMoved |
+			                                                             NSTrackingAreaOptions.ActiveInKeyWindow), this,new NSDictionary());
+				this.AddTrackingArea((Host as Panel).trackingArea);
+				this.UpdateTrackingAreas();
+				base.Frame = value;
+			}
+		}
 		public override void ResetCursorRects ()
 		{
 			base.ResetCursorRects ();
@@ -824,8 +838,10 @@ namespace System.Windows.Forms
 		}
 		public override void MouseMoved (NSEvent theEvent)
 		{
+			PointF point = theEvent.LocationInWindow;
 			base.MouseMoved (theEvent);
-			FireMouseMoved (theEvent);
+			this.Host.FireMouseMove (Host, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+
 		}
 		public virtual void FireMouseMoved(NSEvent theEvent)
 		{

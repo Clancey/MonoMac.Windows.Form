@@ -1,16 +1,19 @@
 using System;
 using MonoMac.AppKit;
+using MonoMac.Foundation;
 namespace System.Windows.Forms
 {
-	
 	[MonoMac.Foundation.Register("Form")]
 	public partial class Application : NSApplication
 	{
 		static ApplicationContext context;
+		
+		[Export("NSZombieEnabled=YES")]
 		public Application ()
 		{
 			
 		}
+		
 		public static void Run(Func<Form> mainForm)
 		{
 			context = new ApplicationContext (mainForm);

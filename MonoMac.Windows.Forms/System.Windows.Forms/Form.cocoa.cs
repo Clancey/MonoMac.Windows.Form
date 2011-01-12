@@ -1,10 +1,14 @@
 using System;
-using MonoMac.AppKit;
 using System.Drawing;
-using System.Linq;
-using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.Design;
+using System.ComponentModel.Design.Serialization;
 using System.Collections;
-using System.Drawing.Drawing2D;
+using System.Runtime.InteropServices;
+using System.Threading;
+using MonoMac.AppKit;
+using System.Linq;
+using MonoMac.Foundation;
 namespace System.Windows.Forms
 {
 	public class View : NSView, IViewHelper
@@ -178,6 +182,10 @@ namespace System.Windows.Forms
 			m_helper.MakeKeyAndOrderFront (m_helper);
 			//Controls.SetTab ();
 		}
+		public void Show (IWin32Window parent)
+		{
+			m_helper.MakeKeyAndOrderFront (m_helper);
+		}
 		public void Close ()
 		{
 			if (NSApplication.SharedApplication.ModalWindow == m_helper)
@@ -196,9 +204,10 @@ namespace System.Windows.Forms
 		{
 			return ShowDialog ();
 		}
+		private bool is_modal;
 		public DialogResult ShowDialog ()
 		{
-			
+			is_modal = true;
 			//this.MakeKeyAndOrderFront (this);
 			NSApplication.SharedApplication.BeginSheet (m_helper, NSApplication.SharedApplication.MainWindow);
 			NSApplication.SharedApplication.RunModalForWindow (m_helper);
@@ -280,6 +289,14 @@ namespace System.Windows.Forms
 			set { this.SetFrame (new RectangleF (this.Frame.Location, value), true, true); }
 		}
 		*/
+		internal override Size clientSize {
+			get {
+				return Size.Round(m_helper.ContentView.Frame.Size);
+			}
+			set {
+				m_helper.SetContentSize(value);
+			}
+		}
 
 		internal override ControlCollection controls {
 			get {
@@ -298,8 +315,27 @@ namespace System.Windows.Forms
 			get { return m_helper.Title; }
 			set { m_helper.Title = value; }
 		}
-		public object components { get; set; }
-		public DialogResult DialogResult { get; set; }
+		public object components { get; set; }		
+		
+		private DialogResult dialog_result;
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public DialogResult DialogResult {
+			get {
+				return dialog_result;
+			}
+
+			set {
+				if (value < DialogResult.None || value > DialogResult.No)
+					throw new InvalidEnumArgumentException ("value", (int) value, 
+							typeof (DialogResult));
+
+				dialog_result = value;
+				if (dialog_result != DialogResult.None && is_modal)
+					this.Close();
+					//RaiseCloseEvents (false, false); // .Net doesn't send WM_CLOSE here.
+			}
+		}
 		public void SuspendLayout ()
 		{
 			
@@ -321,7 +357,7 @@ namespace System.Windows.Forms
 
 		#region From Template
 		public string Name { get; set; }
-		internal override Rectangle bounds {
+		internal Rectangle bounds {
 			get { return Rectangle.Round(m_helper.Frame); }
 			set { 
 				m_helper.SetFrame (value, true); }

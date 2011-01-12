@@ -170,17 +170,8 @@ namespace System.Windows.Forms
 				MouseMove(this,new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));	
 		}
 		*/
-		public event MouseEventHandler MouseDown;
-		public event MouseEventHandler MouseUp;
-		public event MouseEventHandler MouseMove;
-		public event MouseEventHandler MouseDoubleClick;
-		public event MouseEventHandler MouseWheel;
-		public event EventHandler MouseEnter;
-		public event EventHandler MouseHover;
-		public event EventHandler MouseLeave;
 		
 		//#endregion
-		
 				
 	}
 	
@@ -349,13 +340,6 @@ namespace System.Windows.Forms
 				MouseMove(this,new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));	
 		}
 		*/
-		public event MouseEventHandler MouseDown;
-		public event MouseEventHandler MouseUp;
-		public event MouseEventHandler MouseMove;
-		public event MouseEventHandler MouseWheel;
-		public event EventHandler MouseEnter;
-		public event EventHandler MouseHover;
-		public event EventHandler MouseLeave;
 		
 		//#endregion
 				
@@ -526,14 +510,6 @@ namespace System.Windows.Forms
 				MouseMove(this,new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));	
 		}
 		*/
-		public event MouseEventHandler MouseDown;
-		public event MouseEventHandler MouseUp;
-		public event MouseEventHandler MouseMove;
-		public event MouseEventHandler MouseDoubleClick;
-		public event MouseEventHandler MouseWheel;
-		public event EventHandler MouseEnter;
-		public event EventHandler MouseHover;
-		public event EventHandler MouseLeave;
 		
 		//#endregion
 				
@@ -704,14 +680,6 @@ namespace System.Windows.Forms
 				MouseMove(this,new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));	
 		}
 		*/
-		public event MouseEventHandler MouseDown;
-		public event MouseEventHandler MouseUp;
-		public event MouseEventHandler MouseMove;
-		public event MouseEventHandler MouseDoubleClick;
-		public event MouseEventHandler MouseWheel;
-		public event EventHandler MouseEnter;
-		public event EventHandler MouseHover;
-		public event EventHandler MouseLeave;
 		
 		//#endregion
 				
@@ -882,14 +850,6 @@ namespace System.Windows.Forms
 				MouseMove(this,new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));	
 		}
 		*/
-		public event MouseEventHandler MouseDown;
-		public event MouseEventHandler MouseUp;
-		public event MouseEventHandler MouseMove;
-		public event MouseEventHandler MouseDoubleClick;
-		public event MouseEventHandler MouseWheel;
-		public event EventHandler MouseEnter;
-		public event EventHandler MouseHover;
-		public event EventHandler MouseLeave;
 		
 		//#endregion
 				
@@ -1057,14 +1017,6 @@ namespace System.Windows.Forms
 				MouseMove(this,new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));	
 		}
 		*/
-		public event MouseEventHandler MouseDown;
-		public event MouseEventHandler MouseUp;
-		public event MouseEventHandler MouseMove;
-		public event MouseEventHandler MouseDoubleClick;
-		public event MouseEventHandler MouseWheel;
-		public event EventHandler MouseEnter;
-		public event EventHandler MouseHover;
-		public event EventHandler MouseLeave;
 		
 		//#endregion
 				

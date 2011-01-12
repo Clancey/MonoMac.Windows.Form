@@ -1,7 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoMac.Windows.Forms", "MonoMac.Windows.Forms\MonoMac.Windows.Forms.csproj", "{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Windows.Forms", "MonoMac.Windows.Forms\System.Windows.Forms.csproj", "{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{7489C34A-8B61-463E-9D5F-2D6A94A8A508}"
 EndProject
@@ -13,13 +13,26 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MouseEvent", "MouseEvent\Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextboxSample", "TextboxSample\TextboxSample.csproj", "{B1CE3750-5070-40D4-BDC1-C8C1D882DBFB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhinoTester", "RhinoTester\RhinoTester.csproj", "{9065F419-62B4-4600-B0DF-E6791F7AEE5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhinoCommon", "..\rhinocommon\dotnet\RhinoCommon.csproj", "{ED38373E-290C-4BDE-ACBA-1601484E582A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 		Default|Any CPU = Default|Any CPU
+		GH_Debug|Any CPU = GH_Debug|Any CPU
+		GH_Release|Any CPU = GH_Release|Any CPU
+		Mono|Any CPU = Mono|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9065F419-62B4-4600-B0DF-E6791F7AEE5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9065F419-62B4-4600-B0DF-E6791F7AEE5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9065F419-62B4-4600-B0DF-E6791F7AEE5A}.Default|Any CPU.ActiveCfg = Debug|Any CPU
+		{9065F419-62B4-4600-B0DF-E6791F7AEE5A}.Default|Any CPU.Build.0 = Debug|Any CPU
+		{9065F419-62B4-4600-B0DF-E6791F7AEE5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9065F419-62B4-4600-B0DF-E6791F7AEE5A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A0E8435D-FF47-411B-95F7-0302E6DE6D9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A0E8435D-FF47-411B-95F7-0302E6DE6D9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0E8435D-FF47-411B-95F7-0302E6DE6D9E}.Default|Any CPU.ActiveCfg = Debug|Any CPU
@@ -42,6 +55,18 @@ Global
 		{CF09021C-2276-46ED-8DFC-158A07FCCBAB}.Default|Any CPU.Build.0 = Debug|Any CPU
 		{CF09021C-2276-46ED-8DFC-158A07FCCBAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF09021C-2276-46ED-8DFC-158A07FCCBAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED38373E-290C-4BDE-ACBA-1601484E582A}.Debug|Any CPU.ActiveCfg = Mono|Any CPU
+		{ED38373E-290C-4BDE-ACBA-1601484E582A}.Debug|Any CPU.Build.0 = Mono|Any CPU
+		{ED38373E-290C-4BDE-ACBA-1601484E582A}.Default|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED38373E-290C-4BDE-ACBA-1601484E582A}.Default|Any CPU.Build.0 = Debug|Any CPU
+		{ED38373E-290C-4BDE-ACBA-1601484E582A}.GH_Debug|Any CPU.ActiveCfg = GH_Debug|Any CPU
+		{ED38373E-290C-4BDE-ACBA-1601484E582A}.GH_Debug|Any CPU.Build.0 = GH_Debug|Any CPU
+		{ED38373E-290C-4BDE-ACBA-1601484E582A}.GH_Release|Any CPU.ActiveCfg = GH_Release|Any CPU
+		{ED38373E-290C-4BDE-ACBA-1601484E582A}.GH_Release|Any CPU.Build.0 = GH_Release|Any CPU
+		{ED38373E-290C-4BDE-ACBA-1601484E582A}.Mono|Any CPU.ActiveCfg = Mono|Any CPU
+		{ED38373E-290C-4BDE-ACBA-1601484E582A}.Mono|Any CPU.Build.0 = Mono|Any CPU
+		{ED38373E-290C-4BDE-ACBA-1601484E582A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED38373E-290C-4BDE-ACBA-1601484E582A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}.Default|Any CPU.ActiveCfg = Debug|Any CPU
@@ -54,8 +79,9 @@ Global
 		{CCDAA602-7A9C-463B-ABD3-719D843B7E91} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
 		{CF09021C-2276-46ED-8DFC-158A07FCCBAB} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
 		{B1CE3750-5070-40D4-BDC1-C8C1D882DBFB} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
+		{9065F419-62B4-4600-B0DF-E6791F7AEE5A} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = TestLoad\TestLoad.csproj
+		StartupItem = RhinoTester\RhinoTester.csproj
 	EndGlobalSection
 EndGlobal

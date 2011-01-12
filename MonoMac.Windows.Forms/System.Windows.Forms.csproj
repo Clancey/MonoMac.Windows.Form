@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -7,9 +7,9 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>MonoMac.Windows.Forms</RootNamespace>
-    <AssemblyName>MonoMac.Windows.Forms</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <RootNamespace>System.Windows.Forms</RootNamespace>
+    <AssemblyName>System.Windows.Forms</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,10 +35,7 @@
     <Reference Include="nunit.core, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
     <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\System.Drawing.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\MonoMac.dll</HintPath>
@@ -225,9 +222,9 @@
     <Compile Include="System.Windows.Forms\TrackBar.cocoa.cs" />
     <Compile Include="System.Windows.Forms\CheckedListBox.cocoa.cs" />
     <Compile Include="System.Windows.Forms\Control.cocoa.cs" />
-    <Compile Include="System.Windows.Forms\Control.cs" />
     <Compile Include="System.Windows.Forms\ImeMode.cs" />
     <Compile Include="System.Windows.Forms\AmbientProperties.cs" />
+    <Compile Include="System.Windows.Forms\Control.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />

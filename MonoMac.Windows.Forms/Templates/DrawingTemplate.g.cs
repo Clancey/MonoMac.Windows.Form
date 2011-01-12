@@ -19,14 +19,14 @@ namespace System.Windows.Forms
 			if (shouldDraw)
 				base.DrawRect (dirtyRect);
 		}
-			
-		public PaintEventHandler Paint { get; set; }
+		/*
 		protected virtual void OnPaint(PaintEventArgs e)
         {
 			if (Paint != null)
 				Paint (this, e);
         	shouldDraw = true;
         }
+        */
         public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{
@@ -53,7 +53,14 @@ namespace System.Windows.Forms
 			if (shouldDraw)
 				base.DrawRect (dirtyRect);
 		}
-			
+		/*
+		protected virtual void OnPaint(PaintEventArgs e)
+        {
+			if (Paint != null)
+				Paint (this, e);
+        	shouldDraw = true;
+        }
+        */
         public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{
@@ -80,14 +87,14 @@ namespace System.Windows.Forms
 			if (shouldDraw)
 				base.DrawRect (dirtyRect);
 		}
-			
-		public PaintEventHandler Paint { get; set; }
+		/*
 		protected virtual void OnPaint(PaintEventArgs e)
         {
 			if (Paint != null)
 				Paint (this, e);
         	shouldDraw = true;
         }
+        */
         public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{
@@ -114,14 +121,14 @@ namespace System.Windows.Forms
 			if (shouldDraw)
 				base.DrawRect (dirtyRect);
 		}
-			
-		public PaintEventHandler Paint { get; set; }
+		/*
 		protected virtual void OnPaint(PaintEventArgs e)
         {
 			if (Paint != null)
 				Paint (this, e);
         	shouldDraw = true;
         }
+        */
         public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{
@@ -148,14 +155,14 @@ namespace System.Windows.Forms
 			if (shouldDraw)
 				base.DrawRect (dirtyRect);
 		}
-			
-		public PaintEventHandler Paint { get; set; }
+		/*
 		protected virtual void OnPaint(PaintEventArgs e)
         {
 			if (Paint != null)
 				Paint (this, e);
         	shouldDraw = true;
         }
+        */
         public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{
@@ -182,14 +189,14 @@ namespace System.Windows.Forms
 			if (shouldDraw)
 				base.DrawRect (dirtyRect);
 		}
-			
-		public PaintEventHandler Paint { get; set; }
+		/*
 		protected virtual void OnPaint(PaintEventArgs e)
         {
 			if (Paint != null)
 				Paint (this, e);
         	shouldDraw = true;
         }
+        */
         public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{
@@ -216,14 +223,14 @@ namespace System.Windows.Forms
 			if (shouldDraw)
 				base.DrawRect (dirtyRect);
 		}
-			
-		public PaintEventHandler Paint { get; set; }
+		/*
 		protected virtual void OnPaint(PaintEventArgs e)
         {
 			if (Paint != null)
 				Paint (this, e);
         	shouldDraw = true;
         }
+        */
         public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{
@@ -250,14 +257,14 @@ namespace System.Windows.Forms
 			if (shouldDraw)
 				base.DrawRect (dirtyRect);
 		}
-			
-		public PaintEventHandler Paint { get; set; }
+		/*
 		protected virtual void OnPaint(PaintEventArgs e)
         {
 			if (Paint != null)
 				Paint (this, e);
         	shouldDraw = true;
         }
+        */
         public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{

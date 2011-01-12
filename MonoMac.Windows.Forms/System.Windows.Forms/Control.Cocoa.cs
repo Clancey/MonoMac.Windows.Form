@@ -258,9 +258,15 @@ namespace System.Windows.Forms
 
 			return new Point(x, y);
 		}
-		internal void SetBoundsInternal (int x, int y, int width, int height, BoundsSpecified specified)
+		
+		internal virtual void UpdateBounds()
 		{
-			Bounds = new Rectangle(x,y,width,height);
+			c_helper.Frame = bounds;
+		}
+		internal virtual void SetBoundsInternal (int x, int y, int width, int height, BoundsSpecified specified)
+		{
+			bounds = new Rectangle(x,y,width,height);
+			UpdateBounds();
 			// If the user explicitly moved or resized us, recalculate our anchor distances
 			//if (specified != BoundsSpecified.None)
 			//	UpdateDistances ();
@@ -380,7 +386,7 @@ namespace System.Windows.Forms
 		
 		internal void FireMouseMove (object sender, MouseEventArgs e)
 		{
-			OnMouseUp(e);
+			OnMouseMove(e);
 		}
 		
 		
@@ -474,21 +480,20 @@ namespace System.Windows.Forms
 
 		#region Public Instance Properties
 		
-		
-		internal virtual Rectangle bounds {
-			get { return Rectangle.Round (c_helper.Frame); }
-			set { var rect = value; 
-				c_helper.Frame = rect; }
-			
-		}
+		internal Rectangle bounds;
 		
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Rectangle Bounds {
-			get { return bounds; }
-			set { bounds = value; }
-		}		
+			get {
+				return this.bounds;
+			}
+
+			set {
+				SetBounds(value.Left, value.Top, value.Width, value.Height, BoundsSpecified.All);
+			}
+		}	
 		
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		[Browsable(false)]
@@ -561,11 +566,11 @@ namespace System.Windows.Forms
 		}
 
 		public static Color DefaultBackColor {
-			get { return Color.Gray; }
+			get { return Color.Empty; }
 		}
 		
 		public static Color DefaultForeColor {
-			get{return Color.Gray;}	
+			get{return Color.Empty;}	
 		}
 		
 		public static Font DefaultFont{
@@ -664,7 +669,9 @@ namespace System.Windows.Forms
 			set { c_helper.Frame = new RectangleF (value, c_helper.Frame.Size); }
 		}
 		
-		internal bool is_visible {get;set;}
+		internal bool is_visible {
+			get;
+			set;}
 		
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		public override ISite Site {
