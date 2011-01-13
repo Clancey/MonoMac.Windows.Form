@@ -2,14 +2,14 @@ using System;
 using MonoMac.AppKit;
 namespace System.Windows.Forms
 {
-	public partial class Label : TextBox
+	public partial class Label : TextBoxBase
 	{
-		public Label ()
+		public Label () : base()
 		{
-			m_helper.Selectable = false;
-			m_helper.Editable = false;
+			m_helper.TextView.Selectable = false;
+			m_helper.TextView.Editable = false;
 			//this.Font = NSFont.FromFontName ("Arial", 10);
-			m_helper.Bordered = false;
+			//m_helper.Bordered = false;
 		}
 		/*
 		public override bool AcceptsFirstResponder ()
@@ -21,7 +21,7 @@ namespace System.Windows.Forms
 		{
 			if (!AutoSize)
 				return;
-			m_helper.SizeToFit ();
+			//m_helper.SizeToFit ();
 		}
 	}
 }

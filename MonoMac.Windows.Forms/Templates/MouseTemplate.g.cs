@@ -136,7 +136,7 @@ namespace System.Windows.Forms
 
 
 	
-	public partial class TextBoxMouseView : NSTextField , IViewHelper
+	public partial class TextBoxMouseView : NSTextView , IViewHelper
 	{
 		public Control Host {get;set;}
 		public NSCursor Cursor {get;set;}

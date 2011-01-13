@@ -21,10 +21,10 @@ namespace RhinoTester
 			button.Size = new Size(100,25);
 			button.Text = "Click Me";
 			string returnString;
+			
+				
 			button.Click += delegate {
-				Rhino.UI.Dialogs.ShowEditBox("test","test","test",false,out returnString);
-				//var form = new TestLibrary.ButtonForm();
-				//form.ShowDialog();
+				Rhino.UI.Dialogs.ShowEditBox("Title","Message","Default",false,out returnString);
 			};
 			this.Controls.Add(button);
 		}

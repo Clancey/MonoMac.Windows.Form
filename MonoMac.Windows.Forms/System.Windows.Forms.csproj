@@ -49,8 +49,6 @@
     <Compile Include="EventArgs\KeyPressEventHandler.cs" />
     <Compile Include="EventArgs\MouseEventArgs.cs" />
     <Compile Include="EventArgs\MouseEventHandler.cs" />
-    <Compile Include="EventArgs\PaintEventArgs.cs" />
-    <Compile Include="EventArgs\PaintEventHandler.cs" />
     <Compile Include="EventArgs\MouseButtons.cs" />
     <Compile Include="Templates\KeyPressEventsTemplate.g.cs">
       <DependentUpon>KeyPressEventsTemplate.tt</DependentUpon>
@@ -225,6 +223,13 @@
     <Compile Include="System.Windows.Forms\ImeMode.cs" />
     <Compile Include="System.Windows.Forms\AmbientProperties.cs" />
     <Compile Include="System.Windows.Forms\Control.cs" />
+    <Compile Include="System.Windows.Forms\CharacterCasing.cs" />
+    <Compile Include="System.Windows.Forms\CreateParams.cs" />
+    <Compile Include="CocoaHelpers\TextBoxHelper.cs" />
+    <Compile Include="System.Windows.Forms\TextBoxBase.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\TextBoxBase.cs" />
+    <Compile Include="System.Windows.Forms\PaintEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\PaintEventHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />
@@ -234,6 +239,7 @@
     <Folder Include="Interfaces\" />
     <Folder Include="System.Windows.Forms.Layout\" />
     <Folder Include="System.Windows.Forms\" />
+    <Folder Include="CocoaHelpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

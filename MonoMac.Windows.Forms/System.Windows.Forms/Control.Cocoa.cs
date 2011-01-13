@@ -578,7 +578,7 @@ namespace System.Windows.Forms
 		}
 		
 		
-		bool has_focus {
+		internal bool has_focus {
 			get { 
 				if (c_helper == null)
 					return false;

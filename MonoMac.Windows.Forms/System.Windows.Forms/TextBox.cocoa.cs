@@ -5,46 +5,44 @@ using MonoMac.Foundation;
 namespace System.Windows.Forms
 {
 	[MonoMac.Foundation.Register("TextBox")]
-	public partial class TextBox : Control // : TextBoxMouseView, IControl
+	public partial class TextBox : TextBoxBase // : TextBoxMouseView, IControl
 		//NSTextField
 	{
-		internal TextBoxMouseView m_helper;
-		internal override NSView c_helper {
-			get {
-				return m_helper;
-			}
-			set {
-				m_helper = value as TextBoxMouseView;
-			}
-		}
-		public TextBox ()
-		{
-			//this.BackgroundColor = NSColor.Clear;
-		}
-		
+		/*
 		internal override void CreateHelper ()
 		{			
-			m_helper =  new TextBoxMouseView();
+			m_helper =  new TextBoxHelper();
 			m_helper.Host = this;
-			m_helper.Selectable = true;
-			m_helper.Editable = true;
-			Multiline = true;
-			m_helper.viewDidMoveToSuperview += delegate(object sender, EventArgs e) {
-				ViewDidMoveToSuperview();
-			};
+			m_helper.TextView.Selectable = true;
+			m_helper.TextView.Editable = true;
+			Multiline = false;			
+			m_helper.TextView.VerticallyResizable = false;
+			m_helper.TextView.HorizontallyResizable = true;
+			m_helper.TextView.AutoresizingMask = (NSViewResizingMask.HeightSizable | NSViewResizingMask.WidthSizable );
+			m_helper.TextView.TextContainer.ContainerSize = new SizeF(float.MaxValue,float.MaxValue);
+			m_helper.TextView.TextContainer.WidthTracksTextView = false;
+			//m_helper.viewDidMoveToSuperview += delegate(object sender, EventArgs e) {
+			//	ViewDidMoveToSuperview();
+			//};
 		}
-
+		*/
+		
+		internal override void UpdateBounds ()
+		{
+			m_helper.TextView.MinSize = bounds.Size;
+			base.UpdateBounds ();
+		}
 		public virtual string Text {
-			get { return m_helper.StringValue; }
-			set { m_helper.StringValue = value; }
+			get { return m_helper.TextView.Value; }
+			set { m_helper.TextView.Value = value; }
 		}
 		
 		public string[] Lines
 		{
-			get{return m_helper.StringValue.Split(new char[] { '\n' });}
-			set{m_helper.StringValue = "";
+			get{return m_helper.TextView.Value.Split(new char[] { '\n' });}
+			set{m_helper.TextView.Value = "";
 				foreach(var val in value)
-				{ m_helper.StringValue+= val + "\n";}
+				{ m_helper.TextView.Value += val + "\n";}
 			}
 		}
 		private DockStyle dock = DockStyle.None;
@@ -128,15 +126,15 @@ namespace System.Windows.Forms
 				switch(value)
 				{
 				case HorizontalAlignment.Left:
-					m_helper.Alignment  = (uint)NSTextAlignment.Left;
+					m_helper.TextView.Alignment  = NSTextAlignment.Left;
 					break;
 				case HorizontalAlignment.Center:
-					m_helper.Alignment  = (uint)NSTextAlignment.Center;
+					m_helper.TextView.Alignment  = NSTextAlignment.Center;
 					break;
 				case HorizontalAlignment.Right:
-					m_helper.Alignment  = (uint)NSTextAlignment.Right;
+					m_helper.TextView.Alignment  = NSTextAlignment.Right;
 					break;
-				default : m_helper.Alignment = (uint) NSTextAlignment.Left;
+				default : m_helper.TextView.Alignment = NSTextAlignment.Left;
 					break;
 				}
 					
@@ -151,7 +149,7 @@ namespace System.Windows.Forms
 		
 		public RightToLeft RightToLeft{
 			get{ 
-				switch(m_helper.BaseWritingDirection)
+				switch(m_helper.TextView.BaseWritingDirection)
 				{
 					case NSWritingDirection.LeftToRight: return RightToLeft.No;
 					case NSWritingDirection.RightToLeft : return RightToLeft.Yes;
@@ -162,9 +160,9 @@ namespace System.Windows.Forms
 			set {
 				switch(value)
 				{
-					case RightToLeft.Inherit : m_helper.BaseWritingDirection = NSWritingDirection.Embedding;	break;
-					case RightToLeft.No: m_helper.BaseWritingDirection = NSWritingDirection.LeftToRight; break ;
-					case RightToLeft.Yes: m_helper.BaseWritingDirection = NSWritingDirection.RightToLeft ; break;
+					case RightToLeft.Inherit : m_helper.TextView.BaseWritingDirection = NSWritingDirection.Embedding;	break;
+					case RightToLeft.No: m_helper.TextView.BaseWritingDirection = NSWritingDirection.LeftToRight; break ;
+					case RightToLeft.Yes: m_helper.TextView.BaseWritingDirection = NSWritingDirection.RightToLeft ; break;
 				}
 			}
 		}
