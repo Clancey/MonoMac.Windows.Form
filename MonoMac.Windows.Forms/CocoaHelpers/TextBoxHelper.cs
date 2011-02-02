@@ -12,7 +12,6 @@ namespace System.Windows.Forms
 			get{ return (TextBoxBase)Host;}
 		}
 		public NSCursor Cursor {get;set;}
-		public bool shouldDraw {get;set;}
 		
 		public TextView TextView;
 		internal TextBoxHelper ()

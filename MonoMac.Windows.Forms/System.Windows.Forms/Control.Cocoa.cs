@@ -275,6 +275,10 @@ namespace System.Windows.Forms
 				parent.PerformLayout(this, "Bounds");
 		}
 		
+		internal virtual void SetBoundsCoreInternal(int x, int y, int width, int height, BoundsSpecified specified) {
+			SetBoundsInternal(x,y,width,height,specified);
+		}
+		
 		internal virtual void performLayout ()
 		{
 			c_helper.DisplayIfNeeded ();
@@ -470,11 +474,31 @@ namespace System.Windows.Forms
 			}
 		}
 		
-		
+		internal BorderStyle InternalBorderStyle {
+			get {
+				return border_style;
+			}
+
+			set {
+				if (!Enum.IsDefined (typeof (BorderStyle), value))
+					throw new InvalidEnumArgumentException (string.Format("Enum argument value '{0}' is not valid for BorderStyle", value));
+
+				if (border_style != value) {
+					border_style = value;
+
+					//if (IsHandleCreated) {
+						//RecreateHandle ();
+					//	Refresh ();
+					//} else
+					//	client_size = ClientSizeFromSize (bounds.Size);
+				}
+			}
+		}
 
 		internal bool VisibleInternal {
 			get { return is_visible; }
 		}
+		
 		
 		#endregion
 
@@ -748,6 +772,87 @@ namespace System.Windows.Forms
 		}
 		#endregion
 		
+		#region Protected Instance Properties
+		
+		protected virtual CreateParams CreateParams {
+			get {
+				CreateParams create_params = new CreateParams();
+
+				try {
+					create_params.Caption = Text;
+				}
+				catch {
+					create_params.Caption = text;
+				}
+
+				try {
+					create_params.X = Left;
+				}
+				catch {
+					create_params.X = this.bounds.X;
+				}
+
+				try {
+					create_params.Y = Top;
+				}
+				catch {
+					create_params.Y = this.bounds.Y;
+				}
+
+				try {
+					create_params.Width = Width;
+				}
+				catch {
+					create_params.Width = this.bounds.Width;
+				}
+
+				try {
+					create_params.Height = Height;
+				}
+				catch {
+					create_params.Height = this.bounds.Height;
+				}
+
+
+				create_params.ClassName = GetType ().Name;
+				create_params.ExStyle = 0;
+				create_params.Param = 0;
+				/*
+				if (allow_drop) {
+					create_params.ExStyle |= (int)WindowExStyles.WS_EX_ACCEPTFILES;
+				}
+
+				if ((parent!=null) && (parent.IsHandleCreated)) {
+					create_params.Parent = parent.Handle;
+				}
+
+				create_params.Style = (int)WindowStyles.WS_CHILD | (int)WindowStyles.WS_CLIPCHILDREN | (int)WindowStyles.WS_CLIPSIBLINGS;
+
+				if (is_visible) {
+					create_params.Style |= (int)WindowStyles.WS_VISIBLE;
+				}
+
+				if (!is_enabled) {
+					create_params.Style |= (int)WindowStyles.WS_DISABLED;
+				}
+
+				switch (border_style) {
+					case BorderStyle.FixedSingle:
+						create_params.Style |= (int) WindowStyles.WS_BORDER;
+						break;
+					case BorderStyle.Fixed3D:
+						create_params.ExStyle |= (int) WindowExStyles.WS_EX_CLIENTEDGE;
+						break;
+				}
+				*/
+				create_params.control = this;
+
+				return create_params;
+			}
+		}
+		
+		#endregion
+		
 		#region Public Static Methods
 		
 		[MonoTODO ("Only implemented for Win32, others always return false")]
@@ -885,6 +990,17 @@ namespace System.Windows.Forms
 			//}
 
 		}
+		
+		
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected virtual void OnPaint(PaintEventArgs e) {
+			PaintEventHandler eh = (PaintEventHandler)(Events [PaintEvent]);
+			if (eh != null)
+				eh (this, e);
+			((IViewHelper)c_helper).shouldDraw = true;
+		}
+
 		
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected virtual void OnSizeChanged(EventArgs e) {

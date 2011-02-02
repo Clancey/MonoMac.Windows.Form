@@ -40,7 +40,7 @@ namespace System.Windows.Forms
 	[ComVisible (true)]
 	[LookupBindingProperties ("DataSource", "DisplayMember", "ValueMember", "SelectedValue")]
 #endif
-	public abstract class ListControl : Control
+	public abstract partial class ListControl : Control
 	{
 		private object data_source;
 		private BindingMemberInfo value_member;
@@ -53,7 +53,7 @@ namespace System.Windows.Forms
 		private bool formatting_enabled;
 #endif
 
-		protected ListControl ()
+		protected ListControl () : base()
 		{
 			value_member = new BindingMemberInfo (string.Empty);
 			display_member = string.Empty;

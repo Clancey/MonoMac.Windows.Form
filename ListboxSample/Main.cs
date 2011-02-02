@@ -10,36 +10,36 @@ namespace ListboxSample
   		public ListBox listBox1;
 		public MainClass()
 		{
-			listBox1 = new ListBox();
-			// Set the size and location of the ListBox.
-			listBox1.Size = new System.Drawing.Size(200, 100);
-			listBox1.Location = new System.Drawing.Point(10,10);
-			// Add the ListBox to the form.
-			this.Controls.Add(listBox1);
-			// Set the ListBox to display items in multiple columns.
-			//listBox1.MultiColumn = true;
-			// Set the selection mode to multiple and extended.
-			listBox1.SelectionMode = SelectionMode.MultiExtended;
-			
-			// Shutdown the painting of the ListBox as items are added.
-			listBox1.BeginUpdate();
-			// Loop through and add 50 items to the ListBox.
-			for (int x = 1; x <= 50; x++)
-			{
-			  listBox1.Items.Add("Item " + x.ToString());
-			}
-			// Allow the ListBox to repaint and display the new items.
-			listBox1.EndUpdate();
-			
-			// Select three items from the ListBox.
-			listBox1.SetSelected(1, true);
-			listBox1.SetSelected(3, true);
-			listBox1.SetSelected(5, true);
-			
-			// Display the second selected item in the ListBox to the console.
-			Console.WriteLine(listBox1.SelectedItems[1].ToString());
-			// Display the index of the first selected item in the ListBox.
-			//Console.WriteLine(listBox1.SelectedIndices[0].ToString());    
+			this.listBox1 = new System.Windows.Forms.ListBox();
+	        this.SuspendLayout();
+	        // 
+	        // listBox1
+	        // 
+	        this.listBox1.FormattingEnabled = true;
+	        this.listBox1.HorizontalScrollbar = true;
+	        this.listBox1.Items.AddRange(new object[] {
+	            "Item 1, column 1",
+	            "Item 2, column 1",
+	            "Item 3, column 1",
+	            "Item 4, column 1",
+	            "Item 5, column 1",
+	            "Item 1, column 2",
+	            "Item 2, column 2",
+	            "Item 3, column 2"});
+	        this.listBox1.Location = new System.Drawing.Point(0, 0);
+	        this.listBox1.MultiColumn = true;
+	        this.listBox1.Name = "listBox1";
+	        this.listBox1.ScrollAlwaysVisible = true;
+	        this.listBox1.Size = new System.Drawing.Size(120, 95);
+	        this.listBox1.TabIndex = 0;
+	        this.listBox1.ColumnWidth = 85;
+	        // 
+	        // Form1
+	        // 
+	        this.ClientSize = new System.Drawing.Size(292, 273);
+	        this.Controls.Add(this.listBox1);
+	        this.Name = "Form1";
+	        this.ResumeLayout(false); 
 					
 		}
 		static void Main (string[] args)

@@ -14,6 +14,7 @@ class MyForm : Form
 	private System.Windows.Forms.ComboBox comboBox1;
 	private System.Windows.Forms.ListBox listbox1;
 	private System.Windows.Forms.TrackBar trackBar1;
+	private System.Windows.Forms.Label label1;
 	public MyForm ()
 	{
 		this.listbox1 = new System.Windows.Forms.ListBox();
@@ -23,6 +24,7 @@ class MyForm : Form
 		this.checkBox1 = new System.Windows.Forms.CheckBox ();
 		this.comboBox1 = new System.Windows.Forms.ComboBox ();
 		this.trackBar1 = new TrackBar();
+		this.label1 = new Label();
 		
 		
 		this.SuspendLayout ();
@@ -86,7 +88,7 @@ class MyForm : Form
 		// comboBox1
 		// 
 		this.comboBox1.Location = new System.Drawing.Point (78, 200);
-		this.comboBox1.Size = new System.Drawing.Size (121, 25);
+		this.comboBox1.Size = new System.Drawing.Size (121, 23);
 		this.comboBox1.DataSource = new List<ComboBoxItems>{new ComboBoxItems("test1",1),new ComboBoxItems("test2",2)}; //new List<string> { "test", "test2", "test3" };
 		this.comboBox1.DisplayMember = "Display";
 		this.comboBox1.ValueMember = "Value";
@@ -94,6 +96,12 @@ class MyForm : Form
 		{
 			textBox2.Text = comboBox1.SelectedValue.ToString();	
 		};
+		///
+		///Label1
+		///
+		this.label1.Size = new Size(100,25);
+		this.label1.Location = new Point(78,250);
+		this.label1.Text = "Label!";
 		// 
 		// Form1
 		// 
@@ -107,13 +115,11 @@ class MyForm : Form
 		this.Controls.Add (this.textBox1);
 		this.Controls.Add (this.button1);
 		this.Controls.Add(this.trackBar1);
+		this.Controls.Add(this.label1);
 		this.Name = "Form1";
 		this.Text = "Form1";
 		this.ResumeLayout (false);
-		this.PerformLayout ();
-		
-		
-		
+		this.PerformLayout ();		
 	}
 
 	private void textbox1_KeyDown (object sender, KeyEventArgs e)

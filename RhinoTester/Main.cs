@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
+using Rhino.UI;
 //using TestLibrary;
 
 namespace RhinoTester
@@ -15,16 +16,15 @@ namespace RhinoTester
 		Button button;
 		public MainClass()
 		{
-			this.ClientSize = new Size(100,50);
+			this.ClientSize = new Size(500,400);
 			button = new Button();
 			button.Location = new Point(0,0);
-			button.Size = new Size(100,25);
+			button.Size = new Size(100,23);
 			button.Text = "Click Me";
 			string returnString;
 			
-				
 			button.Click += delegate {
-				Rhino.UI.Dialogs.ShowEditBox("Title","Message","Default",false,out returnString);
+				Dialogs.ShowEditBox("Title","Message","Default",false,out returnString);
 			};
 			this.Controls.Add(button);
 		}

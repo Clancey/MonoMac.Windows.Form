@@ -28,6 +28,7 @@ namespace System.Windows.Forms
 					OnClick(e);
 			};
 			m_helper.Frame = new System.Drawing.RectangleF (0, 0, 100, 25);
+			m_helper.ScaleUnitSquareToSize(Util.ScaleSize);
 		}
 		#endregion	// Public Constructors
 		

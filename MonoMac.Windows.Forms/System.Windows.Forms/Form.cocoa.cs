@@ -11,7 +11,7 @@ using System.Linq;
 using MonoMac.Foundation;
 namespace System.Windows.Forms
 {
-	public class View : NSView, IViewHelper
+	internal partial class View : NSView, IViewHelper
 	{
 		public View (Form parent)
 		{
@@ -32,22 +32,10 @@ namespace System.Windows.Forms
 		public override bool IsFlipped {
 			get { return true; }
 		}
-
-		public bool shouldDraw {get;set;}
-		public override void DrawRect (RectangleF dirtyRect)
-		{
-			using (var graphics = Graphics.FromHwnd (this.Handle))
-			{
-				var events = new PaintEventArgs (graphics, Rectangle.Round (dirtyRect));
-				Host.Draw (events);
-			}
-			if (shouldDraw)
-				base.DrawRect (dirtyRect);
-		}
 		
 		public override void MouseUp (NSEvent theEvent)
 		{
-			PointF point = this.ConvertPointfromView (theEvent.LocationInWindow, null);
+			PointF point = this.ConvertPointFromView (theEvent.LocationInWindow, null);
 			
 			var button = (MouseButtons)theEvent.ButtonNumber;
 			this.Host.FireMouseUp (Host, new MouseEventArgs (button, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
@@ -55,13 +43,13 @@ namespace System.Windows.Forms
 		}
 		public override void MouseDown (NSEvent theEvent)
 		{
-			PointF point = this.ConvertPointfromView (theEvent.LocationInWindow, null);
+			PointF point = this.ConvertPointFromView (theEvent.LocationInWindow, null);
 			this.Host.FireMouseDown (Host, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
 			base.MouseDown (theEvent);
 		}
 		public override void MouseDragged (NSEvent theEvent)
 		{
-			PointF point = this.ConvertPointfromView (theEvent.LocationInWindow, null);
+			PointF point = this.ConvertPointFromView (theEvent.LocationInWindow, null);
 			this.Host.FireMouseMove (Host, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
 			
 			base.MouseDragged (theEvent);
@@ -121,6 +109,7 @@ namespace System.Windows.Forms
 		{
 			m_helper = new FormHelper (this, new RectangleF (50, 50, 400, 400), (NSWindowStyle)(1 | (1 << 1) | (1 << 2) | (1 << 3)), NSBackingStore.Buffered, false);
 			m_helper.ContentView = new View (this);
+			m_helper.ContentView.ScaleUnitSquareToSize(Util.ScaleSize);
 			m_helper.AcceptsMouseMovedEvents = true;
 		}
 		
@@ -294,7 +283,7 @@ namespace System.Windows.Forms
 				return Size.Round(m_helper.ContentView.Frame.Size);
 			}
 			set {
-				m_helper.SetContentSize(value);
+				m_helper.SetFrame(new RectangleF(m_helper.Frame.Location,value),true);
 			}
 		}
 

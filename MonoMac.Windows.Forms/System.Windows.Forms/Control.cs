@@ -189,6 +189,7 @@ namespace System.Windows.Forms
 			get { return layout_type; }
 		}
 		
+		
 		internal Size InternalClientSize { set { this.client_size = value; } }
 		internal virtual bool ActivateOnShow { get { return true; } }
 		internal Rectangle ExplicitBounds { get { return this.explicit_bounds; } set { this.explicit_bounds = value; } }
@@ -241,7 +242,7 @@ namespace System.Windows.Forms
 		// The CheckForIllegalCrossThreadCalls in the #if 2.0 of
 		// Control.Handle throws an exception when we are trying
 		// to get the Handle to properly invoke on.  This avoids that.
-
+		
 		internal bool IsRecreating {
 			get {
 				return is_recreating;
@@ -1464,7 +1465,7 @@ namespace System.Windows.Forms
 		protected override bool CanRaiseEvents {
 			get { return true; }
 		}
-
+		
 		protected virtual ImeMode DefaultImeMode {
 			get {
 				return ImeMode.Inherit;
@@ -1717,10 +1718,10 @@ namespace System.Windows.Forms
 
 		public void Invalidate (Region region, bool invalidateChildren)
 		{
-			using (Graphics g = CreateGraphics ()){
-				RectangleF bounds = region.GetBounds (g);
-				Invalidate (new Rectangle ((int) bounds.X, (int) bounds.Y, (int) bounds.Width, (int) bounds.Height), invalidateChildren);
-			}
+			//using (Graphics g = CreateGraphics ()){
+			//	RectangleF bounds = region.GetBounds (g);
+			//	Invalidate (new Rectangle ((int) bounds.X, (int) bounds.Y, (int) bounds.Width, (int) bounds.Height), invalidateChildren);
+			//}
 		}
 
 		public object Invoke (Delegate method) {
@@ -2237,6 +2238,12 @@ namespace System.Windows.Forms
 				PerformLayout (this, "AutoSizeMode");
 			}
 		}
+		
+		
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected virtual void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified) {
+			SetBoundsCoreInternal (x, y, width, height, specified);
+		}
 
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -2616,15 +2623,6 @@ namespace System.Windows.Forms
 			if (eh != null)
 				eh (this, e);
 		}
-
-		[EditorBrowsable(EditorBrowsableState.Advanced)]
-		protected virtual void OnPaint(PaintEventArgs e) {
-			PaintEventHandler eh = (PaintEventHandler)(Events [PaintEvent]);
-			if (eh != null)
-				eh (this, e);
-			((IViewHelper)c_helper).shouldDraw = true;
-		}
-
 		internal virtual void OnPaintBackgroundInternal(PaintEventArgs e) {
 			// Override me
 		}

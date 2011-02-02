@@ -5,10 +5,10 @@
 // distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to
 // the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -17,32 +17,28 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
+// Copyright (c) 2004 Novell, Inc.
 //
-// Author:
-//   Miguel de Icaza (miguel@gnome.org)
-//
-// (C) 2004 Novell, Inc.
-//
+// Authors:
+//	Jackson Harper (jackson@ximian.com)
 
-using System;
-using System.ComponentModel;
 
-namespace System.Windows.Forms.Layout {
+namespace System.Windows.Forms {
 
-#if NET_2_0
-	public
-#else
-	internal
-#endif
-	abstract class LayoutEngine {
-		
-		public virtual void InitLayout (object child, BoundsSpecified specified)
-		{
-		}
-
-		public virtual bool Layout (object container, LayoutEventArgs layoutEventArgs)
-		{
-			return false;
-		}
+	[Flags]
+	public enum DrawItemState {
+		None = 0,
+		Selected = 1,
+		Grayed = 2,
+		Disabled = 4,
+		Checked = 8,
+		Focus = 16,
+		Default = 32,
+		HotLight = 64,
+		Inactive = 128,
+		NoAccelerator = 256,
+		NoFocusRect = 512,
+		ComboBoxEdit = 4096
 	}
 }
+

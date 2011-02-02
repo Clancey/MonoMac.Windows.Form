@@ -6,7 +6,7 @@ using System.Drawing;
 using MonoMac.Foundation;
 namespace System.Windows.Forms
 {
-	public partial class UserControl : UserControlMouseView , IControl
+	internal partial class UserControl : UserControlMouseView , IControl
 	{		
 		public string Text {get;set;}
 		

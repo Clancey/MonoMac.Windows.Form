@@ -23,7 +23,7 @@ string[] subfolders = new string[]{ @"UserControl",
 foreach(var folder in subfolders)
 {
 #>
-	public partial class <#= folder #> 
+	internal partial class <#= folder #> 
 	{	
 		public new System.Drawing.Font Font
 		{
