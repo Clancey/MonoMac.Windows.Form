@@ -51,6 +51,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\MonoMac.dll</HintPath>
     </Reference>
+    <Reference Include="RhinoCommon, Version=5.0.15005.0, Culture=neutral, PublicKeyToken=552281e97c755530">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>RhinoCommon.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -70,10 +74,6 @@
     <ProjectReference Include="..\MonoMac.Windows.Forms\System.Windows.Forms.csproj">
       <Project>{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}</Project>
       <Name>System.Windows.Forms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\rhinocommon\dotnet\RhinoCommon.csproj">
-      <Project>{ED38373E-290C-4BDE-ACBA-1601484E582A}</Project>
-      <Name>RhinoCommon</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

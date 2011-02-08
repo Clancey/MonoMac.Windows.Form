@@ -254,6 +254,8 @@
     <Compile Include="System.Windows.Forms\VScrollBar.cs" />
     <Compile Include="System.Windows.Forms\HScrollBar.cs" />
     <Compile Include="System.Windows.Forms\ListControl.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\ComboBox.cs" />
+    <Compile Include="CocoaHelpers\ComboBoxHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />
@@ -298,5 +300,17 @@
     <None Include="test-results\MonoMac.Windows.Forms.csproj.test-cache" />
     <None Include="test-results\System.Windows.Forms.csproj.test-cache" />
     <None Include="System.Windows.Forms\ScrollableControl_Old.cs" />
+    <None Include="System.Windows.Forms.Layout\DefaultLayout.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms.Layout\FlowLayout.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms.Layout\TableLayout.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms.Layout\TableLayoutSettingsTypeConverter.cs">
+      <Visible>False</Visible>
+    </None>
   </ItemGroup>
 </Project>

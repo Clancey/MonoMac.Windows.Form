@@ -24,6 +24,7 @@ namespace System.Windows.Forms
 		public Control ()
 		{
 			CreateHelper();
+			//c_helper.ScaleUnitSquareToSize(Util.ScaleSize);
 			//(c_helper as IViewHelper).Host = this;
 			MaximumSize = DefaultMaximumSize;
 			MinimumSize = DefaultMinimumSize;
@@ -303,7 +304,47 @@ namespace System.Windows.Forms
 
 			return false;
 		}
+		
+		protected virtual bool ProcessKeyEventArgs (ref Message m)
+		{
+			/*
+			KeyEventArgs key_event;
 
+			switch (m.Msg) {
+				case (int)Msg.WM_SYSKEYDOWN:
+				case (int)Msg.WM_KEYDOWN: {
+					key_event = new KeyEventArgs ((Keys) m.WParam.ToInt32 ());
+					OnKeyDown (key_event);
+					suppressing_key_press = key_event.SuppressKeyPress;
+					return key_event.Handled;
+				}
+
+				case (int)Msg.WM_SYSKEYUP:
+				case (int)Msg.WM_KEYUP: {
+					key_event = new KeyEventArgs ((Keys) m.WParam.ToInt32 ());
+					OnKeyUp (key_event);
+					return key_event.Handled;
+				}
+
+				case (int)Msg.WM_SYSCHAR:
+				case (int)Msg.WM_CHAR: {
+					if (suppressing_key_press)
+						return true;
+					KeyPressEventArgs key_press_event;
+
+					key_press_event = new KeyPressEventArgs ((char) m.WParam);
+					OnKeyPress(key_press_event);
+					m.WParam = (IntPtr) key_press_event.KeyChar;
+					return key_press_event.Handled;
+				}
+
+				default: {
+					break;
+				}
+			}
+			 */
+			return false;
+		}
 		#endregion
 		
 		#region Private and Internal Methods

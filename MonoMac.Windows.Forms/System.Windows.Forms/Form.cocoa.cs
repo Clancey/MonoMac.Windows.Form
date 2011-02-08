@@ -109,7 +109,7 @@ namespace System.Windows.Forms
 		{
 			m_helper = new FormHelper (this, new RectangleF (50, 50, 400, 400), (NSWindowStyle)(1 | (1 << 1) | (1 << 2) | (1 << 3)), NSBackingStore.Buffered, false);
 			m_helper.ContentView = new View (this);
-			m_helper.ContentView.ScaleUnitSquareToSize(Util.ScaleSize);
+			//m_helper.ContentView.ScaleUnitSquareToSize(Util.ScaleSize);
 			m_helper.AcceptsMouseMovedEvents = true;
 		}
 		

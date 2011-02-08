@@ -19,7 +19,7 @@ namespace System.Windows.Forms
 string[] subfolders = new string[]{ @"UserControl",
 							  @"ButtonHelper",
 							  @"TextBoxMouseView",
-							  @"ComboBoxMouseView",
+							  @"ComboBoxHelper",
 							  @"ListBoxMouseView",
 							  @"TrackBarMouseView",
 							  @"PanelMouseView",

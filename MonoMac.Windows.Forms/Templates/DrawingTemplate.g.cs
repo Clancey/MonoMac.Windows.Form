@@ -108,7 +108,7 @@ namespace System.Windows.Forms
 	}
 	
 	
-	internal partial class ComboBoxMouseView 
+	internal partial class ComboBoxHelper 
 	{	
 		public bool shouldDraw {get;set;}
 		public override void DrawRect (RectangleF dirtyRect)

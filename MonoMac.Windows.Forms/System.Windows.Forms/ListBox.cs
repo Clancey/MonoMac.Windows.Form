@@ -1404,6 +1404,7 @@ namespace System.Windows.Forms
 				Invalidate ();
 			} else if (!multicolumn) {
 				int rows = items_area.Height / ItemHeight;
+				rows = rows == 0 ? 1 : rows;
 				if (index >= (top_index + rows))
 					top_index = index - rows + 1;
 

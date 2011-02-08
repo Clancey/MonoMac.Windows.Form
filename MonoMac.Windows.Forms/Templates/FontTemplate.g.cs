@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Linq;
 using MonoMac.AppKit;
@@ -57,7 +57,7 @@ namespace System.Windows.Forms
 	}
 	
 	
-	internal partial class ComboBoxMouseView 
+	internal partial class ComboBoxHelper 
 	{	
 		public new System.Drawing.Font Font
 		{

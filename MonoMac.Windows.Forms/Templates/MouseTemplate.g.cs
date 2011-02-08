@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Linq;
 using MonoMac.AppKit;
@@ -266,7 +266,7 @@ namespace System.Windows.Forms
 
 
 	
-	internal partial class ComboBoxMouseView : NSComboBox , IViewHelper
+	internal partial class ComboBoxHelper : NSComboBox , IViewHelper
 	{
 		public Control Host {get;set;}
 		public NSCursor Cursor {get;set;}
