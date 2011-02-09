@@ -1,99 +1,816 @@
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+// Copyright (c) 2004-2006 Novell, Inc.
+//
+// Authors:
+//	Peter Bartok		pbartok@novell.com
+//
+// Partially based on work by:
+//	Aleksey Ryabchuk	ryabchuk@yahoo.com
+//	Alexandre Pigolkine	pigolkine@gmx.de
+//	Dennis Hayes		dennish@raytek.com
+//	Jaak Simm		jaaksimm@firm.ee
+//	John Sohn		jsohn@columbus.rr.com
+//
+
+#undef DebugRecreate
+#undef DebugFocus
+#undef DebugMessages
+
 using System;
-using System.Drawing;
-using MonoMac.AppKit;
-using System.Linq;
 using System.ComponentModel;
-using System.Drawing.Drawing2D;
+using System.ComponentModel.Design;
+using System.ComponentModel.Design.Serialization;
 using System.Collections;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security;
+using System.Threading;
 
 namespace System.Windows.Forms
 {
-	
 	[ComVisible(true)]
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
-	public partial class Control : Component , IBindableComponent, IWin32Window ,  IBounds
-		//, IDropTarget,ISynchronizeInvoke
+	[Designer("System.Windows.Forms.Design.ControlDesigner, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.IDesigner")]
+	[DefaultProperty("Text")]
+	[DefaultEvent("Click")]
+	[DesignerSerializer("System.Windows.Forms.Design.ControlCodeDomSerializer, " + Consts.AssemblySystem_Design, "System.ComponentModel.Design.Serialization.CodeDomSerializer, " + Consts.AssemblySystem_Design)]
+	[ToolboxItemFilter("System.Windows.Forms")]
+	public partial class Control : Component, ISynchronizeInvoke, IWin32Window
+		, IBindableComponent, IDropTarget, IBounds
 	{
-		internal virtual NSView c_helper { get; set; }
-		#region constructors
-		public Control ()
-		{
-			initialize ();
+		#region Local Variables
+
+		// Basic
+		Rectangle               explicit_bounds; // explicitly set bounds
+		string                  name; // for object naming
+
+		// State
+		bool                    is_created; // true if OnCreateControl has been sent
+		bool                    is_accessible; // true if the control is visible to accessibility applications
+		bool                    is_recreating; // tracks if the handle for the control is being recreated
+		bool                    is_focusing; // tracks if Focus has been called on the control and has not yet finished
+		int                     tab_index; // position in tab order of siblings
+		bool                    is_disposed; // has the window already been disposed?
+		bool                    is_disposing; // is the window getting disposed?
+		Size                    client_size; // size of the client area (window excluding decorations)
+		Rectangle               client_rect; // rectangle with the client area (window excluding decorations)
+		ImeMode                 ime_mode;
+		object                  control_tag; // object that contains data about our control
+		internal int			mouse_clicks;		// Counter for mouse clicks
+		internal bool			allow_drop;		// true if the control accepts droping objects on it   
+		Region                  clip_region; // User-specified clip region for the window
+
+		// Visuals
+		internal Color			background_color;	// background color for control
+		string                  text; // window/title text for control
+		internal                BorderStyle		border_style;		// Border style of control
+		bool                    show_keyboard_cues; // Current keyboard cues 
+		internal bool           show_focus_cues; // Current focus cues 
+		internal bool		force_double_buffer;	// Always doublebuffer regardless of ControlStyle
+
+		// Layout
+		internal enum LayoutType {
+			Anchor,
+			Dock
 		}
-		public Control (string text)
+		Layout.LayoutEngine layout_engine;
+		internal AnchorStyles anchor_style; // anchoring requirements for our control
+		internal DockStyle dock_style; // docking requirements for our control
+		LayoutType layout_type;
+		private bool recalculate_distances = true;  // Delay anchor calculations
+
+		// Please leave the next 2 as internal until DefaultLayout (2.0) is rewritten
+		internal int			dist_right; // distance to the right border of the parent
+		internal int			dist_bottom; // distance to the bottom border of the parent
+
+		// to be categorized...
+		internal bool		use_compatible_text_rendering;
+		private bool		use_wait_cursor;
+
+		// double buffering
+
+		static bool verify_thread_handle;
+		Size maximum_size;
+		Size minimum_size;
+		Padding margin;
+		private bool nested_layout = false;
+		Point auto_scroll_offset;
+		private bool suppressing_key_press;
+
+		#endregion	// Local Variables
+		
+		#region Public Classes
+		#endregion	// ControlCollection Class
+		
+		#region Public Constructors
+		public Control (Control parent, string text) : this()
 		{
-			initialize ();
-			Text = text;
-		}
-		public Control (Control control, string text)
-		{
-			initialize ();
-			Text = text;
-			control.Controls.Add (this);
-		}
-		public Control (string text, int left, int top, int width, int height)
-		{
-			initialize ();
-			Text = text;
-			Location = new Point (left, top);
-			Size = new Size (width, height);
-		}
-		public Control (Control control, string text, int left, int top, int width, int height)
-		{
-			initialize ();
-			Text = text;
-			Location = new Point (left, top);
-			Size = new Size (width, height);
-			control.Controls.Add (this);
+			Text=text;
+			Parent=parent;
 		}
 
-		private void initialize ()
+		public Control (Control parent, string text, int left, int top, int width, int height) : this()
 		{
-			c_helper = new NSView ();
-			MaximumSize = DefaultMaximumSize;
-			MinimumSize = DefaultMinimumSize;
-			is_enabled = true;
-			control_style = ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | 
-					ControlStyles.Selectable | ControlStyles.StandardClick | 
-					ControlStyles.StandardDoubleClick;
+			Parent=parent;
+			SetBounds(left, top, width, height, BoundsSpecified.All);
+			Text=text;
 		}
 
-		public static implicit operator NSView (Control control)
+		public Control (string text) : this()
 		{
-			return control.c_helper;
+			Text=text;
 		}
 
-		#endregion
-		
-		#region internal Variables
+		public Control (string text, int left, int top, int width, int height) : this()
+		{
+			SetBounds(left, top, width, height, BoundsSpecified.All);
+			Text=text;
+		}
 
-		Control 				parent;
-		BindingContext          binding_context;
-		Image                   background_image; // background image for control
-		ImageLayout 			backgroundimage_layout;		
-		internal object			creator_thread;		// thread that created the control
-		ControlBindingsCollection data_bindings;
-		internal Color			foreground_color;	// foreground color for control
-		RightToLeft             right_to_left; // drawing direction for control		
-		internal int layout_suspended;
-		bool                    causes_validation; // tracks if validation is executed on changes
-		bool                    tab_stop; // is the control a tab stop?
-		bool layout_pending; // true if our parent needs to re-layout us
-		internal bool			is_toplevel;		// tracks if the control is a toplevel window
-		ControlStyles           control_style; // rather win32-specific, style bits for control
-		internal bool		is_entered;		// is the mouse inside the control?
-		bool                    is_captured; // tracks if the control has captured the mouse
-		bool 					is_enabled;
+		private delegate void RemoveDelegate(object c);
+		#endregion 	// Public Constructors
+
+		#region Internal Properties
+
+		internal Rectangle PaddingClientRectangle
+		{
+			get {
+				return new Rectangle (
+					ClientRectangle.Left   + padding.Left,
+					ClientRectangle.Top    + padding.Top, 
+					ClientRectangle.Width  - padding.Horizontal, 
+					ClientRectangle.Height - padding.Vertical);
+			}
+		}
+
+		// Control is currently selected, like Focused, except maintains state
+		// when Form loses focus
+		internal bool InternalSelected {
+		        get {
+		        	IContainerControl container;
+			
+				container = GetContainerControl();
+				
+				if (container != null && container.ActiveControl == this)
+					return true;
+					
+				return false;
+			}
+		}
+
+		
+		// Mouse is currently within the control's bounds
+		internal bool Entered {
+			get { return this.is_entered; }
+		}
+
+		internal LayoutType ControlLayoutType {
+			get { return layout_type; }
+		}
 		
 		
-		private AutoSizeMode auto_size_mode;
+		internal Size InternalClientSize { set { this.client_size = value; } }
+		internal virtual bool ActivateOnShow { get { return true; } }
+		internal Rectangle ExplicitBounds { get { return this.explicit_bounds; } set { this.explicit_bounds = value; } }
+
+		internal bool ValidationFailed { 
+			get { 
+				ContainerControl c = InternalGetContainerControl ();
+				if (c != null)
+					return c.validation_failed;
+				return false;
+			}
+			set { 
+				ContainerControl c = InternalGetContainerControl ();
+				if (c != null)
+					c.validation_failed = value; 
+			}
+		}
+		#endregion	// Internal Properties
+
+		#region Private & Internal Methods
 		
-		Padding padding;
-		#endregion
+		void IDropTarget.OnDragDrop (DragEventArgs drgEvent)
+		{
+			OnDragDrop (drgEvent);
+		}
 		
-		#region Public Instance Variables
+		void IDropTarget.OnDragEnter (DragEventArgs drgEvent)
+		{
+			OnDragEnter (drgEvent);
+		}
 		
+		void IDropTarget.OnDragLeave (EventArgs e)
+		{
+			OnDragLeave (e);
+		}
+
+		void IDropTarget.OnDragOver (DragEventArgs drgEvent)
+		{
+			OnDragOver (drgEvent);
+		}
+
+		internal IAsyncResult BeginInvokeInternal (Delegate method, object [] args) {
+			
+			//TODO: fixme
+			return null;
+			//return BeginInvokeInternal (method, args, FindControlToInvokeOn ());
+		}
+
+
+		// The CheckForIllegalCrossThreadCalls in the #if 2.0 of
+		// Control.Handle throws an exception when we are trying
+		// to get the Handle to properly invoke on.  This avoids that.
+		
+		internal bool IsRecreating {
+			get {
+				return is_recreating;
+			}
+		}
+
+		// An internal way to have a fixed height
+		// Basically for DataTimePicker 2.0
+		internal virtual int OverrideHeight (int height)
+		{
+			return height;
+		}
+
+		private Control FindControlToInvokeOn ()
+		{
+			Control p = this;
+			do {
+				if (p.IsHandleCreated)
+					break;
+				p = p.parent;
+			} while (p != null);
+
+			if (p == null || !p.IsHandleCreated)
+				throw new InvalidOperationException ("Cannot call Invoke or BeginInvoke on a control until the window handle is created");
+			
+			return p;
+		}
+
+		internal static void SetChildColor(Control parent) {
+			Control	child;
+
+			for (int i=0; i < parent.child_controls.Count; i++) {
+				child=parent.child_controls[i];
+				if (child.child_controls.Count>0) {
+					SetChildColor(child);
+				}
+			}
+		}
+
+		internal virtual void DoDefaultAction() {
+			// Only here to be overriden by our actual controls; this is needed by the accessibility class
+		}
+
+		internal static IntPtr MakeParam (int low, int high){
+			return new IntPtr (high << 16 | low & 0xffff);
+		}
+
+		internal static int LowOrder (int param) {
+			return ((int)(short)(param & 0xffff));
+		}
+
+		internal static int HighOrder (long param) {
+			return ((int)(short)(param >> 16));
+		}
+
+		// This method exists so controls overriding OnPaintBackground can have default background painting done
+		internal virtual void DndEnter (DragEventArgs e) {
+			try {
+				OnDragEnter (e);
+			} catch { }
+		}
+
+		internal virtual void DndOver (DragEventArgs e) {
+			try {
+				OnDragOver (e);
+			} catch { }
+		}
+
+		internal virtual void DndDrop (DragEventArgs e) {
+			try {
+				OnDragDrop (e);
+			} catch (Exception exc) {
+				Console.Error.WriteLine ("MWF: Exception while dropping:");
+				Console.Error.WriteLine (exc);
+			}
+		}
+
+		internal virtual void DndLeave (EventArgs e) {
+			try {
+				OnDragLeave (e);
+			} catch { }
+		}
+
+		internal virtual void DndFeedback(GiveFeedbackEventArgs e) {
+			try {
+				OnGiveFeedback(e);
+			} catch { }
+		}
+
+		internal virtual void DndContinueDrag(QueryContinueDragEventArgs e) {
+			try {
+				OnQueryContinueDrag(e);
+			} catch { }
+		}
+
+		internal virtual void FireEnter () {
+			OnEnter (EventArgs.Empty);
+		}
+
+		internal virtual void FireLeave () {
+			OnLeave (EventArgs.Empty);
+		}
+
+		internal virtual void FireValidating (CancelEventArgs ce) {
+			OnValidating (ce);
+		}
+
+		internal virtual void FireValidated () {
+			OnValidated (EventArgs.Empty);
+		}
+
+		internal virtual bool ProcessControlMnemonic(char charCode) {
+			return ProcessMnemonic(charCode);
+		}
+
+		private static Control FindFlatForward(Control container, Control start) {
+			Control	found;
+			int	index;
+			int	end;
+			bool hit;
+
+			found = null;
+			end = container.child_controls.Count;
+			hit = false;
+
+			if (start != null) {
+				index = start.tab_index;
+			} else {
+				index = -1;
+			}
+
+			for (int i = 0; i < end; i++) {
+				if (start == container.child_controls[i]) {
+					hit = true;
+					continue;
+				}
+
+				if (found == null || found.tab_index > container.child_controls[i].tab_index) {
+					if (container.child_controls[i].tab_index > index || (hit && container.child_controls[i].tab_index == index)) {
+						found = container.child_controls[i];
+					}
+				}
+			}
+			return found;
+		}
+
+		private static Control FindControlForward(Control container, Control start) {
+			Control found;
+
+			found = null;
+
+			if (start == null) {
+				return FindFlatForward(container, start);
+			}
+
+			if (start.child_controls != null && start.child_controls.Count > 0 && 
+				(start == container || !((start is IContainerControl) &&  start.GetStyle(ControlStyles.ContainerControl)))) {
+				return FindControlForward(start, null);
+			}
+			else {
+				while (start != container) {
+					found = FindFlatForward(start.parent, start);
+					if (found != null) {
+						return found;
+					}
+					start = start.parent;
+				}
+			}
+			return null;
+		}
+
+		private static Control FindFlatBackward(Control container, Control start) {
+			Control	found;
+			int	index;
+			int	end;
+			bool hit;
+
+			found = null;
+			end = container.child_controls.Count;
+			hit = false;
+
+			if (start != null) {
+				index = start.tab_index;
+			} else {
+				index = int.MaxValue;
+			}
+
+			for (int i = end - 1; i >= 0; i--) {
+				if (start == container.child_controls[i]) {
+					hit = true;
+					continue;
+				}
+
+				if (found == null || found.tab_index < container.child_controls[i].tab_index) {
+					if (container.child_controls[i].tab_index < index || (hit && container.child_controls[i].tab_index == index))
+						found = container.child_controls[i];
+
+				}
+			}
+			return found;
+		}
+
+		private static Control FindControlBackward(Control container, Control start) {
+
+			Control found = null;
+
+			if (start == null) {
+				found = FindFlatBackward(container, start);
+			}
+			else if (start != container) {
+				if (start.parent != null) {
+					found = FindFlatBackward(start.parent, start);
+
+					if (found == null) {
+						if (start.parent != container)
+							return start.parent;
+						return null;
+					}
+				}
+			}
+		
+			if (found == null || start.parent == null)
+				found = start;
+
+			while (found != null && (found == container || (!((found is IContainerControl) && found.GetStyle(ControlStyles.ContainerControl))) &&
+				found.child_controls != null && found.child_controls.Count > 0)) {
+//				while (ctl.child_controls != null && ctl.child_controls.Count > 0 && 
+//					(ctl == this || (!((ctl is IContainerControl) && ctl.GetStyle(ControlStyles.ContainerControl))))) {
+				found = FindFlatBackward(found, null);
+			}
+
+			return found;
+
+/*
+			Control found;
+
+			found = null;
+
+			if (start != null) {
+				found = FindFlatBackward(start.parent, start);
+				if (found == null) {
+					if (start.parent != container) {
+						return start.parent;
+					}
+				}
+			}
+			if (found == null) {
+				found = FindFlatBackward(container, start);
+			}
+
+			if (container != start) {
+				while ((found != null) && (!found.Contains(start)) && found.child_controls != null && found.child_controls.Count > 0 && !(found is IContainerControl)) {// || found.GetStyle(ControlStyles.ContainerControl))) {
+					found = FindControlBackward(found, null);
+					 if (found != null) {
+						return found;
+					}
+				}
+			}
+			return found;
+*/			
+		}
+
+		internal virtual void HandleClick(int clicks, MouseEventArgs me) {
+			bool standardclick = GetStyle (ControlStyles.StandardClick);
+			bool standardclickclick = GetStyle (ControlStyles.StandardDoubleClick);
+			if ((clicks > 1) && standardclick && standardclickclick) {
+				OnDoubleClick (me);
+				OnMouseDoubleClick (me);
+			} else if (clicks == 1 && standardclick && !ValidationFailed) {
+				OnClick (me);
+				OnMouseClick (me);
+			}
+		}
+
+		private void CheckDataBindings () {
+			if (data_bindings == null)
+				return;
+
+			foreach (Binding binding in data_bindings) {
+				binding.Check ();
+			}
+		}
+
+
+		internal virtual Size GetPreferredSizeCore (Size proposedSize)
+		{
+			return this.explicit_bounds.Size;
+		}
+
+		private void UpdateDistances() {
+			if (parent != null) {
+				if (bounds.Width >= 0)
+					dist_right = parent.ClientSize.Width - bounds.X - bounds.Width;
+				if (bounds.Height >= 0)
+					dist_bottom = parent.ClientSize.Height - bounds.Y - bounds.Height;
+
+				recalculate_distances = false;
+			}
+		}
+		#endregion	// Private & Internal Methods
+
+		#region Public Static Properties
+		
+		[EditorBrowsable (EditorBrowsableState.Advanced)]
+		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
+		[Browsable (false)]
+		[MonoTODO ("Stub, value is not used")]
+		public static bool CheckForIllegalCrossThreadCalls 
+		{
+			get {
+				return verify_thread_handle;
+			}
+
+			set {
+				verify_thread_handle = value;
+			}
+		}
+		#endregion	// Public Static Properties
+
+		#region Public Instance Properties
+
+		[Localizable(true)]
+		[RefreshProperties(RefreshProperties.Repaint)]
+		[DefaultValue(AnchorStyles.Top | AnchorStyles.Left)]
+		[MWFCategory("Layout")]
+		public virtual AnchorStyles Anchor {
+			get {
+				return anchor_style;
+			}
+
+			set {
+				layout_type = LayoutType.Anchor;
+
+				if (anchor_style == value)
+					return;
+					
+				anchor_style=value;
+				dock_style = DockStyle.None;
+				
+				UpdateDistances ();
+
+				if (parent != null)
+					parent.PerformLayout(this, "Anchor");
+			}
+		}
+
+		[Browsable (false)]
+		[DefaultValue (typeof (Point), "0, 0")]
+		[EditorBrowsable (EditorBrowsableState.Advanced)]
+		public virtual Point AutoScrollOffset {
+			get {
+				return auto_scroll_offset;
+			}
+
+			set {
+				this.auto_scroll_offset = value;
+			}
+		}
+			
+		// XXX: Implement me!
+		bool auto_size;
+		
+		[RefreshProperties (RefreshProperties.All)]
+		[Localizable (true)]
+		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
+		[Browsable (false)]
+		[EditorBrowsable (EditorBrowsableState.Never)]
+		[DefaultValue (false)]
+		public virtual bool AutoSize {
+			get { return auto_size; }
+			set {
+				if (this.auto_size != value) {
+					auto_size = value;
+					
+					// If we're turning this off, reset our size
+					if (!value) {
+						Size = explicit_bounds.Size;
+					} else {
+						if (Parent != null)
+							Parent.PerformLayout (this, "AutoSize");
+					}
+
+					OnAutoSizeChanged (EventArgs.Empty);
+				}
+			}
+		}
+		
+		[AmbientValue ("{Width=0, Height=0}")]
+		[MWFCategory("Layout")]
+		public virtual Size MaximumSize {
+			get {
+				return maximum_size;
+			}
+			set {
+				if (maximum_size != value) {
+					maximum_size = value;
+					Size = PreferredSize;
+				}
+			}
+		}
+
+		internal bool ShouldSerializeMaximumSize ()
+		{
+			return this.MaximumSize != DefaultMaximumSize;
+		}
+
+		[MWFCategory("Layout")]
+		public virtual Size MinimumSize {
+			get {
+				return minimum_size;
+			}
+			set {
+				if (minimum_size != value) {
+					minimum_size = value;
+					Size = PreferredSize;
+				}
+			}
+		}
+
+		internal bool ShouldSerializeMinimumSize ()
+		{
+			return this.MinimumSize != DefaultMinimumSize;
+		}
+
+		[DispId(-501)]
+		[MWFCategory("Appearance")]
+		public virtual Color BackColor {
+			get {
+				if (background_color.IsEmpty) {
+					if (parent!=null) {
+						Color pcolor = parent.BackColor;
+						if (pcolor.A == 0xff || GetStyle(ControlStyles.SupportsTransparentBackColor))
+							return pcolor;
+					}
+					return DefaultBackColor;
+				}
+				return background_color;
+			}
+
+			set {
+				if (!value.IsEmpty && (value.A != 0xff) && !GetStyle(ControlStyles.SupportsTransparentBackColor)) {
+					throw new ArgumentException("Transparent background colors are not supported on this control");
+				}
+
+				if (background_color != value) {
+					background_color=value;
+					SetChildColor(this);
+					OnBackColorChanged(EventArgs.Empty);
+					Invalidate();
+				}
+			}
+		}
+
+		internal bool ShouldSerializeBackColor ()
+		{
+			return this.BackColor != DefaultBackColor;
+		}
+
+		[Localizable(true)]
+		[DefaultValue(null)]
+		[MWFCategory("Appearance")]
+		public virtual Image BackgroundImage {
+			get {
+				return background_image;
+			}
+
+			set {
+				if (background_image!=value) {
+					background_image=value;
+					OnBackgroundImageChanged(EventArgs.Empty);
+					Invalidate ();
+				}
+			}
+		}
+
+		[DefaultValue (ImageLayout.Tile)]
+		[Localizable (true)]
+		[MWFCategory("Appearance")]
+		public virtual ImageLayout BackgroundImageLayout {
+			get {
+				return backgroundimage_layout;
+			}
+			set {
+				if (Array.IndexOf (Enum.GetValues (typeof (ImageLayout)), value) == -1)
+					throw new InvalidEnumArgumentException ("value", (int) value, typeof(ImageLayout));
+
+				if (value != backgroundimage_layout) {
+					backgroundimage_layout = value;
+					Invalidate ();
+					OnBackgroundImageLayoutChanged (EventArgs.Empty);
+				}
+				
+			}
+		} 
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public virtual BindingContext BindingContext {
+			get {
+				if (binding_context != null)
+					return binding_context;
+				if (Parent == null)
+					return null;
+				binding_context = Parent.BindingContext;
+				return binding_context;
+			}
+			set {
+				if (binding_context != value) {
+					binding_context = value;
+					OnBindingContextChanged(EventArgs.Empty);
+				}
+			}
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public int Bottom {
+			get {
+				return this.bounds.Bottom;
+			}
+		}
+		
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool CanFocus {
+			get {
+				if (IsHandleCreated && Visible && Enabled) {
+					return true;
+				}
+				return false;
+			}
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool CanSelect {
+			get {
+				Control	parent;
+
+				if (!GetStyle(ControlStyles.Selectable)) {
+					return false;
+				}
+
+				parent = this;
+				while (parent != null) {
+					if (!parent.is_visible || !parent.is_enabled) {
+						return false;
+					}
+
+					parent = parent.parent;
+				}
+				return true;
+			}
+		}
+
+		internal virtual bool InternalCapture {
+			get {
+				return Capture;
+			}
+
+			set {
+				Capture = value;
+			}
+		}
 
 		[DefaultValue(true)]
 		[MWFCategory("Focus")]
@@ -109,41 +826,366 @@ namespace System.Windows.Forms
 				}
 			}
 		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[DescriptionAttribute("ControlCompanyNameDescr")]
+		public String CompanyName {
+			get {
+				return "Mono Project, Novell, Inc.";
+			}
+		}
 		
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool Created {
+			get {
+				return (!is_disposed && is_created);
+			}
+		}
+
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+		[ParenthesizePropertyName(true)]
+		[RefreshProperties(RefreshProperties.All)]
+		[MWFCategory("Data")]
+		public ControlBindingsCollection DataBindings {
+			get {
+				if (data_bindings == null)
+					data_bindings = new ControlBindingsCollection (this);
+				return data_bindings;
+			}
+		}
+
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public virtual Rectangle DisplayRectangle {
 			get {
-				return this.ClientRectangle;
+				return ClientRectangle;
+			}
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool Disposing {
+			get {
+				return is_disposed;
+			}
+		}
+
+		[Localizable(true)]
+		[RefreshProperties(RefreshProperties.Repaint)]
+		[DefaultValue(DockStyle.None)]
+		[MWFCategory("Layout")]
+		public virtual DockStyle Dock {
+			get {
+				return dock_style;
+			}
+
+			set {
+				// If the user sets this to None, we need to still use Anchor layout
+				if (value != DockStyle.None)
+					layout_type = LayoutType.Dock;
+
+				if (dock_style == value) {
+					return;
+				}
+
+				if (!Enum.IsDefined (typeof (DockStyle), value)) {
+					throw new InvalidEnumArgumentException ("value", (int) value,
+						typeof (DockStyle));
+				}
+
+				dock_style = value;
+				anchor_style = AnchorStyles.Top | AnchorStyles.Left;
+
+				if (dock_style == DockStyle.None) {
+					bounds = explicit_bounds;
+					layout_type = LayoutType.Anchor;
+				}
+
+				if (parent != null)
+					parent.PerformLayout(this, "Dock");
+				else if (Controls.Count > 0)
+					PerformLayout ();
+
+				OnDockChanged(EventArgs.Empty);
+			}
+		}
+
+		protected virtual bool DoubleBuffered {
+			get {
+				return (control_style & ControlStyles.OptimizedDoubleBuffer) != 0;
+			}
+
+			set {
+				if (value == DoubleBuffered)
+					return;
+				if (value) {
+					SetStyle (ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+				} else {
+					SetStyle (ControlStyles.OptimizedDoubleBuffer, false);
+				}
+				
 			}
 		}
 		
-		public bool Contains(Control ctl) {
-			while (ctl != null) {
-				ctl = ctl.parent;
-				if (ctl == this) {
+		public void DrawToBitmap (Bitmap bitmap, Rectangle targetBounds)
+		{
+			Graphics g = Graphics.FromImage (bitmap);
+			
+			// Only draw within the target bouds, and up to the size of the control
+			g.IntersectClip (targetBounds);
+			g.IntersectClip (Bounds);
+			
+			// Logic copied from WmPaint
+			PaintEventArgs pea = new PaintEventArgs (g, targetBounds);
+			
+			if (!GetStyle (ControlStyles.Opaque))
+				OnPaintBackground (pea);
+
+			OnPaintBackgroundInternal (pea);
+
+			OnPaintInternal (pea);
+
+			//if (!pea.Handled)
+				OnPaint (pea);
+			
+			g.Dispose ();
+		}
+
+		internal bool ShouldSerializeEnabled ()
+		{
+			return this.Enabled != true;
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public virtual bool Focused {
+			get {
+				return this.has_focus;
+			}
+		}
+
+		[DispId(-512)]
+		[AmbientValue(null)]
+		[Localizable(true)]
+		[MWFCategory("Appearance")]
+		public virtual Font Font {
+			[return: MarshalAs (UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof (Font))]
+			get {
+				if (font != null)
+					return font;
+
+				if (parent != null) {
+					Font f = parent.Font;
+					
+					if (f != null)
+						return f;
+				}
+
+				return DefaultFont;
+			}
+
+			[param:MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(Font))]
+			set {
+				if (font != null && font == value) {
+					return;
+				}
+
+				font = value;
+				Invalidate();
+				OnFontChanged (EventArgs.Empty);
+				PerformLayout ();
+			}
+		}
+
+		internal bool ShouldSerializeFont ()
+		{
+			return !this.Font.Equals (DefaultFont);
+		}
+
+		[DispId(-513)]
+		[MWFCategory("Appearance")]
+		public virtual Color ForeColor {
+			get {
+				if (foreground_color.IsEmpty) {
+					if (parent!=null) {
+						return parent.ForeColor;
+					}
+					return DefaultForeColor;
+				}
+				return foreground_color;
+			}
+
+			set {
+				if (foreground_color != value) {
+					foreground_color=value;
+					Invalidate();
+					OnForeColorChanged(EventArgs.Empty);
+				}
+			}
+		}
+
+		internal bool ShouldSerializeForeColor ()
+		{
+			return this.ForeColor != DefaultForeColor;
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool HasChildren {
+			get {
+				if (this.child_controls.Count>0) {
 					return true;
 				}
+				return false;
 			}
-			return false;
 		}
-		
-		
-		public Form FindForm() {
-			Control	c;
 
-			c = this;
-			while (c != null) {
-				if (c is Form) {
-					return (Form)c;
-				}
-				c = c.Parent;
-			}
-			return null;
+		[EditorBrowsable(EditorBrowsableState.Always)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public int Height {
+			get { return this.bounds.Height; }
+			set { SetBounds(bounds.X, bounds.Y, bounds.Width, value, BoundsSpecified.Height); }
 		}
 		
-		
+		[AmbientValue(ImeMode.Inherit)]
+		[Localizable(true)]
+		[MWFCategory("Behavior")]
+		public ImeMode ImeMode {
+			get {
+				if (ime_mode == ImeMode.Inherit) {
+					if (parent != null)
+						return parent.ImeMode;
+					else
+						return ImeMode.NoControl; // default value
+				}
+				return ime_mode;
+			}
+
+			set {
+				if (ime_mode != value) {
+					ime_mode = value;
+
+					OnImeModeChanged(EventArgs.Empty);
+				}
+			}
+		}
+
+		internal bool ShouldSerializeImeMode ()
+		{
+			return this.ImeMode != ImeMode.NoControl;
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool InvokeRequired {						// ISynchronizeInvoke
+			get {
+				if (creator_thread != null && creator_thread!=Thread.CurrentThread) {
+					return true;
+				}
+				return false;
+			}
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool IsAccessible {
+			get {
+				return is_accessible;
+			}
+
+			set {
+				is_accessible = value;
+			}
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool IsDisposed {
+			get {
+				return this.is_disposed;
+			}
+		}
+
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[MonoNotSupported ("RTL is not supported")]
+		public bool IsMirrored {
+			get { return false; }
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Always)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public int Left {
+			get {
+				return this.bounds.Left;
+			}
+
+			set {
+				SetBounds(value, bounds.Y, bounds.Width, bounds.Height, BoundsSpecified.X);
+			}
+		}
+
+		[Localizable(true)]
+		[MWFCategory("Layout")]
+		public Point Location {
+			get {
+				return this.bounds.Location;
+			}
+
+			set {
+				SetBounds(value.X, value.Y, bounds.Width, bounds.Height, BoundsSpecified.Location);
+			}
+		}
+
+		internal bool ShouldSerializeLocation ()
+		{
+			return this.Location != new Point (0, 0);
+		}
+
+		[Localizable (true)]
+		[MWFCategory("Layout")]
+		public Padding Margin {
+			get { return this.margin; }
+			set { 
+				if (this.margin != value) {
+					this.margin = value; 
+					if (Parent != null)
+						Parent.PerformLayout (this, "Margin");
+					OnMarginChanged (EventArgs.Empty);
+				}
+			}
+		}
+
+		internal bool ShouldSerializeMargin ()
+		{
+			return this.Margin != DefaultMargin;
+		}
+
+		[Browsable(false)]
+		public string Name {
+			get {
+				return name;
+			}
+
+			set {
+				name = value;
+			}
+		}
+
 		[Localizable(true)]
 		[MWFCategory("Layout")]
 		public Padding Padding {
@@ -169,7 +1211,88 @@ namespace System.Windows.Forms
 		{
 			return this.Padding != DefaultPadding;
 		}
-		
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public Control Parent {
+			get {
+				return this.parent;
+			}
+
+			set {
+				if (value == this) {
+					throw new ArgumentException("A circular control reference has been made. A control cannot be owned or parented to itself.");
+				}
+
+				if (parent!=value) {
+					if (value==null) {
+						parent.Controls.Remove(this);
+						parent = null;
+						return;
+					}
+
+					value.Controls.Add(this);
+				}
+			}
+		}
+
+		[Browsable (false)]
+		public Size PreferredSize {
+			get { return this.GetPreferredSize (Size.Empty); }
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public string ProductName {
+			get {
+				Type t = typeof (AssemblyProductAttribute);
+				Assembly assembly = GetType().Module.Assembly;
+				object [] attrs = assembly.GetCustomAttributes (t, false);
+				AssemblyProductAttribute a = null;
+				// On MS we get a NullRefException if product attribute is not
+				// set. 
+				if (attrs != null && attrs.Length > 0)
+					a = (AssemblyProductAttribute) attrs [0];
+				if (a == null) {
+					return GetType ().Namespace;
+				}
+				return a.Product;
+			}
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public string ProductVersion {
+			get {
+				Type t = typeof (AssemblyVersionAttribute);
+				Assembly assembly = GetType().Module.Assembly;
+				object [] attrs = assembly.GetCustomAttributes (t, false);
+				if (attrs == null || attrs.Length < 1)
+					return "1.0.0.0";
+				return ((AssemblyVersionAttribute)attrs [0]).Version;
+			}
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool RecreatingHandle {
+			get {
+				return is_recreating;
+			}
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public int Right {
+			get {
+				return this.bounds.Right;
+			}
+		}
+
 		[AmbientValue(RightToLeft.Inherit)]
 		[Localizable(true)]
 		[MWFCategory("Appearance")]
@@ -192,7 +1315,52 @@ namespace System.Windows.Forms
 				}
 			}
 		}
-		
+
+		internal bool ShouldSerializeRightToLeft ()
+		{
+			return this.RightToLeft != RightToLeft.No;
+		}
+
+		internal bool ShouldSerializeSite ()
+		{
+			return false;
+		}
+
+		[Localizable(true)]
+		[MWFCategory("Layout")]
+		public Size Size {
+			get {
+				return new Size(Width, Height);
+			}
+
+			set {
+				SetBounds(bounds.X, bounds.Y, value.Width, value.Height, BoundsSpecified.Size);
+			}
+		}
+
+		internal virtual bool ShouldSerializeSize ()
+		{
+			return this.Size != DefaultSize;
+		}
+
+		[Localizable(true)]
+		[MergableProperty(false)]
+		[MWFCategory("Behavior")]
+		public int TabIndex {
+			get {
+				if (tab_index != -1) {
+					return tab_index;
+				}
+				return 0;
+			}
+
+			set {
+				if (tab_index != value) {
+					tab_index = value;
+					OnTabIndexChanged(EventArgs.Empty);
+				}
+			}
+		}
 
 		[DispId(-516)]
 		[DefaultValue(true)]
@@ -209,58 +1377,285 @@ namespace System.Windows.Forms
 				}
 			}
 		}
-		
-		#endregion
-		
-		#region Public Instance Methods
-		
-		
-		public void DrawToBitmap (Bitmap bitmap, Rectangle targetBounds)
+
+		[Localizable(false)]
+		[Bindable(true)]
+		[TypeConverter(typeof(StringConverter))]
+		[DefaultValue(null)]
+		[MWFCategory("Data")]
+		public object Tag {
+			get {
+				return control_tag;
+			}
+
+			set {
+				control_tag = value;
+			}
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Always)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public int Top {
+			get {
+				return this.bounds.Top;
+			}
+
+			set {
+				SetBounds(bounds.X, value, bounds.Width, bounds.Height, BoundsSpecified.Y);
+			}
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public Control TopLevelControl {
+			get {
+				Control	p = this;
+
+				while (p.parent != null) {
+					p = p.parent;
+				}
+
+				return p is Form ? p : null;
+			}
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Always)]
+		[Browsable(true)]
+		[DefaultValue (false)]
+		[MWFCategory("Appearance")]
+		public bool UseWaitCursor {
+			get { return use_wait_cursor; }
+			set {
+				if (use_wait_cursor != value) {
+					use_wait_cursor = value;
+					UpdateCursor ();
+					OnCursorChanged (EventArgs.Empty);
+				}
+			}
+		}
+
+
+		internal bool ShouldSerializeVisible ()
 		{
-			Graphics g = Graphics.FromImage (bitmap);
-			
-			// Only draw within the target bouds, and up to the size of the control
-			g.IntersectClip (targetBounds);
-			g.IntersectClip (Bounds);
-			
-			// Logic copied from WmPaint
-			PaintEventArgs pea = new PaintEventArgs (g, targetBounds);
-			
-			if (!GetStyle (ControlStyles.Opaque))
-				OnPaintBackground (pea);
+			return this.Visible != true;
+		}
 
-			OnPaintBackgroundInternal (pea);
+		[EditorBrowsable(EditorBrowsableState.Always)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public int Width {
+			get {
+				return this.bounds.Width;
+			}
 
-			OnPaintInternal (pea);
+			set {
+				SetBounds(bounds.X, bounds.Y, value, bounds.Height, BoundsSpecified.Width);
+			}
+		}
+		#endregion	// Public Instance Properties
 
-			//if (!pea.Handled)
-				OnPaint (pea);
-			
-			g.Dispose ();
+		#region	Protected Instance Properties
+		protected virtual bool CanEnableIme {
+			get { return false; }
 		}
 		
-		internal ContainerControl FindContainer (Control c)
+		// Is only false in some ActiveX contexts
+		protected override bool CanRaiseEvents {
+			get { return true; }
+		}
+		
+		protected virtual ImeMode DefaultImeMode {
+			get {
+				return ImeMode.Inherit;
+			}
+		}
+
+		protected virtual Padding DefaultMargin {
+			get { return new Padding (3); }
+		}
+		
+		protected virtual Size DefaultMaximumSize { get { return new Size (); } }
+		protected virtual Size DefaultMinimumSize { get { return new Size (); } }
+		protected virtual Padding DefaultPadding { get { return new Padding (); } }
+
+		protected virtual Size DefaultSize {
+			get {
+				return new Size(0, 0);
+			}
+		}
+
+		protected int FontHeight {
+			get {
+				return Font.Height;
+			}
+
+			set {
+				;; // Nothing to do
+			}
+		}
+		[Obsolete ()]
+		protected bool RenderRightToLeft {
+			get {
+				return (this.right_to_left == RightToLeft.Yes);
+			}
+		}
+
+		protected bool ResizeRedraw {
+			get {
+				return GetStyle(ControlStyles.ResizeRedraw);
+			}
+
+			set {
+				SetStyle(ControlStyles.ResizeRedraw, value);
+			}
+		}
+
+		[EditorBrowsable (EditorBrowsableState.Advanced)]
+		protected virtual bool ScaleChildren {
+			get { return ScaleChildrenInternal; }
+		}
+
+		internal virtual bool ScaleChildrenInternal {
+			get { return true; }
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		protected internal virtual bool ShowFocusCues {
+			get {
+				if (this is Form)
+					return show_focus_cues;
+					
+				if (this.parent == null)
+					return false;
+					
+				Form f = this.FindForm ();
+				
+				if (f != null)
+					return f.show_focus_cues;
+					
+				return false;
+			}
+		}
+
+		#endregion	// Protected Instance Properties
+
+		#region Public Static Methods
+
+		public static bool IsMnemonic(char charCode, string text) {
+			int amp;
+
+			amp = text.IndexOf('&');
+
+			if (amp != -1) {
+				if (amp + 1 < text.Length) {
+					if (text[amp + 1] != '&') {
+						if (Char.ToUpper(charCode) == Char.ToUpper(text.ToCharArray(amp + 1, 1)[0])) {
+							return true;
+						}	
+					}
+				}
+			}
+			return false;
+		}
+		#endregion
+
+
+		#region	Public Instance Methods
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		public IAsyncResult BeginInvoke(Delegate method) {
+			object [] prms = null;
+			if (method is EventHandler)
+				prms = new object [] { this, EventArgs.Empty };
+			return BeginInvokeInternal(method, prms);
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		public IAsyncResult BeginInvoke (Delegate method, params object[] args)
 		{
-			while ((c != null) && !(c is ContainerControl))
+			return BeginInvokeInternal (method, args);
+		}
+
+		public bool Contains(Control ctl) {
+			while (ctl != null) {
+				ctl = ctl.parent;
+				if (ctl == this) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		internal virtual void OnDragDropEnd (DragDropEffects effects)
+		{
+		}
+
+
+		internal Control FindRootParent ()
+		{
+			Control	c = this;
+			
+			while (c.Parent != null)
 				c = c.Parent;
-			return c as ContainerControl;
+
+			return c;
+		}
+
+		public Form FindForm() {
+			Control	c;
+
+			c = this;
+			while (c != null) {
+				if (c is Form) {
+					return (Form)c;
+				}
+				c = c.Parent;
+			}
+			return null;
+		}
+		[EditorBrowsable (EditorBrowsableState.Advanced)]
+		public bool Focus() {
+			return FocusInternal (false);
+		}
+
+		internal virtual bool FocusInternal (bool skip_check) {
+			if (skip_check || (CanFocus && IsHandleCreated && !has_focus && !is_focusing)) {
+				is_focusing = true;
+				Select(this);
+				is_focusing = false;
+			}
+			return has_focus;
 		}
 
 		public IContainerControl GetContainerControl() {
 			Control	current = this;
 
 			while (current!=null) {
-				if ((current is IContainerControl) && (( ControlStyles.ContainerControl)!=0)) {
+				if ((current is IContainerControl) && ((current.control_style & ControlStyles.ContainerControl)!=0)) {
 					return (IContainerControl)current;
 				}
 				current = current.parent;
 			}
 			return null;
 		}
-		
+
+		internal ContainerControl InternalGetContainerControl() {
+			Control	current = this;
+
+			while (current!=null) {
+				if ((current is ContainerControl) && ((current.control_style & ControlStyles.ContainerControl)!=0)) {
+					return current as ContainerControl;
+				}
+				current = current.parent;
+			}
+			return null;
+		}
+
 		public Control GetNextControl(Control ctl, bool forward) {
-			//TODO:
-			/*
+
 			if (!this.Contains(ctl)) {
 				ctl = this;
 			}
@@ -274,16 +1669,187 @@ namespace System.Windows.Forms
 
 			if (ctl != this) {
 				return ctl;
-			}*/
+			}
 			return null;
 		}
-	
-		private bool IsContainerAutoScaling (Control c)
+
+		[EditorBrowsable (EditorBrowsableState.Advanced)]
+		public virtual Size GetPreferredSize (Size proposedSize) {
+			Size retsize = GetPreferredSizeCore (proposedSize);
+			
+			// If we're bigger than the MaximumSize, fix that
+			if (this.maximum_size.Width != 0 && retsize.Width > this.maximum_size.Width)
+				retsize.Width = this.maximum_size.Width;
+			if (this.maximum_size.Height != 0 && retsize.Height > this.maximum_size.Height)
+				retsize.Height = this.maximum_size.Height;
+				
+			// If we're smaller than the MinimumSize, fix that
+			if (this.minimum_size.Width != 0 && retsize.Width < this.minimum_size.Width)
+				retsize.Width = this.minimum_size.Width;
+			if (this.minimum_size.Height != 0 && retsize.Height < this.minimum_size.Height)
+				retsize.Height = this.minimum_size.Height;
+				
+			return retsize;
+		}
+
+		public void Hide() {
+			this.Visible = false;
+		}
+
+		public void Invalidate ()
 		{
-			ContainerControl cc = FindContainer (c);
-			return (cc != null) && cc.IsAutoScaling;
+			Invalidate (ClientRectangle, false);
+		}
+
+		public void Invalidate (bool invalidateChildren)
+		{
+			Invalidate (ClientRectangle, invalidateChildren);
+		}
+
+		public void Invalidate (Rectangle rc)
+		{
+			Invalidate (rc, false);
+		}
+
+		public void Invalidate (Region region)
+		{
+			Invalidate (region, false);
+		}
+
+		public void Invalidate (Region region, bool invalidateChildren)
+		{
+			//using (Graphics g = CreateGraphics ()){
+			//	RectangleF bounds = region.GetBounds (g);
+			//	Invalidate (new Rectangle ((int) bounds.X, (int) bounds.Y, (int) bounds.Width, (int) bounds.Height), invalidateChildren);
+			//}
+		}
+
+		public object Invoke (Delegate method) {
+			object [] prms = null;
+			if (method is EventHandler)
+				prms = new object [] { this, EventArgs.Empty };
+
+			return Invoke(method, prms);
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		public void PerformLayout() {
+			PerformLayout(null, null);
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		public void PerformLayout(Control affectedControl, string affectedProperty) {
+			LayoutEventArgs levent = new LayoutEventArgs(affectedControl, affectedProperty);
+
+			foreach (Control c in Controls.GetAllControls ())
+				if (c.recalculate_distances)
+					c.UpdateDistances ();
+
+			if (layout_suspended > 0) {
+				layout_pending = true;
+				return;
+			}
+					
+			layout_pending = false;
+
+			// Prevent us from getting messed up
+			layout_suspended++;
+
+			// Perform all Dock and Anchor calculations
+			try {
+				OnLayout(levent);
+			}
+
+				// Need to make sure we decremend layout_suspended
+			finally {
+				layout_suspended--;
+			}
 		}
 		
+		public Rectangle RectangleToClient(Rectangle r) {
+			return new Rectangle(PointToClient(r.Location), r.Size);
+		}
+
+		public Rectangle RectangleToScreen(Rectangle r) {
+			return new Rectangle(PointToScreen(r.Location), r.Size);
+		}
+
+		public virtual void Refresh() {
+			if (IsHandleCreated && Visible) {
+				Invalidate(true);
+				Update ();
+			}
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public virtual void ResetBackColor() {
+			BackColor = Color.Empty;
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void ResetBindings() {
+			if (data_bindings != null)
+				data_bindings.Clear();
+		}
+		
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public virtual void ResetFont() {
+			font = null;
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public virtual void ResetForeColor() {
+			foreground_color = Color.Empty;
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void ResetImeMode() {
+			ime_mode = DefaultImeMode;
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public virtual void ResetRightToLeft() {
+			right_to_left = RightToLeft.Inherit;
+		}
+
+		public virtual void ResetText() {
+			Text = String.Empty;
+		}
+
+		public void ResumeLayout() {
+			ResumeLayout (true);
+		}
+
+		public void ResumeLayout(bool performLayout) {
+			if (layout_suspended > 0) {
+				layout_suspended--;
+			}
+
+			if (layout_suspended == 0) {
+				if (this is ContainerControl)
+					(this as ContainerControl).PerformDelayedAutoScale();
+
+				if (!performLayout)
+					foreach (Control c in Controls.GetAllControls ())
+						c.UpdateDistances ();
+
+				if (performLayout && layout_pending) {
+					PerformLayout();
+				}
+			}
+		}
+		[EditorBrowsable (EditorBrowsableState.Never)]
+		[Obsolete ()]
+		public void Scale(float ratio) {
+			ScaleCore(ratio, ratio);
+		}
+		
+		[EditorBrowsable (EditorBrowsableState.Never)]
+		[Obsolete ()]
+		public void Scale(float dx, float dy) {
+			ScaleCore(dx, dy);
+		}
+
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
 		public void Scale (SizeF factor)
 		{
@@ -314,21 +1880,73 @@ namespace System.Windows.Forms
 
 			ResumeLayout ();
 		}
-		
-		[EditorBrowsable (EditorBrowsableState.Advanced)]
-		protected virtual bool ScaleChildren {
-			get { return ScaleChildrenInternal; }
+
+		internal ContainerControl FindContainer (Control c)
+		{
+			while ((c != null) && !(c is ContainerControl))
+				c = c.Parent;
+			return c as ContainerControl;
 		}
 
-		internal virtual bool ScaleChildrenInternal {
-			get { return true; }
+		private bool IsContainerAutoScaling (Control c)
+		{
+			ContainerControl cc = FindContainer (c);
+			return (cc != null) && cc.IsAutoScaling;
 		}
 
+		public void Select() {
+			Select(false, false);	
+		}
+
+#if DebugFocus
+		private void printTree(Control c, string t) {
+			foreach(Control i in c.child_controls) {
+				Console.WriteLine ("{2}{0}.TabIndex={1}", i, i.tab_index, t);
+				printTree (i, t+"\t");
+			}
+		}
+#endif
 		public bool SelectNextControl(Control ctl, bool forward, bool tabStopOnly, bool nested, bool wrap) {
-			return c_helper.NextResponder.BecomeFirstResponder();
+			Control c;
+
+#if DebugFocus
+			Console.WriteLine("{0}", this.FindForm());
+			printTree(this, "\t");
+#endif
+
+			if (!this.Contains(ctl) || (!nested && (ctl.parent != this))) {
+				ctl = null;
+			}
+			c = ctl;
+			do {
+				c = GetNextControl(c, forward);
+				if (c == null) {
+					if (wrap) {
+						wrap = false;
+						continue;
+					}
+					break;
+				}
+
+#if DebugFocus
+				Console.WriteLine("{0} {1}", c, c.CanSelect);
+#endif
+				if (c.CanSelect && ((c.parent == this) || nested) && (c.tab_stop || !tabStopOnly)) {
+					c.Select (true, true);
+					return true;
+				}
+			} while (c != ctl); // If we wrap back to ourselves we stop
+
+			return false;
 		}
-		
-				public void SetBounds(int x, int y, int width, int height) {
+
+		public void SendToBack() {
+			if (parent != null) {
+				parent.child_controls.SetChildIndex(this, parent.child_controls.Count);
+			}
+		}
+
+		public void SetBounds(int x, int y, int width, int height) {
 			SetBounds(x, y, width, height, BoundsSpecified.All);
 		}
 
@@ -345,95 +1963,250 @@ namespace System.Windows.Forms
 		
 			SetBoundsInternal (x, y, width, height, specified);
 		}
+		
+		public void Show () {
+			this.Visible = true;
+		}
 
-		internal void SetBoundsInternal (int x, int y, int width, int height, BoundsSpecified specified)
+		public void SuspendLayout() {
+			layout_suspended++;
+		}
+
+		#endregion	// Public Instance Methods
+
+		#region Protected Instance Methods
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected virtual ControlCollection CreateControlsInstance() {
+			return new ControlCollection(this);
+		}
+		
+		protected internal AutoSizeMode GetAutoSizeMode () 
 		{
-			Bounds = new Rectangle(x,y,width,height);
-			// If the user explicitly moved or resized us, recalculate our anchor distances
-			//if (specified != BoundsSpecified.None)
-			//	UpdateDistances ();
-			
-			if (parent != null)
-				parent.PerformLayout(this, "Bounds");
+			return auto_size_mode;
 		}
-		
-		public void SuspendLayout ()
+
+		private Rectangle GetScaledBoundsOld (Rectangle bounds, SizeF factor, BoundsSpecified specified)
 		{
-			
-		}
-		
-		public void ResumeLayout() {
-			ResumeLayout (true);
-		}
+			RectangleF new_bounds = new RectangleF(bounds.Location, bounds.Size);
 
-		public void ResumeLayout(bool performLayout) {
-			/*
-			if (layout_suspended > 0) {
-				layout_suspended--;
-			}
-
-			if (layout_suspended == 0) {
-				if (this is ContainerControl)
-					(this as ContainerControl).PerformDelayedAutoScale();
-
-				if (!performLayout)
-					foreach (Control c in Controls.GetAllControls ())
-						c.UpdateDistances ();
-
-				if (performLayout && layout_pending) {
-					performLayout();
-				}
-			}
-			*/
-		}
-		
-		internal virtual void performLayout ()
-		{
-			c_helper.DisplayIfNeeded ();
-		}
-		
-		#endregion
-		
-		#region Protected Instance Variables
-		
-
-		protected virtual bool CanEnableIme {
-			get { return false; }
-		}
-		
-			[EditorBrowsable (EditorBrowsableState.Advanced)]
-		protected virtual Rectangle GetScaledBounds (Rectangle bounds, SizeF factor, BoundsSpecified specified)
-		{
 			// Top level controls do not scale location
 			if (!is_toplevel) {
 				if ((specified & BoundsSpecified.X) == BoundsSpecified.X)
-					bounds.X = (int)Math.Round (bounds.X * factor.Width);
+					new_bounds.X *= factor.Width;
 				if ((specified & BoundsSpecified.Y) == BoundsSpecified.Y)
-					bounds.Y = (int)Math.Round (bounds.Y * factor.Height);
+					new_bounds.Y *= factor.Height;
 			}
 
 			if ((specified & BoundsSpecified.Width) == BoundsSpecified.Width && !GetStyle (ControlStyles.FixedWidth)) {
-				int border = (this.bounds.Width - this.clientSize.Width);
-				bounds.Width = (int)Math.Round ((bounds.Width - border) * factor.Width + border);
+				int border = (this is Form) ? (this.bounds.Width - this.client_size.Width) : 0;
+				new_bounds.Width = ((new_bounds.Width - border) * factor.Width + border);
 			}
 			if ((specified & BoundsSpecified.Height) == BoundsSpecified.Height && !GetStyle (ControlStyles.FixedHeight)) {
-				int border = //(this is ComboBox) ? (ThemeEngine.Current.Border3DSize.Height * 2) :
-					(this.bounds.Height - this.clientSize.Height);
-				bounds.Height = (int)Math.Round ((bounds.Height - border) * factor.Height + border);
+				int border = (this is Form) ? (this.bounds.Height - this.client_size.Height) : 0;
+				new_bounds.Height = ((new_bounds.Height - border) * factor.Height + border);
 			}
+
+			bounds.X = (int)Math.Round (new_bounds.X);
+			bounds.Y = (int)Math.Round (new_bounds.Y);
+			bounds.Width = (int)Math.Round (new_bounds.Right) - bounds.X;
+			bounds.Height = (int)Math.Round (new_bounds.Bottom) - bounds.Y;
 
 			return bounds;
 		}
+
+		protected internal bool GetStyle(ControlStyles flag) {
+			return (control_style & flag) != 0;
+		}
+
+		protected bool GetTopLevel() {
+			return is_toplevel;
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected virtual void InitLayout() {
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected void InvokeGotFocus(Control toInvoke, EventArgs e) {
+			toInvoke.OnGotFocus(e);
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected void InvokeLostFocus(Control toInvoke, EventArgs e) {
+			toInvoke.OnLostFocus(e);
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected void InvokeOnClick(Control toInvoke, EventArgs e) {
+			toInvoke.OnClick(e);
+		}
+
+		protected void InvokePaint(Control c, PaintEventArgs e) {
+			c.OnPaint (e);
+		}
+
+		protected void InvokePaintBackground(Control c, PaintEventArgs e) {
+			c.OnPaintBackground (e);
+		}
+
+		internal virtual bool IsInputCharInternal (char charCode) {
+			return false;
+		}
 		
+		protected virtual bool IsInputKey (Keys keyData) {
+			// Doc says this one calls IsInputChar; not sure what to do with that
+			return false;
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected virtual void NotifyInvalidate(Rectangle invalidatedArea) {
+			// override me?
+		}
+
+		protected virtual bool ProcessDialogChar(char charCode) {
+			if (parent != null) {
+				return parent.ProcessDialogChar (charCode);
+			}
+
+			return false;
+		}
+
+		protected virtual bool ProcessDialogKey (Keys keyData) {
+			if (parent != null) {
+				return parent.ProcessDialogKey (keyData);
+			}
+
+			return false;
+		}
+
+
+		protected virtual bool ProcessMnemonic(char charCode) {
+			// override me
+			return false;
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected void RaiseDragEvent(object key, DragEventArgs e) {
+			// MS Internal
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected void RaiseKeyEvent(object key, KeyEventArgs e) {
+			// MS Internal
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected void RaiseMouseEvent(object key, MouseEventArgs e) {
+			// MS Internal
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected void RaisePaintEvent(object key, PaintEventArgs e) {
+			// MS Internal
+		}
+
+		private void SetIsRecreating () {
+			is_recreating=true;
+
+			foreach (Control c in Controls.GetAllControls()) {
+				c.SetIsRecreating ();
+			}
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected void ResetMouseEventArgs() {
+			// MS Internal
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected ContentAlignment RtlTranslateAlignment(ContentAlignment align) {
+			if (right_to_left == RightToLeft.No) {
+				return align;
+			}
+
+			switch (align) {
+				case ContentAlignment.TopLeft: {
+					return ContentAlignment.TopRight;
+				}
+
+				case ContentAlignment.TopRight: {
+					return ContentAlignment.TopLeft;
+				}
+
+				case ContentAlignment.MiddleLeft: {
+					return ContentAlignment.MiddleRight;
+				}
+
+				case ContentAlignment.MiddleRight: {
+					return ContentAlignment.MiddleLeft;
+				}
+
+				case ContentAlignment.BottomLeft: {
+					return ContentAlignment.BottomRight;
+				}
+
+				case ContentAlignment.BottomRight: {
+					return ContentAlignment.BottomLeft;
+				}
+
+				default: {
+					// if it's center it doesn't change
+					return align;
+				}
+			}
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected HorizontalAlignment RtlTranslateAlignment(HorizontalAlignment align) {
+			if ((right_to_left == RightToLeft.No) || (align == HorizontalAlignment.Center)) {
+				return align;
+			}
+
+			if (align == HorizontalAlignment.Left) {
+				return HorizontalAlignment.Right;
+			}
+
+			// align must be HorizontalAlignment.Right
+			return HorizontalAlignment.Left;
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected LeftRightAlignment RtlTranslateAlignment(LeftRightAlignment align) {
+			if (right_to_left == RightToLeft.No) {
+				return align;
+			}
+
+			if (align == LeftRightAlignment.Left) {
+				return LeftRightAlignment.Right;
+			}
+
+			// align must be LeftRightAlignment.Right;
+			return LeftRightAlignment.Left;
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected ContentAlignment RtlTranslateContent(ContentAlignment align) {
+			return RtlTranslateAlignment(align);
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected HorizontalAlignment RtlTranslateHorizontal(HorizontalAlignment align) {
+			return RtlTranslateAlignment(align);
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected LeftRightAlignment RtlTranslateLeftRight(LeftRightAlignment align) {
+			return RtlTranslateAlignment(align);
+		}
+
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
 		protected virtual void ScaleControl (SizeF factor, BoundsSpecified specified)
 		{
-			Rectangle new_bounds = GetScaledBounds (Bounds, factor, specified);
+			Rectangle new_bounds = GetScaledBounds (bounds, factor, specified);
 
 			SetBounds (new_bounds.X, new_bounds.Y, new_bounds.Width, new_bounds.Height, specified);
 		}
-		//TODO: fixme
-		/*  
+
 		[EditorBrowsable (EditorBrowsableState.Never)]
 		protected virtual void ScaleCore (float dx, float dy)
 		{
@@ -449,93 +2222,7 @@ namespace System.Windows.Forms
 
 			ResumeLayout ();
 		}
-		*/
-		
-		
-		[EditorBrowsable(EditorBrowsableState.Advanced)]
-		public void PerformLayout(Control affectedControl, string affectedProperty) {
-			LayoutEventArgs levent = new LayoutEventArgs(affectedControl, affectedProperty);
 
-			foreach (Control c in Controls.GetAllControls ())
-				//if (c.recalculate_distances)
-				//	c.UpdateDistances ();
-
-			if (layout_suspended > 0) {
-				layout_pending = true;
-				return;
-			}
-					
-			layout_pending = false;
-
-			// Prevent us from getting messed up
-			layout_suspended++;
-
-			// Perform all Dock and Anchor calculations
-			try {
-				OnLayout(levent);
-			}
-
-				// Need to make sure we decremend layout_suspended
-			finally {
-				layout_suspended--;
-			}
-		}
-		
-		// Override this if there is a control that shall always remain on
-		// top of other controls (such as scrollbars). If there are several
-		// of these controls, the bottom-most should be returned.
-		internal virtual IntPtr AfterTopMostControl () {
-			return IntPtr.Zero;
-		}
-
-		
-		#endregion
-		
-		#region Protected Instance Methods
-		
-		protected internal AutoSizeMode GetAutoSizeMode () 
-		{
-			return auto_size_mode;
-		}
-		
-		protected bool GetTopLevel() {
-			return is_toplevel;
-		}
-		
-		protected virtual bool ProcessCmdKey(ref Message msg, Keys keyData) {
-			//if ((context_menu != null) && context_menu.ProcessCmdKey(ref msg, keyData)) {
-			//	return true;
-			//}
-
-			if (parent != null) {
-				return parent.ProcessCmdKey(ref msg, keyData);
-			}
-
-			return false;
-		}
-		
-		protected virtual bool ProcessDialogChar(char charCode) {
-			if (parent != null) {
-				return parent.ProcessDialogChar (charCode);
-			}
-
-			return false;
-		}
-		
-
-		protected virtual bool ProcessDialogKey (Keys keyData) {
-			if (parent != null) {
-				return parent.ProcessDialogKey (keyData);
-			}
-
-			return false;
-		}		
-
-		protected virtual bool ProcessMnemonic(char charCode) {
-			// override me
-			return false;
-		}
-		
 		protected virtual void Select(bool directed, bool forward) {
 			IContainerControl	container;
 			
@@ -543,7 +2230,7 @@ namespace System.Windows.Forms
 			if (container != null && (Control)container != this)
 				container.ActiveControl = this;
 		}
-		
+
 		protected void SetAutoSizeMode (AutoSizeMode mode)
 		{
 			if (auto_size_mode != mode) {
@@ -551,136 +2238,13 @@ namespace System.Windows.Forms
 				PerformLayout (this, "AutoSizeMode");
 			}
 		}
-
-		#endregion
-		
-		#region Private and Internal Methods
-		private void ChangeParent(Control new_parent) {
-			bool		pre_enabled;
-			bool		pre_visible;
-			Font		pre_font;
-			Color		pre_fore_color;
-			Color		pre_back_color;
-			RightToLeft	pre_rtl;
-
-			// These properties are inherited from our parent
-			// Get them pre parent-change and then send events
-			// if they are changed after we have our new parent
-			pre_enabled = Enabled;
-			pre_visible = Visible;
-			pre_font = Font;
-			pre_fore_color = ForeColor;
-			pre_back_color = BackColor;
-			pre_rtl = RightToLeft;
-			// MS doesn't seem to send a CursorChangedEvent
-
-			parent = new_parent;
-
-			Form frm = this as Form;
-			if (frm == null && IsHandleCreated) {
-				IntPtr parent_handle = IntPtr.Zero;
-				if (new_parent != null && new_parent.IsHandleCreated)
-					new_parent.c_helper.AddSubview(this);
-				else
-					this.c_helper.RemoveFromSuperview();
-			}
-			
-			OnParentChanged(EventArgs.Empty);
-
-			if (pre_enabled != Enabled) {
-				OnEnabledChanged(EventArgs.Empty);
-			}
-
-			if (pre_visible != Visible) {
-				OnVisibleChanged(EventArgs.Empty);
-			}
-
-			if (pre_font != Font) {
-				OnFontChanged(EventArgs.Empty);
-			}
-
-			if (pre_fore_color != ForeColor) {
-				OnForeColorChanged(EventArgs.Empty);
-			}
-
-			if (pre_back_color != BackColor) {
-				OnBackColorChanged(EventArgs.Empty);
-			}
-
-			if (pre_rtl != RightToLeft) {
-				// MS sneaks a OnCreateControl and OnHandleCreated in here, I guess
-				// because when RTL changes they have to recreate the win32 control
-				// We don't really need that (until someone runs into compatibility issues)
-				OnRightToLeftChanged(EventArgs.Empty);
-			}
-
-
-			if ((binding_context == null)) {
-				OnBindingContextChanged(EventArgs.Empty);
-			}
-		}
-		
-		internal void Draw(PaintEventArgs events)
-		{
-			OnPaintBackground(events);
-			OnPaint(events);
-		}
-		
-		internal virtual void FireEnter () {
-			OnEnter (EventArgs.Empty);
-		}
-
-		internal virtual void FireLeave () {
-			OnLeave (EventArgs.Empty);
-		}
-
-		internal virtual void FireValidating (CancelEventArgs ce) {
-			OnValidating (ce);
-		}
-
-		internal virtual void FireValidated () {
-			OnValidated (EventArgs.Empty);
-		}
 		
 		
-		internal void FireMouseDown (object sender, MouseEventArgs e)
-		{
-			OnMouseDown(e);
+		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		protected virtual void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified) {
+			SetBoundsCoreInternal (x, y, width, height, specified);
 		}
-		
-		internal void FireMouseUp (object sender, MouseEventArgs e)
-		{
-			OnMouseUp(e);
-		}
-		
-		internal void FireMouseMove (object sender, MouseEventArgs e)
-		{
-			OnMouseUp(e);
-		}
-		
-		protected internal bool GetStyle(ControlStyles flag) {
-			return (control_style & flag) != 0;
-		}
-		
-		internal bool Select(Control control) {
-			IContainerControl	container;
 
-			if (control == null) {
-				return false;
-			}
-
-			container = GetContainerControl();
-			if (container != null && (Control)container != control) {
-				container.ActiveControl = control;
-				if (container.ActiveControl == control && !control.Focused && control.IsHandleCreated)
-					control.c_helper.BecomeFirstResponder();
-			}
-			else if (control.IsHandleCreated) {
-				control.c_helper.BecomeFirstResponder();
-			}
-			return true;
-		}
-		
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected internal void SetStyle(ControlStyles flag, bool value) {
@@ -691,489 +2255,13 @@ namespace System.Windows.Forms
 			}
 		}
 		
-		internal virtual bool ProcessControlMnemonic(char charCode) {
-			return ProcessMnemonic(charCode);
+		// Override this if there is a control that shall always remain on
+		// top of other controls (such as scrollbars). If there are several
+		// of these controls, the bottom-most should be returned.
+		internal virtual IntPtr AfterTopMostControl () {
+			return IntPtr.Zero;
 		}
-		#endregion //Private and Internal Methods
-		
-		#region Internal Properties
-		
-
-		// Looks for focus in child controls
-		// and also in the implicit ones
-		internal bool InternalContainsFocus {
-			get {
-				IntPtr focused_window;
-
-				focused_window = c_helper.Window.FirstResponder.Handle;
-				if (IsHandleCreated) {
-					if (focused_window == Handle)
-						return true;
-
-					foreach (Control child_control in controls.GetAllControls ())
-						if (child_control.InternalContainsFocus)
-							return true;
-				}
-
-				return false;
-			}
-		}
-		
-		
-
-		internal bool VisibleInternal {
-			get { return !c_helper.IsHiddenOrHasHiddenAncestor; }
-		}
-		
-		#endregion
-
-		#region Public Instance Properties
-		public virtual AnchorStyles Anchor { get; set; }
-
-		public virtual Point AutoScrollOffset {
-			get { return new Point (0, 0); }
-			set { }
-		}
-
-		public virtual bool AutoSize {get;set;}
-
-		public virtual Color BackColor { get; set; }
-
-		public virtual Image BackgroundImage { get; set; }
-
-		public virtual ImageLayout BackgroundImageLayout { get; set; }
-
-		public int Bottom {
-			get {
-				if (c_helper.Superview == null)
-					return 0;
-				return (int)(c_helper.Superview.Frame.Height - (this.Height + this.Location.Y));
-			}
-		}
-		
-		[EditorBrowsable(EditorBrowsableState.Advanced)]
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public virtual BindingContext BindingContext {
-			get {
-				if (binding_context != null)
-					return binding_context;
-				if (Parent == null)
-					return null;
-				binding_context = Parent.BindingContext;
-				return binding_context;
-			}
-			set {
-				if (binding_context != value) {
-					binding_context = value;
-					OnBindingContextChanged(EventArgs.Empty);
-				}
-			}
-		}
-		
-		internal virtual Rectangle bounds {
-			get { return Rectangle.Round (c_helper.Bounds); }
-			set { c_helper.Bounds = value; }
-		}
-		public Rectangle Bounds {
-			get { return bounds; }
-			set { bounds = value; }
-		}
-
-		public bool CanFocus {
-			get { return c_helper.AcceptsFirstResponder (); }
-		}
-		
-		
-
-		[EditorBrowsable(EditorBrowsableState.Advanced)]
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public bool CanSelect {
-			get {
-				Control	parent;
-
-				if (!GetStyle(ControlStyles.Selectable)) {
-					return false;
-				}
-
-				parent = this;
-				while (parent != null) {
-					if (!parent.Visible || !parent.Enabled) {
-						return false;
-					}
-
-					parent = parent.parent;
-				}
-				return true;
-			}
-		}
-
-		
-		
-		[EditorBrowsable(EditorBrowsableState.Advanced)]
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public bool Capture {
-			get {
-				return this.is_captured;
-			}
-
-			set {
-				// Call OnMouseCaptureChanged when we get WM_CAPTURECHANGED.
-				if (value != is_captured) {
-					if (value) {
-						is_captured = true;
-						c_helper.BecomeFirstResponder();
-						//XplatUI.GrabWindow(Handle, IntPtr.Zero);
-					} else {
-						if (IsHandleCreated)
-							c_helper.ResignFirstResponder();
-						is_captured = false;
-					}
-				}
-			}
-		}
-
-
-		public Rectangle ClientRectangle {
-			get { return Rectangle.Round (c_helper.Frame); }
-		}
-
-		internal virtual Size clientSize {
-			get { return new Size ((int)Size.Width, (int)Size.Height); }
-			set { Size = value; }
-		}
-
-		public Size ClientSize {
-			get { return clientSize; }
-			set { clientSize = value; }
-		}
-
-		public virtual bool ContainsFocus {
-			get { return c_helper == c_helper.Window.FirstResponder || c_helper.Subviews.Where (x => x == c_helper.Window.FirstResponder).Count () > 0; }
-		}
-
-
-		internal ControlCollection child_controls;
-		internal virtual ControlCollection controls {
-			get {
-				if (child_controls == null)
-					child_controls = new ControlCollection (this);
-				return child_controls;
-			}
-		}
-		public virtual ControlCollection Controls {
-			get { return controls; }
-		}
-		
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-		[ParenthesizePropertyName(true)]
-		[RefreshProperties(RefreshProperties.All)]
-		public ControlBindingsCollection DataBindings {
-			get {
-				if (data_bindings == null)
-					data_bindings = new ControlBindingsCollection (this);
-				return data_bindings;
-			}
-		}
-
-		public static Color DefaultBackColor {
-			get { return Color.Gray; }
-		}
-		
-		protected virtual Padding DefaultMargin {
-			get { return new Padding (3); }
-		}
-		
-		protected virtual Size DefaultMaximumSize { get { return new Size (); } }
-		protected virtual Size DefaultMinimumSize { get { return new Size (); } }
-		protected virtual Padding DefaultPadding { get { return new Padding (); } }
-		
-		protected virtual Size DefaultSize {
-			get {
-				return new Size(0, 0);
-			}
-		}
-		public virtual DockStyle Dock { get; set; }
-		
-		
-		[DispId(-514)]
-		[Localizable(true)]
-		[MWFCategory("Behavior")]
-		public bool Enabled {
-			get {return enabled;
-			}
-
-			set {
-				enabled = value;
-				OnEnabledChanged (EventArgs.Empty);
-			}
-		}
-		
-		internal virtual bool enabled
-		{
-			get {
-				if (!is_enabled) {
-					return false;
-				}
-
-				if (parent != null) {
-					return parent.Enabled;
-				}
-
-				return true;
-			}
-
-			set {
-				if (this.is_enabled == value)
-					return;
-
-				bool old_value = is_enabled;
-
-				is_enabled = value;
-
-				//if (!value)
-				//	UpdateCursor ();
-
-				if (old_value != value && !value && this.Focused)
-					SelectNextControl(this, true, true, true, true);
-			}
-			
-		}
-
-		public virtual bool Focused {
-			get { 
-				if (c_helper == null)
-					return false;
-				if(c_helper.Window == null)
-					return false;
-				return c_helper == c_helper.Window.FirstResponder; }
-		}
-
-		internal virtual NSFont font { get; set; }
-		public virtual System.Drawing.Font Font {
-			get {
-				if (font == null)
-					return new System.Drawing.Font ("Arial", 10f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-				return new System.Drawing.Font (font.FontName, font.PointSize, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			}
-
-			set { font = MonoMac.AppKit.NSFont.FromFontName (value.Name, value.Size); }
-		}
-		protected int FontHeight {
-			get { return Font.Height; }
-		}
-		//set { Font.Height = value;}
-		//TODO: set
-		private Color foreColor = Color.Gray;
-		public virtual Color ForeColor {
-			get { return foreColor; }
-			set { foreColor = value; }
-		}
-
-		public virtual IntPtr Handle {
-			get { return c_helper.Handle; }
-		}
-
-		public bool HasChildren {
-			get { return Controls.Count > 0; }
-		}
-
-		public int Height {
-			get { return (int)this.Size.Height; }
-			set { this.Size = new Size (this.Size.Width, value); }
-		}
-		
-		public bool InvokeRequired {						// ISynchronizeInvoke
-			get {
-				//if (creator_thread != null && creator_thread!=Thread.CurrentThread) {
-				//	return true;
-				//}
-				return false;
-			}
-		}
-
-		[EditorBrowsable(EditorBrowsableState.Advanced)]
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public bool IsHandleCreated {
-			get {
-				
-				if (c_helper == null)
-					return false;
-				//else if(c_helper.Window.Handle == IntPtr.Zero)
-				//	return false;
-
-				return true;
-			}
-		}
-
-		public int Left {
-			get { return ((int)Location.X); }
-			set { Location = new Point (value, Location.Y); }
-		}
-
-		internal virtual Point location {
-			get { return Point.Round (c_helper.Frame.Location); }
-			set { c_helper.Frame = new RectangleF (value, c_helper.Frame.Size); }
-		}
-
-		public Point Location {
-			get { return location; }
-			set { location = value; }
-		}
-
-		public virtual Size MaximumSize { get; set; }
-
-		public virtual Size MinimumSize { get; set; }
-
-		public string Name { get; set; }
-		public Control Parent {
-			get {
-				if (c_helper.Superview == null)
-					return null;
-				if (c_helper is IViewHelper)
-					return (c_helper as IViewHelper).Host;
-				return null;
-			}
-			set {
-				c_helper.RemoveFromSuperview ();
-				value.Controls.Add (this);
-			}
-		}
-
-		internal virtual Size size {
-			get { return Size.Round (c_helper.Frame.Size); }
-			set { c_helper.Frame = new RectangleF (c_helper.Frame.Location, value); }
-		}
-
-		public Size Size {
-			get { return size; }
-			set {
-				int h = value.Height;
-				int w = value.Width;
-				if (h > MaximumSize.Height && !MaximumSize.IsEmpty)
-					h = MaximumSize.Height;
-				else if (h < MinimumSize.Height && !MinimumSize.IsEmpty)
-					h = MinimumSize.Height;
-
-				if (w > MaximumSize.Width && !MaximumSize.IsEmpty)
-					w = MaximumSize.Width;
-				else if (w < MinimumSize.Width && !MinimumSize.IsEmpty)
-					w = MinimumSize.Width;
-				size = new Size (w, h);
-			}
-		}
-
-		[Obsolete("Not Implemented.", false)]
-		public int TabIndex { get; set; }
-
-		public virtual string Text { get; set; }
-
-		public int Top {
-			get{ return Location.Y;}
-			set{ Location = new Point(Location.X,value);}
-		}
-		
-		public int Right{
-			get {
-				return this.Location.X+this.Size.Width;
-			}
-		}
-
-		public bool Visible {
-			get { return !c_helper.IsHiddenOrHasHiddenAncestor; }
-			set { c_helper.Hidden = value; }
-		}
-
-		public int Width {
-			get { return (int)this.Size.Width; }
-			set { this.Size = new Size (value, this.Size.Height); }
-		}
-		#endregion
-		
-		#region misc
-		public virtual void Refresh()
-		{
-			c_helper.Display();
-		}
-		public void PerformLayout()
-		{
-			//TODO:
-		}
-
-		public void Invalidate()
-		{
-			if(c_helper != null)
-				c_helper.NeedsDisplay = true;
-		}
-
-		private void CheckDataBindings () {
-			if (data_bindings == null)
-				return;
-
-			foreach (Binding binding in data_bindings) {
-				binding.Check ();
-			}
-		}
-		
-		
-		
-		// This method exists so controls overriding OnPaintBackground can have default background painting done
-		internal virtual void PaintControlBackground (PaintEventArgs pevent) {
-			if (background_image == null) {
-					Rectangle paintRect = new Rectangle(pevent.ClipRectangle.X, pevent.ClipRectangle.Y, pevent.ClipRectangle.Width, pevent.ClipRectangle.Height);
-					Brush pen =  new SolidBrush(BackColor);//ThemeEngine.Current.ResPool.GetSolidBrush(BackColor);
-					pevent.Graphics.FillRectangle(pen, paintRect);
-				return;
-			}
-
-			DrawBackgroundImage (pevent.Graphics);
-		}
-
-		void DrawBackgroundImage (Graphics g) {
-			Rectangle drawing_rectangle = new Rectangle ();
-			g.FillRectangle (new SolidBrush (BackColor), ClientRectangle);
-				
-			switch (backgroundimage_layout)
-			{
-			case ImageLayout.Tile:
-				using (TextureBrush b = new TextureBrush (background_image, WrapMode.Tile)) {
-					g.FillRectangle (b, ClientRectangle);
-				}
-				return;
-			case ImageLayout.Center:
-				drawing_rectangle.Location = new Point (ClientSize.Width / 2 - background_image.Width / 2, ClientSize.Height / 2 - background_image.Height / 2);
-				drawing_rectangle.Size = background_image.Size;
-				break;
-			case ImageLayout.None:
-				drawing_rectangle.Location = Point.Empty;
-				drawing_rectangle.Size = background_image.Size;
-				break;
-			case ImageLayout.Stretch:
-				drawing_rectangle = ClientRectangle;
-				break;
-			case ImageLayout.Zoom:
-				drawing_rectangle = ClientRectangle;
-				if ((float)background_image.Width / (float)background_image.Height < (float)drawing_rectangle.Width / (float) drawing_rectangle.Height) {
-					drawing_rectangle.Width = (int) (background_image.Width * ((float)drawing_rectangle.Height / (float)background_image.Height));
-					drawing_rectangle.X = (ClientRectangle.Width - drawing_rectangle.Width) / 2;
-				} else {
-					drawing_rectangle.Height = (int) (background_image.Height * ((float)drawing_rectangle.Width / (float)background_image.Width));
-					drawing_rectangle.Y = (ClientRectangle.Height - drawing_rectangle.Height) / 2;
-				}
-				break;
-			default:
-				return;
-			}
-
-			g.DrawImage (background_image, drawing_rectangle);
-
-		}
-		
-		#endregion
-
+		#endregion	// Public Instance Methods
 		#region OnXXX methods
 		protected virtual void OnAutoSizeChanged (EventArgs e)
 		{
@@ -1187,7 +2275,7 @@ namespace System.Windows.Forms
 			EventHandler eh = (EventHandler)(Events [BackColorChangedEvent]);
 			if (eh != null)
 				eh (this, e);
-			for (int i=0; i<controls.Count; i++) ((controls[i] as IViewHelper).Host).OnParentBackColorChanged(e);
+			for (int i=0; i<child_controls.Count; i++) child_controls[i].OnParentBackColorChanged(e);
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1195,7 +2283,7 @@ namespace System.Windows.Forms
 			EventHandler eh = (EventHandler)(Events [BackgroundImageChangedEvent]);
 			if (eh != null)
 				eh (this, e);
-			for (int i=0; i<controls.Count; i++) ((controls[i] as IViewHelper).Host).OnParentBackgroundImageChanged(e);
+			for (int i=0; i<child_controls.Count; i++) child_controls[i].OnParentBackgroundImageChanged(e);
 		}
 
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
@@ -1212,7 +2300,7 @@ namespace System.Windows.Forms
 			EventHandler eh = (EventHandler)(Events [BindingContextChangedEvent]);
 			if (eh != null)
 				eh (this, e);
-			for (int i=0; i<controls.Count; i++)  ((controls[i] as IViewHelper).Host).OnParentBindingContextChanged(e);
+			for (int i=0; i<child_controls.Count; i++) child_controls[i].OnParentBindingContextChanged(e);
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1282,8 +2370,8 @@ namespace System.Windows.Forms
 			EventHandler eh = (EventHandler)(Events [CursorChangedEvent]);
 			if (eh != null)
 				eh (this, e);
-
-			for (int i = 0; i < controls.Count; i++) ((controls[i] as IViewHelper).Host).OnParentCursorChanged (e);
+				
+			for (int i = 0; i < child_controls.Count; i++) child_controls[i].OnParentCursorChanged (e);
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1328,19 +2416,6 @@ namespace System.Windows.Forms
 				eh (this, drgevent);
 		}
 
-		[EditorBrowsable(EditorBrowsableState.Advanced)]
-		protected virtual void OnEnabledChanged(EventArgs e) {
-			if (IsHandleCreated) {
-				Refresh();
-			}
-
-			EventHandler eh = (EventHandler)(Events [EnabledChangedEvent]);
-			if (eh != null)
-				eh (this, e);
-
-			foreach (Control c in Controls.GetAllControls ())
-				c.OnParentEnabledChanged (e);
-		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected virtual void OnEnter(EventArgs e) {
@@ -1354,7 +2429,7 @@ namespace System.Windows.Forms
 			EventHandler eh = (EventHandler)(Events [FontChangedEvent]);
 			if (eh != null)
 				eh (this, e);
-			for (int i=0; i<controls.Count; i++) ((controls[i] as IViewHelper).Host).OnParentFontChanged(e);
+			for (int i=0; i<child_controls.Count; i++) child_controls[i].OnParentFontChanged(e);
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1362,7 +2437,7 @@ namespace System.Windows.Forms
 			EventHandler eh = (EventHandler)(Events [ForeColorChangedEvent]);
 			if (eh != null)
 				eh (this, e);
-			for (int i=0; i<controls.Count; i++) ((controls[i] as IViewHelper).Host).OnParentForeColorChanged(e);
+			for (int i=0; i<child_controls.Count; i++) child_controls[i].OnParentForeColorChanged(e);
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1371,7 +2446,7 @@ namespace System.Windows.Forms
 			if (eh != null)
 				eh (this, gfbevent);
 		}
-
+		
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected virtual void OnGotFocus(EventArgs e) {
 			EventHandler eh = (EventHandler)(Events [GotFocusEvent]);
@@ -1396,7 +2471,7 @@ namespace System.Windows.Forms
 		internal void RaiseHelpRequested (HelpEventArgs hevent) {
 			OnHelpRequested (hevent);
 		}
-
+		
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected virtual void OnHelpRequested(HelpEventArgs hevent) {
 			HelpEventHandler eh = (HelpEventHandler)(Events [HelpRequestedEvent]);
@@ -1409,17 +2484,6 @@ namespace System.Windows.Forms
 			if (eh != null)
 				eh (this, e);
 		}
-
-		[EditorBrowsable(EditorBrowsableState.Advanced)]
-		protected virtual void OnInvalidated(InvalidateEventArgs e) {
-			if(c_helper != null)
-				c_helper.SetNeedsDisplayInRect(e.InvalidRect);
-
-			InvalidateEventHandler eh = (InvalidateEventHandler)(Events [InvalidatedEvent]);
-			if (eh != null)
-				eh (this, e);
-		}
-
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected virtual void OnKeyDown(KeyEventArgs e) {
 			KeyEventHandler eh = (KeyEventHandler)(Events [KeyDownEvent]);
@@ -1439,23 +2503,6 @@ namespace System.Windows.Forms
 			KeyEventHandler eh = (KeyEventHandler)(Events [KeyUpEvent]);
 			if (eh != null)
 				eh (this, e);
-		}
-
-		[EditorBrowsable(EditorBrowsableState.Advanced)]
-		protected virtual void OnLayout(LayoutEventArgs levent) {
-			LayoutEventHandler eh = (LayoutEventHandler)(Events [LayoutEvent]);
-			if (eh != null)
-				eh (this, levent);
-
-			Size s = Size;
-
-			// If our layout changed our PreferredSize, our parent
-			// needs to re-lay us out.  However, it's not always possible to
-			// be our preferred size, so only try once so we don't loop forever.
-			//if (Parent != null && AutoSize &&  PreferredSize != s) {
-			//	Parent.PerformLayout ();
-			//}
-
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1486,7 +2533,6 @@ namespace System.Windows.Forms
 			if (eh != null)
 				eh (this, e);
 		}
-
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
 		protected virtual void OnMouseCaptureChanged (EventArgs e)
 		{
@@ -1577,15 +2623,6 @@ namespace System.Windows.Forms
 			if (eh != null)
 				eh (this, e);
 		}
-
-		[EditorBrowsable(EditorBrowsableState.Advanced)]
-		protected virtual void OnPaint(PaintEventArgs e) {
-			PaintEventHandler eh = (PaintEventHandler)(Events [PaintEvent]);
-			if (eh != null)
-				eh (this, e);
-			(c_helper as IViewHelper).shouldDraw = true;
-		}
-
 		internal virtual void OnPaintBackgroundInternal(PaintEventArgs e) {
 			// Override me
 		}
@@ -1601,7 +2638,7 @@ namespace System.Windows.Forms
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected virtual void OnParentBackColorChanged(EventArgs e) {
-			if (BackColor.IsEmpty && background_image==null) {
+			if (background_color.IsEmpty && background_image==null) {
 				Invalidate();
 				OnBackColorChanged(e);
 			}
@@ -1635,9 +2672,9 @@ namespace System.Windows.Forms
 
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
 		protected virtual void OnParentEnabledChanged(EventArgs e) {
-			//if (is_enabled) {
-			//	OnEnabledChanged(e);
-			//}
+			if (is_enabled) {
+				OnEnabledChanged(e);
+			}
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -1666,7 +2703,7 @@ namespace System.Windows.Forms
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected virtual void OnParentVisibleChanged(EventArgs e) {
-			if (Visible) {
+			if (is_visible) {
 				OnVisibleChanged(e);
 			}
 		}
@@ -1707,9 +2744,9 @@ namespace System.Windows.Forms
 		protected virtual void OnResize(EventArgs e) {
 			OnResizeInternal (e);
 		}
-
+		
 		internal virtual void OnResizeInternal (EventArgs e) {
-			//PerformLayout(this, "Bounds");
+			PerformLayout(this, "Bounds");
 
 			EventHandler eh = (EventHandler)(Events [ResizeEvent]);
 			if (eh != null)
@@ -1721,17 +2758,9 @@ namespace System.Windows.Forms
 			EventHandler eh = (EventHandler)(Events [RightToLeftChangedEvent]);
 			if (eh != null)
 				eh (this, e);
-			for (int i=0; i<controls.Count; i++) (controls[i] as IViewHelper).Host.OnParentRightToLeftChanged(e);
+			for (int i=0; i<child_controls.Count; i++) child_controls[i].OnParentRightToLeftChanged(e);
 		}
-
-		[EditorBrowsable(EditorBrowsableState.Advanced)]
-		protected virtual void OnSizeChanged(EventArgs e) {
-			OnResize(e);
-			EventHandler eh = (EventHandler)(Events [SizeChangedEvent]);
-			if (eh != null)
-				eh (this, e);
-		}
-
+		
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected virtual void OnStyleChanged(EventArgs e) {
 			EventHandler eh = (EventHandler)(Events [StyleChangedEvent]);
@@ -1783,9 +2812,9 @@ namespace System.Windows.Forms
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected virtual void OnVisibleChanged(EventArgs e) {
-			//if (Visible)
-				//CreateControl ();
-
+			if (Visible)
+				CreateControl ();
+				
 			EventHandler eh = (EventHandler)(Events [VisibleChangedEvent]);
 			if (eh != null)
 				eh (this, e);
@@ -1873,7 +2902,6 @@ namespace System.Windows.Forms
 			add { Events.AddHandler (AutoSizeChangedEvent, value);}
 			remove {Events.RemoveHandler (AutoSizeChangedEvent, value);}
 		}
-
 		public event EventHandler BackColorChanged {
 			add { Events.AddHandler (BackColorChangedEvent, value); }
 			remove { Events.RemoveHandler (BackColorChangedEvent, value); }
@@ -1908,7 +2936,7 @@ namespace System.Windows.Forms
 			add { Events.AddHandler (ClickEvent, value); }
 			remove { Events.RemoveHandler (ClickEvent, value); }
 		}
-
+		
 		public event EventHandler ClientSizeChanged {
 			add {Events.AddHandler (ClientSizeChangedEvent, value);}
 			remove {Events.RemoveHandler (ClientSizeChangedEvent, value);}
@@ -1940,6 +2968,7 @@ namespace System.Windows.Forms
 			remove { Events.RemoveHandler (ControlRemovedEvent, value); }
 		}
 
+		[MWFDescription("Fired when the cursor for the control has been changed"), MWFCategory("PropertyChanged")]
 		public event EventHandler CursorChanged {
 			add { Events.AddHandler (CursorChangedEvent, value); }
 			remove { Events.RemoveHandler (CursorChangedEvent, value); }
@@ -2079,11 +3108,11 @@ namespace System.Windows.Forms
 			add { Events.AddHandler (MarginChangedEvent, value); }
 			remove {Events.RemoveHandler (MarginChangedEvent, value); }
 		}
+
 		public event EventHandler MouseCaptureChanged {
 			add { Events.AddHandler (MouseCaptureChangedEvent, value); }
 			remove { Events.RemoveHandler (MouseCaptureChangedEvent, value); }
 		}
-
 		public event MouseEventHandler MouseClick
 		{
 			add { Events.AddHandler (MouseClickEvent, value); }
@@ -2094,7 +3123,6 @@ namespace System.Windows.Forms
 			add { Events.AddHandler (MouseDoubleClickEvent, value); }
 			remove { Events.RemoveHandler (MouseDoubleClickEvent, value); }
 		}
-
 		public event MouseEventHandler MouseDown {
 			add { Events.AddHandler (MouseDownEvent, value); }
 			remove { Events.RemoveHandler (MouseDownEvent, value); }
@@ -2136,13 +3164,11 @@ namespace System.Windows.Forms
 			add { Events.AddHandler (MoveEvent, value); }
 			remove { Events.RemoveHandler (MoveEvent, value); }
 		}
-
 		public event EventHandler PaddingChanged
 		{
 			add { Events.AddHandler (PaddingChangedEvent, value); }
 			remove { Events.RemoveHandler (PaddingChangedEvent, value); }
 		}
-
 		public event PaintEventHandler Paint {
 			add { Events.AddHandler (PaintEvent, value); }
 			remove { Events.RemoveHandler (PaintEvent, value); }
@@ -2230,440 +3256,5 @@ namespace System.Windows.Forms
 		}
 
 		#endregion	// Events
-		
-		
-		
-		#region Public Classes
-
-
-		[ComVisible (false)]
-		public class ControlCollection : Layout.ArrangedElementCollection, IList, ICollection, ICloneable, IEnumerable {
-
-			#region ControlCollection Local Variables
-			ArrayList impl_list;
-			Control [] all_controls;
-			Control owner;
-			#endregion // ControlCollection Local Variables
-
-			#region ControlCollection Public Constructor
-			public ControlCollection (Control owner)
-			{
-				this.owner = owner;
-			}
-			#endregion
-
-			#region ControlCollection Public Instance Properties
-
-
-			public Control Owner {
-				get { return this.owner; }
-			}
-			
-			public virtual Control this[string key] {
-				get { 
-					int index = IndexOfKey (key);
-					
-					if (index >= 0)
-						return this[index];
-						
-					return null;
-				}
-			}
-			
-			new	public virtual Control this[int index] {
-				get {
-					if (index < 0 || index >= list.Count) {
-						throw new ArgumentOutOfRangeException("index", index, "ControlCollection does not have that many controls");
-					}
-					return (Control)list[index];
-				}
-				
-				
-			}
-
-			#endregion // ControlCollection Public Instance Properties
-			
-			#region ControlCollection Instance Methods
-
-			public virtual void Add (Control value)
-			{
-				if (value == null)
-					return;
-
-				Form form_value = value as Form;
-				Form form_owner = owner as Form;
-				//TODO:
-				bool owner_permits_toplevels = true;// (owner is MdiClient) || (form_owner != null && form_owner.IsMdiContainer);
-				bool child_is_toplevel = value.GetTopLevel();
-				bool child_is_mdichild =  false;//form_value != null && form_value.IsMdiChild;
-
-				if (child_is_toplevel && !(owner_permits_toplevels && child_is_mdichild))
-					throw new ArgumentException("Cannot add a top level control to a control.", "value");
-				/*
-				if (child_is_mdichild && form_value.MdiParent != null && form_value.MdiParent != owner && form_value.MdiParent != owner.Parent) {
-					throw new ArgumentException ("Form cannot be added to the Controls collection that has a valid MDI parent.", "value");
-				}
-				*/
-				
-				//value.recalculate_distances = true;
-				
-				if (Contains (value)) {
-					owner.PerformLayout();
-					return;
-				}
-
-				if (value.parent != null) {
-					value.parent.Controls.Remove(value);
-				}
-
-				all_controls = null;
-				list.Add (value);
-
-				value.ChangeParent(owner);
-
-				//value.InitLayout();
-
-				//if (owner.Visible)
-				//	owner.UpdateChildrenZOrder();
-				owner.PerformLayout(value, "Parent");
-				owner.OnControlAdded(new ControlEventArgs(value));
-			}
-			
-			internal void AddToList (Control c)
-			{
-				all_controls = null;
-				list.Add (c);
-			}
-
-			internal virtual void AddImplicit (Control control)
-			{
-				if (impl_list == null)
-					impl_list = new ArrayList ();
-
-				if (AllContains (control)) {
-					owner.PerformLayout ();
-					return;
-				}
-
-				if (control.parent != null) {
-					control.parent.Controls.Remove(control);
-				}
-
-				all_controls = null;
-				impl_list.Add (control);
-
-				control.ChangeParent (owner);
-				//control.InitLayout ();
-				//if (owner.Visible)
-				//	owner.UpdateChildrenZOrder ();
-				
-				// If we are adding a new control that isn't
-				// visible, don't trigger a layout
-				if (control.VisibleInternal)
-					owner.PerformLayout (control, "Parent");
-			}
-			
-			[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
-			public virtual void AddRange (Control[] controls)
-			{
-				if (controls == null)
-					throw new ArgumentNullException ("controls");
-
-				owner.SuspendLayout ();
-
-				try {
-					for (int i = 0; i < controls.Length; i++) 
-						Add (controls[i]);
-				} finally {
-					owner.ResumeLayout ();
-				}
-			}
-
-			internal virtual void AddRangeImplicit (Control [] controls)
-			{
-				if (controls == null)
-					throw new ArgumentNullException ("controls");
-
-				owner.SuspendLayout ();
-
-				try {
-					for (int i = 0; i < controls.Length; i++)
-						AddImplicit (controls [i]);
-				} finally {
-					owner.ResumeLayout (false);
-				}
-			}
-
-			public new virtual void Clear ()
-			{
-				all_controls = null;
-
-				// MS sends remove events in reverse order
-				while (list.Count > 0) {
-					Remove((Control)list[list.Count - 1]);
-				}
-			}
-
-			internal virtual void ClearImplicit ()
-			{
-				if (impl_list == null)
-					return;
-				all_controls = null;
-				impl_list.Clear ();
-			}
-
-			public bool Contains (Control control)
-			{
-				return list.Contains (control);
-			}
-
-			internal bool ImplicitContains (Control value) {
-				if (impl_list == null)
-					return false;
-
-				return impl_list.Contains (value);
-			}
-
-			internal bool AllContains (Control value) {
-				return Contains (value) || ImplicitContains (value);
-			}
-
-			public virtual bool ContainsKey (string key)
-			{
-				return IndexOfKey (key) >= 0;
-			}
-
-			// LAMESPEC: MSDN says AE, MS implementation throws ANE
-			public Control[] Find (string key, bool searchAllChildren)
-			{
-				if (string.IsNullOrEmpty (key))
-					throw new ArgumentNullException ("key");
-					
-				ArrayList al = new ArrayList ();
-				
-				foreach (Control c in list) {
-					if (c.Name.Equals (key, StringComparison.CurrentCultureIgnoreCase))
-						al.Add (c);
-						
-					if (searchAllChildren)
-						al.AddRange (c.Controls.Find (key, true));
-				}
-				
-				return (Control[])al.ToArray (typeof (Control));
-			}
-			public int GetChildIndex(Control child) {
-				return GetChildIndex(child, false);
-			}
-
-			public virtual int GetChildIndex(Control child, bool throwException) {
-				int index;
-
-				index=list.IndexOf(child);
-
-				if (index==-1 && throwException) {
-					throw new ArgumentException("Not a child control", "child");
-				}
-				return index;
-			}
-
-			public override IEnumerator
-			GetEnumerator () {
-				return new ControlCollectionEnumerator (list);
-			}
-
-			internal IEnumerator GetAllEnumerator () {
-				Control [] res = GetAllControls ();
-				return res.GetEnumerator ();
-			}
-
-			internal ArrayList ImplicitControls {
-				get { return impl_list; }
-			}
-			
-			internal Control [] GetAllControls () {
-				if (all_controls != null)
-					return all_controls;
-
-				if (impl_list == null) {
-					all_controls = (Control []) list.ToArray (typeof (Control));
-					return all_controls;
-				}
-				
-				all_controls = new Control [list.Count + impl_list.Count];
-				impl_list.CopyTo (all_controls);
-				list.CopyTo (all_controls, impl_list.Count);
-
-				return all_controls;
-			}
-
-
-			public int IndexOf (Control control)
-			{
-				return list.IndexOf (control);
-			}
-
-			public virtual int IndexOfKey (string key)
-			{
-				if (string.IsNullOrEmpty (key))
-					return -1;
-					
-				for (int i = 0; i < list.Count; i++)
-					if (((Control)list[i]).Name.Equals (key, StringComparison.CurrentCultureIgnoreCase))
-						return i;
-						
-				return -1;
-			}
-
-			public virtual void Remove (Control value)
-			{
-				if (value == null)
-					return;
-
-				all_controls = null;
-				list.Remove(value);
-
-				owner.PerformLayout(value, "Parent");
-				owner.OnControlRemoved(new ControlEventArgs(value));
-
-				//ContainerControl container = owner.InternalGetContainerControl ();
-				//if (container != null) { 
-					// Inform any container controls about the loss of a child control
-					// so that they can update their active control
-				//	container.ChildControlRemoved (value);
-				//}
-
-				value.ChangeParent(null);
-
-				//owner.UpdateChildrenZOrder();
-			}
-
-			internal virtual void RemoveImplicit (Control control)
-			{
-				if (impl_list != null) {
-					all_controls = null;
-					impl_list.Remove (control);
-					owner.PerformLayout (control, "Parent");
-					owner.OnControlRemoved (new ControlEventArgs (control));
-				}
-				control.ChangeParent (null);
-				//owner.UpdateChildrenZOrder ();
-			}
-
-			public void RemoveAt (int index)
-			{
-				if (index < 0 || index >= list.Count)
-					throw new ArgumentOutOfRangeException("index", index, "ControlCollection does not have that many controls");
-
-				Remove ((Control) list [index]);
-			}
-
-			public virtual void RemoveByKey (string key)
-			{
-				int index = IndexOfKey (key);
-				
-				if (index >= 0)
-					RemoveAt (index);
-			}
-			
-			public virtual void SetChildIndex(Control child, int newIndex)
-			{
-				if (child == null)
-					throw new ArgumentNullException ("child");
-
-				int	old_index;
-
-				old_index=list.IndexOf(child);
-				if (old_index==-1) {
-					throw new ArgumentException("Not a child control", "child");
-				}
-
-				if (old_index==newIndex) {
-					return;
-				}
-
-				all_controls = null;
-				list.RemoveAt(old_index);
-
-				if (newIndex>list.Count) {
-					list.Add(child);
-				} else {
-					list.Insert(newIndex, child);
-				}
-				//child.UpdateZOrder();
-				owner.PerformLayout();
-			}
-
-			#endregion // ControlCollection Private Instance Methods
-
-
-			#region ControlCollection Interface Methods
-
-			int IList.Add (object control)
-			{
-				if (!(control is Control))
-					throw new ArgumentException ("Object of type Control required", "control");
-
-				if (control == null)
-					throw new ArgumentException ("control", "Cannot add null controls");
-
-				this.Add ((Control)control);
-				return this.IndexOf ((Control)control);
-			}
-			
-			void IList.Remove (object control)
-			{
-				if (!(control is Control))
-					throw new ArgumentException ("Object of type Control required", "control");
-
-				this.Remove ((Control)control);
-			}
-
-			Object ICloneable.Clone ()
-			{
-				ControlCollection clone = new ControlCollection (this.owner);
-				clone.list = (ArrayList)list.Clone ();		// FIXME: Do we need this?
-				return clone;
-			}
-
-			#endregion // ControlCollection Interface Methods
-		
-			internal class ControlCollectionEnumerator : IEnumerator
-			{
-				private ArrayList list;
-				int position = -1;
-				
-				public ControlCollectionEnumerator (ArrayList collection)
-				{
-					list = collection;
-				}
-				
-				#region IEnumerator Members
-				public object Current {
-					get {
-						try {
-							return list[position];
-						} catch (IndexOutOfRangeException) {
-							throw new InvalidOperationException ();
-						}
-					}
-				}
-
-				public bool MoveNext ()
-				{
-					position++;
-					return (position < list.Count);
-				}
-
-				public void Reset ()
-				{
-					position = -1;
-				}
-
-				#endregion
-			}
-		}
-		#endregion	// ControlCollection Class
-
 	}
 }
-

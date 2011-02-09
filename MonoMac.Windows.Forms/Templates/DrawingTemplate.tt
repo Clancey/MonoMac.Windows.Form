@@ -19,16 +19,18 @@ namespace System.Windows.Forms
 string[] subfolders = new string[]{ @"UserControl",
 							  @"ButtonHelper",
 							  @"TextBoxMouseView",
-							  @"ComboBoxMouseView",
+							  @"ComboBoxHelper",
 							  @"ListBoxMouseView",
 							  @"TrackBarMouseView",
 							  @"PanelMouseView",
 							  @"UserControlMouseView",
+							  @"TextBoxHelper",
+							  @"View",
 							  };
 foreach(var folder in subfolders)
 {
 #>
-	public partial class <#= folder #> 
+	internal partial class <#= folder #> 
 	{	
 		public bool shouldDraw {get;set;}
 		public override void DrawRect (RectangleF dirtyRect)
@@ -39,15 +41,16 @@ foreach(var folder in subfolders)
 				Host.Draw (events);
 			}
 			if (shouldDraw)
-				base.DrawRect (dirtyRect);
+			base.DrawRect(dirtyRect);
 		}
-			
+		/*
 		protected virtual void OnPaint(PaintEventArgs e)
         {
 			if (Paint != null)
 				Paint (this, e);
         	shouldDraw = true;
         }
+        */
         public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{

@@ -5,6 +5,7 @@ using System.Drawing;
 using MonoMac.CoreGraphics;
 using System.Runtime.InteropServices;
 using MonoMac.AppKit;
+using MonoMac.Foundation;
 
 namespace System.Windows.Forms
 {
@@ -28,6 +29,20 @@ namespace System.Windows.Forms
 			return null;
 		}
 	
+		public static SizeF MeasureString(string inString, Font font)//, SizeF size)
+		{
+			
+			/*NSTextStorage textStorage = new NSTextStorage();
+			textStorage.
+			NSTextContainer textContainer = new NSTextContainer(size);
+			NSLayoutManager layoutManager = new NSLayoutManager();
+			*/
+			var tv = new NSText() {Font = font.ToNsFont(),Value = inString};
+			tv.SizeToFit();
+			return tv.Frame.Size;
+		}
+		
+		public static SizeF ScaleSize = new SizeF(.92f,.92f);//(.92f,.92f);
 	
 		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
 		internal static extern void CGContextTranslateCTM (IntPtr context, float tx, float ty);

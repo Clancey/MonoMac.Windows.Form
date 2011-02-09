@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Linq;
 using MonoMac.AppKit;
@@ -6,7 +6,7 @@ using System.Drawing;
 using MonoMac.Foundation;
 namespace System.Windows.Forms
 {
-	public partial class UserControl 
+	internal partial class UserControl 
 	{	
 		public new System.Drawing.Font Font
 		{
@@ -23,7 +23,7 @@ namespace System.Windows.Forms
 	}
 	
 	
-	public partial class ButtonHelper 
+	internal partial class ButtonHelper 
 	{	
 		public new System.Drawing.Font Font
 		{
@@ -40,7 +40,7 @@ namespace System.Windows.Forms
 	}
 	
 	
-	public partial class TextBoxMouseView 
+	internal partial class TextBoxMouseView 
 	{	
 		public new System.Drawing.Font Font
 		{
@@ -57,7 +57,7 @@ namespace System.Windows.Forms
 	}
 	
 	
-	public partial class ComboBoxMouseView 
+	internal partial class ComboBoxHelper 
 	{	
 		public new System.Drawing.Font Font
 		{

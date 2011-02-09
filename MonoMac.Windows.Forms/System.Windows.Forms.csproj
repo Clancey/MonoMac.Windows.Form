@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -7,9 +7,10 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>MonoMac.Windows.Forms</RootNamespace>
-    <AssemblyName>MonoMac.Windows.Forms</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <RootNamespace>System.Windows.Forms</RootNamespace>
+    <AssemblyName>System.Windows.Forms</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <newfilesearch>OnLoad</newfilesearch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -28,6 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -35,13 +38,11 @@
     <Reference Include="nunit.core, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
     <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\System.Drawing.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
     <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\MonoMac.dll</HintPath>
+      <HintPath>..\..\MonoMac\src\MonoMac.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -52,8 +53,6 @@
     <Compile Include="EventArgs\KeyPressEventHandler.cs" />
     <Compile Include="EventArgs\MouseEventArgs.cs" />
     <Compile Include="EventArgs\MouseEventHandler.cs" />
-    <Compile Include="EventArgs\PaintEventArgs.cs" />
-    <Compile Include="EventArgs\PaintEventHandler.cs" />
     <Compile Include="EventArgs\MouseButtons.cs" />
     <Compile Include="Templates\KeyPressEventsTemplate.g.cs">
       <DependentUpon>KeyPressEventsTemplate.tt</DependentUpon>
@@ -74,9 +73,6 @@
     </Compile>
     <Compile Include="Templates\MouseTemplate.g.cs">
       <DependentUpon>MouseTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\ControlTemplate.g.cs">
-      <DependentUpon>ControlTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IViewHelper.cs" />
     <Compile Include="EventArgs\UICuesEventHandler.cs" />
@@ -113,14 +109,11 @@
     <Compile Include="System.Windows.Forms\Application.cs" />
     <Compile Include="System.Windows.Forms\ApplicationContext.cs" />
     <Compile Include="System.Windows.Forms\IControl.cs" />
-    <Compile Include="System.Windows.Forms\CheckedListBox.cs" />
     <Compile Include="System.Windows.Forms\DataTable.cs" />
-    <Compile Include="System.Windows.Forms\TrackBar.cs" />
     <Compile Include="System.Windows.Forms\DataGridViewButtonCell.cs" />
     <Compile Include="System.Windows.Forms\DataGridViewButtonColumn.cs" />
     <Compile Include="System.Windows.Forms\DataGridViewCheckBoxColumn.cs" />
     <Compile Include="System.Windows.Forms\DataGridViewCheckBoxCell.cs" />
-    <Compile Include="System.Windows.Forms\Panel.cs" />
     <Compile Include="System.Windows.Forms\Message.cs" />
     <Compile Include="System.Windows.Forms\BindingsCollection.cs" />
     <Compile Include="System.Windows.Forms\IBindableComponent.cs" />
@@ -153,7 +146,6 @@
     <Compile Include="System.Windows.Forms\ScrollBars.cs" />
     <Compile Include="System.Windows.Forms\SelectionMode.cs" />
     <Compile Include="System.Windows.Forms\UICues.cs" />
-    <Compile Include="System.Windows.Forms\Control.cs" />
     <Compile Include="System.Windows.Forms\ContainerControl.cocoa.cs" />
     <Compile Include="Extenders\FontExtender.cs" />
     <Compile Include="System.Windows.Forms\ScrollableControl.cocoa.cs" />
@@ -189,7 +181,6 @@
     <Compile Include="System.Windows.Forms\PropertyManager.cs" />
     <Compile Include="System.Windows.Forms\RelatedPropertyManager.cs" />
     <Compile Include="System.Windows.Forms\RelatedCurrencyManager.cs" />
-    <Compile Include="System.Windows.Forms\ScrollableControl.cs" />
     <Compile Include="System.Windows.Forms\ScrollEventArgs.cs" />
     <Compile Include="System.Windows.Forms\ScrollEventHandler.cs" />
     <Compile Include="System.Windows.Forms\ScrollEventType.cs" />
@@ -221,10 +212,50 @@
     <Compile Include="System.Windows.Forms\MeasureItemEventHandler.cs" />
     <Compile Include="System.Windows.Forms\Form.cocoa.cs" />
     <Compile Include="System.Windows.Forms\Label.cocoa.cs" />
-    <Compile Include="System.Windows.Forms\ListBox.cocoa.cs" />
     <Compile Include="System.Windows.Forms\MessageBox.cocoa.cs" />
     <Compile Include="System.Windows.Forms\TextBox.cocoa.cs" />
     <Compile Include="System.Windows.Forms\UserControl.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\TrackBar.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\Control.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\ImeMode.cs" />
+    <Compile Include="System.Windows.Forms\AmbientProperties.cs" />
+    <Compile Include="System.Windows.Forms\Control.cs" />
+    <Compile Include="System.Windows.Forms\CharacterCasing.cs" />
+    <Compile Include="System.Windows.Forms\CreateParams.cs" />
+    <Compile Include="CocoaHelpers\TextBoxHelper.cs" />
+    <Compile Include="System.Windows.Forms\TextBoxBase.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\TextBoxBase.cs" />
+    <Compile Include="System.Windows.Forms\PaintEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\PaintEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\Label.cs" />
+    <Compile Include="System.Windows.Forms\ColorDepth.cs" />
+    <Compile Include="System.Windows.Forms\ImageListConverter.cs" />
+    <Compile Include="System.Windows.Forms\ImageIndexConverter.cs" />
+    <Compile Include="System.Windows.Forms\ImageKeyConverter.cs" />
+    <Compile Include="System.Windows.Forms\ImageList.cs" />
+    <Compile Include="System.Windows.Forms\ImageListStreamer.cs" />
+    <Compile Include="System.Windows.Forms\ImageListStreamer.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\Panel.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\DrawItemEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\DrawItemEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\DrawItemState.cs" />
+    <Compile Include="MainWindow.xib.designer.cs" />
+    <Compile Include="System.Windows.Forms\CheckedListBox.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\ControlCollection.cs" />
+    <Compile Include="System.Windows.Forms\ListBox.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\ListBox.cs" />
+    <Compile Include="System.Windows.Forms\iNSView.cs" />
+    <Compile Include="CocoaHelpers\TableViewHelper.cs" />
+    <Compile Include="Interfaces\ITableViewHelper.cs" />
+    <Compile Include="CocoaHelpers\ScrollViewHelper.cs" />
+    <Compile Include="System.Windows.Forms\ScrollableControl.cs" />
+    <Compile Include="System.Windows.Forms\ScrollBar.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\ScrollBar.cs" />
+    <Compile Include="System.Windows.Forms\VScrollBar.cs" />
+    <Compile Include="System.Windows.Forms\HScrollBar.cs" />
+    <Compile Include="System.Windows.Forms\ListControl.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\ComboBox.cs" />
+    <Compile Include="CocoaHelpers\ComboBoxHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />
@@ -234,13 +265,10 @@
     <Folder Include="Interfaces\" />
     <Folder Include="System.Windows.Forms.Layout\" />
     <Folder Include="System.Windows.Forms\" />
+    <Folder Include="CocoaHelpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="Templates\ControlTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ControlTemplate.g.cs</LastGenOutput>
-    </None>
     <None Include="Templates\KeyPressEventsTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>KeyPressEventsTemplate.g.cs</LastGenOutput>
@@ -262,5 +290,30 @@
       <LastGenOutput>MouseTemplate.g.cs</LastGenOutput>
     </None>
     <None Include="System.Windows.Forms.Layout\ChangeLog" />
+    <None Include="MonoMac.Windows.Forms.userprefs" />
+    <None Include="obj\Debug\MonoMac.Windows.Forms.csproj.FileListAbsolute.txt" />
+    <None Include="obj\Debug\ResolveAssemblyReference.cache" />
+    <None Include="test-results\MonoMac.Windows.Forms.csproj-Debug-2010-11-03.xml" />
+    <None Include="test-results\MonoMac.Windows.Forms.csproj-Debug-2010-11-08.xml" />
+    <None Include="test-results\MonoMac.Windows.Forms.csproj-Debug-2010-12-01.xml" />
+    <None Include="test-results\MonoMac.Windows.Forms.csproj-Debug-2010-12-23.xml" />
+    <None Include="test-results\MonoMac.Windows.Forms.csproj.test-cache" />
+    <None Include="test-results\System.Windows.Forms.csproj.test-cache" />
+    <None Include="System.Windows.Forms\ScrollableControl_Old.cs" />
+    <None Include="System.Windows.Forms.Layout\DefaultLayout.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms.Layout\FlowLayout.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms.Layout\TableLayout.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms.Layout\TableLayoutSettingsTypeConverter.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\Control.Cocoa.cs">
+      <Visible>False</Visible>
+    </None>
   </ItemGroup>
 </Project>

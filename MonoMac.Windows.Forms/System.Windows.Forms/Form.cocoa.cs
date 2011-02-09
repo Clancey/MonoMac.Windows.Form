@@ -1,18 +1,28 @@
 using System;
-using MonoMac.AppKit;
 using System.Drawing;
-using System.Linq;
-using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.Design;
+using System.ComponentModel.Design.Serialization;
 using System.Collections;
-using System.Drawing.Drawing2D;
+using System.Runtime.InteropServices;
+using System.Threading;
+using MonoMac.AppKit;
+using System.Linq;
+using MonoMac.Foundation;
 namespace System.Windows.Forms
 {
-	public class View : NSView, IViewHelper
+	internal partial class View : NSView, IViewHelper
 	{
 		public View (Form parent)
 		{
 			Host = parent;
 			this.AutoresizingMask = (NSViewResizingMask.HeightSizable | NSViewResizingMask.WidthSizable);
+			
+		}
+		
+		public override void ViewDidMoveToWindow ()
+		{
+			base.ViewDidMoveToWindow ();
 		}
 		
 		public Control Host {get;set;}
@@ -22,22 +32,10 @@ namespace System.Windows.Forms
 		public override bool IsFlipped {
 			get { return true; }
 		}
-
-		public bool shouldDraw {get;set;}
-		public override void DrawRect (RectangleF dirtyRect)
-		{
-			using (var graphics = Graphics.FromHwnd (this.Handle))
-			{
-				var events = new PaintEventArgs (graphics, Rectangle.Round (dirtyRect));
-				Host.Draw (events);
-			}
-			if (shouldDraw)
-				base.DrawRect (dirtyRect);
-		}
-
+		
 		public override void MouseUp (NSEvent theEvent)
 		{
-			PointF point = this.ConvertPointfromView (theEvent.LocationInWindow, null);
+			PointF point = this.ConvertPointFromView (theEvent.LocationInWindow, null);
 			
 			var button = (MouseButtons)theEvent.ButtonNumber;
 			this.Host.FireMouseUp (Host, new MouseEventArgs (button, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
@@ -45,13 +43,13 @@ namespace System.Windows.Forms
 		}
 		public override void MouseDown (NSEvent theEvent)
 		{
-			PointF point = this.ConvertPointfromView (theEvent.LocationInWindow, null);
+			PointF point = this.ConvertPointFromView (theEvent.LocationInWindow, null);
 			this.Host.FireMouseDown (Host, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
 			base.MouseDown (theEvent);
 		}
 		public override void MouseDragged (NSEvent theEvent)
 		{
-			PointF point = this.ConvertPointfromView (theEvent.LocationInWindow, null);
+			PointF point = this.ConvertPointFromView (theEvent.LocationInWindow, null);
 			this.Host.FireMouseMove (Host, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
 			
 			base.MouseDragged (theEvent);
@@ -60,7 +58,7 @@ namespace System.Windows.Forms
 		{
 			PointF point = theEvent.LocationInWindow;
 			this.Host.FireMouseMove (Host, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
-			base.MouseMoved (theEvent);
+			//base.MouseMoved (theEvent);
 		}
 	}
 
@@ -72,11 +70,24 @@ namespace System.Windows.Forms
 		{
 			m_parent = parent;
 		}
-
+		
+		private bool hasLoaded = false;
 		public override void BecomeKeyWindow ()
 		{
 			base.BecomeKeyWindow ();
-			m_parent.CallLoad ();
+			if(!hasLoaded)
+			{
+				m_parent.CallLoad ();
+				hasLoaded = true;
+			}
+		}
+		
+		
+		
+		public override void MouseMoved (NSEvent theEvent)
+		{
+			this.ContentView.MouseMoved(theEvent);
+			base.MouseMoved (theEvent);
 		}
 		
 	}
@@ -91,11 +102,15 @@ namespace System.Windows.Forms
 		//: base(new RectangleF (50, 50, 400, 400), (NSWindowStyle)(1 | (1 << 1) | (1 << 2) | (1 << 3)), NSBackingStore.Buffered, false)
 		public Form ()
 		{
+			setStyle ();
+			//this.StandardWindowButton().Image
+		}
+		internal override void CreateHelper ()
+		{
 			m_helper = new FormHelper (this, new RectangleF (50, 50, 400, 400), (NSWindowStyle)(1 | (1 << 1) | (1 << 2) | (1 << 3)), NSBackingStore.Buffered, false);
 			m_helper.ContentView = new View (this);
-			setStyle ();
+			//m_helper.ContentView.ScaleUnitSquareToSize(Util.ScaleSize);
 			m_helper.AcceptsMouseMovedEvents = true;
-			//this.StandardWindowButton().Image
 		}
 		
 		internal override NSView c_helper {
@@ -156,6 +171,10 @@ namespace System.Windows.Forms
 			m_helper.MakeKeyAndOrderFront (m_helper);
 			//Controls.SetTab ();
 		}
+		public void Show (IWin32Window parent)
+		{
+			m_helper.MakeKeyAndOrderFront (m_helper);
+		}
 		public void Close ()
 		{
 			if (NSApplication.SharedApplication.ModalWindow == m_helper)
@@ -174,9 +193,10 @@ namespace System.Windows.Forms
 		{
 			return ShowDialog ();
 		}
+		private bool is_modal;
 		public DialogResult ShowDialog ()
 		{
-			
+			is_modal = true;
 			//this.MakeKeyAndOrderFront (this);
 			NSApplication.SharedApplication.BeginSheet (m_helper, NSApplication.SharedApplication.MainWindow);
 			NSApplication.SharedApplication.RunModalForWindow (m_helper);
@@ -188,7 +208,7 @@ namespace System.Windows.Forms
 		/// <summary>
 		/// Drawing stuff
 		/// </summary>
-
+		/*
 		public void onPaint (PaintEventArgs e)
 		{
 			OnPaint (e);
@@ -200,6 +220,7 @@ namespace System.Windows.Forms
 			(m_helper.ContentView as View).shouldDraw = true;
 			
 		}
+		*/
 		public Graphics CreateGraphics ()
 		{
 			var graphics = Graphics.FromHwnd (m_helper.ContentView.Handle);
@@ -231,7 +252,8 @@ namespace System.Windows.Forms
 		public bool Modal {
 			get { return m_helper.IsSheet; }
 		}
-
+		
+		/*
 		public PaintEventHandler Paint { get; set; }
 
 		public Color BackColor { get; set; }
@@ -249,13 +271,21 @@ namespace System.Windows.Forms
 			e.Graphics.DrawRectangle (pen, e.ClipRectangle);
 		}
 
-
+		 */
 		/*
 		public SizeF ClientSize {
 			get { return this.Frame.Size; }
 			set { this.SetFrame (new RectangleF (this.Frame.Location, value), true, true); }
 		}
 		*/
+		internal override Size clientSize {
+			get {
+				return Size.Round(m_helper.ContentView.Frame.Size);
+			}
+			set {
+				m_helper.SetFrame(new RectangleF(m_helper.Frame.Location,value),true);
+			}
+		}
 
 		internal override ControlCollection controls {
 			get {
@@ -274,8 +304,27 @@ namespace System.Windows.Forms
 			get { return m_helper.Title; }
 			set { m_helper.Title = value; }
 		}
-		public object components { get; set; }
-		public DialogResult DialogResult { get; set; }
+		public object components { get; set; }		
+		
+		private DialogResult dialog_result;
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public DialogResult DialogResult {
+			get {
+				return dialog_result;
+			}
+
+			set {
+				if (value < DialogResult.None || value > DialogResult.No)
+					throw new InvalidEnumArgumentException ("value", (int) value, 
+							typeof (DialogResult));
+
+				dialog_result = value;
+				if (dialog_result != DialogResult.None && is_modal)
+					this.Close();
+					//RaiseCloseEvents (false, false); // .Net doesn't send WM_CLOSE here.
+			}
+		}
 		public void SuspendLayout ()
 		{
 			
@@ -297,9 +346,10 @@ namespace System.Windows.Forms
 
 		#region From Template
 		public string Name { get; set; }
-		internal override Size size {
-			get { return Size.Round(m_helper.Frame.Size); }
-			set { m_helper.SetFrame (new RectangleF (m_helper.Frame.Location, value), true); }
+		internal Rectangle bounds {
+			get { return Rectangle.Round(m_helper.Frame); }
+			set { 
+				m_helper.SetFrame (value, true); }
 		}
 
 		internal override Point location {
@@ -353,8 +403,6 @@ namespace System.Windows.Forms
 
 		public event EventHandler AutoSizeChanged;
 		public event EventHandler AutoValidateChanged;
-		public event MouseEventHandler MouseMove;
-		public event MouseEventHandler MouseDoubleClick;
 		public event EventHandler SizeChanged;
 		
 		

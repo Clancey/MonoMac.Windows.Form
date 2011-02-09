@@ -18,18 +18,19 @@ namespace System.Windows.Forms
  
 Dictionary<string,string> controls = new Dictionary<string,string>();
 controls.Add("ButtonHelper","NSButton");
-controls.Add("TextBoxMouseView","NSTextField");
+controls.Add("TextBoxMouseView","NSTextView");
 controls.Add("ComboBoxMouseView","NSComboBox");
 controls.Add("ListBoxMouseView","NSScrollView");
 controls.Add("TrackBarMouseView","NSSlider");
 controls.Add("UserControlMouseView","NSControl");
 controls.Add("PanelMouseView","NSView");
+controls.Add("TableViewHelper","NSTableView");
 
 
 foreach(var control in controls)
 {
 #>
-	public partial class <#= control.Key #> : <#= control.Value #> , IViewHelper
+	internal partial class <#= control.Key #> : <#= control.Value #> , IViewHelper
 	{
 		public Control Host {get;set;}
 		public NSCursor Cursor {get;set;}

@@ -16,6 +16,9 @@ namespace System.Windows.Forms
 		}
 		public TrackBar () : base ()
 		{
+		}
+		internal override void CreateHelper ()
+		{
 			m_helper = new TrackBarMouseView();
 			m_helper.Host = this;
 			m_helper.Frame = new RectangleF(0,0,100,25);

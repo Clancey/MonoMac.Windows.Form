@@ -10,7 +10,7 @@ using System.ComponentModel;
 namespace System.Windows.Forms
 {
 	
-	public partial class ListBox : Control//: ListBoxMouseView
+	public partial class ListBox : ListControl//: ListBoxMouseView
 	{
 		internal ListBoxMouseView m_helper;
 		internal override NSView c_helper {
@@ -21,11 +21,38 @@ namespace System.Windows.Forms
 				m_helper = value as ListBoxMouseView;
 			}
 		}
-		public NSTableView tableView;
+		internal TableViewHelper tableView;
 		public NSTableColumn column;
 		private bool layoutSuspened;
 		public NSString colString = new NSString("ListBox");
-		public ListBox () : base ()
+		
+		
+		public ListBox () : base()
+		{
+			items = CreateItemCollection ();
+			item_height = -1;
+			selected_indices = new SelectedIndexCollection (this);
+			selected_items = new SelectedObjectCollection (this);
+
+			requested_height = bounds.Height;
+			InternalBorderStyle = BorderStyle.Fixed3D;
+			//BackColor = ThemeEngine.Current.ColorWindow;
+
+			/* Vertical scrollbar */
+			//TODO: add scroll event handler
+
+			/* Horizontal scrollbar */
+			//TODO: add scroll event handler
+
+			/* Events */
+			
+			SetStyle (ControlStyles.UserPaint, false);
+
+#if NET_2_0
+			custom_tab_offsets = new IntegerCollection (this);
+#endif
+		}
+		internal override void CreateHelper ()
 		{
 			m_helper = new ListBoxMouseView();
 			m_helper.Host = this;
@@ -43,29 +70,37 @@ namespace System.Windows.Forms
 		{
 			return lb.c_helper;
 		}
-		public void BeginUpdate()
-		{
-			layoutSuspened = true;
-		}
-		public void EndUpdate()
-		{
-			layoutSuspened = false;
-			refresh();
-		}
+
 		public virtual void SetupTable()
 		{
-	        tableView = new NSTableView();	
+	        tableView = new TableViewHelper();
+			tableView.Host = this;
 	        tableView.AllowsEmptySelection = true;
 			tableView.AllowsMultipleSelection = true;
 			tableView.AllowsColumnResizing = true;
 			tableView.AllowsColumnSelection = false;
 			tableView.HeaderView = null;
 			tableView.Activated += delegate(object sender, EventArgs e) {
-				if(SelectedValueChanged != null)
-					SelectedValueChanged(sender,e);
+				List<int> newRow = new List<int>();
+				
+				if(tableView.SelectedRowCount == 1)
+					newRow.Add(tableView.SelectedRow);
+				else if(tableView.SelectedRowCount > 1)
+					
+				foreach( var row in tableView.SelectedRows.ToArray())
+				{
+					newRow.Add((int)row);	
+				}
+				
+				selected_indices.Clear();
+				foreach(var row in newRow)
+				{
+					selected_indices.Add(row);	
+				}
 			};
 			tableView.DataSource = _dataSource;
 			tableView.SizeToFit();
+			
 		}
 		public virtual void SetupColumn()
 		{
@@ -78,6 +113,70 @@ namespace System.Windows.Forms
 		public virtual NSView CurrentEditor {
 			get { return tableView.CurrentEditor;}
 		}
+		#region Private Properties
+		#endregion
+		
+		
+		#region Public Properties
+		public override Color BackColor {
+			get { return base.BackColor; }
+			set {
+				if (base.BackColor == value)
+					return;
+    				base.BackColor = value;
+					tableView.BackgroundColor = value.ToNSColor();
+				base.Refresh ();	// Careful. Calling the base method is not the same that calling 
+			}				// the overriden one that refresh also all the items
+		}
+		
+		
+		[DefaultValue (13)]
+		[Localizable (true)]
+		[RefreshProperties(RefreshProperties.Repaint)]
+		public virtual int ItemHeight {
+			get {
+				if (item_height == -1 || item_height ==0) {
+					item_height = (int)tableView.RowHeight;
+				}
+				return item_height;
+			}
+			set {
+				if (value > 255)
+					throw new ArgumentOutOfRangeException ("The ItemHeight property was set beyond 255 pixels");
+
+				explicit_item_height = true;
+				if (item_height == value)
+					return;
+
+				item_height = value;
+				if (IntegralHeight)
+					UpdateListBoxBounds ();
+				tableView.RowHeight = ItemHeight;
+				LayoutListBox ();
+			}
+		}
+		
+		
+		private void LayoutListBox ()
+		{
+			if (!IsHandleCreated || suspend_layout)
+				return;
+
+			if (MultiColumn)
+				LayoutMultiColumn ();
+			else
+				LayoutSingleColumn ();
+
+			last_visible_index = LastVisibleItem ();
+			UpdateScrollBars ();
+		}
+		
+		private void UpdateListBoxBounds()
+		{
+			tableView.RowHeight = 	ItemHeight;
+		}
+
+		
 		/*
 		private new float AlphaValue {
 			get {
@@ -92,53 +191,170 @@ namespace System.Windows.Forms
 			return base.AcceptsFirstMouse (theEvent);
 		}
 		*/
-		public Color BackColor {
-			get { return tableView.BackgroundColor.ToColor();}
-			set { tableView.BackgroundColor = value.ToNSColor();}
+		
+		#endregion
+		
+		#region Public Methods
+		
+		public int GetItemHeight (int index)
+		{
+			if (index < 0 || index >= Items.Count)
+				throw new ArgumentOutOfRangeException ("Index of out range");
+				
+			if (DrawMode == DrawMode.OwnerDrawVariable && IsHandleCreated == true) {
+				
+				//ItemHeight
+			}
+
+			return ItemHeight;
 		}
+		
+		internal override void DrawItemInternal(DrawItemEventArgs e)
+		{
+			OnDrawItem(e);
+		}
+		
+		protected virtual void OnDrawItem (DrawItemEventArgs e)
+		{			
+			switch (DrawMode) {
+			case DrawMode.OwnerDrawFixed:
+			case DrawMode.OwnerDrawVariable:
+				DrawItemEventHandler eh = (DrawItemEventHandler)(Events [DrawItemEvent]);
+				if (eh != null)
+					eh (this, e);
+
+				break;
+
+			default:
+				tableView.shouldDraw = true;
+				break;
+			}
+		}
+		
+		
+
+		protected override void SetItemsCore (IList value)
+		{
+			BeginUpdate ();
+			try {
+				Items.Clear ();
+				Items.AddItems (value);
+				_dataSource = new ListboxDataSource(this,value);
+				tableView.DataSource = _dataSource;
+				tableView.SizeToFit();
+			} finally {
+				EndUpdate ();
+			}
+		}
+		
+		private int SnapHeightToIntegral (int height)
+		{
+			int border = 1;
+
+			height -= (2 * border);
+			height -= height % ItemHeight;
+			height += (2 * border);
+
+			return height;
+		}
+		
+		#endregion
+		
+		#region Private Methods
+		
+		private void LayoutMultiColumn ()
+		{
+		//	fdf
+		}
+		
+		void UpdateTopItem ()
+		{
+			tableView.ScrollRowToVisible(top_index);	
+		}
+		void UpdateScrollBars()
+		{
+			m_helper.AutohidesScrollers = !ScrollAlwaysVisible;	
+		}
+		
+		#endregion
+		
+		
 		public virtual void SetNeedsDisplay()
 		{
 			tableView.SetNeedsDisplay();
 		}
-		private SelectionMode selectionMode;
-		public SelectionMode SelectionMode {
-			get{return selectionMode;}
-			set{selectionMode = value;
-				tableView.AllowsMultipleSelection = selectionMode == SelectionMode.MultiExtended ||
-													selectionMode == SelectionMode.MultiSimple;
-				
+
+		[DefaultValue (SelectionMode.One)]
+		public virtual SelectionMode SelectionMode {
+			get { return selection_mode; }
+			set {
+				if (!Enum.IsDefined (typeof (SelectionMode), value))
+					throw new InvalidEnumArgumentException (string.Format("Enum argument value '{0}' is not valid for SelectionMode", value));
+
+				if (selection_mode == value)
+					return;
+					
+				selection_mode = value;
+					
+				switch (selection_mode) {
+				case SelectionMode.None: 
+					SelectedIndices.Clear ();
+					break;
+
+				case SelectionMode.One:
+					// FIXME: Probably this can be improved
+					ArrayList old_selection = (ArrayList) SelectedIndices.List.Clone ();
+					for (int i = 1; i < old_selection.Count; i++)
+						SelectedIndices.Remove ((int)old_selection [i]);
+					break;
+
+				default:
+					break;
+				}
+				tableView.AllowsMultipleSelection = selection_mode == SelectionMode.MultiExtended ||
+													selection_mode == SelectionMode.MultiSimple;
+
+#if NET_2_0
+				// UIA Framework: Generates SelectionModeChanged event.
+				OnUIASelectionModeChangedEvent ();
+#endif
 			}
 		}
+		
+		
 		public string DisplayMember {get;set;}
 		public string ValueMember {get;set;}
 		internal ListboxDataSource _dataSource;
 		
-		public object DataSource {
-			get {
-				return _dataSource.dataArray;
-			}
-			set {
-				_dataSource = new ListboxDataSource(this,value);
-				tableView.DataSource = _dataSource;
-				tableView.SizeToFit();
-				//this.DocumentView.Frame = tableView.Frame;
-				
-			}
-		}
+		/*
 		public ObjectCollection Items 
 		{
 			get{return _dataSource.dataArray;}
 			set{_dataSource.dataArray = value;}
 		}
+		*/
 		
-		public void SetSelected(int index,bool value)
+		public void SetSelected (int index, bool value)
 		{
-			if(value)
+			if (index < 0 || index >= Items.Count)
+				throw new ArgumentOutOfRangeException ("Index of out range");
+
+			if (SelectionMode == SelectionMode.None)
+				throw new InvalidOperationException ();
+
+			if (value)
+			{
+				SelectedIndices.Add (index);				
 				tableView.SelectRows(new NSIndexSet((uint)index),true);
+			}
 			else
+			{
+				SelectedIndices.Remove (index);
 				tableView.DeselectRow(index);
+			}
 		}
 		
+		/*
 		public object[] SelectedItems
 		{
 			get{
@@ -152,33 +368,87 @@ namespace System.Windows.Forms
 				return rows.ToArray();
 			}
 		}
+		
 		public object SelectedItem
 		{
 			get{return SelectedItems.FirstOrDefault();}	
 		}
+		*/
 		
-		public  int SelectedIndex {
-			get {
-				if(!FormattingEnabled && tableView.SelectedRow == -1)
-					return 0;
-				return tableView.SelectedRow;
+		[Bindable(true)]
+		[Browsable (false)]
+		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
+		public override int SelectedIndex {
+			get { 
+				if (selected_indices == null)
+					return -1;
+					
+				return selected_indices.Count > 0 ? selected_indices [0] : -1;
+			}
+			set {
+				if (value < -1 || value >= Items.Count)
+					throw new ArgumentOutOfRangeException ("Index of out range");
+
+				if (SelectionMode == SelectionMode.None)
+					throw new ArgumentException ("cannot call this method if SelectionMode is SelectionMode.None");
+
+				if (value == -1)
+					selected_indices.Clear ();
+				else
+				{
+					selected_indices.Add (value);
+					switch( SelectionMode)
+					{
+					case System.Windows.Forms.SelectionMode.One:
+						if(tableView.SelectedRow != value)
+							tableView.SelectRow(value,false);
+						break;
+					default :
+						tableView.SelectRow(value,true);
+						break;
+					}
+				}
 			}
 		}
+
 		public bool FormattingEnabled {get;set;}
 		
 		public void ClearSelected()
 		{
+			selected_indices.Clear ();
 			tableView.SelectRows(new NSIndexSet(),false);	
 		}
+		
 		
 		private void refresh()
 		{
 			if(!layoutSuspened && tableView != null)
+			{
 				this.tableView.ReloadData();
+			}
 		}
-		public void CollectionChanged()
+		
+
+		internal virtual void CollectionChanged ()
 		{
+			if (sorted) 
+				Sort (false);
+			
+			if(Items == null)
+				return;
+			if (Items.Count == 0) {
+				selected_indices.List.Clear ();
+				focused_item = -1;
+				top_index = 0;
+			}
+			if (Items.Count <= focused_item)
+				focused_item = Items.Count - 1;
+			if (!IsHandleCreated || suspend_layout)
+				return;
+			tableView.DataSource = new ListboxDataSource(this,Items);
+			LayoutListBox ();
 			refresh();
+			base.Refresh ();
 		}
 		
 		
@@ -206,6 +476,11 @@ namespace System.Windows.Forms
 				lbox = listBox;
 				dataArray = new ObjectCollection(listBox, new object[]{});
 			}
+			public ListboxDataSource(ListBox listBox , ObjectCollection Items)
+			{
+				lbox = listBox;
+				dataArray = Items;
+			}
 			private NSString returnString;
 			public override NSObject GetObjectValue (NSTableView tableView, NSTableColumn tableColumn, int row)
 			{
@@ -230,6 +505,7 @@ namespace System.Windows.Forms
 		
 		
 		//[ListBindable (false)]
+		/*
 		public class ObjectCollection : IList, ICollection, IEnumerable
 		{
 			internal class ListObjectComparer : IComparer
@@ -475,6 +751,7 @@ namespace System.Windows.Forms
 
 			#endregion Private Methods
 		}
+		*/
 		
 		
 	}

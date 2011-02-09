@@ -7,6 +7,10 @@ namespace System.Windows.Forms
 		{
 			return instring;	
 		}
+		public static string GetText(string inString, params object[] strings)
+		{
+			return String.Format(inString,strings);
+		}
 	}
 }
 

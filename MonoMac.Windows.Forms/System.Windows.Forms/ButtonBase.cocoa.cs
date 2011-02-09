@@ -22,10 +22,6 @@ namespace System.Windows.Forms
 		#region Public Constructors
 		protected ButtonBase() : base()
 		{
-			m_helper = new ButtonHelper();
-			m_helper.Host = this;
-			
-			
 			text_format	= new StringFormat();
 			text_format.Alignment = StringAlignment.Center;
 			text_format.LineAlignment = StringAlignment.Center;
@@ -43,6 +39,11 @@ namespace System.Windows.Forms
 				ControlStyles.CacheText |
 				ControlStyles.OptimizedDoubleBuffer, true);
 			SetStyle (ControlStyles.StandardClick, false);
+		}
+		internal override void CreateHelper()
+		{
+			m_helper = new ButtonHelper();
+			m_helper.Host = this;
 		}
 		#endregion	// Public Constructors
 		

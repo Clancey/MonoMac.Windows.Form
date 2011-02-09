@@ -16,6 +16,10 @@ namespace System.Windows.Forms
 			dialog_result = DialogResult.None;
 			SetStyle (ControlStyles.StandardDoubleClick, false);
 			
+		}
+		
+		internal override void CreateHelper ()
+		{
 			m_helper = new ButtonHelper();
 			m_helper.Host = this;
 			m_helper.BezelStyle = NSBezelStyle.Rounded;
@@ -24,6 +28,7 @@ namespace System.Windows.Forms
 					OnClick(e);
 			};
 			m_helper.Frame = new System.Drawing.RectangleF (0, 0, 100, 25);
+			m_helper.ScaleUnitSquareToSize(Util.ScaleSize);
 		}
 		#endregion	// Public Constructors
 		
