@@ -1,6 +1,7 @@
 using System;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
+
 namespace System.Windows.Forms
 {
 	[MonoMac.Foundation.Register("Form")]
@@ -34,16 +35,24 @@ namespace System.Windows.Forms
 
 		public static void Run (NSWindow mainForm)
 		{
-			NSApplication.Init ();
-			NSApplication.InitDrawingBridge();
+			MonoMacInit();
 			NSApplication.Main (new string[]{});
 		}
 		
 		public static void Run (ApplicationContext context)
 		{
-			NSApplication.Init ();
-			NSApplication.InitDrawingBridge();
+			MonoMacInit();
 			NSApplication.Main (new string[]{});
+		}
+		
+		/// <summary>
+		/// Initialize MonoMac. Use instead of the above functions when running
+		/// in an embedded environment.
+		/// </summary>
+		internal static void MonoMacInit()
+		{
+			NSApplication.Init();
+			NSApplication.InitDrawingBridge();
 		}
 	}
 }
