@@ -256,6 +256,9 @@
     <Compile Include="System.Windows.Forms\ListControl.cocoa.cs" />
     <Compile Include="System.Windows.Forms\ComboBox.cs" />
     <Compile Include="CocoaHelpers\ComboBoxHelper.cs" />
+    <Compile Include="System.Windows.Forms\MessageBox.cs" />
+    <Compile Include="System.Windows.Forms\MessageBoxOptions.cs" />
+    <Compile Include="System.Windows.Forms\HelpNavigator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />
