@@ -68,6 +68,6 @@ Global
 		{9065F419-62B4-4600-B0DF-E6791F7AEE5A} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = TestLoad\TestLoad.csproj
+		StartupItem = RhinoTester\RhinoTester.csproj
 	EndGlobalSection
 EndGlobal

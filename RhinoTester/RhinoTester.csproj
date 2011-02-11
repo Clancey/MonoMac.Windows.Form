@@ -51,7 +51,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\MonoMac.dll</HintPath>
     </Reference>
-    <Reference Include="RhinoCommon, Version=5.0.15005.0, Culture=neutral, PublicKeyToken=552281e97c755530">
+    <Reference Include="RhinoCommon, Version=5.0.15006.0, Culture=neutral, PublicKeyToken=552281e97c755530">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>RhinoCommon.dll</HintPath>
     </Reference>

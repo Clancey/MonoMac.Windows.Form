@@ -16,8 +16,7 @@ using System.Linq;
 namespace System.Windows.Forms
 {
 
-	public partial class Control: Component, ISynchronizeInvoke, IWin32Window
-		, IBindableComponent, IDropTarget, IBounds
+	public partial class Control
 	{
 		internal virtual NSView c_helper { get; set; }
 		#region constructors
