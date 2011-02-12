@@ -430,6 +430,16 @@ namespace System.Windows.Forms {
 			auto_scale_pending = false;
 
 			SizeF factor = AutoScaleFactor;
+			
+			
+			// 11 Feb 2011 S. Baer
+			// TODO: Fix autoscaling. This is messing up the layout with MonoMac
+			// Just set AutoScaleFactor to always 1,1 to eliminate any scaling
+			// Remove the following line to debug and track down what is going wrong
+			factor = new SizeF(1F,1F);
+			
+			
+			
 			if (AutoScaleMode == AutoScaleMode.Inherit) {
 				ContainerControl cc = FindContainer (this.Parent);
 				if (cc != null)

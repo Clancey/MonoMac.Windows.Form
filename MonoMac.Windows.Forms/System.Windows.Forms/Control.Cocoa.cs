@@ -75,9 +75,26 @@ namespace System.Windows.Forms
 			child_controls = CreateControlsInstance();
 			
 			bounds = new Rectangle(Point.Empty,DefaultSize);
-			client_rect = new Rectangle (Point.Empty, client_size);
 			explicit_bounds = bounds;
 		}
+		
+		#region Public Static Properties
+				
+		public static Color DefaultBackColor {
+			get { return Color.Empty; }
+		}
+		
+		public static Color DefaultForeColor {
+			get{return Color.Empty;}	
+		}
+		
+		public static Font DefaultFont{
+			get{ return new Font("Arial",10f,GraphicsUnit.Pixel);}
+		}
+		#endregion
+		
+
+		
 		internal virtual void CreateHelper()
 		{
 			if(c_helper == null)
@@ -587,7 +604,10 @@ namespace System.Windows.Forms
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Rectangle ClientRectangle {
-			get { return Rectangle.Round (c_helper.Frame); }
+			get {
+				// client rectangle is in client coordinate system
+				return Rectangle.Round(c_helper.Bounds);
+			}
 		}
 
 		internal virtual Size clientSize {
@@ -599,7 +619,8 @@ namespace System.Windows.Forms
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Size ClientSize {
-			get { return clientSize; }
+			get {
+				return clientSize;}
 			set { 
 				clientSize = value; 
 				this.OnClientSizeChanged (EventArgs.Empty);
@@ -629,18 +650,6 @@ namespace System.Windows.Forms
 			get { return controls; }
 		}
 
-		public static Color DefaultBackColor {
-			get { return Color.Empty; }
-		}
-		
-		public static Color DefaultForeColor {
-			get{return Color.Empty;}	
-		}
-		
-		public static Font DefaultFont{
-			get{ return new Font("Arial",10f,GraphicsUnit.Pixel);}
-		}
-		
 		
 		internal bool has_focus {
 			get { 

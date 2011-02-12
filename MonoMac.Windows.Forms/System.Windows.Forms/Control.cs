@@ -61,6 +61,8 @@ namespace System.Windows.Forms
 	{
 		#region Local Variables
 
+		static bool m_unused_CheckForIllegalCrossThreadCalls; // false initialized by runtime
+
 		// Basic
 		Rectangle               explicit_bounds; // explicitly set bounds
 		string                  name; // for object naming
@@ -74,7 +76,7 @@ namespace System.Windows.Forms
 		bool                    is_disposed; // has the window already been disposed?
 		bool                    is_disposing; // is the window getting disposed?
 		Size                    client_size; // size of the client area (window excluding decorations)
-		Rectangle               client_rect; // rectangle with the client area (window excluding decorations)
+
 		ImeMode                 ime_mode;
 		object                  control_tag; // object that contains data about our control
 		internal int			mouse_clicks;		// Counter for mouse clicks
@@ -110,7 +112,6 @@ namespace System.Windows.Forms
 
 		// double buffering
 
-		static bool verify_thread_handle;
 		Size maximum_size;
 		Size minimum_size;
 		Padding margin;
@@ -189,8 +190,6 @@ namespace System.Windows.Forms
 			get { return layout_type; }
 		}
 		
-		
-		internal Size InternalClientSize { set { this.client_size = value; } }
 		internal virtual bool ActivateOnShow { get { return true; } }
 		internal Rectangle ExplicitBounds { get { return this.explicit_bounds; } set { this.explicit_bounds = value; } }
 
@@ -545,7 +544,7 @@ namespace System.Windows.Forms
 		#endregion	// Private & Internal Methods
 
 		#region Public Static Properties
-		
+
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
 		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
 		[Browsable (false)]
@@ -553,16 +552,36 @@ namespace System.Windows.Forms
 		public static bool CheckForIllegalCrossThreadCalls 
 		{
 			get {
-				return verify_thread_handle;
+				return m_unused_CheckForIllegalCrossThreadCalls;
 			}
 
 			set {
-				verify_thread_handle = value;
+				m_unused_CheckForIllegalCrossThreadCalls = value;
 			}
 		}
+		
+		// Located in Control.Cocoa.cs
+		// public static Color DefaultBackColor{get;}
+		// public static Font DefaultFont{get;}
+		// public static Color DefaultForeColor{ get; }
+		
+		// Missing:
+		// public static Keys ModifierKeys{ get; }
+		// public static MouseButtons MouseButtons{ get; }
+		// public static Point MousePosition{ get; }
+		// protectect static ImeMode PropagatingImeMode{ get; private set; }
+		
 		#endregion	// Public Static Properties
 
+
 		#region Public Instance Properties
+		// Missing:
+		// public System.Windows.Forms.AccessibleObject AccessibilityObject {get;}
+		// public string AccessibleDefaultActionDescription {set;get;}
+		// public string AccessibleName {set;get;}
+		// public System.Windows.Forms.AccessibleRole AccessibleRole {set; get;}
+		// public virtual bool AllowDrop {set; get;}
+		
 
 		[Localizable(true)]
 		[RefreshProperties(RefreshProperties.Repaint)]
@@ -629,6 +648,9 @@ namespace System.Windows.Forms
 				}
 			}
 		}
+		
+		// see Control.cocoa.cs
+		// public Rectangle ClientRectangle {get;}
 		
 		[AmbientValue ("{Width=0, Height=0}")]
 		[MWFCategory("Layout")]
@@ -1740,8 +1762,10 @@ namespace System.Windows.Forms
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		public void PerformLayout(Control affectedControl, string affectedProperty) {
 			LayoutEventArgs levent = new LayoutEventArgs(affectedControl, affectedProperty);
-
-			foreach (Control c in Controls.GetAllControls ())
+			
+			Control[] ctrls = Controls.GetAllControls();
+			
+			foreach (Control c in ctrls)
 				if (c.recalculate_distances)
 					c.UpdateDistances ();
 
@@ -1821,6 +1845,7 @@ namespace System.Windows.Forms
 		}
 
 		public void ResumeLayout(bool performLayout) {
+			
 			if (layout_suspended > 0) {
 				layout_suspended--;
 			}

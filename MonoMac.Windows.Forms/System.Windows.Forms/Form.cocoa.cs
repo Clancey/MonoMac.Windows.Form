@@ -81,30 +81,45 @@ namespace System.Windows.Forms
 				hasLoaded = true;
 			}
 		}
-		
-		
-		
+				
 		public override void MouseMoved (NSEvent theEvent)
 		{
 			this.ContentView.MouseMoved(theEvent);
 			base.MouseMoved (theEvent);
 		}
 		
+		public Rectangle GetClientRectangle()
+		{
+			return Rectangle.Round(GetClientRectangleF());
+		}
+		public RectangleF GetClientRectangleF()
+		{
+			return ContentView.Bounds;
+		}
+
+		public void SetWindowStyle( bool WS_CAPTION, bool WS_MAXIMIZEBOX, bool WS_MINIMIZEBOX )
+		{
+			NSWindowStyle mask = NSWindowStyle.Closable;
+			if( WS_CAPTION )
+				mask |= NSWindowStyle.Titled;
+			if( WS_MAXIMIZEBOX )
+				mask |= NSWindowStyle.Resizable;
+			if( WS_MINIMIZEBOX )
+				mask |= NSWindowStyle.Miniaturizable;
+			this.StyleMask = mask;
+		}
 	}
 
-	//[MonoMac.Foundation.Register("Form")]
 	public partial class Form : ContainerControl
 	{
-		//: NSWindow
 		internal FormHelper m_helper;
-		private bool maximizeBox = true;
-		private bool minimizeBox = true;
+
 		//: base(new RectangleF (50, 50, 400, 400), (NSWindowStyle)(1 | (1 << 1) | (1 << 2) | (1 << 3)), NSBackingStore.Buffered, false)
 		public Form ()
 		{
-			setStyle ();
-			//this.StandardWindowButton().Image
+			m_helper.SetWindowStyle(true, true, true);
 		}
+
 		internal override void CreateHelper ()
 		{
 			m_helper = new FormHelper (this, new RectangleF (50, 50, 400, 400), (NSWindowStyle)(1 | (1 << 1) | (1 << 2) | (1 << 3)), NSBackingStore.Buffered, false);
@@ -145,26 +160,26 @@ namespace System.Windows.Forms
 		
 		
 		public bool MaximizeBox {
-			get { return maximizeBox; }
+			get {
+				return (m_helper.StyleMask & NSWindowStyle.Resizable) == NSWindowStyle.Resizable;
+			}
 			set {
-				maximizeBox = value;
-				setStyle ();
+				if(value)
+					m_helper.StyleMask |= NSWindowStyle.Resizable;
+				else
+					m_helper.StyleMask &= ~NSWindowStyle.Resizable;
 			}
 		}
 		public bool MinimizeBox {
-			get { return minimizeBox; }
-			set {
-				minimizeBox = value;
-				setStyle ();
+			get {
+				return (m_helper.StyleMask & NSWindowStyle.Miniaturizable) == NSWindowStyle.Miniaturizable;
 			}
-		}
-		private void setStyle ()
-		{
-			// 1 = NSWindowStyle.Titled
-			// 1 << 1 = NSWindowStyle.Closable;
-			// 4 = NSWindowStyle.Miniaturizable;
-			// 8 = NSWindowStyle.Resizable;
-			m_helper.StyleMask = (NSWindowStyle)(1 | (1 << 1) | (minimizeBox ? 4 : 1) | (maximizeBox ? 8 : 1));
+			set {
+				if(value)
+					m_helper.StyleMask |= NSWindowStyle.Miniaturizable;
+				else
+					m_helper.StyleMask &= ~NSWindowStyle.Miniaturizable;
+			}
 		}
 		public void Show ()
 		{
@@ -186,9 +201,6 @@ namespace System.Windows.Forms
 			get { return m_helper.ContentView; }
 		}
 
-		public Rectangle ClientRectangle {
-			get { return Rectangle.Round (m_helper.ContentView.Frame); }
-		}
 		public DialogResult ShowDialog (IWin32Window parent)
 		{
 			return ShowDialog ();
@@ -280,10 +292,10 @@ namespace System.Windows.Forms
 		*/
 		internal override Size clientSize {
 			get {
-				return Size.Round(m_helper.ContentView.Frame.Size);
+				return m_helper.GetClientRectangle().Size;
 			}
 			set {
-				m_helper.SetFrame(new RectangleF(m_helper.Frame.Location,value),true);
+				m_helper.SetContentSize(new SizeF(value));
 			}
 		}
 

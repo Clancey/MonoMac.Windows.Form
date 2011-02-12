@@ -22,8 +22,8 @@ namespace RhinoTester
 			this.ClientSize = new Size(500,400);
 			int i=0;
 			AddTest(i++, "ShowMessageBox - works", ShowMessageBox);
-			AddTest(i++, "ShowEditBox", ShowEditBox);
-			AddTest(i++, "ShowNumberBox", ShowNumberBox);
+			AddTest(i++, "ShowEditBox - label rect wrong", ShowEditBox);
+			AddTest(i++, "ShowNumberBox - label rect wrong", ShowNumberBox);
 			AddTest(i++, "ShowListBox", ShowListBox);
 			AddTest(i++, "ShowComboListBox", ShowComboListBox);
 			// Not really important, we have this wrapped by other means
@@ -35,7 +35,7 @@ namespace RhinoTester
 			Button button = new Button();
 			button.Location = new Point(10,i*25+10);
 			button.Size = new Size(200,23);
-			button.Text = string.Format("{0}. {1}",i+1, text);
+			button.Text = text;
 			button.Click += click_event;
 			this.Controls.Add(button);
 		}
@@ -63,7 +63,13 @@ namespace RhinoTester
 		}
 		void ShowMessageBox(object sender, EventArgs e)
 		{
-			Dialogs.ShowMessageBox("message", "title");
+			Rectangle[] rects = Dialogs.StringBoxRects();
+			string s = "";
+			for( int i=0; i<rects.Length; i++ )
+			{
+				s += string.Format("{0}\n",rects[i]);
+			}
+			Dialogs.ShowMessageBox(s, "String Box Rects");
 		}
 		void ShowNumberBox(object sender, EventArgs e)
 		{
