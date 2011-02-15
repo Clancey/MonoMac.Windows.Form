@@ -259,6 +259,13 @@
     <Compile Include="System.Windows.Forms\MessageBox.cs" />
     <Compile Include="System.Windows.Forms\MessageBoxOptions.cs" />
     <Compile Include="System.Windows.Forms\HelpNavigator.cs" />
+    <Compile Include="System.Windows.Forms\Clipboard.cs" />
+    <Compile Include="System.Windows.Forms\Screen.cs" />
+    <Compile Include="System.Windows.Forms\ScreenOrientation.cs" />
+    <Compile Include="System.Windows.Forms\FolderBrowserDialog.cs" />
+    <Compile Include="System.Windows.Forms\TreeNodeConverter.cs" />
+    <Compile Include="System.Windows.Forms\TreeNodeStates.cs" />
+    <Compile Include="System.Windows.Forms\TextDataFormat.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />
