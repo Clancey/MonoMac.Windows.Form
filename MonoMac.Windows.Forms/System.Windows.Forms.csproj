@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>NET_2_0</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -320,9 +321,6 @@
       <Visible>False</Visible>
     </None>
     <None Include="System.Windows.Forms.Layout\TableLayoutSettingsTypeConverter.cs">
-      <Visible>False</Visible>
-    </None>
-    <None Include="System.Windows.Forms\Control.Cocoa.cs">
       <Visible>False</Visible>
     </None>
   </ItemGroup>
