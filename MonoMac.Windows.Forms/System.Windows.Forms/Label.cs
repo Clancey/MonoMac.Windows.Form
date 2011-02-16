@@ -575,16 +575,6 @@ namespace System.Windows.Forms
 
 		#region Private Methods
 
-		private void CalcAutoSize ()
-		{
-			if (!AutoSize)
-				return;
-
-			Size s = InternalGetPreferredSize (Size.Empty);
-			
-			SetBounds (Left, Top, s.Width, s.Height, BoundsSpecified.Size);
-		}
-
 		private void OnHandleCreatedLB (Object o, EventArgs e)
 		{
 			if (autosize)

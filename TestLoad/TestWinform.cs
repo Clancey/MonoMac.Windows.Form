@@ -116,6 +116,7 @@ class MyForm : Form
 		this.label1.Size = new Size(100,25);
 		this.label1.Location = new Point(78,250);
 		this.label1.Text = "Label!";
+		
 		// 
 		// Form1
 		// 

@@ -22,8 +22,8 @@ namespace RhinoTester
 			this.ClientSize = new Size(500,400);
 			int i=0;
 			AddTest(i++, "ShowMessageBox - works", ShowMessageBox);
-			AddTest(i++, "ShowEditBox - label rect wrong", ShowEditBox);
-			AddTest(i++, "ShowNumberBox - label rect wrong", ShowNumberBox);
+			AddTest(i++, "ShowEditBox - works", ShowEditBox);
+			AddTest(i++, "ShowNumberBox - works", ShowNumberBox);
 			AddTest(i++, "ShowListBox", ShowListBox);
 			AddTest(i++, "ShowComboListBox", ShowComboListBox);
 			// Not really important, we have this wrapped by other means
@@ -43,9 +43,9 @@ namespace RhinoTester
 		void ShowEditBox(object sender, EventArgs e)
 		{
 			string returnString;
-			Dialogs.ShowEditBox("Title", "Message", "Default Text", false, out returnString);
-			if( !string.IsNullOrEmpty(returnString) )
-				MessageBox.Show(returnString,"SUCCESS");
+			var dr = Dialogs.ShowEditBox("Title", "Message", "Default Text", false, out returnString);
+			//if( !string.IsNullOrEmpty(returnString) )
+			MessageBox.Show(returnString,"Dialog Result : " +  dr.ToString());
 		}
 		
 		void ShowComboListBox(object sender, EventArgs e)

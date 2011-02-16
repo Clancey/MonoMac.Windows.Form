@@ -205,7 +205,19 @@ namespace System.Windows.Forms
 		{
 			base.OnPaint(e);
 		}
+		
+		
 		#endregion
+		
+		
+
+		private void CalcAutoSize ()
+		{
+			
+			m_helper.TextContainerInset = new SizeF(5f,5f);
+			m_helper.AutoresizingMask = (NSViewResizingMask.HeightSizable | NSViewResizingMask.WidthSizable );
+			m_helper.TextContainer.ContainerSize = new SizeF(float.MaxValue,float.MaxValue);
+		}
 	}
 }
 

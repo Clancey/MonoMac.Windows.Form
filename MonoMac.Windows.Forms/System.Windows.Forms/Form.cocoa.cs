@@ -215,7 +215,7 @@ namespace System.Windows.Forms
 			NSApplication.SharedApplication.EndSheet (m_helper);
 			m_helper.OrderOut (m_helper);
 			//NSApplication.SharedApplication.BeginSheet(this,NSApplication.SharedApplication.MainWindow);
-			return DialogResult.OK;
+			return this.DialogResult;
 		}
 		/// <summary>
 		/// Drawing stuff
