@@ -13,15 +13,8 @@ namespace System.Windows.Forms
 	public partial class ListBox : ListControl//: ListBoxMouseView
 	{
 		internal ListBoxMouseView m_helper;
-		internal override NSView c_helper {
-			get {
-				return m_helper;
-			}
-			set {
-				m_helper = value as ListBoxMouseView;
-			}
-		}
-		internal TableViewHelper tableView;
+
+    internal TableViewHelper tableView;
 		public NSTableColumn column;
 		private bool layoutSuspened;
 		public NSString colString = new NSString("ListBox");
@@ -52,9 +45,10 @@ namespace System.Windows.Forms
 			custom_tab_offsets = new IntegerCollection (this);
 #endif
 		}
-		internal override void CreateHelper ()
+		protected override void CreateHandle ()
 		{
 			m_helper = new ListBoxMouseView();
+      m_view = m_helper;
 			m_helper.Host = this;
 			_dataSource = new ListboxDataSource(this);
 			SetupTable();
@@ -68,7 +62,7 @@ namespace System.Windows.Forms
 		
 		public static implicit operator NSView(ListBox lb)
 		{
-			return lb.c_helper;
+			return lb.NSViewForControl;
 		}
 
 		public virtual void SetupTable()

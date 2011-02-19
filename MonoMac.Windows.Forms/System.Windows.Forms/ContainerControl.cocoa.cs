@@ -12,14 +12,6 @@ namespace System.Windows.Forms
 	public partial class ContainerControl
 	{
 		internal NSControl m_helper;
-		internal override NSView c_helper {
-			get {
-				return m_helper;
-			}
-			set {
-				m_helper = value as NSControl;
-			}
-		}
 		[Browsable (false)]
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
 		public SizeF CurrentAutoScaleDimensions {
@@ -47,7 +39,7 @@ namespace System.Windows.Forms
 		internal void SendControlFocus (Control c)
 		{
 			if (c.IsHandleCreated) {
-				c.c_helper.BecomeFirstResponder();
+				c.NSViewForControl.BecomeFirstResponder();
 			}
 		}
 		/// 

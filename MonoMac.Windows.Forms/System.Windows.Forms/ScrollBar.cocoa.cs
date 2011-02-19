@@ -5,17 +5,7 @@ namespace System.Windows.Forms
 	public partial class ScrollBar : Control
 	{
 		internal NSScroller m_helper {get;set;}
-		
-		internal override NSView c_helper {
-			get {
-				return m_helper;
-			}
-			set {
-				m_helper = (NSScroller)value;
-			}
-		}
-		
-		
+				
 		public ScrollBar ()
 		{
 			position = 0;

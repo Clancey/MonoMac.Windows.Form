@@ -7,21 +7,19 @@ namespace System.Windows.Forms
 	public partial class ScrollableControl
 	{	
 		internal NSScrollView  m_helper;
-		internal override NSView c_helper {
-			get {
-				return m_helper;
-			}
-			set {
-				m_helper = value as NSScrollView;
-			}
-		}
 		
 		private void Recalculate (bool doLayout) {
 		//TODO: make work
 		}
 		
+    protected override void CreateHandle()
+    {
+      m_helper = new NSScrollView();
+      if( m_view==null )
+        m_view = m_helper;
+    }
+    
 		public ScrollableControl() {
-			m_helper = new NSScrollView();
 			SetStyle(ControlStyles.ContainerControl, true);
 			SetStyle(ControlStyles.AllPaintingInWmPaint, false);
 

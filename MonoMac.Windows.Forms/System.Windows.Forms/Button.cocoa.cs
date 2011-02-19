@@ -13,14 +13,13 @@ namespace System.Windows.Forms
 		#region Public Constructors
 		public Button () : base ()
 		{
-			dialog_result = DialogResult.None;
-			SetStyle (ControlStyles.StandardDoubleClick, false);
-			
+			SetStyle (ControlStyles.StandardDoubleClick, false);			
 		}
 		
-		internal override void CreateHelper ()
+		protected override void CreateHandle ()
 		{
 			m_helper = new ButtonHelper();
+      m_view = m_helper;
 			m_helper.Host = this;
 			m_helper.BezelStyle = NSBezelStyle.Rounded;
 			

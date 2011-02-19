@@ -323,5 +323,11 @@
     <None Include="System.Windows.Forms.Layout\TableLayoutSettingsTypeConverter.cs">
       <Visible>False</Visible>
     </None>
+    <None Include="System.Windows.Forms\Control.Cocoa.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="obj\Release\System.Windows.Forms.csproj.FilesWrittenAbsolute.txt">
+      <Visible>False</Visible>
+    </None>
   </ItemGroup>
 </Project>

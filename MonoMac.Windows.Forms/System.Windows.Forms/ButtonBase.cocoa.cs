@@ -9,14 +9,6 @@ namespace System.Windows.Forms
 	public abstract partial class ButtonBase
 	{
 		internal ButtonHelper m_helper;
-		internal override  NSView c_helper {
-			get {
-				return m_helper;
-			}
-			set {
-				m_helper = value as ButtonHelper;
-			}
-		}
 		
 		
 		#region Public Constructors
@@ -40,9 +32,10 @@ namespace System.Windows.Forms
 				ControlStyles.OptimizedDoubleBuffer, true);
 			SetStyle (ControlStyles.StandardClick, false);
 		}
-		internal override void CreateHelper()
+		protected override void CreateHandle()
 		{
-			m_helper = new ButtonHelper();
+      m_helper = new ButtonHelper();
+			m_view = m_helper;
 			m_helper.Host = this;
 		}
 		#endregion	// Public Constructors

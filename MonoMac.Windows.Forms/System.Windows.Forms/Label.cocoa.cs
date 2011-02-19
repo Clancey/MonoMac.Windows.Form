@@ -28,21 +28,12 @@ namespace System.Windows.Forms
 		}
 		*/
 		
-		
 		internal TextBoxMouseView m_helper;
-		
-		internal override NSView c_helper {
-			get {
-				return m_helper;
-			}
-			set {
-				m_helper = (TextBoxMouseView)value;
-			}
-		}
-		
-		internal override void CreateHelper ()
-		{			
-			m_helper =  new TextBoxMouseView();
+				
+		protected override void CreateHandle ()
+		{
+      m_helper = new TextBoxMouseView();
+			m_view = m_helper;
 			m_helper.Host = this;
 			m_helper.Editable = false;
 			//m_helper.viewDidMoveToSuperview += delegate(object sender, EventArgs e) {
