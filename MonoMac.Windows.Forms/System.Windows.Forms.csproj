@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\MonoMac\src\MonoMac.dll</HintPath>
+      <HintPath>..\References\MonoMac.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
