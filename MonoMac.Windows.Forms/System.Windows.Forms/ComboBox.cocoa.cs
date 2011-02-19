@@ -36,7 +36,7 @@ namespace System.Windows.Forms
 			m_view = m_helper;
 			m_helper.Host = this;
 			m_helper.Activated += delegate(object sender, EventArgs e) {
-				//TODO: implemetn ListControl
+				//TODO: implement ListControl
 				//if(SelectedValueChanged != null)
 					SelectedValueChanged(sender,e);
 				//OnSelectedIndexChanged(e);

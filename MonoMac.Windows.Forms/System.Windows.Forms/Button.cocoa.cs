@@ -6,11 +6,9 @@ using System.Drawing;
 using System.Collections.Generic;
 namespace System.Windows.Forms
 {
-	
-	[MonoMac.Foundation.Register("Button")]
 	public partial class Button 
 	{
-		#region Public Constructors
+ 		#region Public Constructors
 		public Button () : base ()
 		{
 			SetStyle (ControlStyles.StandardDoubleClick, false);			
@@ -18,16 +16,16 @@ namespace System.Windows.Forms
 		
 		protected override void CreateHandle ()
 		{
-			m_helper = new ButtonHelper();
-      m_view = m_helper;
-			m_helper.Host = this;
-			m_helper.BezelStyle = NSBezelStyle.Rounded;
+			ButtonHelper helper = new ButtonHelper();
+      m_view = helper;
+			helper.Host = this;
+			helper.BezelStyle = NSBezelStyle.Rounded;
 			
-			m_helper.Activated += delegate(object sender, EventArgs e) {
+			helper.Activated += delegate(object sender, EventArgs e) {
 					OnClick(e);
 			};
-			m_helper.Frame = new System.Drawing.RectangleF (0, 0, 100, 25);
-			m_helper.ScaleUnitSquareToSize(Util.ScaleSize);
+			helper.Frame = new System.Drawing.RectangleF (0, 0, 100, 25);
+			helper.ScaleUnitSquareToSize(Util.ScaleSize);
 		}
 		#endregion	// Public Constructors
 		
@@ -35,8 +33,18 @@ namespace System.Windows.Forms
 		public bool UseVisualStyleBackColor {get;set;}
 
 		public Color BackColor {
-			get {return m_helper.Cell.BackgroundColor.ToColor();	}
-			set { m_helper.Cell.BackgroundColor = value.ToNSColor();}
+			get {
+        ButtonHelper bh = m_view as ButtonHelper;
+        if( bh != null )
+          return bh.Cell.BackgroundColor.ToColor();
+        return background_color;
+      }
+			set {
+        ButtonHelper bh = m_view as ButtonHelper;
+        if( bh != null )
+          bh.Cell.BackgroundColor = value.ToNSColor();
+        background_color = value;
+      }
 		}
 		
 		/*
@@ -57,12 +65,19 @@ namespace System.Windows.Forms
 		public bool AutoSize{get{ return autoSize;}set {autoSize = value; resize();}}
 		internal override bool enabled
 		{
-			get{ return m_helper.Enabled;}
-			set{ m_helper.Enabled = value;
-				base.enabled = value;
+			get{
+        ButtonHelper bh = m_view as ButtonHelper;
+        if( bh != null )
+          enabled = bh.Enabled;
+        return enabled;
+      }
+			set{
+        enabled = value;
+        ButtonHelper bh = m_view as ButtonHelper;
+        if( bh != null )
+          bh.Enabled = value;
 			}
 		}
-
 	}
 }
 

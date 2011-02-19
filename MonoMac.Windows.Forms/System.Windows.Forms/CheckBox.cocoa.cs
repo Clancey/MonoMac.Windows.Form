@@ -7,7 +7,6 @@ namespace System.Windows.Forms
 {
 	public partial class CheckBox 
 	{
-		
 		#region Public Constructors
 		public CheckBox() {
 			appearance = Appearance.Normal;
@@ -16,8 +15,14 @@ namespace System.Windows.Forms
 			TextAlign = ContentAlignment.MiddleLeft;
 			SetStyle(ControlStyles.StandardDoubleClick, false);
 			SetAutoSizeMode (AutoSizeMode.GrowAndShrink);			
-			m_helper.SetButtonType(NSButtonType.Switch);
 		}
+    
+    protected override void CreateHandle()
+    {
+      ButtonHelper bh = new ButtonHelper();
+      m_view = bh;
+      bh.SetButtonType(NSButtonType.Switch);
+    }
 		#endregion	// Public Constructors
 	
 		
@@ -44,12 +49,16 @@ namespace System.Windows.Forms
 			}
 		}
 		
+    CheckState _checkstate = CheckState.Unchecked;
 		[DefaultValue(CheckState.Unchecked)]
 		[RefreshProperties(RefreshProperties.All)]
 		[Bindable(true)]
 		public CheckState CheckState {
 			get {
-				switch (m_helper.State)
+        ButtonHelper bh = m_view as ButtonHelper;
+        if( bh==null )
+          return _checkstate;
+				switch (bh.State)
 				{
 					case NSCellStateValue.On: return CheckState.Checked;
 					case NSCellStateValue.Off : return CheckState.Unchecked;
@@ -59,15 +68,21 @@ namespace System.Windows.Forms
 			}
 
 			set {
+        ButtonHelper bh = m_view as ButtonHelper;
+        if( bh == null )
+        {
+          _checkstate = value;
+          return;
+        }
 				switch(value){
 				case System.Windows.Forms.CheckState.Checked :
-					m_helper.State = NSCellStateValue.On;
+					bh.State = NSCellStateValue.On;
 					break;
 				case System.Windows.Forms.CheckState.Unchecked:
-					m_helper.State = NSCellStateValue.Off;
+					bh.State = NSCellStateValue.Off;
 					break;
 				case System.Windows.Forms.CheckState.Indeterminate : 
-					m_helper.State = NSCellStateValue.Mixed;
+					bh.State = NSCellStateValue.Mixed;
 					break;
 				}
 				if (value != check_state) {
@@ -84,13 +99,21 @@ namespace System.Windows.Forms
 			}
 		}
 		
-		
 		[DefaultValue(false)]
 		public bool ThreeState
 		{
-			get{ return m_helper.AllowsMixedState;}
-			set { m_helper.AllowsMixedState = value;
-				 three_state = value;}
+			get{
+        ButtonHelper bh = m_view as ButtonHelper;
+        if( bh != null )
+          return bh.AllowsMixedState;
+        return three_state;
+      }
+			set {
+        ButtonHelper bh = m_view as ButtonHelper;
+        if( bh != null )
+          bh.AllowsMixedState = value;
+        three_state = value;
+      }
 		}
 	}
 }
