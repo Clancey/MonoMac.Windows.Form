@@ -21,6 +21,7 @@ namespace System.Windows.Forms
     {
       ButtonHelper bh = new ButtonHelper();
       m_view = bh;
+      bh.Host = this;
       bh.SetButtonType(NSButtonType.Switch);
     }
 		#endregion	// Public Constructors
