@@ -32,7 +32,7 @@ namespace System.Windows.Forms
 				
 		protected override void CreateHandle ()
 		{
-      m_helper = new TextBoxMouseView();
+      		m_helper = new TextBoxMouseView();
 			m_view = m_helper;
 			m_helper.Host = this;
 			m_helper.Editable = false;

@@ -16,10 +16,6 @@ namespace System.Windows.Forms
 	public partial class ComboBox : ListControl
 	{
 		internal ComboBoxHelper m_helper;
-		internal override NSView c_helper {
-			get { return m_helper; }
-			set { m_helper = value as ComboBoxHelper; }
-		}
 
 		internal override void DrawItemInternal (DrawItemEventArgs e)
 		{
