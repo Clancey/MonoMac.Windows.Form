@@ -120,23 +120,16 @@ namespace System.Windows.Forms
 			m_helper.SetWindowStyle(true, true, true);
 		}
 
-		internal override void CreateHelper ()
+		protected override void CreateHandle ()
 		{
 			m_helper = new FormHelper (this, new RectangleF (50, 50, 400, 400), (NSWindowStyle)(1 | (1 << 1) | (1 << 2) | (1 << 3)), NSBackingStore.Buffered, false);
 			m_helper.ContentView = new View (this);
+      m_view = m_helper.ContentView;
 			//m_helper.ContentView.ScaleUnitSquareToSize(Util.ScaleSize);
 			m_helper.AcceptsMouseMovedEvents = true;
+      base.CreateHandle();
 		}
-		
-		internal override NSView c_helper {
-			get {
-				return m_helper.ContentView;
-			}
-			set {
-				base.c_helper = value;
-			}
-		}
-		
+				
 		#region Private variables
 		
 		private bool		        autoscale;

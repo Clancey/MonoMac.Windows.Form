@@ -50,7 +50,7 @@ namespace System.Windows.Forms
 
 		public bool Remove (Control item)
 		{
-			item.c_helper.RemoveFromSuperview ();
+			item.NSViewForControl.RemoveFromSuperview ();
 			SetTab ();
 			return true;
 			

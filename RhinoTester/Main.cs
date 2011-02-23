@@ -37,7 +37,7 @@ namespace RhinoTester
 			button.Size = new Size(200,23);
 			button.Text = text;
 			button.Click += click_event;
-			this.Controls.Add(button);
+ 			this.Controls.Add(button);
 		}
 			
 		void ShowEditBox(object sender, EventArgs e)

@@ -14,19 +14,10 @@ namespace System.Windows.Forms
 	{
 		internal TextBoxHelper m_helper;
 		
-		internal override NSView c_helper {
-			get {
-				return m_helper;
-			}
-			set {
-				m_helper = (TextBoxHelper)value;
-			}
-		}
-		
-		
-		internal override void CreateHelper ()
-		{			
-			m_helper =  new TextBoxHelper();
+		protected override void CreateHandle ()
+		{	
+      m_helper = new TextBoxHelper();
+			m_view =  m_helper;
 			m_helper.Host = this;
 			m_helper.TextView.Selectable = true;
 			m_helper.TextView.Editable = true;

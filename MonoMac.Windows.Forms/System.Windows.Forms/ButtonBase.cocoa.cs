@@ -8,17 +8,6 @@ namespace System.Windows.Forms
 {
 	public abstract partial class ButtonBase
 	{
-		internal ButtonHelper m_helper;
-		internal override  NSView c_helper {
-			get {
-				return m_helper;
-			}
-			set {
-				m_helper = value as ButtonHelper;
-			}
-		}
-		
-		
 		#region Public Constructors
 		protected ButtonBase() : base()
 		{
@@ -40,22 +29,33 @@ namespace System.Windows.Forms
 				ControlStyles.OptimizedDoubleBuffer, true);
 			SetStyle (ControlStyles.StandardClick, false);
 		}
-		internal override void CreateHelper()
+
+    protected override void CreateHandle()
 		{
-			m_helper = new ButtonHelper();
-			m_helper.Host = this;
+      if( m_view==null )
+        throw new NotSupportedException("Must implement CreateHandle in derived class");
 		}
+    
 		#endregion	// Public Constructors
 		
-		
+		string _text = string.Empty;
 		[SettingsBindable (true)]
 		[Editor ("System.ComponentModel.Design.MultilineStringEditor, " + Consts.AssemblySystem_Design,
 			 "System.Drawing.Design.UITypeEditor, " + Consts.AssemblySystem_Drawing)]
 		public override string Text {
-			get { return m_helper.Title; }
+			get {
+        ButtonHelper bh = m_view as ButtonHelper;
+        if( bh!=null )
+          return bh.Title;
+        return _text;
+      }
 			set {
-				m_helper.Title = value;
-				resize();
+        _text = value;
+        ButtonHelper bh = m_view as ButtonHelper;
+        if( bh != null ){
+          bh.Title = value;
+          resize();
+        }
 			}
 		}
 		
@@ -141,7 +141,9 @@ namespace System.Windows.Forms
 		{
 			if (!AutoSize)
 				return;
-			m_helper.SizeToFit ();
+      ButtonHelper bh = m_view as ButtonHelper;
+      if( bh != null )
+        bh.SizeToFit();
 		}
 	}
 }

@@ -32,12 +32,13 @@ namespace System.Windows.Forms
 			get { return m_helper.Menu; }
 		}
 
-		internal override void CreateHelper ()
+		protected override void CreateHandle ()
 		{
 			m_helper = new ComboBoxHelper ();
+			m_view = m_helper;
 			m_helper.Host = this;
 			m_helper.Activated += delegate(object sender, EventArgs e) {
-				//TODO: implemetn ListControl
+				//TODO: implement ListControl
 				if (SelectedValueChanged != null)
 					SelectedValueChanged (sender, e);
 				//OnSelectedIndexChanged(e);

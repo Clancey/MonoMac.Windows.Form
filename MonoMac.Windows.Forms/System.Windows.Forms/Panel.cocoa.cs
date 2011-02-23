@@ -8,24 +8,16 @@ namespace System.Windows.Forms
 		//NSView
 	{
 		internal PanelMouseView m_helper;
-		
-		internal override NSView c_helper {
-			get {
-				return m_helper;
-			}
-			set {
-				m_helper = (PanelMouseView)value;
-			}
-		}
-		
+				
 		public Panel ()
 		{
 			BackColor = Color.DarkGray;
 		}
 		internal NSTrackingArea trackingArea;
-		internal override void CreateHelper ()
+		protected override void CreateHandle ()
 		{
 			m_helper = new PanelMouseView();
+      m_view = m_helper;
 			m_helper.Host = this;
 			trackingArea = new NSTrackingArea(m_helper.Frame,(NSTrackingAreaOptions.MouseEnteredAndExited |
 			                                                             NSTrackingAreaOptions.MouseMoved |

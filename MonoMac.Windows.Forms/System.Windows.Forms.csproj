@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>NET_2_0</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -42,7 +43,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\MonoMac\src\MonoMac.dll</HintPath>
+      <HintPath>..\References\MonoMac.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -342,6 +343,9 @@
       <Visible>False</Visible>
     </None>
     <None Include="System.Windows.Forms\Control.Cocoa.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="obj\Release\System.Windows.Forms.csproj.FilesWrittenAbsolute.txt">
       <Visible>False</Visible>
     </None>
   </ItemGroup>

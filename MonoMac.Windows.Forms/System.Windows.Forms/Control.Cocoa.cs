@@ -15,14 +15,19 @@ using System.Linq;
 
 namespace System.Windows.Forms
 {
-
 	public partial class Control
 	{
-		internal virtual NSView c_helper { get; set; }
+    internal NSView m_view;
+		internal NSView NSViewForControl { get {return m_view;} }
+    
+    
 		#region constructors
 		public Control ()
 		{
-			CreateHelper();
+      // We eventually want to create the handle when the form is first shown
+      // or when a control is added to a form that already exists. For now, this
+      // is ok
+			CreateHandle();
 			//c_helper.ScaleUnitSquareToSize(Util.ScaleSize);
 			//(c_helper as IViewHelper).Host = this;
 			MaximumSize = DefaultMaximumSize;
@@ -94,11 +99,9 @@ namespace System.Windows.Forms
 		#endregion
 		
 
-		
-		internal virtual void CreateHelper()
-		{
-			if(c_helper == null)
-				c_helper = new NSView();
+		protected virtual void CreateHandle(){
+      if(m_view == null )
+        m_view = new NSView();
 		}
 		
 		private void initialize ()
@@ -108,7 +111,7 @@ namespace System.Windows.Forms
 
 		public static implicit operator NSView (Control control)
 		{
-			return control.c_helper;
+			return control.NSViewForControl;
 		}
 
 		#endregion
@@ -141,7 +144,7 @@ namespace System.Windows.Forms
 		
 		#region Public Instance Methods	
 		public void BringToFront() {
-				c_helper.BringToFront();
+				NSViewForControl.BringToFront();
 		}
 		
 
@@ -180,7 +183,7 @@ namespace System.Windows.Forms
 		
 		public Graphics CreateGraphics ()
 		{
-			var graphics = Graphics.FromHwnd (c_helper.Handle);
+			var graphics = Graphics.FromHwnd (NSViewForControl.Handle);
 			
 			//graphics.TranslateTransform(Frame.Width / 2,Frame.Height / 2 );
 			//graphics.Transform = new System.Drawing.Drawing2D.Matrix(1,0,0,-1,0,0);
@@ -264,7 +267,7 @@ namespace System.Windows.Forms
 		public Point PointToClient (Point p) {
 			int x = p.X;
 			int y = p.Y;
-			return Point.Round(c_helper.ConvertPointToBase(p));
+			return Point.Round(NSViewForControl.ConvertPointToBase(p));
 		}
 		
 		public Point PointToScreen(Point p) {
@@ -278,7 +281,7 @@ namespace System.Windows.Forms
 		
 		internal virtual void UpdateBounds()
 		{
-			c_helper.Frame = bounds;
+			NSViewForControl.Frame = bounds;
 		}
 		internal virtual void SetBoundsInternal (int x, int y, int width, int height, BoundsSpecified specified)
 		{
@@ -298,12 +301,12 @@ namespace System.Windows.Forms
 		
 		internal virtual void performLayout ()
 		{
-			c_helper.DisplayIfNeeded ();
+			NSViewForControl.DisplayIfNeeded ();
 		}
 		
 		
 		public void Update() {
-			c_helper.SetNeedsDisplayInRect(c_helper.Frame);
+			NSViewForControl.SetNeedsDisplayInRect(NSViewForControl.Frame);
 		}
 		
 		#endregion
@@ -389,9 +392,9 @@ namespace System.Windows.Forms
 			if (frm == null && IsHandleCreated) {
 				IntPtr parent_handle = IntPtr.Zero;
 				if (new_parent != null && new_parent.IsHandleCreated)
-					new_parent.c_helper.AddSubview(this);
+					new_parent.NSViewForControl.AddSubview(this);
 				else
-					this.c_helper.RemoveFromSuperview();
+					this.NSViewForControl.RemoveFromSuperview();
 			}
 			
 			OnParentChanged(EventArgs.Empty);
@@ -474,10 +477,10 @@ namespace System.Windows.Forms
 			if (container != null && (Control)container != control) {
 				container.ActiveControl = control;
 				if (container.ActiveControl == control && !control.Focused && control.IsHandleCreated)
-					control.c_helper.BecomeFirstResponder();
+					control.NSViewForControl.BecomeFirstResponder();
 			}
 			else if (control.IsHandleCreated) {
-				control.c_helper.BecomeFirstResponder();
+				control.NSViewForControl.BecomeFirstResponder();
 			}
 			return true;
 		}
@@ -517,7 +520,7 @@ namespace System.Windows.Forms
 			get {
 				IntPtr focused_window;
 
-				focused_window = c_helper.Window.FirstResponder.Handle;
+				focused_window = NSViewForControl.Window.FirstResponder.Handle;
 				if (IsHandleCreated) {
 					if (focused_window == Handle)
 						return true;
@@ -589,11 +592,11 @@ namespace System.Windows.Forms
 				if (value != is_captured) {
 					if (value) {
 						is_captured = true;
-						c_helper.BecomeFirstResponder();
+						NSViewForControl.BecomeFirstResponder();
 						//XplatUI.GrabWindow(Handle, IntPtr.Zero);
 					} else {
 						if (IsHandleCreated)
-							c_helper.ResignFirstResponder();
+							NSViewForControl.ResignFirstResponder();
 						is_captured = false;
 					}
 				}
@@ -606,7 +609,7 @@ namespace System.Windows.Forms
 		public Rectangle ClientRectangle {
 			get {
 				// client rectangle is in client coordinate system
-				return Rectangle.Round(c_helper.Bounds);
+				return Rectangle.Round(NSViewForControl.Bounds);
 			}
 		}
 
@@ -631,7 +634,7 @@ namespace System.Windows.Forms
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public virtual bool ContainsFocus {
-			get { return c_helper == c_helper.Window.FirstResponder || c_helper.Subviews.Where (x => x == c_helper.Window.FirstResponder).Count () > 0; }
+			get { return NSViewForControl == NSViewForControl.Window.FirstResponder || NSViewForControl.Subviews.Where (x => x == NSViewForControl.Window.FirstResponder).Count () > 0; }
 		}
 
 
@@ -653,11 +656,11 @@ namespace System.Windows.Forms
 		
 		internal bool has_focus {
 			get { 
-				if (c_helper == null)
+				if (NSViewForControl == null)
 					return false;
-				if(c_helper.Window == null)
+				if(NSViewForControl.Window == null)
 					return false;
-				return c_helper == c_helper.Window.FirstResponder; }
+				return NSViewForControl == NSViewForControl.Window.FirstResponder; }
 		}
 		
 		
@@ -719,7 +722,7 @@ namespace System.Windows.Forms
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public virtual IntPtr Handle {
-			get { return c_helper.Handle; }
+			get { return NSViewForControl.Handle; }
 		}
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -728,7 +731,7 @@ namespace System.Windows.Forms
 		public bool IsHandleCreated {
 			get {
 				
-				if (c_helper == null)
+				if (NSViewForControl == null)
 					return false;
 				//else if(c_helper.Window.Handle == IntPtr.Zero)
 				//	return false;
@@ -738,8 +741,8 @@ namespace System.Windows.Forms
 		}
 
 		internal virtual Point location {
-			get { return Point.Round (c_helper.Frame.Location); }
-			set { c_helper.Frame = new RectangleF (value, c_helper.Frame.Size); }
+			get { return Point.Round (NSViewForControl.Frame.Location); }
+			set { NSViewForControl.Frame = new RectangleF (value, NSViewForControl.Frame.Size); }
 		}
 		
 		internal bool is_visible {
@@ -927,7 +930,7 @@ namespace System.Windows.Forms
 
 				NotifyInvalidate(rc);
 				
-				c_helper.SetNeedsDisplayInRect(rc);
+				NSViewForControl.SetNeedsDisplayInRect(rc);
 
 				if (invalidateChildren) {
 					Control [] controls = child_controls.GetAllControls ();
@@ -1015,8 +1018,8 @@ namespace System.Windows.Forms
 		
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected virtual void OnInvalidated(InvalidateEventArgs e) {
-			if(c_helper != null)
-				c_helper.SetNeedsDisplayInRect(e.InvalidRect);
+			if(NSViewForControl != null)
+				NSViewForControl.SetNeedsDisplayInRect(e.InvalidRect);
 
 			InvalidateEventHandler eh = (InvalidateEventHandler)(Events [InvalidatedEvent]);
 			if (eh != null)
@@ -1047,7 +1050,7 @@ namespace System.Windows.Forms
 			PaintEventHandler eh = (PaintEventHandler)(Events [PaintEvent]);
 			if (eh != null)
 				eh (this, e);
-			((IViewHelper)c_helper).shouldDraw = true;
+			((IViewHelper)NSViewForControl).shouldDraw = true;
 		}
 
 		

@@ -36,7 +36,7 @@ namespace System.Windows.Forms {
 		   "System.ComponentModel.Design.IDesigner")]
 	public partial class Button : ButtonBase, IButtonControl {
 		#region Local variables
-		DialogResult	dialog_result;
+		DialogResult	dialog_result = DialogResult.None;
 		#endregion	// Local variables
 
 		#region Public Properties
