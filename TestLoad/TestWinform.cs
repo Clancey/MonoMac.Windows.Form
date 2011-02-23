@@ -35,6 +35,7 @@ class MyForm : Form
 		// 
 		listbox1.Size = new Size(100,75);
 		listbox1.Location = new Point(300,10);		
+		//listbox1.Items.AddRange(new string[]{"string1","string2","string3"});
 		listbox1.DataSource = new List<string> { "test", "test2", "test3", "test4", "test5", "test6", "test7" };
 		listbox1.BackColor = Color.Green;
 		// 
@@ -102,14 +103,18 @@ class MyForm : Form
 		// comboBox1
 		// 
 		this.comboBox1.Location = new System.Drawing.Point (78, 200);
-		this.comboBox1.Size = new System.Drawing.Size (121, 23);
-		this.comboBox1.DataSource = new List<ComboBoxItems>{new ComboBoxItems("test1",1),new ComboBoxItems("test2",2)}; //new List<string> { "test", "test2", "test3" };
-		this.comboBox1.DisplayMember = "Display";
-		this.comboBox1.ValueMember = "Value";
+		this.comboBox1.Size = new System.Drawing.Size(205, 207);
+		//this.comboBox1.DataSource = new List<ComboBoxItems>{new ComboBoxItems("test1",1),new ComboBoxItems("test2",2)}; //new List<string> { "test", "test2", "test3" };
+		this.comboBox1.Items.AddRange(new string[]{"string1","string2","string3"});
+		//this.comboBox1.DisplayMember = "Display";
+		//this.comboBox1.ValueMember = "Value";
 		this.comboBox1.SelectedValueChanged += delegate
 		{
 			textBox2.Text = comboBox1.SelectedValue.ToString();	
 		};
+		
+		
+		
 		///
 		///Label1
 		///

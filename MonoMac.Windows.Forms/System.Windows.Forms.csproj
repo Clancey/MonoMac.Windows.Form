@@ -236,8 +236,6 @@
     <Compile Include="System.Windows.Forms\ImageListStreamer.cs" />
     <Compile Include="System.Windows.Forms\ImageListStreamer.cocoa.cs" />
     <Compile Include="System.Windows.Forms\Panel.cocoa.cs" />
-    <Compile Include="System.Windows.Forms\DrawItemEventArgs.cs" />
-    <Compile Include="System.Windows.Forms\DrawItemEventHandler.cs" />
     <Compile Include="System.Windows.Forms\DrawItemState.cs" />
     <Compile Include="MainWindow.xib.designer.cs" />
     <Compile Include="System.Windows.Forms\CheckedListBox.cocoa.cs" />
@@ -266,6 +264,27 @@
     <Compile Include="System.Windows.Forms\TreeNodeConverter.cs" />
     <Compile Include="System.Windows.Forms\TreeNodeStates.cs" />
     <Compile Include="System.Windows.Forms\TextDataFormat.cs" />
+    <Compile Include="System.Windows.Forms\CheckedListBox.cs" />
+    <Compile Include="System.Windows.Forms\ItemCheckEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\ItemCheckEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\DockingAttribute.cs" />
+    <Compile Include="System.Windows.Forms\LabelEditEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\LabelEditEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\SearchDirectionHint.cs" />
+    <Compile Include="System.Windows.Forms\ItemActivation.cs" />
+    <Compile Include="System.Windows.Forms\ItemBoundsPortion.cs" />
+    <Compile Include="System.Windows.Forms\ListViewAlignment.cs" />
+    <Compile Include="System.Windows.Forms\ColumnClickEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\ColumnClickEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\DockingBehavior.cs" />
+    <Compile Include="System.Windows.Forms\SortOrder.cs" />
+    <Compile Include="System.Windows.Forms\ItemDragEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\ItemDragEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\ListViewItemStates.cs" />
+    <Compile Include="System.Windows.Forms\ListViewVirtualItemsSelectionRangeChangedEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\ListViewVirtualItemsSelectionRangeChangedEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\DrawItemEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\DrawItemEventHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />

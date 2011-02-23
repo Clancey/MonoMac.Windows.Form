@@ -49,7 +49,7 @@ namespace System.Windows.Forms
 		#region Public Methods
 		public override void KeyUp (NSEvent theEvent)
 		{
-			if(this.StringValue.Length > maxLength)
+			if(maxLength > -1 &&  this.StringValue.Length > maxLength)
 				this.StringValue = this.StringValue.Substring(0,maxLength);
 			base.KeyUp (theEvent);
 		}

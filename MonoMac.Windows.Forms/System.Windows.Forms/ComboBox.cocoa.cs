@@ -13,44 +13,39 @@ using System.Linq;
 using System.Collections.Generic;
 namespace System.Windows.Forms
 {
-	public partial class ComboBox : ListControl 
+	public partial class ComboBox : ListControl
 	{
 		internal ComboBoxHelper m_helper;
 		internal override NSView c_helper {
-			get {
-				return m_helper;
-			}
-			set {
-				m_helper = value as ComboBoxHelper;
-			}
+			get { return m_helper; }
+			set { m_helper = value as ComboBoxHelper; }
 		}
-				
-		internal override void DrawItemInternal(DrawItemEventArgs e)
+
+		internal override void DrawItemInternal (DrawItemEventArgs e)
 		{
-			OnDrawItem(e);
+			OnDrawItem (e);
 		}
-		private ComboBoxHelper textbox_ctrl
-		{
-			get{return m_helper;}	
+		private ComboBoxHelper textbox_ctrl {
+			get { return m_helper; }
 		}
-		private NSMenu listbox_ctrl
-		{
-			get{return m_helper.Menu;}	
+		private NSMenu listbox_ctrl {
+			get { return m_helper.Menu; }
 		}
-		
+
 		internal override void CreateHelper ()
 		{
-			m_helper = new ComboBoxHelper();
+			m_helper = new ComboBoxHelper ();
 			m_helper.Host = this;
 			m_helper.Activated += delegate(object sender, EventArgs e) {
 				//TODO: implemetn ListControl
-				//if(SelectedValueChanged != null)
-					SelectedValueChanged(sender,e);
+				if (SelectedValueChanged != null)
+					SelectedValueChanged (sender, e);
 				//OnSelectedIndexChanged(e);
 				//OnSelectedValueChanged(e);
-			};	
+			};
+			_dataSource = new ComboBoxDataSource (this);
 		}
-		
+
 		internal ComboBoxHelper UIATextBox {
 			get { return m_helper; }
 		}
@@ -60,8 +55,8 @@ namespace System.Windows.Forms
 		}
 
 		public event EventHandler SelectedValueChanged;
-		
-		
+
+
 		public ComboBox ()
 		{
 			items = new ObjectCollection (this);
@@ -69,49 +64,50 @@ namespace System.Windows.Forms
 			item_height = FontHeight + 2;
 			//background_color = ThemeEngine.Current.ColorWindow;
 			border_style = BorderStyle.None;
-
+			
 			drop_down_height = default_drop_down_height;
 			flat_style = FlatStyle.Standard;
-
-			/* Events */
-			//MouseDown += new MouseEventHandler (OnMouseDownCB);
-			//MouseUp += new MouseEventHandler (OnMouseUpCB);
-			//MouseMove += new MouseEventHandler (OnMouseMoveCB);
-			//MouseWheel += new MouseEventHandler (OnMouseWheelCB);
-			//MouseEnter += new EventHandler (OnMouseEnter);
-			//MouseLeave += new EventHandler (OnMouseLeave);
-			//KeyDown +=new KeyEventHandler(OnKeyDownCB);
+			
 		}
-		
-		
-		/*
+		/* Events */
+		//MouseDown += new MouseEventHandler (OnMouseDownCB);
+		//MouseUp += new MouseEventHandler (OnMouseUpCB);
+		//MouseMove += new MouseEventHandler (OnMouseMoveCB);
+		//MouseWheel += new MouseEventHandler (OnMouseWheelCB);
+		//MouseEnter += new EventHandler (OnMouseEnter);
+		//MouseLeave += new EventHandler (OnMouseLeave);
+		//KeyDown +=new KeyEventHandler(OnKeyDownCB);
+
+
+/*
 		MouseEventArgs TranslateMouseEventArgs (MouseEventArgs args)
 		{
 			Point loc = PointToClient (Control.MousePosition);
 			return new MouseEventArgs (args.Button, args.Clicks, loc.X, loc.Y, args.Delta);
 		}
-		*/
+		*/		
 		
 		
-
-		private void OnTextChangedEdit (object sender, EventArgs e)
+		
+				private void OnTextChangedEdit (object sender, EventArgs e)
 		{
 			if (process_textchanged_event == false)
-				return; 
-
+				return;
+			
 			int item = FindStringCaseInsensitive (textbox_ctrl.StringValue);
 			
-			if (item == -1) {
+			if (item == -1)
+			{
 				// Setting base.Text below will raise this event
 				// if we found something
 				OnTextChanged (EventArgs.Empty);
 				return;
 			}
-
+			
 			base.Text = textbox_ctrl.StringValue;
 		}
-		
-		
+
+
 
 		internal void SetControlText (string s, bool suppressTextChanged, bool supressAutoScroll)
 		{
@@ -119,47 +115,39 @@ namespace System.Windows.Forms
 				process_textchanged_event = false;
 			if (supressAutoScroll)
 				process_texchanged_autoscroll = false;
-				
+			
 			textbox_ctrl.StringValue = s;
 			//textbox_ctrl.SelectAll ();
 			process_textchanged_event = true;
 			process_texchanged_autoscroll = true;
 		}
-		
+
 		#region Public Members
-		
+
 		[Obsolete("Not Implemented.", false)]
-		[DefaultValue (ComboBoxStyle.DropDown)]
+		[DefaultValue(ComboBoxStyle.DropDown)]
 		[RefreshProperties(RefreshProperties.Repaint)]
 		[MWFCategory("Appearance")]
-		public ComboBoxStyle DropDownStyle {get;set;}
-		public Color BackColor {get;set;}
+		public ComboBoxStyle DropDownStyle { get; set; }
+		public Color BackColor { get; set; }
 		private string displayMember;
-		public string DisplayMember {get{return displayMember; }set{displayMember = value; _dataSource.DisplayMember = value; }}
-		private string valueMember;
-		public string ValueMember {get{return valueMember; }set{ valueMember = value; _dataSource.ValueMember = value;}}
-		ComboBoxDataSource _dataSource = new ComboBoxDataSource();
-		
-		[DefaultValue ((string)null)]
-		[AttributeProvider (typeof (IListSource))]
-		[RefreshProperties (RefreshProperties.Repaint)]
-		[MWFCategory("Data")]
-		public new object DataSource {
-			get {
-				return _dataSource.dataArray;
-			}
-			set {
-				m_helper.UsesDataSource = true;
-				_dataSource = new ComboBoxDataSource(value){DisplayMember = displayMember};
-				m_helper.DataSource = _dataSource;
-			}
+		public string DisplayMember {
+			get { return displayMember; }
+			set { displayMember = value; }
 		}
-		
-				
-		[Browsable (false)]
-		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
+		private string valueMember;
+		public string ValueMember {
+			get { return valueMember; }
+			set { valueMember = value; }
+		}
+		ComboBoxDataSource _dataSource;
+
+
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool DroppedDown {
-			get { 
+			get {
 				if (dropdown_style == ComboBoxStyle.Simple)
 					return true;
 				
@@ -168,31 +156,31 @@ namespace System.Windows.Forms
 			set {
 				if (dropdown_style == ComboBoxStyle.Simple || dropped_down == value)
 					return;
-					
-				if (value) 
+				
+				if (value)
 					DropDownListBox ();
 				else
 					//TODO: make hide
 					//m_helper.Menu.IsTornOff
-					m_helper.PerformClick(this);
+					m_helper.PerformClick (this);
 			}
 		}
 
-				
-		[Localizable (true)]
+
+		[Localizable(true)]
 		[MWFCategory("Behavior")]
 		public int ItemHeight {
 			get {
-				if (item_height == -1) {
+				if (item_height == -1)
+				{
 					item_height = (int)m_helper.ItemHeight;
 				}
 				return item_height;
 			}
 			set {
 				if (value < 1)
-					throw new ArgumentOutOfRangeException ("ItemHeight",
-						"The item height value is less than one.");
-
+					throw new ArgumentOutOfRangeException ("ItemHeight", "The item height value is less than one.");
+				
 				item_height_specified = true;
 				item_height = value;
 				if (IntegralHeight)
@@ -202,13 +190,12 @@ namespace System.Windows.Forms
 			}
 		}
 
-		[Browsable (false)]
-		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Bindable(true)]
-		public object SelectedItem
-		{
-			get{return _dataSource.dataArray[m_helper.SelectedIndex];}
-			set{m_helper.SelectItem(_dataSource.IndexOfItem(m_helper,value));}
+		public object SelectedItem {
+			get { return Items[m_helper.SelectedIndex]; }
+			set { m_helper.SelectItem (_dataSource.IndexOfItem (m_helper, value)); }
 		}
 		/*
 		public override int SelectedIndex {
@@ -216,156 +203,166 @@ namespace System.Windows.Forms
 			//set { m_helper.SelectedIndex = value;}
 		}
 		*/
-		
-		public bool FormattingEnabled {get;set;}
-		
-		public object SelectedValue
-		{
-			get{return _dataSource.GetSelectedValue(m_helper);}
-			set {_dataSource.SetSelectedValue(m_helper,value);}
+
+		public bool FormattingEnabled { get; set; }
+
+		public object SelectedValue {
+			get { return _dataSource.GetSelectedValue (m_helper); }
+			set { _dataSource.SetSelectedValue (m_helper, value); }
 		}
-		
-		
-		[Bindable (true)]
-		[Localizable (true)]
+
+
+		[Bindable(true)]
+		[Localizable(true)]
 		public override string Text {
 			get { return m_helper.StringValue; }
 			set { m_helper.StringValue = value; }
 		}
-		
-		[DesignerSerializationVisibility (DesignerSerializationVisibility.Content)]
-		[Localizable (true)]
-		[Editor ("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + Consts.AssemblySystem_Design, typeof (System.Drawing.Design.UITypeEditor))]
-		[MergableProperty (false)]
+
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+		[Localizable(true)]
+		[Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + Consts.AssemblySystem_Design, typeof(System.Drawing.Design.UITypeEditor))]
+		[MergableProperty(false)]
 		[MWFCategory("Data")]
 		public ComboBox.ObjectCollection Items {
 			get { return items; }
 		}
-		
+
 		//TODO:
 		void SetTextBoxAutoCompleteData ()
 		{
 			if (textbox_ctrl == null)
 				return;
-		
+			
 		}
-		
-		#endregion 
-		
+
+		#endregion
+
 		#region public Methods
-		
+
 		//TODO:
 		public int GetItemHeight (int index)
 		{
-			if (DrawMode == DrawMode.OwnerDrawVariable && IsHandleCreated) {
-
-				if (index < 0 || index >= Items.Count )
+			if (DrawMode == DrawMode.OwnerDrawVariable && IsHandleCreated)
+			{
+				
+				if (index < 0 || index >= Items.Count)
 					throw new ArgumentOutOfRangeException ("The item height value is less than zero");
 				
-				object item = Items [index];
+				object item = Items[index];
 				if (item_heights.Contains (item))
-					return (int) item_heights [item];
+					return (int)item_heights[item];
 				
-			//	MeasureItemEventArgs args = new MeasureItemEventArgs (DeviceContext, index, ItemHeight);
-			//	OnMeasureItem (args);
-			//	item_heights [item] = args.ItemHeight;
+				//	MeasureItemEventArgs args = new MeasureItemEventArgs (DeviceContext, index, ItemHeight);
+				//	OnMeasureItem (args);
+				//	item_heights [item] = args.ItemHeight;
 				return this.Height;
 				//return args.ItemHeight;
 			}
-
+			
 			return ItemHeight;
 		}
-		
+
 		//TODO:
 		internal void HandleDrawItem (DrawItemEventArgs e)
 		{
 			// Only raise OnDrawItem if we are in an OwnerDraw mode
-			switch (DrawMode) {
-				case DrawMode.OwnerDrawFixed:
-				case DrawMode.OwnerDrawVariable:
-					OnDrawItem (e);
-					break;
-				default:
+			switch (DrawMode)
+			{
+			case DrawMode.OwnerDrawFixed:
+			case DrawMode.OwnerDrawVariable:
+				OnDrawItem (e);
+				break;
+			default:
 				//	ThemeEngine.Current.DrawComboBoxItem (this, e);
-					break;
+				break;
 			}
 		}
-		
+
 		protected override void OnForeColorChanged (EventArgs e)
 		{
 			base.OnForeColorChanged (e);
 			if (textbox_ctrl != null)
-				textbox_ctrl.TextColor = ForeColor.ToNSColor();
+				textbox_ctrl.TextColor = ForeColor.ToNSColor ();
 		}
-		
+
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected override void OnGotFocus (EventArgs e)
 		{
-			if (dropdown_style == ComboBoxStyle.DropDownList) {
+			if (dropdown_style == ComboBoxStyle.DropDownList)
+			{
 				// We draw DDL styles manually, so they require a
 				// refresh to have their selection drawn
 				Invalidate ();
 			}
 			
-			if (textbox_ctrl != null) {
+			if (textbox_ctrl != null)
+			{
 				
 				textbox_ctrl.Selectable = false;
-				textbox_ctrl.SelectText(new NSString(textbox_ctrl.StringValue));
+				textbox_ctrl.SelectText (new NSString (textbox_ctrl.StringValue));
 			}
-
+			
 			base.OnGotFocus (e);
 		}
-		
-		
+
+
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
 		protected override void OnLostFocus (EventArgs e)
 		{
-			if (dropdown_style == ComboBoxStyle.DropDownList) {
+			if (dropdown_style == ComboBoxStyle.DropDownList)
+			{
 				// We draw DDL styles manually, so they require a
 				// refresh to have their selection drawn
 				Invalidate ();
 			}
-
-			if (listbox_ctrl != null && dropped_down) {
+			
+			if (listbox_ctrl != null && dropped_down)
+			{
 				//TODO:
 				//listbox_ctrl.HideWindow ();
 			}
-
-			if (textbox_ctrl != null) {
+			
+			if (textbox_ctrl != null)
+			{
 				textbox_ctrl.Selectable = true;
 				textbox_ctrl.SelectionLength = 0;
 				//TODO:
 				//textbox_ctrl.HideAutoCompleteList ();
 			}
-
+			
 			base.OnLostFocus (e);
 		}
-		
-		
+
+
 
 		protected override void OnHandleCreated (EventArgs e)
 		{
 			base.OnHandleCreated (e);
-
+			
 			SetBoundsInternal (Left, Top, Width, PreferredHeight, BoundsSpecified.None);
-
+			
 			//if (textbox_ctrl != null)
 			//	Controls.AddImplicit (textbox_ctrl);
-
+			
 			LayoutComboBox ();
 			UpdateComboBoxBounds ();
 		}
-		
-		
+
+
 
 		protected override void OnKeyPress (KeyPressEventArgs e)
 		{
-			if (dropdown_style == ComboBoxStyle.DropDownList) {
+			if (dropdown_style == ComboBoxStyle.DropDownList)
+			{
 				int index = FindStringCaseInsensitive (e.KeyChar.ToString (), SelectedIndex + 1);
-				if (index != -1) {
+				if (index != -1)
+				{
 					SelectedIndex = index;
-					if (DroppedDown) { //Scroll into view
+					if (DroppedDown)
+					{
+						//Scroll into view
 						//TODO
 						//if (SelectedIndex >= listbox_ctrl.LastVisibleItem ())
 						//	listbox_ctrl.Scroll (SelectedIndex - listbox_ctrl.LastVisibleItem () + 1);
@@ -375,62 +372,75 @@ namespace System.Windows.Forms
 					}
 				}
 			}
-
+			
 			base.OnKeyPress (e);
 		}
-		
+
 		protected override void OnResize (EventArgs e)
 		{
 			LayoutComboBox ();
 			//if (listbox_ctrl != null)
 			//	listbox_ctrl.CalcListBoxArea ();
 		}
-		
-		
+
+		internal override void SetBoundsInternal (int x, int y, int width, int height, BoundsSpecified specified)
+		{
+			height = 25;
+			base.SetBoundsInternal (x, y, width, height, specified);
+		}
+
+
 		public void Select (int start, int length)
 		{
 			if (start < 0)
 				throw new ArgumentException ("Start cannot be less than zero");
-				
+			
 			if (length < 0)
 				throw new ArgumentException ("length cannot be less than zero");
-				
+			
 			if (dropdown_style == ComboBoxStyle.DropDownList)
 				return;
-
+			
 			textbox_ctrl.SelectionStart = start;
 			textbox_ctrl.SelectionLength = length;
 		}
-		
-		
+
+
 		public void SelectAll ()
 		{
 			if (dropdown_style == ComboBoxStyle.DropDownList)
 				return;
-
-			if (textbox_ctrl != null) {
+			
+			if (textbox_ctrl != null)
+			{
 				//textbox_ctrl.ShowSelection = true;
 				//TODO
 				//textbox_ctrl.SelectAll ();
 			}
 		}
-		
+
 		#endregion
-		
+
 		#region Private Methods
-		
+
 		private void UpdatedItems ()
 		{
-			if (listbox_ctrl != null) {
-			//	listbox_ctrl.UpdateLastVisibleItem ();
-			//	listbox_ctrl.CalcListBoxArea ();
-			//	listbox_ctrl.Refresh ();
+			_dataSource = new ComboBoxDataSource (this, Items);
+			m_helper.UsesDataSource = true;
+			m_helper.DataSource = _dataSource;
+			m_helper.ReloadData();
+			if (listbox_ctrl != null)
+			{
+				//	listbox_ctrl.UpdateLastVisibleItem ();
+				//	listbox_ctrl.CalcListBoxArea ();
+				//	listbox_ctrl.Refresh ();
 			}
 		}
 
 		void LayoutComboBox ()
 		{
-			/*TODO
+		}
+		/*TODO
 			int border = ThemeEngine.Current.Border3DSize.Width;
 
 			text_area = ClientRectangle;
@@ -477,23 +487,23 @@ namespace System.Windows.Forms
 				listbox_ctrl.CalcListBoxArea ();
 			}
 			*/
-		}
-		
-		void UpdateComboBoxBounds()
+
+		void UpdateComboBoxBounds ()
 		{
 			
 		}
-		
+
 		internal void Draw (Rectangle clip, Graphics dc)
 		{
-		
+			
 		}
-		
-		
+
+
 
 		internal void DropDownListBox ()
 		{
-			/*
+		}
+		/*
 			DropDownButtonEntered = false;
 
 			if (DropDownStyle == ComboBoxStyle.Simple)
@@ -516,11 +526,11 @@ namespace System.Windows.Forms
 			if (dropdown_style == ComboBoxStyle.DropDownList)
 				Invalidate (text_area);
 				*/
-		}
-		
+
 		internal void DropDownListBoxFinished ()
 		{
-			/*
+		}
+		/*
 			if (DropDownStyle == ComboBoxStyle.Simple)
 				return;
 				
@@ -541,22 +551,21 @@ namespace System.Windows.Forms
 			 if (textbox_ctrl != null)
 				 textbox_ctrl.HideAutoCompleteList ();
 			*/
-		}
-			
+
 		internal void RestoreContextMenu ()
 		{
 			//textbox_ctrl.RestoreContextMenu ();
 		}
-		
-		
+
+
 		void SetSelectedIndex (int value, bool supressAutoScroll)
 		{
 			if (selected_index == value)
 				return;
-
+			
 			if (value <= -2 || value >= Items.Count)
 				throw new ArgumentOutOfRangeException ("SelectedIndex");
-
+			
 			selected_index = value;
 			//TODO: Test
 			textbox_ctrl.IntValue = value;
@@ -566,16 +575,16 @@ namespace System.Windows.Forms
 			OnSelectedItemChanged (EventArgs.Empty);
 		}
 		#endregion
-		
-		
-		
-		[ListBindableAttribute (false)]
+
+
+
+		[ListBindableAttribute(false)]
 		public class ObjectCollection : IList, ICollection, IEnumerable
 		{
 
 			private ComboBox owner;
 			internal ArrayList object_items = new ArrayList ();
-			
+
 			#region UIA Framework Events
 
 			//NOTE:
@@ -589,11 +598,10 @@ namespace System.Windows.Forms
 				add { owner.Events.AddHandler (UIACollectionChangedEvent, value); }
 				remove { owner.Events.RemoveHandler (UIACollectionChangedEvent, value); }
 			}
-			
+
 			internal void OnUIACollectionChangedEvent (CollectionChangeEventArgs args)
 			{
-				CollectionChangeEventHandler eh
-					= (CollectionChangeEventHandler) owner.Events [UIACollectionChangedEvent];
+				CollectionChangeEventHandler eh = (CollectionChangeEventHandler)owner.Events[UIACollectionChangedEvent];
 				if (eh != null)
 					eh (owner, args);
 			}
@@ -614,13 +622,13 @@ namespace System.Windows.Forms
 				get { return false; }
 			}
 
-			[Browsable (false)]
+			[Browsable(false)]
 			[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-			public virtual object this [int index] {
+			public virtual object this[int index] {
 				get {
 					if (index < 0 || index >= Count)
 						throw new ArgumentOutOfRangeException ("index");
-
+					
 					return object_items[index];
 				}
 				set {
@@ -628,18 +636,19 @@ namespace System.Windows.Forms
 						throw new ArgumentOutOfRangeException ("index");
 					if (value == null)
 						throw new ArgumentNullException ("value");
-
+					
 					//UIA Framework event: Item Removed
-					OnUIACollectionChangedEvent (new CollectionChangeEventArgs (CollectionChangeAction.Remove, object_items [index]));
-
+					OnUIACollectionChangedEvent (new CollectionChangeEventArgs (CollectionChangeAction.Remove, object_items[index]));
+					
 					object_items[index] = value;
 					
 					//UIA Framework event: Item Added
 					OnUIACollectionChangedEvent (new CollectionChangeEventArgs (CollectionChangeAction.Add, value));
-
+					
 					//if (owner.listbox_ctrl != null)
 					//	owner.listbox_ctrl.InvalidateItem (index);
-					if (index == owner.SelectedIndex) {
+					if (index == owner.SelectedIndex)
+					{
 						if (owner.textbox_ctrl == null)
 							owner.Refresh ();
 						else
@@ -661,12 +670,12 @@ namespace System.Windows.Forms
 			}
 
 			#endregion Public Properties
-			
+
 			#region Public Methods
 			public int Add (object item)
 			{
 				int idx;
-
+				
 				idx = AddItem (item, false);
 				owner.UpdatedItems ();
 				return idx;
@@ -676,10 +685,10 @@ namespace System.Windows.Forms
 			{
 				if (items == null)
 					throw new ArgumentNullException ("items");
-
+				
 				foreach (object mi in items)
 					AddItem (mi, true);
-
+				
 				if (owner.sorted)
 					Sort ();
 				
@@ -696,16 +705,16 @@ namespace System.Windows.Forms
 				//UIA Framework event: Items list cleared
 				OnUIACollectionChangedEvent (new CollectionChangeEventArgs (CollectionChangeAction.Refresh, null));
 			}
-			
+
 			public bool Contains (object value)
 			{
 				if (value == null)
 					throw new ArgumentNullException ("value");
-
+				
 				return object_items.Contains (value);
 			}
 
-			public void CopyTo (object [] destination, int arrayIndex)
+			public void CopyTo (object[] destination, int arrayIndex)
 			{
 				object_items.CopyTo (destination, arrayIndex);
 			}
@@ -729,11 +738,11 @@ namespace System.Windows.Forms
 			{
 				if (value == null)
 					throw new ArgumentNullException ("value");
-
+				
 				return object_items.IndexOf (value);
 			}
 
-			public void Insert (int index,  object item)
+			public void Insert (int index, object item)
 			{
 				if (index < 0 || index > Count)
 					throw new ArgumentOutOfRangeException ("index");
@@ -744,20 +753,22 @@ namespace System.Windows.Forms
 				
 				if (owner.Sorted)
 					AddItem (item, false);
-				else {
+				else
+				{
 					object_items.Insert (index, item);
 					//UIA Framework event: Item added
 					OnUIACollectionChangedEvent (new CollectionChangeEventArgs (CollectionChangeAction.Add, item));
 				}
 				
-				owner.EndUpdate ();	// Calls UpdatedItems
+				owner.EndUpdate ();
+				// Calls UpdatedItems
 			}
 
 			public void Remove (object value)
 			{
 				if (value == null)
 					return;
-
+				
 				if (IndexOf (value) == owner.SelectedIndex)
 					owner.SelectedIndex = -1;
 				
@@ -768,12 +779,12 @@ namespace System.Windows.Forms
 			{
 				if (index < 0 || index >= Count)
 					throw new ArgumentOutOfRangeException ("index");
-					
+				
 				if (index == owner.SelectedIndex)
 					owner.SelectedIndex = -1;
-
-				object removed = object_items [index];
-
+				
+				object removed = object_items[index];
+				
 				object_items.RemoveAt (index);
 				owner.UpdatedItems ();
 				
@@ -789,11 +800,14 @@ namespace System.Windows.Forms
 				// big sort at the end
 				if (item == null)
 					throw new ArgumentNullException ("item");
-
-				if (owner.Sorted && !suspend) {
+				
+				if (owner.Sorted && !suspend)
+				{
 					int index = 0;
-					foreach (object o in object_items) {
-						if (String.Compare (item.ToString (), o.ToString ()) < 0) {
+					foreach (object o in object_items)
+					{
+						if (String.Compare (item.ToString (), o.ToString ()) < 0)
+						{
 							object_items.Insert (index, item);
 							
 							// If we added the new item before the selectedindex
@@ -801,10 +815,10 @@ namespace System.Windows.Forms
 							// Handle has not been created.
 							if (index <= owner.selected_index && owner.IsHandleCreated)
 								owner.selected_index++;
-								
+							
 							//UIA Framework event: Item added
 							OnUIACollectionChangedEvent (new CollectionChangeEventArgs (CollectionChangeAction.Add, item));
-
+							
 							return index;
 						}
 						index++;
@@ -817,7 +831,7 @@ namespace System.Windows.Forms
 				
 				return object_items.Count - 1;
 			}
-			
+
 			internal void AddRange (IList items)
 			{
 				foreach (object mi in items)
@@ -842,12 +856,12 @@ namespace System.Windows.Forms
 			private class ObjectComparer : IComparer
 			{
 				private ListControl owner;
-				
+
 				public ObjectComparer (ListControl owner)
 				{
 					this.owner = owner;
 				}
-				
+
 				#region IComparer Members
 				public int Compare (object x, object y)
 				{
@@ -857,98 +871,94 @@ namespace System.Windows.Forms
 			}
 			#endregion Private Methods
 		}
-		
-		public class ComboBoxDataSource : NSComboBoxDataSource
+
+		internal class ComboBoxDataSource : NSComboBoxDataSource
 		{
-			public object[] dataArray;
-			private List<string> strings;
-			public string DisplayMember = "";
-			public string ValueMember = "";
-			
-			public ComboBoxDataSource (object[] inArray)
+			//public ObjectCollection dataArray;
+			private ComboBox cbox;
+			private object dataObject;
+			public ComboBoxDataSource (ComboBox comboBox, object theObject)
 			{
-				dataArray = inArray;
-			}
-			
-			public ComboBoxDataSource (object theObject)
-			{
-				if(theObject is IList)
+				dataObject = theObject;
+				cbox = comboBox;
+				if (theObject is IList)
 				{
-					var inArray = theObject as IList;
-					dataArray = inArray.Cast<object>().ToArray();
-					strings = new List<string>();
-					foreach(var obj in dataArray)
-					{
-						if(string.IsNullOrEmpty(DisplayMember))
-							strings.Add(obj.ToString());
-						else
-							strings.Add(Util.GetPropertyStringValue(obj,DisplayMember));
-					}
+					//dataArray = new ObjectCollection (comboBox);
+					//dataArray.AddRange ((theObject as IList).Cast<object> ().ToArray ());
 				}
 			}
-			
-			public ComboBoxDataSource ():base()
+			public ComboBoxDataSource (ComboBox comboBox)
 			{
+				cbox = comboBox;
+				//dataArray = new ObjectCollection (comboBox);
 			}
-			
-			public override int ItemCount (NSComboBox comboBox)
+			public ComboBoxDataSource (ComboBox comboBox, ObjectCollection Items)
 			{
-				return dataArray.Length;
+				cbox = comboBox;
+				//dataArray = Items;
 			}
-			
-			Dictionary<string,NSString> returnValue = new Dictionary<string, NSString>();
+			private NSString returnString;
 			public override NSObject ObjectValueForItem (NSComboBox comboBox, int index)
 			{
-				object l = dataArray[index];
-				string theString = "";
-				if (!string.IsNullOrEmpty(DisplayMember))
-					theString = Util.GetPropertyStringValue(l,DisplayMember);
+				if (cbox == null)
+					return null;
+				if (string.IsNullOrEmpty (cbox.DisplayMember))
+					returnString = new NSString (cbox.Items[index].ToString ());
 				else
-					theString = l.ToString();
-				if (!returnValue.ContainsKey(theString))					
-					returnValue.Add(theString,new NSString(theString));
-				var returnString = returnValue[theString];
+					returnString = new NSString (Util.GetPropertyStringValue (cbox.Items[index], cbox.DisplayMember));
 				return returnString;
+				
 			}
-			
-			public object GetSelectedValue(NSComboBox comboBox)
+
+			public override int ItemCount (NSComboBox comboBox)
 			{
-				object l = dataArray[comboBox.SelectedIndex];
-				if(!string.IsNullOrEmpty(DisplayMember))
+				if (cbox == null)
+					return 0;
+				return cbox.Items.Count;
+			}
+
+			public object GetSelectedValue (NSComboBox comboBox)
+			{
+				var DisplayMember = cbox.DisplayMember;
+				var ValueMember = cbox.ValueMember;
+				object l = cbox.Items[comboBox.SelectedIndex];
+				if (!string.IsNullOrEmpty (DisplayMember))
 				{
 					//Use Display Property if they didnt set ValueMember
-					var valueMember = string.IsNullOrEmpty(ValueMember) ? DisplayMember : ValueMember;
-					return Util.GetPropertyValue(l,valueMember);
+					var valueMember = string.IsNullOrEmpty (ValueMember) ? DisplayMember : ValueMember;
+					return Util.GetPropertyValue (l, valueMember);
 				}
+
+				
 				else
 				{
-					return l.ToString();
+					return l.ToString ();
 				}
 			}
 
-			public void SetSelectedValue(NSComboBox combobox,object value)
+
+			public void SetSelectedValue (NSComboBox combobox, object value)
 			{
-				if(string.IsNullOrEmpty(DisplayMember))
+				var DisplayMember = cbox.DisplayMember;
+				var ValueMember = cbox.ValueMember;
+				if (string.IsNullOrEmpty (DisplayMember))
 				{
-					combobox.SelectItem(dataArray.ToList().IndexOf(value));
+					combobox.SelectItem (cbox.Items.IndexOf (value));
 					return;
 				}
-				var valueMember = string.IsNullOrEmpty(ValueMember) ? DisplayMember : ValueMember;
-				var found = dataArray.Where(x=> Util.GetPropertyValue(x,valueMember) == value).FirstOrDefault();
-				combobox.SelectItem(dataArray.ToList().IndexOf(found));
+				combobox.SelectItem (cbox.Items.IndexOf (value));
 				
 			}
-			
+
 			public override int IndexOfItem (NSComboBox comboBox, string value)
 			{
-				return strings.IndexOf(value);
+				return cbox.Items.IndexOf (value);
 			}
-			public int IndexOfItem(NSComboBox ComboBox,object value)
+			public int IndexOfItem (NSComboBox ComboBox, object value)
 			{
-				return dataArray.ToList().IndexOf(value);
+				return cbox.Items.IndexOf (value);
 			}
-			
-		}     
+		}
 	}
 }
 

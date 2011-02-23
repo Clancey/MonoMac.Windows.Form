@@ -1976,7 +1976,8 @@ namespace System.Windows.Forms
 		}
 
 		public void SetBounds(int x, int y, int width, int height, BoundsSpecified specified) {
-			// Fill in the values that were not specified
+			// Fill in the values that were not specified		
+			
 			if ((specified & BoundsSpecified.X) == 0)
 				x = Left;
 			if ((specified & BoundsSpecified.Y) == 0)

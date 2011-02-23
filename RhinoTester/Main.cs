@@ -24,8 +24,8 @@ namespace RhinoTester
 			AddTest(i++, "ShowMessageBox - works", ShowMessageBox);
 			AddTest(i++, "ShowEditBox - works", ShowEditBox);
 			AddTest(i++, "ShowNumberBox - works", ShowNumberBox);
-			AddTest(i++, "ShowListBox", ShowListBox);
-			AddTest(i++, "ShowComboListBox", ShowComboListBox);
+			AddTest(i++, "ShowListBox - works", ShowListBox);
+			AddTest(i++, "ShowComboListBox - works", ShowComboListBox);
 			// Not really important, we have this wrapped by other means
 			AddTest(i++, "ShowColorDialog", ShowColorDialog);
 		}
@@ -50,11 +50,15 @@ namespace RhinoTester
 		
 		void ShowComboListBox(object sender, EventArgs e)
 		{
-			Dialogs.ShowComboListBox("Title","The Message", new List<string>{"string1","string2","string3"});
+			var result = Dialogs.ShowComboListBox("Title","The Message", new List<string>{"string1","string2","string3"}) ?? "";
+			if(!string.IsNullOrEmpty(result.ToString()))
+				MessageBox.Show("Selection : " + result.ToString());
 		}
 		void ShowListBox(object sender, EventArgs e)
 		{
-			Dialogs.ShowListBox("Title","The Message", new List<string>{"string1","string2","string3"});
+			var result = Dialogs.ShowListBox("Title","The Message", new List<string>{"string1","string2","string3"}) ?? "";
+			if(!string.IsNullOrEmpty(result.ToString()))
+				MessageBox.Show("Selection : " + result.ToString());
 		}
 		void ShowColorDialog(object sender, EventArgs e)
 		{

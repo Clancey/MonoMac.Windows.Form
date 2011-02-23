@@ -213,10 +213,11 @@ namespace System.Windows.Forms
 
 		private void CalcAutoSize ()
 		{
-			
-			m_helper.TextContainerInset = new SizeF(5f,5f);
-			m_helper.AutoresizingMask = (NSViewResizingMask.HeightSizable | NSViewResizingMask.WidthSizable );
-			m_helper.TextContainer.ContainerSize = new SizeF(float.MaxValue,float.MaxValue);
+			m_helper.TextContainer.TextView.AutoresizingMask = NSViewResizingMask.WidthSizable;
+			var frame = m_helper.TextContainer.TextView.Frame;
+			m_helper.HorizontallyResizable = true;
+			m_helper.TextContainer.TextView.Frame = new RectangleF(frame.Location,new SizeF(9999,frame.Height));
+			m_helper.Frame = new RectangleF(m_helper.Frame.Location, m_helper.TextContainer.TextView.Frame.Size);
 		}
 	}
 }

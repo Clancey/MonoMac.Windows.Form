@@ -376,7 +376,7 @@ namespace System.Windows.Forms
 		public override Size MaximumSize {
 			get { return base.MaximumSize; }
 			set {
-				base.MaximumSize = new Size (value.Width, 0);
+				base.MaximumSize = new Size (value.Width, 25);
 			}
 		}
 
@@ -623,18 +623,6 @@ namespace System.Windows.Forms
 				textbox_ctrl.BackColor = BackColor;
 		}
 
-		protected override void OnDataSourceChanged (EventArgs e)
-		{
-			base.OnDataSourceChanged (e);
-			BindDataItems ();
-			
-			if (DataSource == null || DataManager == null) {
-				SelectedIndex = -1;
-			} 
-			else {
-				SelectedIndex = DataManager.Position;
-			}
-		}
 
 		protected override void OnDisplayMemberChanged (EventArgs e)
 		{
