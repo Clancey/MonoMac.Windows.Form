@@ -356,7 +356,11 @@ return null;
 			
 			return false;
 		}
-
+		
+		
+		internal void onKeyPress(KeyPressEventArgs e) {
+			OnKeyPress(e);	
+		}
 		protected virtual bool ProcessKeyEventArgs (ref Message m)
 		{
 			/*

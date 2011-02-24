@@ -88,6 +88,17 @@ namespace System.Windows.Forms
 			}
 		}
 		
+		public override void KeyUp (NSEvent theEvent)
+		{
+			base.KeyUp (theEvent);
+		}
+		public override void KeyDown (NSEvent theEvent)
+		{
+			var keyEvent = new KeyPressEventArgs(theEvent.Characters.ToCharArray()[0]);
+			Host.Host.onKeyPress(keyEvent);
+			if(!keyEvent.Handled)
+				base.KeyDown (theEvent);
+		}
 	}
 	
 	
