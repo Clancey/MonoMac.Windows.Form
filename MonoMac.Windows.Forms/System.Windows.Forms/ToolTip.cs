@@ -133,15 +133,6 @@ namespace System.Windows.Forms {
 				base.OnTextChanged (args); 
 			}
 
-			protected override void WndProc(ref Message m) {
-				if (m.Msg == (int)Msg.WM_SETFOCUS) {
-					if (m.WParam != IntPtr.Zero) {
-						XplatUI.SetFocus(m.WParam);
-					}
-				}
-				base.WndProc (ref m);
-			}
-
 
 			#endregion	// ToolTipWindow Class Protected Instance Methods
 

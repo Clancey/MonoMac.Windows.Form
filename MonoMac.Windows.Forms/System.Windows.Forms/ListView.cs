@@ -47,7 +47,7 @@ namespace System.Windows.Forms
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
 	[ComVisible (true)]
 	[Docking (DockingBehavior.Ask)]
-	public class ListView : Control
+	public partial class ListView : Control
 	{
 		private ItemActivation activation = ItemActivation.Standard;
 		private ListViewAlignment alignment = ListViewAlignment.Top;
@@ -255,79 +255,8 @@ namespace System.Windows.Forms
 
 		#endregion // Events
 
-		#region Public Constructors
-		public ListView ()
-		{
-			background_color = ThemeEngine.Current.ColorWindow;
-			groups = new ListViewGroupCollection (this);
-			items = new ListViewItemCollection (this);
-			items.Changed += new CollectionChangedHandler (OnItemsChanged);
-			checked_indices = new CheckedIndexCollection (this);
-			checked_items = new CheckedListViewItemCollection (this);
-			columns = new ColumnHeaderCollection (this);
-			foreground_color = SystemColors.WindowText;
-			selected_indices = new SelectedIndexCollection (this);
-			selected_items = new SelectedListViewItemCollection (this);
-			items_location = new Point [16];
-			items_matrix_location = new ItemMatrixLocation [16];
-			reordered_items_indices = new int [16];
-			item_tooltip = new ToolTip ();
-			item_tooltip.Active = false;
-			insertion_mark = new ListViewInsertionMark (this);
-
-			InternalBorderStyle = BorderStyle.Fixed3D;
-
-			header_control = new HeaderControl (this);
-			header_control.Visible = false;
-			Controls.AddImplicit (header_control);
-
-			item_control = new ItemControl (this);
-			Controls.AddImplicit (item_control);
-
-			h_scroll = new ImplicitHScrollBar ();
-			Controls.AddImplicit (this.h_scroll);
-
-			v_scroll = new ImplicitVScrollBar ();
-			Controls.AddImplicit (this.v_scroll);
-
-			h_marker = v_marker = 0;
-			keysearch_tickcnt = 0;
-
-			// scroll bars are disabled initially
-			h_scroll.Visible = false;
-			h_scroll.ValueChanged += new EventHandler(HorizontalScroller);
-			v_scroll.Visible = false;
-			v_scroll.ValueChanged += new EventHandler(VerticalScroller);
-
-			// event handlers
-			base.KeyDown += new KeyEventHandler(ListView_KeyDown);
-			SizeChanged += new EventHandler (ListView_SizeChanged);
-			GotFocus += new EventHandler (FocusChanged);
-			LostFocus += new EventHandler (FocusChanged);
-			MouseWheel += new MouseEventHandler(ListView_MouseWheel);
-			MouseEnter += new EventHandler (ListView_MouseEnter);
-			Invalidated += new InvalidateEventHandler (ListView_Invalidated);
-
-			BackgroundImageTiled = false;
-
-			this.SetStyle (ControlStyles.UserPaint | ControlStyles.StandardClick
-				| ControlStyles.UseTextForAccessibility
-				, false);
-		}
-		#endregion	// Public Constructors
 
 		#region Private Internal Properties
-		internal Size CheckBoxSize {
-			get {
-				if (this.check_boxes) {
-					if (this.state_image_list != null)
-						return this.state_image_list.ImageSize;
-					else
-						return ThemeEngine.Current.ListViewCheckBoxSize;
-				}
-				return Size.Empty;
-			}
-		}
 
 		internal Size ItemSize {
 			get {
@@ -355,13 +284,6 @@ namespace System.Windows.Forms
 			}
 		}
 
-		internal bool UsingGroups {
-			get {
-				return show_groups && groups.Count > 0 && view != View.List && 
-					Application.VisualStylesEnabled;
-			}
-		}
-
 		internal override bool ScaleChildrenInternal {
 			get { return false; }
 		}
@@ -384,9 +306,6 @@ namespace System.Windows.Forms
 			get { return base.CreateParams; }
 		}
 
-		protected override Size DefaultSize {
-			get { return ThemeEngine.Current.ListViewDefaultSize; }
-		}
 		protected override bool DoubleBuffered {
 			get {
 				return base.DoubleBuffered;
@@ -450,19 +369,6 @@ namespace System.Windows.Forms
 					if (this.view == View.LargeIcon || this.View == View.SmallIcon)
 						this.Redraw (true);
 				}
-			}
-		}
-
-		public override Color BackColor {
-			get {
-				if (background_color.IsEmpty)
-					return ThemeEngine.Current.ColorWindow;
-				else
-					return background_color;
-			}
-			set { 
-				background_color = value;
-				item_control.BackColor = value;
 			}
 		}
 
@@ -554,17 +460,7 @@ namespace System.Windows.Forms
 				SetFocusedItem (value.DisplayIndex);
 			}
 		}
-
-		public override Color ForeColor {
-			get {
-				if (foreground_color.IsEmpty)
-					return ThemeEngine.Current.ColorWindowText;
-				else
-					return foreground_color;
-			}
-			set { foreground_color = value; }
-		}
-
+		
 		[DefaultValue (false)]
 		public bool FullRowSelect {
 			get { return full_row_select; }
@@ -2327,17 +2223,6 @@ namespace System.Windows.Forms
 			}
 		}
 
-		internal override bool InternalPreProcessMessage (ref Message msg)
-		{
-			if (msg.Msg == (int)Msg.WM_KEYDOWN) {
-				Keys key_data = (Keys)msg.WParam.ToInt32();
-				
-				HandleNavKeys (key_data);
-			} 
-			
-			return base.InternalPreProcessMessage (ref msg);
-		}
-
 		bool HandleNavKeys (Keys key_data)
 		{
 			if (Items.Count == 0 || !item_control.Visible)
@@ -3004,28 +2889,6 @@ namespace System.Windows.Forms
 				ThemeEngine.Current.DrawListViewItems (pe.Graphics, pe.ClipRectangle, owner);
 			}
 
-			protected override void WndProc (ref Message m)
-			{
-				switch ((Msg)m.Msg) {
-				case Msg.WM_KILLFOCUS:
-					owner.Select (false, true);
-					break;
-				case Msg.WM_SETFOCUS:
-					owner.Select (false, true);
-					break;
-				case Msg.WM_LBUTTONDOWN:
-					if (!Focused)
-						owner.Select (false, true);
-					break;
-				case Msg.WM_RBUTTONDOWN:
-					if (!Focused)
-						owner.Select (false, true);
-					break;
-				default:
-					break;
-				}
-				base.WndProc (ref m);
-			}
 		}
 		
 		internal class ListViewLabelEditTextBox : TextBox
@@ -3568,29 +3431,6 @@ namespace System.Windows.Forms
 
 		bool refocusing = false;
 
-		protected override void WndProc (ref Message m)
-		{
-			switch ((Msg)m.Msg) {
-			case Msg.WM_KILLFOCUS:
-				Control receiver = Control.FromHandle (m.WParam);
-				if (receiver == item_control) {
-					has_focus = false;
-					refocusing = true;
-					return;
-				}
-				break;
-			case Msg.WM_SETFOCUS:
-				if (refocusing) {
-					has_focus = true;
-					refocusing = false;
-					return;
-				}
-				break;
-			default:
-				break;
-			}
-			base.WndProc (ref m);
-		}
 		#endregion // Protected Methods
 
 		#region Public Instance Methods
@@ -4181,17 +4021,6 @@ namespace System.Windows.Forms
 				theme.DrawListViewHeaderDragDetails (pe.Graphics, owner, drag_column, target_x);
 			}
 
-			protected override void WndProc (ref Message m)
-			{
-				switch ((Msg)m.Msg) {
-				case Msg.WM_SETFOCUS:
-					owner.Focus ();
-					break;
-				default:
-					base.WndProc (ref m);
-					break;
-				}
-			}
 		}
 
 		private class ItemComparer : IComparer {

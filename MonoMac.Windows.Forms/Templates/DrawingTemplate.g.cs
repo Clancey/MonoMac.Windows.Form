@@ -312,7 +312,7 @@ namespace System.Windows.Forms
 	}
 	
 	
-	internal partial class View 
+	internal partial class ViewHelper 
 	{	
 		public bool shouldDraw {get;set;}
 		public override void DrawRect (RectangleF dirtyRect)

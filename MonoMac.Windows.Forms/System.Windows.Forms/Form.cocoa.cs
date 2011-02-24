@@ -11,9 +11,9 @@ using System.Linq;
 using MonoMac.Foundation;
 namespace System.Windows.Forms
 {
-	internal partial class View : NSView, IViewHelper
+	internal partial class ViewHelper : NSView, IViewHelper
 	{
-		public View (Form parent)
+		public ViewHelper (Form parent)
 		{
 			Host = parent;
 			this.AutoresizingMask = (NSViewResizingMask.HeightSizable | NSViewResizingMask.WidthSizable);
@@ -108,6 +108,17 @@ namespace System.Windows.Forms
 				mask |= NSWindowStyle.Miniaturizable;
 			this.StyleMask = mask;
 		}
+		public override void Close ()
+		{
+			if (NSApplication.SharedApplication.ModalWindow == this)
+				m_parent.Close();
+			else
+				base.Close ();
+		}
+		public override void PerformClose (NSObject sender)
+		{
+			base.PerformClose (sender);
+		}
 	}
 
 	public partial class Form : ContainerControl
@@ -123,7 +134,7 @@ namespace System.Windows.Forms
 		protected override void CreateHandle ()
 		{
 			m_helper = new FormHelper (this, new RectangleF (50, 50, 400, 400), (NSWindowStyle)(1 | (1 << 1) | (1 << 2) | (1 << 3)), NSBackingStore.Buffered, false);
-			m_helper.ContentView = new View (this);
+			m_helper.ContentView = new ViewHelper (this);
       m_view = m_helper.ContentView;
 			//m_helper.ContentView.ScaleUnitSquareToSize(Util.ScaleSize);
 			m_helper.AcceptsMouseMovedEvents = true;

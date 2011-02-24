@@ -29,7 +29,7 @@ using System.Drawing;
 
 namespace System.Windows.Forms
 {
-    public class DrawListViewItemEventArgs : EventArgs
+    public partial class DrawListViewItemEventArgs : EventArgs
     {
         #region Private Fields
 
@@ -86,32 +86,6 @@ namespace System.Windows.Forms
         }
 
         #endregion Constructors
-
-
-        #region Public Methods
-
-        public void DrawBackground ()
-        {
-		graphics.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush (item.BackColor), bounds);
-        }
-
-        public void DrawFocusRectangle ()
-        {
-		if ((state & ListViewItemStates.Focused) != 0)
-			ThemeEngine.Current.CPDrawFocusRectangle (graphics, bounds, item.ListView.ForeColor, item.ListView.BackColor);
-        }
-
-        public void DrawText ()
-        {
-		DrawText (TextFormatFlags.Default);
-        }
-
-        public void DrawText (TextFormatFlags flags)
-        {
-		TextRenderer.DrawText (graphics, item.Text, item.Font, bounds, item.ForeColor, flags);
-        }
-
-        #endregion Public Methods
     }
 }
 

@@ -286,6 +286,21 @@
     <Compile Include="System.Windows.Forms\ListViewVirtualItemsSelectionRangeChangedEventHandler.cs" />
     <Compile Include="System.Windows.Forms\DrawItemEventArgs.cs" />
     <Compile Include="System.Windows.Forms\DrawItemEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\ColumnHeaderStyle.cs" />
+    <Compile Include="System.Windows.Forms\ColumnHeaderAutoResizeStyle.cs" />
+    <Compile Include="System.Windows.Forms\CacheVirtualItemsEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\CacheVirtualItemsEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\SearchForVirtualItemEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\SearchForVirtualItemEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\ToolTipIcon.cs" />
+    <Compile Include="System.Windows.Forms\PopupEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\PopupEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\View.cs" />
+    <Compile Include="System.Windows.Forms\ArrangeDirection.cs" />
+    <Compile Include="System.Windows.Forms\ArrangeStartingPosition.cs" />
+    <Compile Include="System.Windows.Forms\DrawToolTipEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\DrawToolTipEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\DrawToolTipEventArgs.cocoa.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />
