@@ -75,7 +75,7 @@ class MyForm : Form
 		// textBox1
 		// 
 		//this.textBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
-		this.textBox1.Font = new System.Drawing.Font ("Arial", 7f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+		this.textBox1.Font = new System.Drawing.Font ("Arial", 10f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 		this.textBox1.Location = new System.Drawing.Point (78, 118);
 		this.textBox1.Name = "textBox1";
 		this.textBox1.Size = new System.Drawing.Size (100, 25);

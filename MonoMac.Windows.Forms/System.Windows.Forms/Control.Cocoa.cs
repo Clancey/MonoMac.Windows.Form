@@ -831,7 +831,7 @@ return null;
 				if (text != value)
 				{
 					text = value;
-					//UpdateWindowText ();
+					UpdateWindowText ();
 					OnTextChanged (EventArgs.Empty);
 					
 					// Label has its own AutoSize implementation
@@ -841,7 +841,10 @@ return null;
 			}
 		}
 
-
+		internal virtual void UpdateWindowText()
+		{
+				
+		}
 		[Localizable(true)]
 		[MWFCategory("Behavior")]
 		public bool Visible {

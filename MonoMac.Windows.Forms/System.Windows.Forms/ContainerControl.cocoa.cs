@@ -23,7 +23,9 @@ namespace System.Windows.Forms
 						return new SizeF();
 
 				case AutoScaleMode.Font:
-						var tb = (new NSTextField(){StringValue = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890",Font = this.Font.ToNsFont()});
+						var tb = new NSTextField();
+						tb.StringValue = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+						tb.Font = this.Font.ToNsFont();
 						tb.SizeToFit();
 						Size s = Size.Round(tb.Frame.Size);
 						int width = (int)Math.Round ((float)s.Width / 62f);

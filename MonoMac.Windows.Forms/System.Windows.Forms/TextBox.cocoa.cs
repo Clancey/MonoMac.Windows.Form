@@ -34,7 +34,9 @@ namespace System.Windows.Forms
 		}
 		public virtual string Text {
 			get { return m_helper.TextView.Value; }
-			set { m_helper.TextView.Value = value; }
+			set { m_helper.TextView.Value = value; 
+			if(!Multiline)
+				m_helper.TextView.SetSingleLine();}
 		}
 		
 		public string[] Lines

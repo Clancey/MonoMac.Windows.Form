@@ -16,7 +16,7 @@ namespace System.Windows.Forms
 		
 		protected override void CreateHandle ()
 		{	
-      m_helper = new TextBoxHelper();
+      		m_helper = new TextBoxHelper();
 			m_view =  m_helper;
 			m_helper.Host = this;
 			m_helper.TextView.Selectable = true;
@@ -28,7 +28,8 @@ namespace System.Windows.Forms
 			m_helper.TextView.TextContainer.ContainerSize = new SizeF(float.MaxValue,float.MaxValue);
 			m_helper.TextView.TextContainer.WidthTracksTextView = false;
 			
-			m_helper.ScaleUnitSquareToSize(Util.ScaleSize);
+			
+			//m_helper.ScaleUnitSquareToSize(Util.ScaleSize);
 			//m_helper.viewDidMoveToSuperview += delegate(object sender, EventArgs e) {
 			//	ViewDidMoveToSuperview();
 			//};

@@ -36,6 +36,7 @@ namespace System.Windows.Forms
 			m_view = m_helper;
 			m_helper.Host = this;
 			m_helper.Editable = false;
+			m_helper.DrawsBackground = false;
 			//m_helper.viewDidMoveToSuperview += delegate(object sender, EventArgs e) {
 			//	ViewDidMoveToSuperview();
 			//};

@@ -186,8 +186,9 @@ namespace System.Windows.Forms
 		public void Close ()
 		{
 			if (NSApplication.SharedApplication.ModalWindow == m_helper)
-				NSApplication.SharedApplication.StopModal ();
-			m_helper.PerformClose (m_helper);
+				NSApplication.SharedApplication.AbortModal ();
+			else
+				m_helper.PerformClose (this);
 		}
 
 		internal NSView ContentView {
@@ -203,12 +204,20 @@ namespace System.Windows.Forms
 		{
 			is_modal = true;
 			//this.MakeKeyAndOrderFront (this);
-			NSApplication.SharedApplication.BeginSheet (m_helper, NSApplication.SharedApplication.MainWindow);
+			//NSApplication.SharedApplication.BeginSheet (m_helper, NSApplication.SharedApplication.MainWindow);
 			NSApplication.SharedApplication.RunModalForWindow (m_helper);
-			NSApplication.SharedApplication.EndSheet (m_helper);
+			//NSApplication.SharedApplication.EndSheet (m_helper);
 			m_helper.OrderOut (m_helper);
 			//NSApplication.SharedApplication.BeginSheet(this,NSApplication.SharedApplication.MainWindow);
+			
+			m_helper.PerformClose (this);
 			return this.DialogResult;
+		}
+		
+		
+		internal override void UpdateWindowText()
+		{
+			m_helper.Title = Text; 
 		}
 		/// <summary>
 		/// Drawing stuff
@@ -240,7 +249,7 @@ namespace System.Windows.Forms
 
 		[Obsolete("Not Implemented.", false)]
 		public SizeF AutoScaleDimensions { get; set; }
-
+		
 		[Obsolete("Not Implemented.", false)]
 		public Icon Icon { get; set; }
 
@@ -305,10 +314,6 @@ namespace System.Windows.Forms
 			set { this.FrameAutosaveName = value; }
 		}
 		*/
-		public string Text {
-			get { return m_helper.Title; }
-			set { m_helper.Title = value; }
-		}
 		public object components { get; set; }		
 		
 		private DialogResult dialog_result;

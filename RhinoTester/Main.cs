@@ -43,7 +43,7 @@ namespace RhinoTester
 		void ShowEditBox(object sender, EventArgs e)
 		{
 			string returnString;
-			var dr = Dialogs.ShowEditBox("Title", "Message", "Default Text", false, out returnString);
+			var dr = Dialogs.ShowEditBox("Edit Box Title", "Message", "Default Text", false, out returnString);
 			//if( !string.IsNullOrEmpty(returnString) )
 			MessageBox.Show(returnString,"Dialog Result : " +  dr.ToString());
 		}
