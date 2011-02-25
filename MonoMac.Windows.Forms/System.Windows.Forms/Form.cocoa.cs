@@ -33,6 +33,37 @@ namespace System.Windows.Forms
 			get { return true; }
 		}
 		
+		public override void KeyDown (NSEvent theEvent)
+		{
+			base.KeyDown (theEvent);
+		}
+		public override void KeyUp (NSEvent theEvent)
+		{
+			base.KeyUp (theEvent);
+		}
+		private int lastKeyCount = 0;
+		public override void FlagsChanged (NSEvent theEvent)
+		{
+			var theKey = (NSEventModifierMask)Enum.ToObject(typeof(NSEventModifierMask),(uint)theEvent.ModifierFlags  & 0xFFFF0000);
+			int count = 0;
+			foreach(NSEventModifierMask key in Enum.GetValues(typeof(NSEventModifierMask)))
+			{
+				count += theKey.HasFlag(key) ? 1 : 0;
+			}
+			
+			//Console.WriteLine(count);
+			if(theKey == 0 || lastKeyCount > count){
+			   Host.onKeyUp(new KeyEventArgs(theEvent));
+				//Console.WriteLine("keyUp");
+			}
+			else {
+				Host.onKeyDown(new KeyEventArgs(theEvent));
+				//Console.WriteLine("keyDown");
+			}
+			lastKeyCount = count;
+			base.FlagsChanged (theEvent);
+		}
+		
 		public override void MouseUp (NSEvent theEvent)
 		{
 			PointF point = this.ConvertPointFromView (theEvent.LocationInWindow, null);
@@ -95,6 +126,14 @@ namespace System.Windows.Forms
 		public RectangleF GetClientRectangleF()
 		{
 			return ContentView.Bounds;
+		}
+		public override void KeyDown (NSEvent theEvent)
+		{
+			base.KeyDown (theEvent);
+		}
+		public override void KeyUp (NSEvent theEvent)
+		{
+			base.KeyUp (theEvent);
 		}
 
 		public void SetWindowStyle( bool WS_CAPTION, bool WS_MAXIMIZEBOX, bool WS_MINIMIZEBOX )

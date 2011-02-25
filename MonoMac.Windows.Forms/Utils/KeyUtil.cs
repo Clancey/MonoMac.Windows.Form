@@ -106,13 +106,13 @@ namespace System.Windows.Forms
 		{
 			Initialize();
 			//TODO: Make modifiers work
-			var nskey = Enum.ToObject(typeof(NSKey),theEvent.KeyCode);		
+			var nskey = Enum.ToObject(typeof(NSKey),theEvent.KeyCode);
+			var modInt = (uint)theEvent.ModifierFlags & 0xFFFF0000;
+			var modifier = ((NSEventModifierMask)Enum.ToObject(typeof(NSEventModifierMask),modInt)).ToKeys();
 			try
 			{
-				var nsint = (int)nskey;
 				var key =  (Keys)keyNames[nskey];
-				var keyint = (int)key;
-				return key;
+				return modInt != 0 ?  key | modifier : key;
 			}
 			catch
 			{
@@ -120,12 +120,12 @@ namespace System.Windows.Forms
 				{
 					// Works if the keys have the same name;
 					var key = (Keys)Enum.Parse(typeof(Keys), nskey.ToString());
-					return key;
+					return modInt != 0 ?  key | modifier : key;
 				}
 				catch
 				{
 					// None found
-					return Keys.None;	
+					return modInt != 0 ? modifier : Keys.None;	
 				}
 			}
 			

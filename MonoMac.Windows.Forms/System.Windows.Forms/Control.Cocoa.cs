@@ -361,6 +361,12 @@ return null;
 		internal void onKeyPress(KeyPressEventArgs e) {
 			OnKeyPress(e);	
 		}
+		internal void onKeyDown(KeyEventArgs e) {
+			OnKeyDown(e);	
+		}
+		internal void onKeyUp(KeyEventArgs e) {
+			OnKeyUp(e);	
+		}
 		protected virtual bool ProcessKeyEventArgs (ref Message m)
 		{
 			/*
@@ -1136,7 +1142,7 @@ return null;
 			PaintEventHandler eh = (PaintEventHandler)(Events[PaintEvent]);
 			if (eh != null)
 				eh (this, e);
-			((IViewHelper)NSViewForControl).shouldDraw = true;
+			e.Handled = false;
 		}
 
 

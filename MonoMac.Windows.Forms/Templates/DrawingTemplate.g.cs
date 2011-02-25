@@ -8,13 +8,15 @@ namespace System.Windows.Forms
 {
 	internal partial class UserControl 
 	{	
-		public bool shouldDraw {get;set;}
 		public override void DrawRect (RectangleF dirtyRect)
 		{
+		
+			bool shouldDraw = true;
 			using (var graphics = Graphics.FromHwnd (this.Handle))
 			{
 				var events = new PaintEventArgs (graphics, Rectangle.Round (dirtyRect));
 				Host.Draw (events);
+				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
 			base.DrawRect(dirtyRect);
@@ -42,13 +44,15 @@ namespace System.Windows.Forms
 	
 	internal partial class ButtonHelper 
 	{	
-		public bool shouldDraw {get;set;}
 		public override void DrawRect (RectangleF dirtyRect)
 		{
+		
+			bool shouldDraw = true;
 			using (var graphics = Graphics.FromHwnd (this.Handle))
 			{
 				var events = new PaintEventArgs (graphics, Rectangle.Round (dirtyRect));
 				Host.Draw (events);
+				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
 			base.DrawRect(dirtyRect);
@@ -76,13 +80,15 @@ namespace System.Windows.Forms
 	
 	internal partial class TextBoxMouseView 
 	{	
-		public bool shouldDraw {get;set;}
 		public override void DrawRect (RectangleF dirtyRect)
 		{
+		
+			bool shouldDraw = true;
 			using (var graphics = Graphics.FromHwnd (this.Handle))
 			{
 				var events = new PaintEventArgs (graphics, Rectangle.Round (dirtyRect));
 				Host.Draw (events);
+				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
 			base.DrawRect(dirtyRect);
@@ -110,13 +116,15 @@ namespace System.Windows.Forms
 	
 	internal partial class ComboBoxHelper 
 	{	
-		public bool shouldDraw {get;set;}
 		public override void DrawRect (RectangleF dirtyRect)
 		{
+		
+			bool shouldDraw = true;
 			using (var graphics = Graphics.FromHwnd (this.Handle))
 			{
 				var events = new PaintEventArgs (graphics, Rectangle.Round (dirtyRect));
 				Host.Draw (events);
+				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
 			base.DrawRect(dirtyRect);
@@ -144,13 +152,15 @@ namespace System.Windows.Forms
 	
 	internal partial class ListBoxMouseView 
 	{	
-		public bool shouldDraw {get;set;}
 		public override void DrawRect (RectangleF dirtyRect)
 		{
+		
+			bool shouldDraw = true;
 			using (var graphics = Graphics.FromHwnd (this.Handle))
 			{
 				var events = new PaintEventArgs (graphics, Rectangle.Round (dirtyRect));
 				Host.Draw (events);
+				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
 			base.DrawRect(dirtyRect);
@@ -178,13 +188,15 @@ namespace System.Windows.Forms
 	
 	internal partial class TrackBarMouseView 
 	{	
-		public bool shouldDraw {get;set;}
 		public override void DrawRect (RectangleF dirtyRect)
 		{
+		
+			bool shouldDraw = true;
 			using (var graphics = Graphics.FromHwnd (this.Handle))
 			{
 				var events = new PaintEventArgs (graphics, Rectangle.Round (dirtyRect));
 				Host.Draw (events);
+				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
 			base.DrawRect(dirtyRect);
@@ -212,13 +224,15 @@ namespace System.Windows.Forms
 	
 	internal partial class PanelMouseView 
 	{	
-		public bool shouldDraw {get;set;}
 		public override void DrawRect (RectangleF dirtyRect)
 		{
+		
+			bool shouldDraw = true;
 			using (var graphics = Graphics.FromHwnd (this.Handle))
 			{
 				var events = new PaintEventArgs (graphics, Rectangle.Round (dirtyRect));
 				Host.Draw (events);
+				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
 			base.DrawRect(dirtyRect);
@@ -246,13 +260,15 @@ namespace System.Windows.Forms
 	
 	internal partial class UserControlMouseView 
 	{	
-		public bool shouldDraw {get;set;}
 		public override void DrawRect (RectangleF dirtyRect)
 		{
+		
+			bool shouldDraw = true;
 			using (var graphics = Graphics.FromHwnd (this.Handle))
 			{
 				var events = new PaintEventArgs (graphics, Rectangle.Round (dirtyRect));
 				Host.Draw (events);
+				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
 			base.DrawRect(dirtyRect);
@@ -280,13 +296,15 @@ namespace System.Windows.Forms
 	
 	internal partial class TextBoxHelper 
 	{	
-		public bool shouldDraw {get;set;}
 		public override void DrawRect (RectangleF dirtyRect)
 		{
+		
+			bool shouldDraw = true;
 			using (var graphics = Graphics.FromHwnd (this.Handle))
 			{
 				var events = new PaintEventArgs (graphics, Rectangle.Round (dirtyRect));
 				Host.Draw (events);
+				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
 			base.DrawRect(dirtyRect);
@@ -314,13 +332,15 @@ namespace System.Windows.Forms
 	
 	internal partial class ViewHelper 
 	{	
-		public bool shouldDraw {get;set;}
 		public override void DrawRect (RectangleF dirtyRect)
 		{
+		
+			bool shouldDraw = true;
 			using (var graphics = Graphics.FromHwnd (this.Handle))
 			{
 				var events = new PaintEventArgs (graphics, Rectangle.Round (dirtyRect));
 				Host.Draw (events);
+				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
 			base.DrawRect(dirtyRect);

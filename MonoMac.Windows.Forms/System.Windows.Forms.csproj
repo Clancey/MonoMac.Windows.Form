@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\MonoMac.dll</HintPath>
+      <HintPath>..\..\MonoMac\src\MonoMac.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -301,6 +301,8 @@
     <Compile Include="System.Windows.Forms\DrawToolTipEventArgs.cs" />
     <Compile Include="System.Windows.Forms\DrawToolTipEventHandler.cs" />
     <Compile Include="System.Windows.Forms\DrawToolTipEventArgs.cocoa.cs" />
+    <Compile Include="Extenders\MiscExtenders.cs" />
+    <Compile Include="System.Windows.Forms\KeysConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />

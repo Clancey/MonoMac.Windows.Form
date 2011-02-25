@@ -6,7 +6,7 @@ namespace System.Windows.Forms
 	{
 		NSCursor Cursor {get;set;}
 		Control Host {get;set;}
-		bool shouldDraw {get;set;}
+		//bool shouldDraw {get;set;}
 	}
 }
 
