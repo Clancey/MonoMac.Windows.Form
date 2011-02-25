@@ -108,11 +108,11 @@ namespace System.Windows.Forms
 			int count = Util.NumberOfSetBits((int)theKey) ;
 			//Console.WriteLine(count);
 			if(theKey == 0 || lastKeyCount > count){
-			   Host.onKeyUp(new KeyEventArgs(theEvent));
+			   Host.Host.onKeyUp(new KeyEventArgs(theEvent));
 				//Console.WriteLine("keyUp");
 			}
 			else {
-				Host.onKeyDown(new KeyEventArgs(theEvent));
+				Host.Host.onKeyDown(new KeyEventArgs(theEvent));
 				//Console.WriteLine("keyDown");
 			}
 			lastKeyCount = count;
