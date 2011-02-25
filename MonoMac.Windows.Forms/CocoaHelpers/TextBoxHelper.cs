@@ -104,19 +104,15 @@ namespace System.Windows.Forms
 		public override void FlagsChanged (NSEvent theEvent)
 		{
 			var theKey = (NSEventModifierMask)Enum.ToObject(typeof(NSEventModifierMask),(uint)theEvent.ModifierFlags  & 0xFFFF0000);
-			int count = 0;
-			foreach(NSEventModifierMask key in Enum.GetValues(typeof(NSEventModifierMask)))
-			{
-				count += theKey.HasFlag(key) ? 1 : 0;
-			}
 			
+			int count = Util.NumberOfSetBits((int)theKey) ;
 			//Console.WriteLine(count);
 			if(theKey == 0 || lastKeyCount > count){
-			   Host.Host.onKeyUp(new KeyEventArgs(theEvent));
+			   Host.onKeyUp(new KeyEventArgs(theEvent));
 				//Console.WriteLine("keyUp");
 			}
 			else {
-				Host.Host.onKeyDown(new KeyEventArgs(theEvent));
+				Host.onKeyDown(new KeyEventArgs(theEvent));
 				//Console.WriteLine("keyDown");
 			}
 			lastKeyCount = count;
