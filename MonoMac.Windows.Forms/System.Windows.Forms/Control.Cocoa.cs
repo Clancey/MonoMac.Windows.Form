@@ -102,7 +102,7 @@ namespace System.Windows.Forms
 		protected virtual void CreateHandle ()
 		{
 			if (m_view == null)
-				m_view = new NSView ();
+				m_view = new ViewHelper (this);
 		}
 
 		private void initialize ()

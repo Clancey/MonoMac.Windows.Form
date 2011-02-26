@@ -303,6 +303,7 @@
     <Compile Include="System.Windows.Forms\DrawToolTipEventArgs.cocoa.cs" />
     <Compile Include="Extenders\MiscExtenders.cs" />
     <Compile Include="System.Windows.Forms\KeysConverter.cs" />
+    <Compile Include="CocoaHelpers\ViewHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />
