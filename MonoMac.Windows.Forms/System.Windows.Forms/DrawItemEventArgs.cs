@@ -37,6 +37,7 @@ namespace System.Windows.Forms {
 		DrawItemState state;
 		Color fore_color;
 		Color back_color;
+		internal bool		Handled;
 
 		public DrawItemEventArgs (Graphics graphics, Font font,
 				Rectangle rect, int index, DrawItemState state) :

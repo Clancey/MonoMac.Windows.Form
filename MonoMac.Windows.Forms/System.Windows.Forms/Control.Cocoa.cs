@@ -315,6 +315,8 @@ return null;
 		internal virtual void SetBoundsInternal (int x, int y, int width, int height, BoundsSpecified specified)
 		{
 			bounds = new Rectangle (x, y, width, height);
+			//bounds.Width = width;
+			//bounds.Height = height;
 			UpdateBounds ();
 			// If the user explicitly moved or resized us, recalculate our anchor distances
 			//if (specified != BoundsSpecified.None)
@@ -1022,6 +1024,12 @@ return null;
 			}
 			OnInvalidated (new InvalidateEventArgs (rc));
 		}
+		
+	
+		public static Point MousePosition {
+			get { return Point.Round( NSApplication.SharedApplication.KeyWindow.MouseLocationOutsideOfEventStream); }
+		}
+		
 
 		// This method exists so controls overriding OnPaintBackground can have default background painting done
 		internal virtual void PaintControlBackground (PaintEventArgs pevent)

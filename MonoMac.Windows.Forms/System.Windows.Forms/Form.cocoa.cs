@@ -269,6 +269,11 @@ namespace System.Windows.Forms
 				m_helper.SetContentSize(new SizeF(value));
 			}
 		}
+		
+		internal override void UpdateBounds ()
+		{
+			m_helper.SetFrame(bounds,true);	
+		}
 
 		internal override ControlCollection controls {
 			get {
@@ -325,11 +330,6 @@ namespace System.Windows.Forms
 
 		#region From Template
 		public string Name { get; set; }
-		internal Rectangle bounds {
-			get { return Rectangle.Round(m_helper.Frame); }
-			set { 
-				m_helper.SetFrame (value, true); }
-		}
 
 		internal override Point location {
 			get { return Point.Round(m_helper.Frame.Location); }

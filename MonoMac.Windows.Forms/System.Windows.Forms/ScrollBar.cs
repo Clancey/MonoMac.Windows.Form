@@ -272,60 +272,6 @@ namespace System.Windows.Forms
 		}
 #endif
 
-		protected override ImeMode DefaultImeMode
-		{
-			get { return ImeMode.Disable; }
-		}
-
-		[EditorBrowsable (EditorBrowsableState.Never)]
-		[Browsable (false)]
-		public override Font Font
-		{
-			get { return base.Font; }
-			set {
-				if (base.Font.Equals (value))
-					return;
-
-				base.Font = value;
-			}
-		}
-
-		[EditorBrowsable (EditorBrowsableState.Never)]
-		[Browsable (false)]
-		public override Color ForeColor
-		{
-			get { return base.ForeColor; }
-			set {
-				if (base.ForeColor == value)
-					return;
-
-				base.ForeColor = value;
-				Refresh ();
-			}
-		}
-
-		[EditorBrowsable (EditorBrowsableState.Never)]
-		[Browsable (false)]
-		public new ImeMode ImeMode
-		{
-			get { return base.ImeMode; }
-			set {
-				if (base.ImeMode == value)
-					return;
-
-				base.ImeMode = value;
-			}
-		}
-
-		[EditorBrowsable (EditorBrowsableState.Never)]
-		[Bindable (false)]
-		[Browsable (false)]
-		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
-		public override string Text {
-			 get { return base.Text;  }
-			 set { base.Text = value; }
-		}
-
 		#endregion //Public Properties
 
 		#region Public Methods

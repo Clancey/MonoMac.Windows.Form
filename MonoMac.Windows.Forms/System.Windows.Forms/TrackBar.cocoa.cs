@@ -13,7 +13,7 @@ namespace System.Windows.Forms
 		protected override void CreateHandle ()
 		{
 			m_helper = new TrackBarMouseView();
-      m_view = m_helper;
+      		m_view = m_helper;
 			m_helper.Host = this;
 			m_helper.Frame = new RectangleF(0,0,100,25);
 			m_helper.Activated += delegate(object sender, EventArgs e) {

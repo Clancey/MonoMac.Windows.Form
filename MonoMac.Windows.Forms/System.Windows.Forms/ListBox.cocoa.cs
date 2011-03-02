@@ -210,6 +210,7 @@ namespace System.Windows.Forms
 		
 		protected virtual void OnDrawItem (DrawItemEventArgs e)
 		{			
+			e.Handled = false;
 			switch (DrawMode) {
 			case DrawMode.OwnerDrawFixed:
 			case DrawMode.OwnerDrawVariable:
@@ -220,7 +221,6 @@ namespace System.Windows.Forms
 				break;
 
 			default:
-				tableView.shouldDraw = true;
 				break;
 			}
 		}

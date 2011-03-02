@@ -43,7 +43,7 @@ foreach(var folder in subfolders)
 				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
-			base.DrawRect(dirtyRect);
+				base.DrawRect(dirtyRect);
 		}
 		/*
 		protected virtual void OnPaint(PaintEventArgs e)

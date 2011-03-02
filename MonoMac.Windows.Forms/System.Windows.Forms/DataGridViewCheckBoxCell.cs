@@ -1,14 +1,22 @@
 using System;
 using MonoMac.AppKit;
+using System.Runtime.InteropServices;
 namespace System.Windows.Forms
 {
 	public class DataGridViewCheckBoxCell : DataGridViewButtonCell
 	{
 		public DataGridViewCheckBoxCell ()
 		{
-			this.SetButtonType(NSButtonType.Switch);
+			Init();
 		}
-		
+		public DataGridViewCheckBoxCell(IntPtr handle) : base(handle)
+		{
+			Init();
+		}
+		void Init()
+		{
+			this.SetButtonType(NSButtonType.Switch);			
+		}
 		
 		public bool Checked 
 		{
@@ -40,7 +48,6 @@ namespace System.Windows.Forms
 				}
 			}
 		}
-		
 	}
 }
 

@@ -9,7 +9,6 @@ namespace System.Windows.Forms
 		{
 			Host = parent;
 			this.AutoresizingMask = (NSViewResizingMask.HeightSizable | NSViewResizingMask.WidthSizable);
-			
 		}
 		
 		public override void ViewDidMoveToWindow ()

@@ -51,7 +51,6 @@ namespace System.Windows.Forms
 			checked_items = new CheckedItemCollection (this);
 			SetStyle (ControlStyles.ResizeRedraw, true);
 		}
-		
 
 		#region events
 		static object ItemCheckEvent = new object ();
@@ -215,7 +214,6 @@ namespace System.Windows.Forms
 		#endregion Public Properties
 
 		#region Public Methods
-
 		
 		protected override ListBox.ObjectCollection CreateItemCollection ()
 		{
@@ -337,7 +335,6 @@ namespace System.Windows.Forms
 
     			InvalidateCheckbox (index);
 		}
-
 
 		#endregion Public Methods
 

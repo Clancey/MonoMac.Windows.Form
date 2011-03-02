@@ -7,7 +7,16 @@ namespace System.Windows.Forms
 {
 	public class DataGridViewButtonCell : NSButtonCell
 	{
+		public DataGridViewButtonCell(IntPtr handle) : base(handle)
+		{
+			Init();
+		}
 		public DataGridViewButtonCell ()
+		{
+			Init();
+		}
+		
+		void Init()
 		{
 			this.BezelStyle = NSBezelStyle.Rounded;
 			this.Activated += delegate(object sender, EventArgs e) {
@@ -15,6 +24,7 @@ namespace System.Windows.Forms
 					Click (sender, e);
 			};
 		}
+		
 		public string Text {
 			get { return this.Title; }
 			set {
@@ -37,7 +47,6 @@ namespace System.Windows.Forms
 			get {return this.BackgroundColor.ToColor();	}
 			set { BackgroundColor = value.ToNSColor();}
 		}
-
 	}
 }
 

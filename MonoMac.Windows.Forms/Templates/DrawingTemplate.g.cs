@@ -19,7 +19,7 @@ namespace System.Windows.Forms
 				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
-			base.DrawRect(dirtyRect);
+				base.DrawRect(dirtyRect);
 		}
 		/*
 		protected virtual void OnPaint(PaintEventArgs e)
@@ -55,7 +55,7 @@ namespace System.Windows.Forms
 				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
-			base.DrawRect(dirtyRect);
+				base.DrawRect(dirtyRect);
 		}
 		/*
 		protected virtual void OnPaint(PaintEventArgs e)
@@ -91,7 +91,7 @@ namespace System.Windows.Forms
 				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
-			base.DrawRect(dirtyRect);
+				base.DrawRect(dirtyRect);
 		}
 		/*
 		protected virtual void OnPaint(PaintEventArgs e)
@@ -127,7 +127,7 @@ namespace System.Windows.Forms
 				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
-			base.DrawRect(dirtyRect);
+				base.DrawRect(dirtyRect);
 		}
 		/*
 		protected virtual void OnPaint(PaintEventArgs e)
@@ -163,7 +163,7 @@ namespace System.Windows.Forms
 				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
-			base.DrawRect(dirtyRect);
+				base.DrawRect(dirtyRect);
 		}
 		/*
 		protected virtual void OnPaint(PaintEventArgs e)
@@ -199,7 +199,7 @@ namespace System.Windows.Forms
 				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
-			base.DrawRect(dirtyRect);
+				base.DrawRect(dirtyRect);
 		}
 		/*
 		protected virtual void OnPaint(PaintEventArgs e)
@@ -235,7 +235,7 @@ namespace System.Windows.Forms
 				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
-			base.DrawRect(dirtyRect);
+				base.DrawRect(dirtyRect);
 		}
 		/*
 		protected virtual void OnPaint(PaintEventArgs e)
@@ -271,7 +271,7 @@ namespace System.Windows.Forms
 				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
-			base.DrawRect(dirtyRect);
+				base.DrawRect(dirtyRect);
 		}
 		/*
 		protected virtual void OnPaint(PaintEventArgs e)
@@ -307,7 +307,7 @@ namespace System.Windows.Forms
 				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
-			base.DrawRect(dirtyRect);
+				base.DrawRect(dirtyRect);
 		}
 		/*
 		protected virtual void OnPaint(PaintEventArgs e)
@@ -343,7 +343,7 @@ namespace System.Windows.Forms
 				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
-			base.DrawRect(dirtyRect);
+				base.DrawRect(dirtyRect);
 		}
 		/*
 		protected virtual void OnPaint(PaintEventArgs e)

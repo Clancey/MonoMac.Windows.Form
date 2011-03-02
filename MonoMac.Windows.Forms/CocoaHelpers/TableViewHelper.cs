@@ -5,8 +5,6 @@ namespace System.Windows.Forms
 {
 	internal partial class TableViewHelper : NSTableView, IViewHelper,  ITableViewHelper
 	{
-		
-		public bool shouldDraw {get;set;}
         public Color BackColor {get;set;}
 		protected virtual void OnPaintBackground(PaintEventArgs e)
 		{
@@ -22,12 +20,14 @@ namespace System.Windows.Forms
 		
 		public override void DrawRow (int row, Drawing.RectangleF clipRect)
 		{
+			bool shouldDraw = true;
 			using (var graphics = Graphics.FromHwnd (this.Handle))
 			{	
 				
 				var events = new DrawItemEventArgs( graphics,this.Font.ToFont(), Rectangle.Round (clipRect),row,getState(row));
 				if(Host is ListBox)
-					((ListBox)Host).DrawItemInternal (events);
+					((ListBox)Host).DrawItemInternal (events);				
+				shouldDraw = !events.Handled;
 			}
 			if (shouldDraw)
 				base.DrawRow (row, clipRect);
