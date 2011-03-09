@@ -2,12 +2,12 @@ using System;
 using MonoMac.AppKit;
 namespace System.Windows.Forms
 {
-	public class GroupBoxHelper : NSBox, IViewHelper
+	internal class GroupBoxHelper : NSBox, IViewHelper
 	{
 		public GroupBoxHelper (Control parent)
 		{
 			Host = parent;
-			this.ContentView = new ViewHelper(parent);
+			this.ContentView = new FlippedView();
 		}
 
 		#region IViewHelper implementation

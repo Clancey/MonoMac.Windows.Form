@@ -324,6 +324,22 @@
     <Compile Include="System.Windows.Forms\PictureBoxSizeMode.cs" />
     <Compile Include="System.Windows.Forms\PictureBox.cocoa.cs" />
     <Compile Include="CocoaHelpers\GroupBoxHelper.cs" />
+    <Compile Include="System.Windows.Forms\TabControl.cs" />
+    <Compile Include="System.Windows.Forms\TabPage.cs" />
+    <Compile Include="System.Windows.Forms\TabAlignment.cs" />
+    <Compile Include="System.Windows.Forms\TabAppearance.cs" />
+    <Compile Include="System.Windows.Forms\TabControlAction.cs" />
+    <Compile Include="System.Windows.Forms\TabControlCancelEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\TabControlCancelEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\TabControlEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\TabControlEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\TabDrawMode.cs" />
+    <Compile Include="System.Windows.Forms\TabSizeMode.cs" />
+    <Compile Include="System.Windows.Forms\TabControl.cocoa.cs" />
+    <Compile Include="CocoaHelpers\TabViewHelper.cs" />
+    <Compile Include="System.Windows.Forms\TabPage.cocoa.cs" />
+    <Compile Include="CocoaHelpers\TabViewItemHelper.cs" />
+    <Compile Include="CocoaHelpers\FlippedView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />

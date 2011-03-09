@@ -3,7 +3,7 @@ using MonoMac.AppKit;
 using System.Drawing;
 namespace System.Windows.Forms
 {
-	internal partial class ViewHelper : NSView, IViewHelper
+	internal partial class ViewHelper : FlippedView, IViewHelper
 	{
 		public ViewHelper (Control parent)
 		{
@@ -18,11 +18,6 @@ namespace System.Windows.Forms
 		
 		public Control Host {get;set;}
 		public NSCursor Cursor {get;set;}
-		
-		
-		public override bool IsFlipped {
-			get { return true; }
-		}
 		
 		public override void KeyDown (NSEvent theEvent)
 		{

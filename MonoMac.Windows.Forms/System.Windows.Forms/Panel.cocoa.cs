@@ -17,7 +17,7 @@ namespace System.Windows.Forms
 		protected override void CreateHandle ()
 		{
 			m_helper = new PanelMouseView();
-      m_view = m_helper;
+      		m_view = m_helper;
 			m_helper.Host = this;
 			trackingArea = new NSTrackingArea(m_helper.Frame,(NSTrackingAreaOptions.MouseEnteredAndExited |
 			                                                             NSTrackingAreaOptions.MouseMoved |
