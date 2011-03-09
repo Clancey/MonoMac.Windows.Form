@@ -123,6 +123,22 @@ namespace System.Windows.Forms
 		}
 		public HorizontalAlignment TextAlign
 		{
+			get {
+				switch(m_helper.TextView.Alignment)
+				{
+				case NSTextAlignment.Left:
+					return HorizontalAlignment.Left;
+					break;
+				case NSTextAlignment.Center:
+					return HorizontalAlignment.Center;
+					break;
+				case NSTextAlignment.Right:
+					return HorizontalAlignment.Right;
+					break;
+				default : return HorizontalAlignment.Left;
+					break;
+				}
+			}
 			set
 			{
 				switch(value)
@@ -139,7 +155,6 @@ namespace System.Windows.Forms
 				default : m_helper.TextView.Alignment = NSTextAlignment.Left;
 					break;
 				}
-					
 			}
 		}
 		
@@ -168,8 +183,17 @@ namespace System.Windows.Forms
 				}
 			}
 		}
-	
+		
+		public void Paste (string text)
+		{
+			m_helper.SelectedText = text;
+			//document.ReplaceSelection (CaseAdjust (text), false);
 
+			//ScrollToCaret();
+			OnTextChanged(EventArgs.Empty);
+		}
+	
+		
 	}
 }
 

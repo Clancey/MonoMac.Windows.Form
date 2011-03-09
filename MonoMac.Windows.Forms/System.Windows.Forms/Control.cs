@@ -566,7 +566,6 @@ namespace System.Windows.Forms
 		// public static Color DefaultForeColor{ get; }
 		
 		// Missing:
-		// public static Keys ModifierKeys{ get; }
 		// public static MouseButtons MouseButtons{ get; }
 		// public static Point MousePosition{ get; }
 		// protectect static ImeMode PropagatingImeMode{ get; private set; }
@@ -705,9 +704,9 @@ namespace System.Windows.Forms
 			}
 
 			set {
-				if (!value.IsEmpty && (value.A != 0xff) && !GetStyle(ControlStyles.SupportsTransparentBackColor)) {
-					throw new ArgumentException("Transparent background colors are not supported on this control");
-				}
+				//if (!value.IsEmpty && (value.A != 0xff) && !GetStyle(ControlStyles.SupportsTransparentBackColor)) {
+				//	throw new ArgumentException("Transparent background colors are not supported on this control");
+				//}
 
 				if (background_color != value) {
 					background_color=value;

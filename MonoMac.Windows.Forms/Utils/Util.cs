@@ -49,7 +49,7 @@ namespace System.Windows.Forms
 			return tv.Frame.Size;
 		}
 		
-		public static SizeF ScaleSize = new SizeF(.92f,.92f);//(.92f,.92f);
+		//public static SizeF ScaleSize = new SizeF(.92f,.92f);//(.92f,.92f);
 	
 		[DllImport ("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
 		internal static extern void CGContextTranslateCTM (IntPtr context, float tx, float ty);

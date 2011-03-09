@@ -9,7 +9,7 @@ namespace System.Windows.Forms
         {
 			if (clr == null)
 				return Color.Transparent;
-			clr.UsingColorSpace(NSColorSpace.CalibratedRGB);
+			clr = clr.UsingColorSpace(NSColorSpace.CalibratedRGB);
 			return Color.FromArgb( (int)clr.AlphaComponent
 				                      ,(int)clr.RedComponent
 				                      ,(int)clr.GreenComponent

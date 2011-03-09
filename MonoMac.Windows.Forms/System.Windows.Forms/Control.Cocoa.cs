@@ -84,7 +84,8 @@ namespace System.Windows.Forms
 		}
 
 		#region Public Static Properties
-
+		
+		public static Keys ModifierKeys{ get {return Keys.None;} }
 		public static Color DefaultBackColor {
 			get { return Color.Empty; }
 		}

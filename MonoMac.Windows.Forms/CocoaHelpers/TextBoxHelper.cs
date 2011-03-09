@@ -94,10 +94,31 @@ namespace System.Windows.Forms
 		}
 		public override void KeyDown (NSEvent theEvent)
 		{
-			var keyEvent = new KeyPressEventArgs(theEvent.Characters.ToCharArray()[0]);
-			Host.Host.onKeyPress(keyEvent);
-			if(!keyEvent.Handled)
-				base.KeyDown (theEvent);
+			var chars = theEvent.Characters.ToCharArray();
+			var thekey = chars[0];
+			var keyEvent = new KeyPressEventArgs(thekey);
+			if(thekey != (char)NSKey.LeftArrow 
+			   && thekey != (char)NSKey.RightArrow 
+			   && thekey != (char)NSKey.UpArrow 
+			   && thekey != (char)NSKey.DownArrow
+			   && thekey != (char)NSKey.Tab
+			   && thekey != (char)NSKey.Insert
+			   && thekey != (char)NSKey.Delete
+			   && thekey != (char)NSKey.ForwardDelete
+			   && char.IsControl(thekey)
+			   && thekey != (char)NSKey.Home
+			   && thekey != (char)NSKey.End
+			   && thekey != (char)NSKey.PageUp
+			   && thekey != (char)NSKey.PageDown
+			   && thekey != (char)NSKey.F1
+			   && thekey != (char)NSKey.F2
+			   && thekey != (char)NSKey.Option) {
+				Host.Host.onKeyPress(keyEvent);
+				if(!keyEvent.Handled)
+					base.KeyDown (theEvent);
+			}
+			else
+				base.KeyDown(theEvent);
 		}
 		
 		private int lastKeyCount = 0;

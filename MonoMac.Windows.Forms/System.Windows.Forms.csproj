@@ -306,6 +306,18 @@
     <Compile Include="System.Windows.Forms\ColumnWidthChangedEventHandler.cs" />
     <Compile Include="System.Windows.Forms\ColumnWidthChangingEventArgs.cs" />
     <Compile Include="System.Windows.Forms\ColumnWidthChangingEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\NumericTextBox.cs" />
+    <Compile Include="System.Windows.Forms\NumericUpDown.cs" />
+    <Compile Include="System.Windows.Forms\UpDownBase.cs" />
+    <Compile Include="System.Windows.Forms\UpDownEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\UpDownEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\NumericUpDownAcceleration.cs" />
+    <Compile Include="System.Windows.Forms\NumericUpDownAccelerationCollection.cs" />
+    <Compile Include="System.Windows.Forms.VisualStyles\PushButtonState.cs" />
+    <Compile Include="System.Windows.Forms\UpDownBase.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\TextBox.cs" />
+    <Compile Include="CocoaHelpers\UpDownSpinner.cs" />
+    <Compile Include="CocoaHelpers\UpDownSpinnerHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />
@@ -316,6 +328,7 @@
     <Folder Include="System.Windows.Forms.Layout\" />
     <Folder Include="System.Windows.Forms\" />
     <Folder Include="CocoaHelpers\" />
+    <Folder Include="System.Windows.Forms.VisualStyles\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
