@@ -318,6 +318,12 @@
     <Compile Include="System.Windows.Forms\TextBox.cs" />
     <Compile Include="CocoaHelpers\UpDownSpinner.cs" />
     <Compile Include="CocoaHelpers\UpDownSpinnerHelper.cs" />
+    <Compile Include="System.Windows.Forms\GroupBox.cs" />
+    <Compile Include="System.Windows.Forms\GroupBox.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\PictureBox.cs" />
+    <Compile Include="System.Windows.Forms\PictureBoxSizeMode.cs" />
+    <Compile Include="System.Windows.Forms\PictureBox.cocoa.cs" />
+    <Compile Include="CocoaHelpers\GroupBoxHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />

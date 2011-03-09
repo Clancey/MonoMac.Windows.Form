@@ -17,6 +17,8 @@ class MyForm : Form
 	private System.Windows.Forms.TrackBar trackBar1;
 	private System.Windows.Forms.Label label1;	
     private System.Windows.Forms.NumericUpDown numericUpDown1;
+	private System.Windows.Forms.GroupBox groupBox1;
+    private System.Windows.Forms.PictureBox pictureBox1;
 	public MyForm ()
 	{
 		this.listbox1 = new System.Windows.Forms.ListBox();
@@ -28,6 +30,7 @@ class MyForm : Form
 		this.comboBox1 = new System.Windows.Forms.ComboBox ();
 		this.trackBar1 = new TrackBar();
 		this.label1 = new Label();
+		this.groupBox1 = new GroupBox();
 		this.numericUpDown1 =  new System.Windows.Forms.NumericUpDown();
       	((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
 		
@@ -117,13 +120,24 @@ class MyForm : Form
 		};
 		
 		
-		
 		///
 		///Label1
 		///
 		this.label1.Size = new Size(100,25);
-		this.label1.Location = new Point(78,250);
+		this.label1.Location = new Point(0,0);
 		this.label1.Text = "Label!";
+		
+		
+		// 
+		// m_groupDescription
+		// 
+		this.groupBox1.Controls.Add(this.label1);
+		this.groupBox1.Location = new System.Drawing.Point(78,250);
+		this.groupBox1.Name = "m_groupDescription";
+		this.groupBox1.Size = new System.Drawing.Size(278, 130);
+		this.groupBox1.TabIndex = 3;
+		this.groupBox1.TabStop = false;
+		this.groupBox1.Text = "Description";
 		
 		//NumericUpDown
 		this.numericUpDown1.Location = new System.Drawing.Point(33, 300);
@@ -161,7 +175,7 @@ class MyForm : Form
 		this.Controls.Add (this.button1);
 		this.Controls.Add (this.button2);
 		this.Controls.Add(this.trackBar1);
-		this.Controls.Add(this.label1);
+		this.Controls.Add(this.groupBox1);
      	this.Controls.Add(this.numericUpDown1);
 		this.Name = "Form1";
 		this.Text = "Form1";
