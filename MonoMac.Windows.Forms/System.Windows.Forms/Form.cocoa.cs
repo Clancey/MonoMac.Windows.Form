@@ -160,14 +160,14 @@ namespace System.Windows.Forms
 					m_helper.StyleMask &= ~NSWindowStyle.Miniaturizable;
 			}
 		}
-		public void Show ()
+		internal void InternalShow ()
 		{
 			m_helper.MakeKeyAndOrderFront (m_helper);
 			//Controls.SetTab ();
 		}
 		public void Show (IWin32Window parent)
 		{
-			m_helper.MakeKeyAndOrderFront (m_helper);
+      Show();
 		}
 		public void Close ()
 		{
