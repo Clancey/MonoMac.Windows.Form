@@ -119,6 +119,11 @@ namespace System.Windows.Forms
 			}
 		}
 		
+
+    public bool ControlBox{get;set;}
+    public FormStartPosition StartPosition{get;set;}
+    public bool TopMost{get;set;}
+    
 		public bool ShowInTaskbar {get;set;}
 		#endregion
 		

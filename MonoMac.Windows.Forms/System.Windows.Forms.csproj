@@ -33,6 +33,15 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DefineConstants>NET_2_0</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugRhino|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\..\Library\Application Support\McNeel\Rhinoceros\lib\mono\gac\System.Windows.Forms\4.0.0.0__b77a5c561934e089</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>DEBUG; NET_2_0</DefineConstants>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -359,6 +368,7 @@
     <Compile Include="System.Windows.Forms\ToolStripItem.cocoa.cs" />
     <Compile Include="System.Windows.Forms\FormBorderStyle.cs" />
     <Compile Include="System.Windows.Forms\ToolStripItemDisplayStyle.cs" />
+    <Compile Include="System.Windows.Forms\FormStartPosition.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />
