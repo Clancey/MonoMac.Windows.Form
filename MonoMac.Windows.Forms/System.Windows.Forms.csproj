@@ -340,6 +340,25 @@
     <Compile Include="CocoaHelpers\TabViewItemHelper.cs" />
     <Compile Include="CocoaHelpers\FlippedView.cs" />
     <Compile Include="System.Windows.Forms\Control.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\ToolStrip.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripButton.cs" />
+    <Compile Include="System.Windows.Forms\IToolStripData.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItemCollection.cs" />
+    <Compile Include="System.Windows.Forms\Orientation.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItem.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItemEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItemEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItemClickedEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItemClickedEventHandler.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripDropDownCloseReason.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItemEventType.cs" />
+    <Compile Include="System.Windows.Forms\ToolStrip.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripButton.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItemCollection.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItemAlignment.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItem.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\FormBorderStyle.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItemDisplayStyle.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />

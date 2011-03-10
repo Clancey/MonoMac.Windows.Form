@@ -31,7 +31,6 @@ namespace System.Windows.Forms
 				hasLoaded = true;
 			}
 		}
-				
 		public override void MouseMoved (NSEvent theEvent)
 		{
 			this.ContentView.MouseMoved(theEvent);
@@ -88,12 +87,13 @@ namespace System.Windows.Forms
 		{
 			m_helper.SetWindowStyle(true, true, true);
 		}
-
+		
+		FormBorderStyle			form_border_style;
 		protected override void CreateHandle ()
 		{
 			m_helper = new FormHelper (this, new RectangleF (50, 50, 400, 400), (NSWindowStyle)(1 | (1 << 1) | (1 << 2) | (1 << 3)), NSBackingStore.Buffered, false);
 			m_helper.ContentView = new ViewHelper (this);
-      m_view = m_helper.ContentView;
+      		m_view = m_helper.ContentView;
 			//m_helper.ContentView.ScaleUnitSquareToSize(Util.ScaleSize);
 			m_helper.AcceptsMouseMovedEvents = true;
       base.CreateHandle();
@@ -118,9 +118,21 @@ namespace System.Windows.Forms
 				autoscale = value;
 			}
 		}
+		
+		public bool ShowInTaskbar {get;set;}
 		#endregion
 		
-		
+				[DefaultValue(FormBorderStyle.Sizable)]
+		[DispId(-504)]
+		[MWFCategory("Appearance")]
+		public FormBorderStyle FormBorderStyle {
+			get {
+				return form_border_style;
+			}
+			set {
+				form_border_style = value;
+			}
+		}
 		public bool MaximizeBox {
 			get {
 				return (m_helper.StyleMask & NSWindowStyle.Resizable) == NSWindowStyle.Resizable;

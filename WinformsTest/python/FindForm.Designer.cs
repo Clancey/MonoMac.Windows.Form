@@ -99,14 +99,14 @@
       this.Controls.Add(m_btnFindNext);
       this.Controls.Add(this.m_txtFindString);
       this.Controls.Add(m_lblFindWhat);
-      this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+      //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.MaximizeBox = false;
       this.MinimizeBox = false;
       this.Name = "FindForm";
-      this.ShowInTaskbar = false;
+      //this.ShowInTaskbar = false;
       this.Text = "Find";
-      this.Shown += new System.EventHandler(this.OnShown);
+      //this.Shown += new System.EventHandler(this.OnShown);
       this.ResumeLayout(false);
       this.PerformLayout();
 

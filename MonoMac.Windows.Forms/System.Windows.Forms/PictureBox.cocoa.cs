@@ -12,7 +12,7 @@ namespace System.Windows.Forms
 		protected override void OnPaint (PaintEventArgs pe)
 		{
 			//TODO: Switch to using NSImageView
-			pe.Graphics.DrawImage(Image,Location);
+			pe.Graphics.DrawImage(Image,new Point(0,0));
 			base.OnPaint (pe);
 		}
 	}

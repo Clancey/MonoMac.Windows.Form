@@ -85,9 +85,9 @@
       this.Controls.Add(this.m_lblMessage);
       this.Controls.Add(this.label1);
       this.Controls.Add(this.button1);
-      this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+      //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
       this.Name = "ExceptionForm";
-      this.ShowInTaskbar = false;
+      //this.ShowInTaskbar = false;
       this.Text = "Python Script Error";
       this.ResumeLayout(false);
       this.PerformLayout();

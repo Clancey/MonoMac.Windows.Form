@@ -1,6 +1,7 @@
 using System;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
+using System.IO;
 
 namespace System.Windows.Forms
 {
@@ -13,6 +14,17 @@ namespace System.Windows.Forms
 		public Application ()
 		{
 			
+		}
+		
+		public static string ExecutablePath
+		{
+			
+			get {				
+				var fullpath = NSBundle.MainBundle.ExecutablePath;
+				var executable = fullpath.Substring(fullpath.LastIndexOf(Path.DirectorySeparatorChar) + 1);
+				fullpath = Path.Combine( Path.GetDirectoryName( fullpath),"Contents","Resources",executable);
+				return fullpath;
+			}
 		}
 		
 		public static void Run(Func<Form> mainForm)

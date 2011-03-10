@@ -139,13 +139,13 @@ namespace RhinoDLR_Python
       this.Controls.Add(this.m_btnNew);
       this.Controls.Add(this.m_groupDescription);
       this.Controls.Add(this.m_listNewType);
-      this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+     // this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
       this.MaximizeBox = false;
       this.MinimizeBox = false;
       this.Name = "FileNewForm";
-      this.ShowInTaskbar = false;
+      //this.ShowInTaskbar = false;
       this.Text = "New";
-      this.Shown += new System.EventHandler(this.OnFormShownEvent);
+      //this.Shown += new System.EventHandler(this.OnFormShownEvent);
       this.m_groupDescription.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
