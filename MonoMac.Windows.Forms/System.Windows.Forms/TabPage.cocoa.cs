@@ -1,5 +1,6 @@
 using System;
 using MonoMac.AppKit;
+using System.Drawing;
 
 namespace System.Windows.Forms
 {
@@ -16,6 +17,12 @@ namespace System.Windows.Forms
 		public static implicit operator NSTabViewItem (TabPage tabPage)
 		{
 			return tabPage.m_helper;
+		}
+		internal override void PaintControlBackground (PaintEventArgs pevent)
+		{
+			if(m_helper.TabView.Selected != m_helper)
+				return;
+			base.PaintControlBackground(pevent);
 		}
 	}
 }

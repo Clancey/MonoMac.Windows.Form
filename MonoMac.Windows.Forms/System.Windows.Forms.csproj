@@ -217,7 +217,6 @@
     <Compile Include="System.Windows.Forms\TextBox.cocoa.cs" />
     <Compile Include="System.Windows.Forms\UserControl.cocoa.cs" />
     <Compile Include="System.Windows.Forms\TrackBar.cocoa.cs" />
-    <Compile Include="System.Windows.Forms\Control.cocoa.cs" />
     <Compile Include="System.Windows.Forms\ImeMode.cs" />
     <Compile Include="System.Windows.Forms\AmbientProperties.cs" />
     <Compile Include="System.Windows.Forms\Control.cs" />
@@ -340,6 +339,7 @@
     <Compile Include="System.Windows.Forms\TabPage.cocoa.cs" />
     <Compile Include="CocoaHelpers\TabViewItemHelper.cs" />
     <Compile Include="CocoaHelpers\FlippedView.cs" />
+    <Compile Include="System.Windows.Forms\Control.cocoa.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />

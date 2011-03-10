@@ -10,7 +10,8 @@ namespace System.Windows.Forms
 		public TabViewItemHelper (Control host) : base ()
 		{
 			Host = host;
-			View = new FlippedView();
+			View = new ViewHelper(host);
+			
 		}
 		
 		#region IViewHelper implementation
