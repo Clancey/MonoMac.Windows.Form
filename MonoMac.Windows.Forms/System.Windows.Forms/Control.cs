@@ -1991,6 +1991,10 @@ namespace System.Windows.Forms
 		
 		public void Show () {
 			this.Visible = true;
+      
+      Form f = this as Form;
+      if( f!=null )
+        f.InternalShow();
 		}
 
 		public void SuspendLayout() {
