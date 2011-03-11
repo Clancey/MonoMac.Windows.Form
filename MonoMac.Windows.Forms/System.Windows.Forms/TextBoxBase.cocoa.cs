@@ -27,6 +27,7 @@ namespace System.Windows.Forms
 			m_helper.TextView.AutoresizingMask = (NSViewResizingMask.HeightSizable | NSViewResizingMask.WidthSizable );
 			m_helper.TextView.TextContainer.ContainerSize = new SizeF(float.MaxValue,float.MaxValue);
 			m_helper.TextView.TextContainer.WidthTracksTextView = false;
+			m_helper.TextView.Font = Font.ToNsFont();
 			
 			
 			//m_helper.ScaleUnitSquareToSize(Util.ScaleSize);

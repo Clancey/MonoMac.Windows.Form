@@ -95,7 +95,7 @@ namespace System.Windows.Forms
 		}
 
 		public static Font DefaultFont {
-			get { return new Font ("Arial", 10f, GraphicsUnit.Pixel); }
+			get { return new Font ("Arial",9.9f, GraphicsUnit.Point); }
 		}
 		#endregion
 
@@ -791,7 +791,7 @@ return null;
 		internal Font font {
 			get {
 				if (nsFont == null)
-					return new System.Drawing.Font ("Arial", 10f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+					return null;
 				return new System.Drawing.Font (nsFont.FontName, nsFont.PointSize, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			}
 

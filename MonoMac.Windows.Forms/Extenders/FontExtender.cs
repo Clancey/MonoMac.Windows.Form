@@ -8,7 +8,7 @@ namespace System.Windows.Forms
 		public static Font ToFont(this NSFont font)
         {
 				if(font == null)
-					return new System.Drawing.Font ("Arial", 10f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+					return new System.Drawing.Font ("Arial",  9.9f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 				return new System.Drawing.Font(font.FontName, font.PointSize, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 
         }

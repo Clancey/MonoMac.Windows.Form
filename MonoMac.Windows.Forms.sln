@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolStripSample", "ToolStri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureBox", "PictureBox\PictureBox.csproj", "{E04220B2-4D93-4572-92D0-23163E8A80CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinesModelRH5", "..\LinesModel\LinesModelRH5.csproj", "{D6950449-9652-4D4D-8891-E937573BF66D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,12 @@ Global
 		{CF09021C-2276-46ED-8DFC-158A07FCCBAB}.DebugRhino|Any CPU.Build.0 = Debug|Any CPU
 		{CF09021C-2276-46ED-8DFC-158A07FCCBAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF09021C-2276-46ED-8DFC-158A07FCCBAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6950449-9652-4D4D-8891-E937573BF66D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6950449-9652-4D4D-8891-E937573BF66D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6950449-9652-4D4D-8891-E937573BF66D}.DebugRhino|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6950449-9652-4D4D-8891-E937573BF66D}.DebugRhino|Any CPU.Build.0 = Debug|Any CPU
+		{D6950449-9652-4D4D-8891-E937573BF66D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6950449-9652-4D4D-8891-E937573BF66D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D710FDC5-FC02-40F8-AE15-62CB8CB58BEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D710FDC5-FC02-40F8-AE15-62CB8CB58BEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D710FDC5-FC02-40F8-AE15-62CB8CB58BEB}.DebugRhino|Any CPU.ActiveCfg = Debug|Any CPU
@@ -103,6 +111,6 @@ Global
 		{E04220B2-4D93-4572-92D0-23163E8A80CE} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = TestLoad\TestLoad.csproj
+		StartupItem = ..\LinesModel\LinesModelRH5.csproj
 	EndGlobalSection
 EndGlobal

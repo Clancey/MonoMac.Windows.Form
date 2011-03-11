@@ -37,6 +37,7 @@ namespace System.Windows.Forms
 			m_helper.Host = this;
 			m_helper.Editable = false;
 			m_helper.DrawsBackground = false;
+			m_helper.Font = Font;
 			//m_helper.viewDidMoveToSuperview += delegate(object sender, EventArgs e) {
 			//	ViewDidMoveToSuperview();
 			//};
