@@ -1,10 +1,11 @@
 using System;
 using System.Drawing;
 using System.ComponentModel;
+using MonoMac.AppKit;
 
 namespace System.Windows.Forms
 {
-	public partial class ToolStripItem
+	public partial class ToolStripItem : Component
 	{
 		
 		protected ToolStripItem (string text, Image image, EventHandler onClick, string name)
@@ -45,7 +46,7 @@ namespace System.Windows.Forms
 			this.Click += onClick;
 			OnLayout (new LayoutEventArgs (null, string.Empty));
 		}
-		
+		internal NSToolbarItem m_helper;
 		
 		[Browsable (false)]
 		public Rectangle ContentRectangle {
@@ -60,6 +61,13 @@ namespace System.Windows.Forms
 				return new Rectangle (2, 2, this.bounds.Width - 4, this.bounds.Height - 4);
 			}
 		}
+		/*
+		protected override void CreateHandle ()
+		{
+			//base.CreateHandle();
+			m_helper = new NSToolbarItem();
+		}
+		*/
 				
 		[Browsable (false)]
 		public bool IsOnDropDown {
@@ -139,7 +147,7 @@ namespace System.Windows.Forms
 		
 		internal void CalculateAutoSize ()
 		{
-
+			//m_helper.Image = NSImage.FromObject(image);
 		}
 
 		internal virtual Size CalculatePreferredSize (Size constrainingSize)

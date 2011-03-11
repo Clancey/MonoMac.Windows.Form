@@ -19,6 +19,15 @@ namespace System.Windows.Forms
 		internal FormHelper (Form parent, RectangleF r, NSWindowStyle ws, NSBackingStore back, bool flag) : base(r, ws, back, flag)
 		{
 			m_parent = parent;
+			this.WillClose += HandleHandleWillClose;
+		}
+
+		void HandleHandleWillClose (object sender, EventArgs e)
+		{
+			if (NSApplication.SharedApplication.ModalWindow == this)
+			{
+				m_parent.Close();				
+			}			
 		}
 		
 		private bool hasLoaded = false;
@@ -65,13 +74,8 @@ namespace System.Windows.Forms
 				mask |= NSWindowStyle.Miniaturizable;
 			this.StyleMask = mask;
 		}
-		public override void Close ()
-		{
-			if (NSApplication.SharedApplication.ModalWindow == this)
-				m_parent.Close();
-			else
-				base.Close ();
-		}
+		
+		
 		public override void PerformClose (NSObject sender)
 		{
 			base.PerformClose (sender);

@@ -52,12 +52,12 @@ namespace System.Windows.Forms
 			base.CreateHandle();
 			m_helper = new NSToolbar();
 		}
+		
 		public static implicit operator NSToolbar (ToolStrip toolstrip)
 		{
 			return toolstrip.m_helper;
 		}
 		
-
 		[DefaultValue (DockStyle.Top)]
 		public override DockStyle Dock {
 			get { return base.Dock; }

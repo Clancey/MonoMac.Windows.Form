@@ -449,8 +449,8 @@ return null;
 			else if (new_parent is Form)
 			{
 				var form = (Form)new_parent;
-				//form.m_helper.SetToolbar((ToolStrip)this);
-				//form.m_helper.ShowsToolbarButton = true;
+				form.m_helper.Toolbar = (ToolStrip)this;
+				form.m_helper.ShowsToolbarButton = true;
 			}
 			
 			OnParentChanged (EventArgs.Empty);
