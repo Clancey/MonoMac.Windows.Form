@@ -77,8 +77,9 @@ namespace System.Windows.Forms
 			 typeof (System.Drawing.Design.UITypeEditor))]
 		public override string Text {
 			get { return base.Text; }
-			set { base.Text = value;
+			set { 
 				m_helper.Value = value;
+				base.Text = value;
 			}
 		}
 		

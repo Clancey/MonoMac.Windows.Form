@@ -369,6 +369,8 @@
     <Compile Include="System.Windows.Forms\FormBorderStyle.cs" />
     <Compile Include="System.Windows.Forms\ToolStripItemDisplayStyle.cs" />
     <Compile Include="System.Windows.Forms\FormStartPosition.cs" />
+    <Compile Include="CocoaHelpers\ToolBarHelper.cs" />
+    <Compile Include="Extenders\ImageExtenders.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />

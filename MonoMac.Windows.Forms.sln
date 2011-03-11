@@ -103,6 +103,6 @@ Global
 		{E04220B2-4D93-4572-92D0-23163E8A80CE} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = RhinoTester\RhinoTester.csproj
+		StartupItem = PictureBox\PictureBox.csproj
 	EndGlobalSection
 EndGlobal

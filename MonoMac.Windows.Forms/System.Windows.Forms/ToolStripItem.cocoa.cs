@@ -7,7 +7,7 @@ namespace System.Windows.Forms
 {
 	public partial class ToolStripItem : Component
 	{
-		
+		internal int Index;
 		protected ToolStripItem (string text, Image image, EventHandler onClick, string name)
 		{
 			//this.alignment = ToolStripItemAlignment.Left;
@@ -42,7 +42,7 @@ namespace System.Windows.Forms
 			//this.text_direction = DefaultTextDirection;
 			//this.text_image_relation = TextImageRelation.ImageBeforeText;
 			this.visible = true;
-
+			
 			this.Click += onClick;
 			OnLayout (new LayoutEventArgs (null, string.Empty));
 		}
