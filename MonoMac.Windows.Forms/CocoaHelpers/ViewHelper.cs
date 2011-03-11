@@ -69,6 +69,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseMoved (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			PointF point = theEvent.LocationInWindow;
 			this.Host.FireMouseMove (Host, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
 			//base.MouseMoved (theEvent);

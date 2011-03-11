@@ -50,6 +50,8 @@ foreach(var control in controls)
 		}
 		public override void MouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseUp (theEvent);
 			FireMouseUp(theEvent);
 		}		
@@ -59,6 +61,8 @@ foreach(var control in controls)
 		}
 		public override void MouseDown (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseDown (theEvent);
 			FireMouseDown (theEvent);
 		}
@@ -68,6 +72,8 @@ foreach(var control in controls)
 		}
 		public override void MouseMoved (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseMoved (theEvent);
 			FireMouseMoved (theEvent);
 		}
@@ -86,6 +92,8 @@ foreach(var control in controls)
 		}
 		public override void RightMouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.RightMouseUp (theEvent);
 			FireRightMouseUp(theEvent);
 		}
@@ -95,6 +103,8 @@ foreach(var control in controls)
 		}
 		public override void RightMouseDragged (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.RightMouseDragged (theEvent);
 			RightMouseDragged (theEvent);
 		}
@@ -104,6 +114,8 @@ foreach(var control in controls)
 		}
 		public override void MouseDragged (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseDragged (theEvent);
 			FireMouseDragged (theEvent);
 		}
@@ -113,6 +125,8 @@ foreach(var control in controls)
 		}
 		public override void OtherMouseDown (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.OtherMouseDown (theEvent);
 			FireOtherMouseDown (theEvent);
 		}
@@ -122,6 +136,8 @@ foreach(var control in controls)
 		}
 		public override void OtherMouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.OtherMouseUp (theEvent);
 			FireOtherMouseUp (theEvent);
 		}
@@ -131,6 +147,8 @@ foreach(var control in controls)
 		}
 		public override void MouseEntered (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseEntered (theEvent);
 			FireMouseEntered(theEvent);
 		}
@@ -140,6 +158,8 @@ foreach(var control in controls)
 		}
 		public override void ScrollWheel (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.ScrollWheel (theEvent);
 			FireScrollWheel (theEvent);
 		}
@@ -149,6 +169,8 @@ foreach(var control in controls)
 		}
 		public override void MouseExited (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseExited (theEvent);
 			FireMouseExited (theEvent);
 		}

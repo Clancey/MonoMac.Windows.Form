@@ -348,7 +348,6 @@
     <Compile Include="System.Windows.Forms\TabPage.cocoa.cs" />
     <Compile Include="CocoaHelpers\TabViewItemHelper.cs" />
     <Compile Include="CocoaHelpers\FlippedView.cs" />
-    <Compile Include="System.Windows.Forms\Control.cocoa.cs" />
     <Compile Include="System.Windows.Forms\ToolStrip.cs" />
     <Compile Include="System.Windows.Forms\ToolStripButton.cs" />
     <Compile Include="System.Windows.Forms\IToolStripData.cs" />
@@ -371,6 +370,8 @@
     <Compile Include="System.Windows.Forms\FormStartPosition.cs" />
     <Compile Include="CocoaHelpers\ToolBarHelper.cs" />
     <Compile Include="Extenders\ImageExtenders.cs" />
+    <Compile Include="Extenders\PointExtenders.cs" />
+    <Compile Include="System.Windows.Forms\Control.cocoa.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />
@@ -426,9 +427,6 @@
       <Visible>False</Visible>
     </None>
     <None Include="System.Windows.Forms.Layout\TableLayoutSettingsTypeConverter.cs">
-      <Visible>False</Visible>
-    </None>
-    <None Include="System.Windows.Forms\Control.Cocoa.cs">
       <Visible>False</Visible>
     </None>
     <None Include="obj\Release\System.Windows.Forms.csproj.FilesWrittenAbsolute.txt">

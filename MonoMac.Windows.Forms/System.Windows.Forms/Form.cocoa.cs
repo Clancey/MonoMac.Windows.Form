@@ -351,11 +351,6 @@ namespace System.Windows.Forms
 
 		#region From Template
 		public string Name { get; set; }
-
-		internal override Point location {
-			get { return Point.Round(m_helper.Frame.Location); }
-			set { m_helper.SetFrame (new RectangleF (value, m_helper.Frame.Size), true); }
-		}
 		
 		public BorderStyle BorderStyle { get; set; }
 
