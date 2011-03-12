@@ -95,7 +95,7 @@ namespace System.Windows.Forms
 		}
 
 		public static Font DefaultFont {
-			get { return new Font ("Arial", 10f, GraphicsUnit.Pixel); }
+			get { return new Font ("Arial",9.9f, GraphicsUnit.Point); }
 		}
 		#endregion
 
@@ -312,7 +312,20 @@ return null;
 
 		internal virtual void UpdateBounds ()
 		{
-			NSViewForControl.Frame = bounds;
+			if(Offset != Point.Empty)
+				NSViewForControl.Frame = new RectangleF(bounds.Location.Subtract(Offset),bounds.Size);
+			else
+				NSViewForControl.Frame = bounds;
+		}
+		
+		internal virtual Point Offset
+		{
+			get {
+				if(parent is GroupBox){
+					return Point.Round(((GroupBox)parent).m_helper.OffSet);	
+				}
+				return Point.Empty;
+			}	
 		}
 		internal virtual void SetBoundsInternal (int x, int y, int width, int height, BoundsSpecified specified)
 		{
@@ -433,9 +446,9 @@ return null;
 			pre_back_color = BackColor;
 			pre_rtl = RightToLeft;
 			// MS doesn't seem to send a CursorChangedEvent
-			
 			parent = new_parent;
-			
+			if(Offset != Point.Empty)
+				UpdateBounds();
 			Form frm = this as Form;
 			
 			if (frm == null && IsHandleCreated && !(this is ToolStrip))
@@ -449,8 +462,8 @@ return null;
 			else if (new_parent is Form)
 			{
 				var form = (Form)new_parent;
-				//form.m_helper.SetToolbar((ToolStrip)this);
-				//form.m_helper.ShowsToolbarButton = true;
+				form.m_helper.Toolbar = (ToolStrip)this;
+				form.m_helper.ShowsToolbarButton = true;
 			}
 			
 			OnParentChanged (EventArgs.Empty);
@@ -494,6 +507,7 @@ return null;
 				OnBindingContextChanged (EventArgs.Empty);
 			}
 		}
+		
 
 		internal void Draw (PaintEventArgs events)
 		{
@@ -777,7 +791,7 @@ return null;
 		internal Font font {
 			get {
 				if (nsFont == null)
-					return new System.Drawing.Font ("Arial", 10f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+					return null;
 				return new System.Drawing.Font (nsFont.FontName, nsFont.PointSize, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			}
 
@@ -805,12 +819,7 @@ return null;
 				return true;
 			}
 		}
-
-		internal virtual Point location {
-			get { return Point.Round (NSViewForControl.Frame.Location); }
-			set { NSViewForControl.Frame = new RectangleF (value, NSViewForControl.Frame.Size); }
-		}
-
+		
 		internal bool is_visible { get; set; }
 
 		[EditorBrowsable(EditorBrowsableState.Advanced)]

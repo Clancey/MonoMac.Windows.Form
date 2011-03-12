@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Linq;
 using MonoMac.AppKit;
@@ -26,6 +26,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseUp (theEvent);
 			FireMouseUp(theEvent);
 		}		
@@ -35,6 +37,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseDown (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseDown (theEvent);
 			FireMouseDown (theEvent);
 		}
@@ -44,6 +48,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseMoved (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseMoved (theEvent);
 			FireMouseMoved (theEvent);
 		}
@@ -62,6 +68,8 @@ namespace System.Windows.Forms
 		}
 		public override void RightMouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.RightMouseUp (theEvent);
 			FireRightMouseUp(theEvent);
 		}
@@ -71,6 +79,8 @@ namespace System.Windows.Forms
 		}
 		public override void RightMouseDragged (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.RightMouseDragged (theEvent);
 			RightMouseDragged (theEvent);
 		}
@@ -80,6 +90,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseDragged (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseDragged (theEvent);
 			FireMouseDragged (theEvent);
 		}
@@ -89,6 +101,8 @@ namespace System.Windows.Forms
 		}
 		public override void OtherMouseDown (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.OtherMouseDown (theEvent);
 			FireOtherMouseDown (theEvent);
 		}
@@ -98,6 +112,8 @@ namespace System.Windows.Forms
 		}
 		public override void OtherMouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.OtherMouseUp (theEvent);
 			FireOtherMouseUp (theEvent);
 		}
@@ -107,6 +123,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseEntered (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseEntered (theEvent);
 			FireMouseEntered(theEvent);
 		}
@@ -116,6 +134,8 @@ namespace System.Windows.Forms
 		}
 		public override void ScrollWheel (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.ScrollWheel (theEvent);
 			FireScrollWheel (theEvent);
 		}
@@ -125,6 +145,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseExited (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseExited (theEvent);
 			FireMouseExited (theEvent);
 		}
@@ -156,6 +178,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseUp (theEvent);
 			FireMouseUp(theEvent);
 		}		
@@ -165,6 +189,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseDown (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseDown (theEvent);
 			FireMouseDown (theEvent);
 		}
@@ -174,6 +200,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseMoved (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseMoved (theEvent);
 			FireMouseMoved (theEvent);
 		}
@@ -192,6 +220,8 @@ namespace System.Windows.Forms
 		}
 		public override void RightMouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.RightMouseUp (theEvent);
 			FireRightMouseUp(theEvent);
 		}
@@ -201,6 +231,8 @@ namespace System.Windows.Forms
 		}
 		public override void RightMouseDragged (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.RightMouseDragged (theEvent);
 			RightMouseDragged (theEvent);
 		}
@@ -210,6 +242,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseDragged (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseDragged (theEvent);
 			FireMouseDragged (theEvent);
 		}
@@ -219,6 +253,8 @@ namespace System.Windows.Forms
 		}
 		public override void OtherMouseDown (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.OtherMouseDown (theEvent);
 			FireOtherMouseDown (theEvent);
 		}
@@ -228,6 +264,8 @@ namespace System.Windows.Forms
 		}
 		public override void OtherMouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.OtherMouseUp (theEvent);
 			FireOtherMouseUp (theEvent);
 		}
@@ -237,6 +275,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseEntered (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseEntered (theEvent);
 			FireMouseEntered(theEvent);
 		}
@@ -246,6 +286,8 @@ namespace System.Windows.Forms
 		}
 		public override void ScrollWheel (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.ScrollWheel (theEvent);
 			FireScrollWheel (theEvent);
 		}
@@ -255,6 +297,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseExited (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseExited (theEvent);
 			FireMouseExited (theEvent);
 		}
@@ -266,7 +310,7 @@ namespace System.Windows.Forms
 
 
 	
-	internal partial class ComboBoxHelper : NSComboBox , IViewHelper
+	internal partial class ComboBoxMouseView : NSComboBox , IViewHelper
 	{
 		public Control Host {get;set;}
 		public NSCursor Cursor {get;set;}
@@ -286,6 +330,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseUp (theEvent);
 			FireMouseUp(theEvent);
 		}		
@@ -295,6 +341,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseDown (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseDown (theEvent);
 			FireMouseDown (theEvent);
 		}
@@ -304,6 +352,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseMoved (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseMoved (theEvent);
 			FireMouseMoved (theEvent);
 		}
@@ -322,6 +372,8 @@ namespace System.Windows.Forms
 		}
 		public override void RightMouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.RightMouseUp (theEvent);
 			FireRightMouseUp(theEvent);
 		}
@@ -331,6 +383,8 @@ namespace System.Windows.Forms
 		}
 		public override void RightMouseDragged (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.RightMouseDragged (theEvent);
 			RightMouseDragged (theEvent);
 		}
@@ -340,6 +394,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseDragged (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseDragged (theEvent);
 			FireMouseDragged (theEvent);
 		}
@@ -349,6 +405,8 @@ namespace System.Windows.Forms
 		}
 		public override void OtherMouseDown (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.OtherMouseDown (theEvent);
 			FireOtherMouseDown (theEvent);
 		}
@@ -358,6 +416,8 @@ namespace System.Windows.Forms
 		}
 		public override void OtherMouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.OtherMouseUp (theEvent);
 			FireOtherMouseUp (theEvent);
 		}
@@ -367,6 +427,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseEntered (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseEntered (theEvent);
 			FireMouseEntered(theEvent);
 		}
@@ -376,6 +438,8 @@ namespace System.Windows.Forms
 		}
 		public override void ScrollWheel (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.ScrollWheel (theEvent);
 			FireScrollWheel (theEvent);
 		}
@@ -385,6 +449,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseExited (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseExited (theEvent);
 			FireMouseExited (theEvent);
 		}
@@ -416,6 +482,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseUp (theEvent);
 			FireMouseUp(theEvent);
 		}		
@@ -425,6 +493,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseDown (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseDown (theEvent);
 			FireMouseDown (theEvent);
 		}
@@ -434,6 +504,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseMoved (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseMoved (theEvent);
 			FireMouseMoved (theEvent);
 		}
@@ -452,6 +524,8 @@ namespace System.Windows.Forms
 		}
 		public override void RightMouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.RightMouseUp (theEvent);
 			FireRightMouseUp(theEvent);
 		}
@@ -461,6 +535,8 @@ namespace System.Windows.Forms
 		}
 		public override void RightMouseDragged (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.RightMouseDragged (theEvent);
 			RightMouseDragged (theEvent);
 		}
@@ -470,6 +546,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseDragged (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseDragged (theEvent);
 			FireMouseDragged (theEvent);
 		}
@@ -479,6 +557,8 @@ namespace System.Windows.Forms
 		}
 		public override void OtherMouseDown (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.OtherMouseDown (theEvent);
 			FireOtherMouseDown (theEvent);
 		}
@@ -488,6 +568,8 @@ namespace System.Windows.Forms
 		}
 		public override void OtherMouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.OtherMouseUp (theEvent);
 			FireOtherMouseUp (theEvent);
 		}
@@ -497,6 +579,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseEntered (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseEntered (theEvent);
 			FireMouseEntered(theEvent);
 		}
@@ -506,6 +590,8 @@ namespace System.Windows.Forms
 		}
 		public override void ScrollWheel (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.ScrollWheel (theEvent);
 			FireScrollWheel (theEvent);
 		}
@@ -515,6 +601,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseExited (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseExited (theEvent);
 			FireMouseExited (theEvent);
 		}
@@ -546,6 +634,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseUp (theEvent);
 			FireMouseUp(theEvent);
 		}		
@@ -555,6 +645,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseDown (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseDown (theEvent);
 			FireMouseDown (theEvent);
 		}
@@ -564,6 +656,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseMoved (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseMoved (theEvent);
 			FireMouseMoved (theEvent);
 		}
@@ -582,6 +676,8 @@ namespace System.Windows.Forms
 		}
 		public override void RightMouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.RightMouseUp (theEvent);
 			FireRightMouseUp(theEvent);
 		}
@@ -591,6 +687,8 @@ namespace System.Windows.Forms
 		}
 		public override void RightMouseDragged (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.RightMouseDragged (theEvent);
 			RightMouseDragged (theEvent);
 		}
@@ -600,6 +698,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseDragged (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseDragged (theEvent);
 			FireMouseDragged (theEvent);
 		}
@@ -609,6 +709,8 @@ namespace System.Windows.Forms
 		}
 		public override void OtherMouseDown (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.OtherMouseDown (theEvent);
 			FireOtherMouseDown (theEvent);
 		}
@@ -618,6 +720,8 @@ namespace System.Windows.Forms
 		}
 		public override void OtherMouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.OtherMouseUp (theEvent);
 			FireOtherMouseUp (theEvent);
 		}
@@ -627,6 +731,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseEntered (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseEntered (theEvent);
 			FireMouseEntered(theEvent);
 		}
@@ -636,6 +742,8 @@ namespace System.Windows.Forms
 		}
 		public override void ScrollWheel (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.ScrollWheel (theEvent);
 			FireScrollWheel (theEvent);
 		}
@@ -645,6 +753,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseExited (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseExited (theEvent);
 			FireMouseExited (theEvent);
 		}
@@ -676,6 +786,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseUp (theEvent);
 			FireMouseUp(theEvent);
 		}		
@@ -685,6 +797,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseDown (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseDown (theEvent);
 			FireMouseDown (theEvent);
 		}
@@ -694,6 +808,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseMoved (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseMoved (theEvent);
 			FireMouseMoved (theEvent);
 		}
@@ -712,6 +828,8 @@ namespace System.Windows.Forms
 		}
 		public override void RightMouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.RightMouseUp (theEvent);
 			FireRightMouseUp(theEvent);
 		}
@@ -721,6 +839,8 @@ namespace System.Windows.Forms
 		}
 		public override void RightMouseDragged (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.RightMouseDragged (theEvent);
 			RightMouseDragged (theEvent);
 		}
@@ -730,6 +850,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseDragged (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseDragged (theEvent);
 			FireMouseDragged (theEvent);
 		}
@@ -739,6 +861,8 @@ namespace System.Windows.Forms
 		}
 		public override void OtherMouseDown (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.OtherMouseDown (theEvent);
 			FireOtherMouseDown (theEvent);
 		}
@@ -748,6 +872,8 @@ namespace System.Windows.Forms
 		}
 		public override void OtherMouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.OtherMouseUp (theEvent);
 			FireOtherMouseUp (theEvent);
 		}
@@ -757,6 +883,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseEntered (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseEntered (theEvent);
 			FireMouseEntered(theEvent);
 		}
@@ -766,6 +894,8 @@ namespace System.Windows.Forms
 		}
 		public override void ScrollWheel (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.ScrollWheel (theEvent);
 			FireScrollWheel (theEvent);
 		}
@@ -775,6 +905,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseExited (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseExited (theEvent);
 			FireMouseExited (theEvent);
 		}
@@ -806,6 +938,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseUp (theEvent);
 			FireMouseUp(theEvent);
 		}		
@@ -815,6 +949,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseDown (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseDown (theEvent);
 			FireMouseDown (theEvent);
 		}
@@ -824,6 +960,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseMoved (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseMoved (theEvent);
 			FireMouseMoved (theEvent);
 		}
@@ -842,6 +980,8 @@ namespace System.Windows.Forms
 		}
 		public override void RightMouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.RightMouseUp (theEvent);
 			FireRightMouseUp(theEvent);
 		}
@@ -851,6 +991,8 @@ namespace System.Windows.Forms
 		}
 		public override void RightMouseDragged (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.RightMouseDragged (theEvent);
 			RightMouseDragged (theEvent);
 		}
@@ -860,6 +1002,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseDragged (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseDragged (theEvent);
 			FireMouseDragged (theEvent);
 		}
@@ -869,6 +1013,8 @@ namespace System.Windows.Forms
 		}
 		public override void OtherMouseDown (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.OtherMouseDown (theEvent);
 			FireOtherMouseDown (theEvent);
 		}
@@ -878,6 +1024,8 @@ namespace System.Windows.Forms
 		}
 		public override void OtherMouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.OtherMouseUp (theEvent);
 			FireOtherMouseUp (theEvent);
 		}
@@ -887,6 +1035,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseEntered (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseEntered (theEvent);
 			FireMouseEntered(theEvent);
 		}
@@ -896,6 +1046,8 @@ namespace System.Windows.Forms
 		}
 		public override void ScrollWheel (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.ScrollWheel (theEvent);
 			FireScrollWheel (theEvent);
 		}
@@ -905,6 +1057,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseExited (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseExited (theEvent);
 			FireMouseExited (theEvent);
 		}
@@ -936,6 +1090,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseUp (theEvent);
 			FireMouseUp(theEvent);
 		}		
@@ -949,6 +1105,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseMoved (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseMoved (theEvent);
 			FireMouseMoved (theEvent);
 		}
@@ -967,6 +1125,8 @@ namespace System.Windows.Forms
 		}
 		public override void RightMouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.RightMouseUp (theEvent);
 			FireRightMouseUp(theEvent);
 		}
@@ -976,6 +1136,8 @@ namespace System.Windows.Forms
 		}
 		public override void RightMouseDragged (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.RightMouseDragged (theEvent);
 			RightMouseDragged (theEvent);
 		}
@@ -985,6 +1147,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseDragged (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseDragged (theEvent);
 			FireMouseDragged (theEvent);
 		}
@@ -994,6 +1158,8 @@ namespace System.Windows.Forms
 		}
 		public override void OtherMouseDown (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.OtherMouseDown (theEvent);
 			FireOtherMouseDown (theEvent);
 		}
@@ -1003,6 +1169,8 @@ namespace System.Windows.Forms
 		}
 		public override void OtherMouseUp (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.OtherMouseUp (theEvent);
 			FireOtherMouseUp (theEvent);
 		}
@@ -1012,6 +1180,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseEntered (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseEntered (theEvent);
 			FireMouseEntered(theEvent);
 		}
@@ -1021,6 +1191,8 @@ namespace System.Windows.Forms
 		}
 		public override void ScrollWheel (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.ScrollWheel (theEvent);
 			FireScrollWheel (theEvent);
 		}
@@ -1030,6 +1202,8 @@ namespace System.Windows.Forms
 		}
 		public override void MouseExited (NSEvent theEvent)
 		{
+			if(theEvent == null)
+				return;
 			base.MouseExited (theEvent);
 			FireMouseExited (theEvent);
 		}

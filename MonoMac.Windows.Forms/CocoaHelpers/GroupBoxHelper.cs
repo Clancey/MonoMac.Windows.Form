@@ -1,5 +1,6 @@
 using System;
 using MonoMac.AppKit;
+using System.Drawing;
 namespace System.Windows.Forms
 {
 	internal class GroupBoxHelper : NSBox, IViewHelper
@@ -8,6 +9,16 @@ namespace System.Windows.Forms
 		{
 			Host = parent;
 			this.ContentView = new FlippedView();
+		}
+		
+		public PointF OffSet
+		{
+			get {
+				var parentFram = this.Frame;
+				var insideFrame = (this.ContentView as FlippedView).Frame.Location.Add(this.ContentViewMargins);
+				return insideFrame;
+				
+			}
 		}
 
 		#region IViewHelper implementation

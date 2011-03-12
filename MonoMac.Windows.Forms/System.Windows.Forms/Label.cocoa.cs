@@ -37,6 +37,7 @@ namespace System.Windows.Forms
 			m_helper.Host = this;
 			m_helper.Editable = false;
 			m_helper.DrawsBackground = false;
+			m_helper.Font = Font;
 			//m_helper.viewDidMoveToSuperview += delegate(object sender, EventArgs e) {
 			//	ViewDidMoveToSuperview();
 			//};
@@ -77,8 +78,9 @@ namespace System.Windows.Forms
 			 typeof (System.Drawing.Design.UITypeEditor))]
 		public override string Text {
 			get { return base.Text; }
-			set { base.Text = value;
+			set { 
 				m_helper.Value = value;
+				base.Text = value;
 			}
 		}
 		

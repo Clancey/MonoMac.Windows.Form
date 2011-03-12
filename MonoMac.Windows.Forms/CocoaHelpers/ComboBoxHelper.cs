@@ -54,6 +54,11 @@ namespace System.Windows.Forms
 			base.KeyUp (theEvent);
 		}
 		
+		#region IViewHelper implementation
+		public NSCursor Cursor {get;set;}
+
+		public Control Host {get;set;}
+		#endregion
 		#endregion
 	}
 }

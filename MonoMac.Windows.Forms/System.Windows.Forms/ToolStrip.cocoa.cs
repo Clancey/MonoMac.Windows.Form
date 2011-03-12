@@ -7,7 +7,7 @@ namespace System.Windows.Forms
 {
 	public partial class ToolStrip : ScrollableControl
 	{
-		internal NSToolbar m_helper;
+		internal ToolBarHelper m_helper;
 		public ToolStrip (params ToolStripItem[] items) : base ()
 		{
 			SetStyle (ControlStyles.AllPaintingInWmPaint, true);
@@ -50,14 +50,14 @@ namespace System.Windows.Forms
 		protected override void CreateHandle ()
 		{
 			base.CreateHandle();
-			m_helper = new NSToolbar();
+			m_helper = new ToolBarHelper();
 		}
+		
 		public static implicit operator NSToolbar (ToolStrip toolstrip)
 		{
 			return toolstrip.m_helper;
 		}
 		
-
 		[DefaultValue (DockStyle.Top)]
 		public override DockStyle Dock {
 			get { return base.Dock; }
@@ -114,6 +114,7 @@ namespace System.Windows.Forms
 			if (e.Item.InternalVisible)
 				e.Item.Available = true;
 				
+			m_helper.InsertItem(e.Item.Text,0);
 			//e.Item.SetPlacement (ToolStripItemPlacement.Main);
 			
 			if (this.Created)

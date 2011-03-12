@@ -327,24 +327,6 @@ namespace System.Windows.Forms {
 		
 		#region Private Methods
 
-		private void ChangeImage (Image value, bool from_url)
-		{
-			StopAnimation ();
-
-			image_from_url = from_url;
-			image = value;
-
-			if (IsHandleCreated) {
-				UpdateSize ();
-				if (image != null && ImageAnimator.CanAnimate (image)) {
-					frame_handler = new EventHandler (OnAnimateImage);
-					ImageAnimator.Animate (image, frame_handler);
-				}
-				if (no_update == 0) {
-					Invalidate ();
-				}
-			}
-		}
 
 		private void StopAnimation ()
 		{

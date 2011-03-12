@@ -19,7 +19,7 @@ namespace System.Windows.Forms
 			//	ToolStripManager.AddToolStripMenuItem ((ToolStripMenuItem)value);
 				
 			int index = base.Add (value);
-			
+			value.Index = index;
 			if (this.internal_created)
 				owner.OnItemAdded (new ToolStripItemEventArgs (value));
 				

@@ -124,7 +124,7 @@ class MyForm : Form
 		///Label1
 		///
 		this.label1.Size = new Size(100,25);
-		this.label1.Location = new Point(0,0);
+		this.label1.Location = new System.Drawing.Point(6, 30);
 		this.label1.Text = "Label!";
 		
 		
