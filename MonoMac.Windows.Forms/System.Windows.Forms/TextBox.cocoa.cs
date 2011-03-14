@@ -99,8 +99,6 @@ namespace System.Windows.Forms
 			}
 		}
 		
-		public bool Multiline{get;set;}
-		
 		#region Events
 		
 

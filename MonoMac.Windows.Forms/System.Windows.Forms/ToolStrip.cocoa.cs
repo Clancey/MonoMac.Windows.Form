@@ -50,7 +50,7 @@ namespace System.Windows.Forms
 		protected override void CreateHandle ()
 		{
 			base.CreateHandle();
-			m_helper = new ToolBarHelper();
+			m_helper = new ToolBarHelper(this);
 		}
 		
 		public static implicit operator NSToolbar (ToolStrip toolstrip)

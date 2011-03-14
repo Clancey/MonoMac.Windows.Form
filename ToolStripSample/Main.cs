@@ -32,6 +32,7 @@ namespace ToolStripSample
 
 			rtb = new TextBox ();
 			rtb.Multiline = true;
+			rtb.Size = this.Size;
 			rtb.Dock = DockStyle.Fill;
 			rtb.BorderStyle = BorderStyle.FixedSingle;
 			rtb.MouseUp += new MouseEventHandler (rtb_MouseUp);

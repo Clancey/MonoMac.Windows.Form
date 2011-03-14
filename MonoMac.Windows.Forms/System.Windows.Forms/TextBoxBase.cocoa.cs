@@ -29,7 +29,6 @@ namespace System.Windows.Forms
 			m_helper.TextView.TextContainer.WidthTracksTextView = false;
 			m_helper.TextView.Font = Font.ToNsFont();
 			
-			
 			//m_helper.ScaleUnitSquareToSize(Util.ScaleSize);
 			//m_helper.viewDidMoveToSuperview += delegate(object sender, EventArgs e) {
 			//	ViewDidMoveToSuperview();

@@ -2,32 +2,47 @@ using System;
 using MonoMac.AppKit;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections;
 namespace System.Windows.Forms
 {
 	public class ToolBarHelper : NSToolbar, IViewHelper
 	{
 		public ToolStrip ToolStrip;
-		public ToolBarHelper()
+		public ToolBarHelper(ToolStrip parent)
 		{
-			this.Delegate = new ToolBarDelegate();	
+			Host = parent;
+			this.Delegate = new ToolBarDelegate();
+			this.AllowsUserCustomization = true;
+			this.DisplayMode = NSToolbarDisplayMode.IconAndLabel;
 		}
 		
 		internal class ToolBarDelegate : NSToolbarDelegate
 		{
 			public override NSToolbarItem WillInsertItem (NSToolbar toolbar, string itemIdentifier, bool willBeInserted)
 			{
-				throw new NotImplementedException ();
+				var internalToolbar = (ToolBarHelper)toolbar;
+				var item = internalToolbar.ToolStrip.Items[0];
+				var toolbarItem = new NSToolbarItem(itemIdentifier);
+				toolbarItem.Image = item.Image.ToNSImage();
+				toolbarItem.Label = item.Text;
+				toolbarItem.PaletteLabel = item.Text;
+				toolbarItem.ToolTip = item.Text;
+				toolbarItem.VisibilityPriority = 1;
+				return toolbarItem;
+				//throw new NotImplementedException ();
+				//base.WillInsertItem(toolbar,itemIdentifier,willBeInserted);
 			}
 			public override string[] AllowedItemIdentifiers (NSToolbar toolbar)
 			{
 				var bar = toolbar as ToolBarHelper;
 				return bar.Items.Select(x=> x.Label).ToArray();
+				return new string[2]{"NSToolbarPrintItemIdentifier","&New Document"};
 			}
 			
 			#region implemented abstract members of MonoMac.AppKit.NSToolbarDelegate
 			public override string[] DefaultItemIdentifiers (NSToolbar toolbar)
 			{
-				return new string[]{"&Save Document"};
+				return new string[]{"NSToolbarPrintItemIdentifier"};
 			}
 			
 			

@@ -463,7 +463,8 @@ return null;
 			{
 				var form = (Form)new_parent;
 				form.m_helper.Toolbar = (ToolStrip)this;
-				form.m_helper.ShowsToolbarButton = true;
+				form.m_helper.Toolbar.Visible = true;
+				//form.m_helper.ShowsToolbarButton = true;
 			}
 			
 			OnParentChanged (EventArgs.Empty);

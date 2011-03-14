@@ -66,8 +66,9 @@ namespace System.Windows.Forms
 
 		public override void InsertText (NSObject insertString)
 		{
-			if (((TextBoxBase)Host.Host).Multiline || insertString.ToString () != "\n")
-				base.InsertText (insertString);
+			if (!((TextBoxBase)Host.Host).Multiline && insertString.ToString () == "\n")
+				return ;
+			base.InsertText (insertString);
 		}
 		
 		public void SetSingleLine()
