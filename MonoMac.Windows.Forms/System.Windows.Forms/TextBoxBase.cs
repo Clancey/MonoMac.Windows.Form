@@ -234,7 +234,7 @@ namespace System.Windows.Forms
 		public int PreferredHeight {
 			get {
 				if (BorderStyle != BorderStyle.None)
-					return Font.Height + 7;
+					return Font.Height + 4;
 
 				// usually in borderless mode the top margin is 0, but
 				// try to access it, in case it was set manually, as ToolStrip* controls do
