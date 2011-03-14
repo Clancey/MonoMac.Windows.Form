@@ -461,9 +461,9 @@ return null;
 			}
 			else if (new_parent is Form)
 			{
-				var form = (Form)new_parent;
-				form.m_helper.Toolbar = (ToolStrip)this;
-				form.m_helper.Toolbar.Visible = true;
+				//var form = (Form)new_parent;
+				//form.m_helper.Toolbar = (ToolStrip)this;
+				//form.m_helper.Toolbar.Visible = true;
 				//form.m_helper.ShowsToolbarButton = true;
 			}
 			
