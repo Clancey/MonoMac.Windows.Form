@@ -95,7 +95,7 @@ namespace System.Windows.Forms
 		}
 
 		public static Font DefaultFont {
-			get { return new Font ("Arial",9.9f, GraphicsUnit.Point); }
+			get { return new Font ("Arial",11.5f, GraphicsUnit.Point); }
 		}
 		#endregion
 
