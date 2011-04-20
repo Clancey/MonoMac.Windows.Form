@@ -39,6 +39,11 @@ namespace System.Windows.Forms
 			Pen pen = new Pen(BackColor);
 			e.Graphics.DrawRectangle(pen,e.ClipRectangle);
 		}
+		
+		public void FontChanged()
+		{
+			this.Font = Host.font.ToNsFont();
+		}
 	}
 	
 	
@@ -74,6 +79,11 @@ namespace System.Windows.Forms
 				return;
 			Pen pen = new Pen(BackColor);
 			e.Graphics.DrawRectangle(pen,e.ClipRectangle);
+		}
+		
+		public void FontChanged()
+		{
+			this.Font = Host.font.ToNsFont();
 		}
 	}
 	
@@ -111,6 +121,11 @@ namespace System.Windows.Forms
 			Pen pen = new Pen(BackColor);
 			e.Graphics.DrawRectangle(pen,e.ClipRectangle);
 		}
+		
+		public void FontChanged()
+		{
+			this.Font = Host.font.ToNsFont();
+		}
 	}
 	
 	
@@ -146,6 +161,11 @@ namespace System.Windows.Forms
 				return;
 			Pen pen = new Pen(BackColor);
 			e.Graphics.DrawRectangle(pen,e.ClipRectangle);
+		}
+		
+		public void FontChanged()
+		{
+			this.Font = Host.font;
 		}
 	}
 	
@@ -183,6 +203,11 @@ namespace System.Windows.Forms
 			Pen pen = new Pen(BackColor);
 			e.Graphics.DrawRectangle(pen,e.ClipRectangle);
 		}
+		
+		public void FontChanged()
+		{
+			//this.Font = Host.font.ToNsFont();
+		}
 	}
 	
 	
@@ -218,6 +243,11 @@ namespace System.Windows.Forms
 				return;
 			Pen pen = new Pen(BackColor);
 			e.Graphics.DrawRectangle(pen,e.ClipRectangle);
+		}
+		
+		public void FontChanged()
+		{
+			this.Font = Host.font.ToNsFont();
 		}
 	}
 	
@@ -255,6 +285,11 @@ namespace System.Windows.Forms
 			Pen pen = new Pen(BackColor);
 			e.Graphics.DrawRectangle(pen,e.ClipRectangle);
 		}
+		
+		public void FontChanged()
+		{
+			//this.Font = Host.font.ToNsFont();
+		}
 	}
 	
 	
@@ -290,6 +325,11 @@ namespace System.Windows.Forms
 				return;
 			Pen pen = new Pen(BackColor);
 			e.Graphics.DrawRectangle(pen,e.ClipRectangle);
+		}
+		
+		public void FontChanged()
+		{
+			this.Font = Host.font.ToNsFont();
 		}
 	}
 	
@@ -327,6 +367,11 @@ namespace System.Windows.Forms
 			Pen pen = new Pen(BackColor);
 			e.Graphics.DrawRectangle(pen,e.ClipRectangle);
 		}
+		
+		public void FontChanged()
+		{
+			//this.Font = Host.font.ToNsFont();
+		}
 	}
 	
 	
@@ -362,6 +407,11 @@ namespace System.Windows.Forms
 				return;
 			Pen pen = new Pen(BackColor);
 			e.Graphics.DrawRectangle(pen,e.ClipRectangle);
+		}
+		
+		public void FontChanged()
+		{
+			//this.Font = Host.font.ToNsFont();
 		}
 	}
 	

@@ -451,7 +451,7 @@ return null;
 				UpdateBounds();
 			Form frm = this as Form;
 			
-			if (frm == null && IsHandleCreated && !(this is ToolStrip))
+			if (frm == null && IsHandleCreated)// && !(this is ToolStrip))
 			{
 				IntPtr parent_handle = IntPtr.Zero;
 				if (new_parent != null && new_parent.IsHandleCreated)
@@ -787,18 +787,7 @@ return null;
 			set { is_enabled = value; }
 		}
 
-
-		internal virtual NSFont nsFont { get; set; }
-		internal Font font {
-			get {
-				if (nsFont == null)
-					return null;
-				return new System.Drawing.Font (nsFont.FontName, nsFont.PointSize, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			}
-
-			set { nsFont = MonoMac.AppKit.NSFont.FromFontName (value.Name, value.Size); }
-		}
-
+		internal Font font {get;set;}
 		[DispId(-515)]
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]

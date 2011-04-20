@@ -78,8 +78,8 @@ namespace System.Windows.Forms {
 			internal ToolTipWindow() {
 				Visible = false;
 				Size = new Size(100, 20);
-				ForeColor = ThemeEngine.Current.ColorInfoText;
-				BackColor = ThemeEngine.Current.ColorInfo;
+				//ForeColor = ThemeEngine.Current.ColorInfoText;
+				//BackColor = ThemeEngine.Current.ColorInfo;
 
 				VisibleChanged += new EventHandler(ToolTipWindow_VisibleChanged);
 
@@ -88,10 +88,10 @@ namespace System.Windows.Forms {
 
 				SetStyle (ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
 				SetStyle (ControlStyles.ResizeRedraw, true);
-				if (ThemeEngine.Current.ToolTipTransparentBackground) {
-					SetStyle (ControlStyles.SupportsTransparentBackColor, true);
-					BackColor = Color.Transparent;
-				} else
+				//if (ThemeEngine.Current.ToolTipTransparentBackground) {
+				//	SetStyle (ControlStyles.SupportsTransparentBackColor, true);
+				//	BackColor = Color.Transparent;
+				//} else
 					SetStyle (ControlStyles.Opaque, true);
 			}
 
@@ -100,7 +100,7 @@ namespace System.Windows.Forms {
 			#region ToolTipWindow Class Protected Instance Methods
 			protected override void OnCreateControl() {
 				base.OnCreateControl ();
-				XplatUI.SetTopmost(this.window.Handle, true);
+				//XplatUI.SetTopmost(this.window.Handle, true);
 			}
 
 			protected override CreateParams CreateParams {
@@ -109,10 +109,10 @@ namespace System.Windows.Forms {
 
 					cp = base.CreateParams;
 
-					cp.Style = (int)WindowStyles.WS_POPUP;
-					cp.Style |= (int)WindowStyles.WS_CLIPSIBLINGS;
+					//cp.Style = (int)WindowStyles.WS_POPUP;
+					//cp.Style |= (int)WindowStyles.WS_CLIPSIBLINGS;
 
-					cp.ExStyle = (int)(WindowExStyles.WS_EX_TOOLWINDOW | WindowExStyles.WS_EX_TOPMOST);
+		//			cp.ExStyle = (int)(WindowExStyles.WS_EX_TOOLWINDOW | WindowExStyles.WS_EX_TOPMOST);
 
 					return cp;
 				}
@@ -142,8 +142,8 @@ namespace System.Windows.Forms {
 				DrawToolTipEventHandler eh = (DrawToolTipEventHandler)(Events[DrawEvent]);
 				if (eh != null)
 					eh (this, e);
-				else
-					ThemeEngine.Current.DrawToolTip (e.Graphics, e.Bounds, this);
+				//else
+				//	ThemeEngine.Current.DrawToolTip (e.Graphics, e.Bounds, this);
 			}
 			
 			internal virtual void OnPopup (PopupEventArgs e)
@@ -151,18 +151,18 @@ namespace System.Windows.Forms {
 				PopupEventHandler eh = (PopupEventHandler)(Events[PopupEvent]);
 				if (eh != null)
 					eh (this, e);
-				else
-					e.ToolTipSize = ThemeEngine.Current.ToolTipSize (this, Text);
+				//else
+				//	e.ToolTipSize = ThemeEngine.Current.ToolTipSize (this, Text);
 			}
 
 			private void ToolTipWindow_VisibleChanged(object sender, EventArgs e) {
 				Control control = (Control)sender;
 
-				if (control.is_visible) {
-					XplatUI.SetTopmost(control.window.Handle, true);
-				} else {
-					XplatUI.SetTopmost(control.window.Handle, false);
-				}
+				//if (control.is_visible) {
+				//	XplatUI.SetTopmost(control.window.Handle, true);
+				//} else {
+				//	XplatUI.SetTopmost(control.window.Handle, false);
+				//}
 			}
 
 			// UIA Framework
@@ -194,7 +194,7 @@ namespace System.Windows.Forms {
 					return;
 
 				Size display_size;
-				XplatUI.GetDisplaySize (out display_size);
+	//			XplatUI.GetDisplaySize (out display_size);
 
 				associated_control = control;
 
@@ -217,7 +217,7 @@ namespace System.Windows.Forms {
 					return;
 
 				Size display_size;
-				XplatUI.GetDisplaySize (out display_size);
+				//XplatUI.GetDisplaySize (out display_size);
 
 				associated_control = control;
 
@@ -235,15 +235,15 @@ namespace System.Windows.Forms {
 				Height = size.Height;
 
 				int cursor_w, cursor_h, hot_x, hot_y;
-				XplatUI.GetCursorInfo (control.Cursor.Handle, out cursor_w, out cursor_h, out hot_x, out hot_y);
+				//XplatUI.GetCursorInfo (control.Cursor.Handle, out cursor_w, out cursor_h, out hot_x, out hot_y);
 				Point loc = Control.MousePosition;
-				loc.Y += (cursor_h - hot_y);
+				//loc.Y += (cursor_h - hot_y);
 
 				if ((loc.X + Width) > display_size.Width)
 					loc.X = display_size.Width - Width;
 
-				if ((loc.Y + Height) > display_size.Height)
-					loc.Y = Control.MousePosition.Y - Height - hot_y;
+				//if ((loc.Y + Height) > display_size.Height)
+				//	loc.Y = Control.MousePosition.Y - Height - hot_y;
 				
 				Location = loc;
 				Visible = true;
@@ -602,7 +602,8 @@ namespace System.Windows.Forms {
 			// make sure that tooltip_window.Text gets updated if it's being shown,
 			// or show the tooltip for it if is not
 			if (active_control == control && caption != null && state == TipState.Show) {
-				Size size = ThemeEngine.Current.ToolTipSize(tooltip_window, caption);
+				//TODO:fixme
+				Size size = Size.Empty;//ThemeEngine.Current.ToolTipSize(tooltip_window, caption);
 				tooltip_window.Width = size.Width;
 				tooltip_window.Height = size.Height;
 				tooltip_window.Text = caption;
@@ -635,7 +636,7 @@ namespace System.Windows.Forms {
 			
 			Control c = (Control)window;
 
-			XplatUI.SetOwner (tooltip_window.Handle, c.TopLevelControl.Handle);
+			//XplatUI.SetOwner (tooltip_window.Handle, c.TopLevelControl.Handle);
 			
 			// If the mouse is in the requested window, use that position
 			// Else, center in the requested window
@@ -688,7 +689,7 @@ namespace System.Windows.Forms {
 			display_point.X += point.X;
 			display_point.Y += point.Y;
 
-			XplatUI.SetOwner (tooltip_window.Handle, c.TopLevelControl.Handle);
+			//XplatUI.SetOwner (tooltip_window.Handle, c.TopLevelControl.Handle);
 
 			// We need to hide our tooltip if the form loses focus, is closed, or is minimized
 			HookupFormEvents ((Form)c.TopLevelControl);
@@ -761,9 +762,9 @@ namespace System.Windows.Forms {
 		{
 			hooked_form = form;
 
-			form.Deactivate += new EventHandler (Form_Deactivate);
-			form.Closed += new EventHandler (Form_Closed);
-			form.Resize += new EventHandler (Form_Resize);
+			//form.Deactivate += new EventHandler (Form_Deactivate);
+			//form.Closed += new EventHandler (Form_Closed);
+			//form.Resize += new EventHandler (Form_Resize);
 		}
 
 		private void HookupControlEvents (Control control)
@@ -789,9 +790,9 @@ namespace System.Windows.Forms {
 			if (hooked_form == null)
 				return;
 
-			hooked_form.Deactivate -= new EventHandler (Form_Deactivate);
-			hooked_form.Closed -= new EventHandler (Form_Closed);
-			hooked_form.Resize -= new EventHandler (Form_Resize);
+			//hooked_form.Deactivate -= new EventHandler (Form_Deactivate);
+			//hooked_form.Closed -= new EventHandler (Form_Closed);
+			//hooked_form.Resize -= new EventHandler (Form_Resize);
 
 			hooked_form = null;
 		}
@@ -801,8 +802,8 @@ namespace System.Windows.Forms {
 		{
 			Form f = (Form)sender;
 
-			if (f.WindowState == FormWindowState.Minimized)
-				tooltip_window.Visible = false;
+			//if (f.WindowState == FormWindowState.Minimized)
+			//	tooltip_window.Visible = false;
 		}
 
 		private void Form_Closed (object sender, EventArgs e)
@@ -839,8 +840,8 @@ namespace System.Windows.Forms {
 
 			// ShowAlways controls whether the controls in non-active forms
 			// can display its tooltips, even if they are not current active control.
-			if (!show_always && control.FindForm () != Form.ActiveForm)
-				return;
+			//if (!show_always && control.FindForm () != Form.ActiveForm)
+			//	return;
 
 			string text = (string)tooltip_strings[control];
 			if (text != null && text.Length > 0) {
@@ -880,16 +881,16 @@ namespace System.Windows.Forms {
 
 		private void tooltip_window_Popup (object sender, PopupEventArgs e)
 		{
-			e.ToolTipSize = ThemeEngine.Current.ToolTipSize (tooltip_window, tooltip_window.Text);
-			OnPopup (e);
+			//e.ToolTipSize = ThemeEngine.Current.ToolTipSize (tooltip_window, tooltip_window.Text);
+			//OnPopup (e);
 		}
 
 		private void tooltip_window_Draw (object sender, DrawToolTipEventArgs e)
 		{
 			if (OwnerDraw)
 				OnDraw (e);
-			else
-				ThemeEngine.Current.DrawToolTip (e.Graphics, e.Bounds, tooltip_window);
+			//else
+			//	ThemeEngine.Current.DrawToolTip (e.Graphics, e.Bounds, tooltip_window);
 		}
 		
 		private bool MouseInControl (Control control, bool fuzzy) {

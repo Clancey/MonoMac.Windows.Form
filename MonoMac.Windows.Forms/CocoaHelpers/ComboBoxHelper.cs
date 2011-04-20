@@ -1,5 +1,6 @@
 using System;
 using MonoMac.AppKit;
+using System.Drawing;
 namespace System.Windows.Forms
 {
 	internal partial class ComboBoxHelper : NSComboBox, IViewHelper
@@ -31,6 +32,11 @@ namespace System.Windows.Forms
 				if(this.SelectedText.Length == value)
 					return;
 			}
+		}
+		public new Font Font
+		{
+			get { return base.Font.ToFont();}
+			set{ base.Font = value.ToNsFont();}
 		}
 		
 		public int SelectionStart{get;set;}

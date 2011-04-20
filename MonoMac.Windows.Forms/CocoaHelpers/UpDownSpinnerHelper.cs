@@ -24,6 +24,13 @@ namespace System.Windows.Forms
 			base.WillChangeValue (forKey);
 		}
 		#region IViewHelper implementation
+		public void FontChanged ()
+		{
+			this.Font = Host.Font.ToNsFont();
+		}
+		
+		#endregion
+		#region IViewHelper implementation
 		public NSCursor Cursor { get;set;}
 		
 		

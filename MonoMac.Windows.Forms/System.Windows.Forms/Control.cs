@@ -1019,6 +1019,8 @@ namespace System.Windows.Forms
 				}
 
 				font = value;
+				if(m_view is IViewHelper)
+					((IViewHelper)m_view).FontChanged();
 				Invalidate();
 				OnFontChanged (EventArgs.Empty);
 				PerformLayout ();

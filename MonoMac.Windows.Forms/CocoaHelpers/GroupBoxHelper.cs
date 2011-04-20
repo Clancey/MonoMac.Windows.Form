@@ -26,6 +26,13 @@ namespace System.Windows.Forms
 
 		public Control Host { get; set; }
 		#endregion
+		#region IViewHelper implementation
+		public void FontChanged ()
+		{
+			this.TitleFont = Host.Font.ToNsFont();
+		}
+		
+		#endregion
 	}
 }
 

@@ -78,9 +78,6 @@
     <Compile Include="Templates\DrawingTemplate.g.cs">
       <DependentUpon>DrawingTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Templates\FontTemplate.g.cs">
-      <DependentUpon>FontTemplate.tt</DependentUpon>
-    </Compile>
     <Compile Include="Templates\MouseTemplate.g.cs">
       <DependentUpon>MouseTemplate.tt</DependentUpon>
     </Compile>
@@ -348,30 +345,30 @@
     <Compile Include="System.Windows.Forms\TabPage.cocoa.cs" />
     <Compile Include="CocoaHelpers\TabViewItemHelper.cs" />
     <Compile Include="CocoaHelpers\FlippedView.cs" />
-    <Compile Include="System.Windows.Forms\ToolStrip.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripButton.cs" />
     <Compile Include="System.Windows.Forms\IToolStripData.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripItemCollection.cs" />
     <Compile Include="System.Windows.Forms\Orientation.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripItem.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripItemEventArgs.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripItemEventHandler.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripItemClickedEventArgs.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripItemClickedEventHandler.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripDropDownCloseReason.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripItemEventType.cs" />
-    <Compile Include="System.Windows.Forms\ToolStrip.cocoa.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripButton.cocoa.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripItemCollection.cocoa.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripItemAlignment.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripItem.cocoa.cs" />
     <Compile Include="System.Windows.Forms\FormBorderStyle.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripItemDisplayStyle.cs" />
     <Compile Include="System.Windows.Forms\FormStartPosition.cs" />
-    <Compile Include="CocoaHelpers\ToolBarHelper.cs" />
     <Compile Include="Extenders\ImageExtenders.cs" />
     <Compile Include="Extenders\PointExtenders.cs" />
     <Compile Include="System.Windows.Forms\Control.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\Shortcut.cs" />
+    <Compile Include="System.Windows.Forms\MainMenu.cs" />
+    <Compile Include="System.Windows.Forms\Menu.cs" />
+    <Compile Include="System.Windows.Forms\MenuItem.cs" />
+    <Compile Include="System.Windows.Forms\MenuMerge.cs" />
+    <Compile Include="System.Windows.Forms\ContextMenu.cs" />
+    <Compile Include="System.Windows.Forms\ImplicitHScrollBar.cs" />
+    <Compile Include="System.Windows.Forms\ImplicitVScrollBar.cs" />
+    <Compile Include="System.Windows.Forms\MdiLayout.cs" />
+    <Compile Include="System.Windows.Forms\FormWindowState.cs" />
+    <Compile Include="System.Windows.Forms\CaptionButton.cs" />
+    <Compile Include="System.Windows.Forms\ToolTip.cs" />
+    <Compile Include="System.Windows.Forms\ToolTipIcon.cs" />
+    <Compile Include="System.Windows.Forms\MenuAPI.cs" />
+    <Compile Include="System.Windows.Forms\ContextMenu.cocoa.cs" />
+    <Compile Include="CocoaHelpers\ContextMenuHelper.cs" />
+    <Compile Include="System.Windows.Forms\Menu.cocoa.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />
@@ -398,10 +395,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DrawingTemplate.g.cs</LastGenOutput>
     </None>
-    <None Include="Templates\FontTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FontTemplate.g.cs</LastGenOutput>
-    </None>
     <None Include="Templates\MouseTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MouseTemplate.g.cs</LastGenOutput>
@@ -417,6 +410,111 @@
     <None Include="test-results\MonoMac.Windows.Forms.csproj.test-cache" />
     <None Include="test-results\System.Windows.Forms.csproj.test-cache" />
     <None Include="System.Windows.Forms\ScrollableControl_Old.cs" />
+    <None Include="test-results\System.Windows.Forms.csproj-Debug-2011-03-11.xml">
+      <Visible>False</Visible>
+    </None>
+    <None Include="test-results\System.Windows.Forms.csproj-Debug-2011-04-08.xml">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ColumnHeader.cocoa.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ColumnHeader.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ColumnHeaderAutoResizeStyle.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ColumnHeaderConverter.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ColumnReorderedEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ColumnReorderedEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\DrawListViewColumnHeaderEventArgs.cocoa.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\DrawListViewColumnHeaderEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\DrawListViewColumnHeaderEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\DrawListViewItemEventArgs.cocoa.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\DrawListViewItemEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\DrawListViewItemEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\DrawListViewSubItemEventArgs.cocoa.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\DrawListViewSubItemEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\DrawListViewSubItemEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ItemCheckedEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ItemCheckedEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListView.cocoa.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListView.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewGroup.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewGroupCollection.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewHitTestInfo.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewHitTestLocations.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewInsertionMark.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewItem.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewItemMouseHoverEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewItemMouseHoverEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewItemSelectionChangedEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewItemSelectionChangedEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\RetrieveVirtualItemEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\RetrieveVirtualItemEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms.Design\ToolStripItemDesignerAvailability.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms.Design\ToolStripItemDesignerAvailabilityAttribute.cs">
+      <Visible>False</Visible>
+    </None>
     <None Include="System.Windows.Forms.Layout\DefaultLayout.cs">
       <Visible>False</Visible>
     </None>
@@ -427,9 +525,6 @@
       <Visible>False</Visible>
     </None>
     <None Include="System.Windows.Forms.Layout\TableLayoutSettingsTypeConverter.cs">
-      <Visible>False</Visible>
-    </None>
-    <None Include="obj\Release\System.Windows.Forms.csproj.FilesWrittenAbsolute.txt">
       <Visible>False</Visible>
     </None>
   </ItemGroup>

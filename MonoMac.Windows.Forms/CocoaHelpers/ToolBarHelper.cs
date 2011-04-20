@@ -82,6 +82,13 @@ namespace System.Windows.Forms
 			set {ToolStrip = (ToolStrip)value;	}
 		}
 		#endregion
+		#region IViewHelper implementation
+		public void FontChanged ()
+		{
+			
+		}
+		
+		#endregion
 }
 }
 

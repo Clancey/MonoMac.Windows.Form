@@ -45,7 +45,13 @@ namespace System.Windows.Forms
 			this.ContentView.MouseMoved(theEvent);
 			base.MouseMoved (theEvent);
 		}
-		
+		public override void MouseUp (NSEvent theEvent)
+		{
+			if(theEvent == null)
+				return;
+			//base.MouseUp (theEvent);
+			m_parent.HandleClick(theEvent.ClickCount,new MouseEventArgs(MouseButtons.Left,theEvent.ClickCount,theEvent.AbsoluteX,theEvent.AbsoluteY,theEvent.AbsoluteZ));
+		}	
 		public Rectangle GetClientRectangle()
 		{
 			return Rectangle.Round(GetClientRectangleF());

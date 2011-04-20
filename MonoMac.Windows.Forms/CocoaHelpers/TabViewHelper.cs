@@ -9,6 +9,13 @@ namespace System.Windows.Forms
 
 		public Control Host {get;set;}
 		#endregion
+		#region IViewHelper implementation
+		public void FontChanged ()
+		{
+			this.Font = Host.Font.ToNsFont();
+		}
+		
+		#endregion
 		public TabViewHelper (Control host) : base ()
 		{
 			 Host = host;
