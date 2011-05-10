@@ -19,12 +19,11 @@ namespace System.Windows.Forms
 			right_to_left = RightToLeft.Inherit;
 			
 		}
-
+		ContextMenuHelper helper;
 		void CreateHandle ()
 		{
-			ContextMenuHelper helper = new ContextMenuHelper();
+			helper = new ContextMenuHelper(this);
 			m_view = helper;
-			helper.Host = this;
 		}
 		
 		
@@ -36,8 +35,8 @@ namespace System.Windows.Forms
 			src_control = control;
 		
 			OnPopup (EventArgs.Empty);
-			m_view.RemoveAllItems();
-			m_view.InsertItem("beep",null,"",0);
+			//m_view.RemoveAllItems();
+			//m_view.InsertItem("beep",null,"",0);
 			var point = control.m_view.ConvertPointToBase(pos);
 			NSMenu.PopUpContextMenu(m_view,NSEvent.MouseEvent(NSEventType.LeftMouseUp,point,NSEventModifierMask.ShiftKeyMask,0,NSApplication.SharedApplication.MainWindow.WindowNumber,new NSGraphicsContext(),0,1,1f),control,NSFont.MenuBarFontOfSize(12));
 			//m_view.PopUpMenu(new NSMenuItem("test",""),pos,control);
@@ -46,6 +45,12 @@ namespace System.Windows.Forms
 			OnCollapse (EventArgs.Empty);
 		}
 		
+		internal override void OnMenuChanged (EventArgs e)
+		{
+			if(helper != null)
+				helper.ItemsChanged();
+			base.OnMenuChanged (e);
+		}
 	}
 }
 

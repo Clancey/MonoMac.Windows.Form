@@ -53,7 +53,7 @@ namespace System.Windows.Forms
 			m_helper = new ToolBarHelper(this);
 		}
 		
-		public static implicit operator NSToolbar (ToolStrip toolstrip)
+		public static implicit operator NSMenu (ToolStrip toolstrip)
 		{
 			return toolstrip.m_helper;
 		}
@@ -79,7 +79,7 @@ namespace System.Windows.Forms
 				}
 			}
 		}
-		
+		/*
 		protected internal virtual ToolStripItem CreateDefaultItem (string text, Image image, EventHandler onClick)
 		{
 			//if (text == "-")
@@ -90,6 +90,7 @@ namespace System.Windows.Forms
 				
 			return new ToolStripButton (text, image, onClick);
 		}
+		*/
 		
 		protected override void Dispose (bool disposing)
 		{
@@ -114,9 +115,10 @@ namespace System.Windows.Forms
 			if (e.Item.InternalVisible)
 				e.Item.Available = true;
 				
-			m_helper.InsertItem(e.Item.Text,0);
+			m_helper.AddItem(e.Item);//(e.Item.Text,0);
 			//e.Item.SetPlacement (ToolStripItemPlacement.Main);
 			
+		
 			if (this.Created)
 				this.PerformLayout ();
 			

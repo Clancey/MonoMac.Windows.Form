@@ -90,6 +90,7 @@ namespace System.Windows.Forms
 		bool                    show_keyboard_cues; // Current keyboard cues 
 		internal bool           show_focus_cues; // Current focus cues 
 		internal bool		force_double_buffer;	// Always doublebuffer regardless of ControlStyle
+		ContextMenu             context_menu; // Context menu associated with the control
 
 		// Layout
 		internal enum LayoutType {
@@ -118,6 +119,7 @@ namespace System.Windows.Forms
 		private bool nested_layout = false;
 		Point auto_scroll_offset;
 		private bool suppressing_key_press;
+		//private ContextMenuStrip context_menu_strip;
 
 		#endregion	// Local Variables
 		
@@ -650,6 +652,46 @@ namespace System.Windows.Forms
 		
 		// see Control.cocoa.cs
 		// public Rectangle ClientRectangle {get;}
+		
+		[Browsable (false)]
+		[DefaultValue(null)]
+		[MWFCategory("Behavior")]
+		public virtual ContextMenu ContextMenu {
+			get {
+				return ContextMenuInternal;
+			}
+
+			set {
+				ContextMenuInternal = value;
+			}
+		}
+
+		internal virtual ContextMenu ContextMenuInternal {
+			get {
+				return context_menu;
+			}
+			set {
+				if (context_menu != value) {
+					context_menu = value;
+					OnContextMenuChanged (EventArgs.Empty);
+				}
+			}
+		}
+		/*
+		[DefaultValue (null)]
+		[MWFCategory("Behavior")]
+		public virtual ContextMenuStrip ContextMenuStrip {
+			get { return this.context_menu_strip; }
+			set { 
+				if (this.context_menu_strip != value) {
+					this.context_menu_strip = value;
+					if (value != null)
+						value.container = this;
+					OnContextMenuStripChanged (EventArgs.Empty);
+				}
+			}
+		}
+		*/
 		
 		[AmbientValue ("{Width=0, Height=0}")]
 		[MWFCategory("Layout")]

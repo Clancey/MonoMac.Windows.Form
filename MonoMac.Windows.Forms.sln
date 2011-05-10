@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwfMainMenu", "SwfMainMenu\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicMenu", "BasicMenu\BasicMenu.csproj", "{7100B355-DE19-40AB-8163-BE481E8053E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "toolstrip20", "toolstrip20\toolstrip20.csproj", "{0B1229A6-7C38-4C72-BB85-A555C59E4E71}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,12 @@ Global
 		DebugRhino|Any CPU = DebugRhino|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0B1229A6-7C38-4C72-BB85-A555C59E4E71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B1229A6-7C38-4C72-BB85-A555C59E4E71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B1229A6-7C38-4C72-BB85-A555C59E4E71}.DebugRhino|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B1229A6-7C38-4C72-BB85-A555C59E4E71}.DebugRhino|Any CPU.Build.0 = Debug|Any CPU
+		{0B1229A6-7C38-4C72-BB85-A555C59E4E71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B1229A6-7C38-4C72-BB85-A555C59E4E71}.Release|Any CPU.Build.0 = Release|Any CPU
 		{53D05DE4-A56D-4AF9-BC90-28D609880DF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{53D05DE4-A56D-4AF9-BC90-28D609880DF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53D05DE4-A56D-4AF9-BC90-28D609880DF4}.DebugRhino|Any CPU.ActiveCfg = Debug|Any CPU
@@ -119,8 +127,9 @@ Global
 		{53D05DE4-A56D-4AF9-BC90-28D609880DF4} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
 		{59E943E0-E2A6-4989-8489-17AEABD06C4B} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
 		{7100B355-DE19-40AB-8163-BE481E8053E5} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
+		{0B1229A6-7C38-4C72-BB85-A555C59E4E71} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = BasicMenu\BasicMenu.csproj
+		StartupItem = toolstrip20\toolstrip20.csproj
 	EndGlobalSection
 EndGlobal

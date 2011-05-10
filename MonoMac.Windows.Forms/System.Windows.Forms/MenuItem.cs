@@ -38,7 +38,7 @@ namespace System.Windows.Forms
 	[DefaultEvent("Click")]
 	[DesignTimeVisible(false)]
 	[ToolboxItem(false)]
-	public class MenuItem : Menu
+	public partial class MenuItem : Menu
 	{
 		internal bool separator;
 		internal bool break_;
@@ -114,28 +114,6 @@ namespace System.Windows.Forms
 			Select += onSelect;
 		}
 
-		private void CommonConstructor (string text)
-		{
-			defaut_item = false;
-			separator = false;
-			break_ = false;
-			bar_break = false;
-			checked_ = false;
-			radiocheck = false;
-			enabled = true;
-			showshortcut = true;
-			visible = true;
-			ownerdraw = false;
-			menubar = false;
-			menuheight = 0;
-			xtab = 0;
-			index = -1;
-			mnemonic = '\0';
-			menuid = -1;
-			mergeorder = 0;
-			mergetype = MenuMerge.Add;
-			Text = text;	// Text can change separator status
-		}
 
 		#region Events
 		static object ClickEvent = new object ();

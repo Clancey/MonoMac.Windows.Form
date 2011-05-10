@@ -7,6 +7,13 @@ namespace System.Windows.Forms
 {
 	public partial class ToolStripItem : Component
 	{
+		public static implicit operator NSMenuItem (ToolStripItem item)
+		{
+			return new NSMenuItem(item.Text,delegate(object sender, EventArgs e) {
+				item.OnClick(e);	
+			});	
+		}
+		
 		internal int Index;
 		protected ToolStripItem (string text, Image image, EventHandler onClick, string name)
 		{
