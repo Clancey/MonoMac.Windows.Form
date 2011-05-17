@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicMenu", "BasicMenu\Basi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "toolstrip20", "toolstrip20\toolstrip20.csproj", "{0B1229A6-7C38-4C72-BB85-A555C59E4E71}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinformsTest", "WinformsTest\WinformsTest.csproj", "{B5C06836-E132-4DEE-A59E-E3DD17E770E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +80,12 @@ Global
 		{B1CE3750-5070-40D4-BDC1-C8C1D882DBFB}.DebugRhino|Any CPU.Build.0 = Debug|Any CPU
 		{B1CE3750-5070-40D4-BDC1-C8C1D882DBFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1CE3750-5070-40D4-BDC1-C8C1D882DBFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5C06836-E132-4DEE-A59E-E3DD17E770E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5C06836-E132-4DEE-A59E-E3DD17E770E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5C06836-E132-4DEE-A59E-E3DD17E770E3}.DebugRhino|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5C06836-E132-4DEE-A59E-E3DD17E770E3}.DebugRhino|Any CPU.Build.0 = Debug|Any CPU
+		{B5C06836-E132-4DEE-A59E-E3DD17E770E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5C06836-E132-4DEE-A59E-E3DD17E770E3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B9253267-6DCF-4A13-B82F-001E40144816}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B9253267-6DCF-4A13-B82F-001E40144816}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9253267-6DCF-4A13-B82F-001E40144816}.DebugRhino|Any CPU.ActiveCfg = Debug|Any CPU
@@ -128,8 +136,12 @@ Global
 		{59E943E0-E2A6-4989-8489-17AEABD06C4B} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
 		{7100B355-DE19-40AB-8163-BE481E8053E5} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
 		{0B1229A6-7C38-4C72-BB85-A555C59E4E71} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
+		{B5C06836-E132-4DEE-A59E-E3DD17E770E3} = {7489C34A-8B61-463E-9D5F-2D6A94A8A508}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = toolstrip20\toolstrip20.csproj
+		StartupItem = WinformsTest\WinformsTest.csproj
+		Policies = $0
+		$0.StandardHeader = $1
+		$1.inheritsSet = Apache2License
 	EndGlobalSection
 EndGlobal

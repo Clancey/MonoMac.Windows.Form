@@ -398,6 +398,21 @@
     <Compile Include="System.Windows.Forms\ToolStripItemEventType.cs" />
     <Compile Include="System.Windows.Forms\ToolStripButton.cocoa.cs" />
     <Compile Include="System.Windows.Forms\ToolStripButton.cs" />
+    <Compile Include="System.Windows.Forms\FolderBrowserDialog.cocoa.cs" />
+    <Compile Include="CocoaHelpers\FolderDialogHelper.cs" />
+    <Compile Include="System.Windows.Forms\CommonDialog.cs" />
+    <Compile Include="System.Windows.Forms\OpenFileDialog.cs" />
+    <Compile Include="System.Windows.Forms\FileDialog.cs" />
+    <Compile Include="System.Windows.Forms\FileDialogCustomPlacesCollection.cs" />
+    <Compile Include="System.Windows.Forms\FileDialogCustomPlace.cs" />
+    <Compile Include="System.Windows.Forms\FormClosedEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\CloseReason.cs" />
+    <Compile Include="System.Windows.Forms\FileDialog.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\OpenFileDialog.cocoa.cs" />
+    <Compile Include="CocoaHelpers\FileDialogHelper.cs" />
+    <Compile Include="System.Windows.Forms\CommonDialog.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\SaveFileDialog.cs" />
+    <Compile Include="System.Windows.Forms\SaveFileDialog.cocoa.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />

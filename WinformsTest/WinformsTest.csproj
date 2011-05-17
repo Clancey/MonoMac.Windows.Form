@@ -77,7 +77,6 @@
     <None Include="python\FileNewForm.resx" />
     <None Include="python\FindForm.resx" />
     <None Include="python\OptionsForm.resx" />
-    <None Include="Properties\Resources.resx" />
     <None Include="Properties\Settings.settings" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -87,5 +86,8 @@
       <Project>{FFD271D2-67B3-4FAB-99BF-8E28BB6F0B76}</Project>
       <Name>System.Windows.Forms</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx" />
   </ItemGroup>
 </Project>

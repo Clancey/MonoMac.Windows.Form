@@ -11,6 +11,7 @@ namespace System.Windows.Forms
 		public ToolBarHelper(ToolStrip parent)
 		{
 			Host = parent;
+			
 			//this.AllowsUserCustomization = true;
 			//this.DisplayMode = NSToolbarDisplayMode.IconAndLabel;
 		}

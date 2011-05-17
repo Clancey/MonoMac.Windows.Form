@@ -9,7 +9,7 @@ namespace System.Windows.Forms
 	{
 		public static implicit operator NSMenuItem (ToolStripItem item)
 		{
-			return new NSMenuItem(item.Text,delegate(object sender, EventArgs e) {
+			return new NSMenuItem(item.Text ?? "",delegate(object sender, EventArgs e) {
 				item.OnClick(e);	
 			});	
 		}
