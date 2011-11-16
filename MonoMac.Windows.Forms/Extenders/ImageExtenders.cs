@@ -15,22 +15,19 @@
 using MonoMac.AppKit;
 using System.Drawing;
 using System.Drawing.Imaging;
+
 namespace System.Windows.Forms
 {
 	public static class ImageExtenders
 	{
-		public static NSImage ToNSImage(this Image image)
-        {
-			using (var stream = new System.IO.MemoryStream())
-			{
-				image.Save(stream,ImageFormat.Png);
+		public static NSImage ToNSImage (this Image image)
+		{
+			using (var stream = new System.IO.MemoryStream()) {
+				image.Save (stream, ImageFormat.Png);
 				stream.Position = 0;			
 				return  NSImage.FromStream (stream);
 			}
-			//TODO: Rewrite!
-			//image.Save("tempimage");
-			//return new NSImage("tempimage");
-        }
+		}
 	}
 }
 
