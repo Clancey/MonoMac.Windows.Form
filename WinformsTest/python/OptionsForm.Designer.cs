@@ -205,7 +205,7 @@ namespace RhinoDLR_Python
       // m_btnAddToSearchPath
       // 
       this.m_btnAddToSearchPath.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-     // this.m_btnAddToSearchPath.Image = ((System.Drawing.Image)(resources.GetObject("m_btnAddToSearchPath.Image")));
+      //this.m_btnAddToSearchPath.Image = ((System.Drawing.Image)(resources.GetObject("m_btnAddToSearchPath.Image")));
       this.m_btnAddToSearchPath.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.m_btnAddToSearchPath.Name = "m_btnAddToSearchPath";
       this.m_btnAddToSearchPath.Size = new System.Drawing.Size(23, 22);
@@ -238,7 +238,7 @@ namespace RhinoDLR_Python
       // 
       this.m_btnMoveDownInSearchPath.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
       this.m_btnMoveDownInSearchPath.Enabled = false;
-      ///this.m_btnMoveDownInSearchPath.Image = ((System.Drawing.Image)(resources.GetObject("m_btnMoveDownInSearchPath.Image")));
+      //this.m_btnMoveDownInSearchPath.Image = ((System.Drawing.Image)(resources.GetObject("m_btnMoveDownInSearchPath.Image")));
       this.m_btnMoveDownInSearchPath.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.m_btnMoveDownInSearchPath.Name = "m_btnMoveDownInSearchPath";
       this.m_btnMoveDownInSearchPath.Size = new System.Drawing.Size(23, 22);

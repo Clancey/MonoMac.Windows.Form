@@ -6,7 +6,7 @@ using System.Drawing;
 using MonoMac.Foundation;
 namespace System.Windows.Forms
 {
-	internal partial class UserControl 
+	internal partial class InternalUserControl 
 	{	
 		public override void DrawRect (RectangleF dirtyRect)
 		{

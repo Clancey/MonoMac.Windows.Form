@@ -9,6 +9,7 @@ class MyForm : Form
 
 	private System.Windows.Forms.Button button1;
 	private System.Windows.Forms.Button button2;
+	private System.Windows.Forms.Button button3;
 	private System.Windows.Forms.TextBox textBox1;
 	private System.Windows.Forms.TextBox textBox2;
 	private System.Windows.Forms.CheckBox checkBox1;
@@ -24,6 +25,7 @@ class MyForm : Form
 		this.listbox1 = new System.Windows.Forms.CheckedListBox ();
 		this.button1 = new System.Windows.Forms.Button ();
 		this.button2 = new System.Windows.Forms.Button ();
+		this.button3 = new Button();
 		this.textBox1 = new System.Windows.Forms.TextBox ();
 		this.textBox2 = new System.Windows.Forms.TextBox ();
 		this.checkBox1 = new System.Windows.Forms.CheckBox ();
@@ -76,6 +78,18 @@ class MyForm : Form
 		this.button2.Text = "Show Message box";
 		//this.button1.UseVisualStyleBackColor = true;
 		this.button2.Click += delegate { MessageBox.Show ("Text", "Caption"); };
+		
+		//Button 3
+		this.button3.Location = new Point(30,76);
+		this.button3.Name = "button3";
+		this.button3.Size = new Size(150,25);
+		this.button3.Text = "Show open form";
+		this.button3.Click += delegate {FolderBrowserDialog fd = new FolderBrowserDialog();
+			var result = fd.ShowDialog();
+			MessageBox.Show(fd.SelectedPath);
+		};
+		
+		
 		// 
 		// textBox1
 		// 
@@ -158,6 +172,7 @@ class MyForm : Form
 		this.Controls.Add (this.textBox1);
 		this.Controls.Add (this.button1);
 		this.Controls.Add (this.button2);
+		this.Controls.Add(this.button3);
 		this.Controls.Add (this.trackBar1);
 		this.Controls.Add (this.groupBox1);
 		this.Controls.Add (this.numericUpDown1);

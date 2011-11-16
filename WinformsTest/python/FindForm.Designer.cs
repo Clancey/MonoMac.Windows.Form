@@ -100,7 +100,7 @@
       this.Controls.Add(this.m_txtFindString);
       this.Controls.Add(m_lblFindWhat);
       //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-     // this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+      this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.MaximizeBox = false;
       this.MinimizeBox = false;
       this.Name = "FindForm";

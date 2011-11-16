@@ -80,6 +80,7 @@ namespace System.Windows.Forms
 		ImeMode                 ime_mode;
 		object                  control_tag; // object that contains data about our control
 		internal int			mouse_clicks;		// Counter for mouse clicks
+		Cursor                  cursor; // Cursor for the window
 		internal bool			allow_drop;		// true if the control accepts droping objects on it   
 		Region                  clip_region; // User-specified clip region for the window
 
@@ -908,6 +909,38 @@ namespace System.Windows.Forms
 				return (!is_disposed && is_created);
 			}
 		}
+		
+		
+		[AmbientValue(null)]
+		[MWFCategory("Appearance")]
+		public virtual Cursor Cursor {
+			get {
+				if (use_wait_cursor)
+					return Cursors.WaitCursor;
+
+				if (cursor != null) {
+					return cursor;
+				}
+
+				if (parent != null) {
+					return parent.Cursor;
+				}
+
+				return Cursors.Default;
+			}
+
+			set {
+				if (cursor == value) {
+					return;
+				}
+
+				cursor = value;
+				UpdateCursor ();
+
+				OnCursorChanged (EventArgs.Empty);
+			}
+		}
+
 
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 		[ParenthesizePropertyName(true)]

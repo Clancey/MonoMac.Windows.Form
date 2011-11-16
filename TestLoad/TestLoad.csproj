@@ -6,12 +6,11 @@
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{CCDAA602-7A9C-463B-ABD3-719D843B7E91}</ProjectGuid>
-    <ProjectTypeGuids>{1C533B1C-72DD-4CB1-9F6B-BF11D93BCFBE};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{948B3504-5B70-4649-8FE4-BDE1FB46EC69};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>TestLoad</RootNamespace>
     <StartupObject>MyForm</StartupObject>
     <AssemblyName>TestLoad</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,8 +37,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
-    <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="MonoMac">
       <HintPath>..\References\MonoMac.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -62,6 +60,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MainMenu.xib" />
+    <InterfaceDefinition Include="MainMenu.xib" xmlns="" />
   </ItemGroup>
 </Project>

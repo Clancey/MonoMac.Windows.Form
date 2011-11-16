@@ -40,7 +40,6 @@ namespace System.Windows.Forms {
 	{
 		#region Local Variables
 		private Environment.SpecialFolder rootFolder = Environment.SpecialFolder.Desktop;
-		private string selectedPath = string.Empty;
 		private bool showNewFolderButton = true;
 		
 		private Label descriptionLabel;

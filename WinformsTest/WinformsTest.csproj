@@ -6,11 +6,10 @@
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B5C06836-E132-4DEE-A59E-E3DD17E770E3}</ProjectGuid>
-    <ProjectTypeGuids>{1C533B1C-72DD-4CB1-9F6B-BF11D93BCFBE};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{948B3504-5B70-4649-8FE4-BDE1FB46EC69};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>WinformsTest</RootNamespace>
     <AssemblyName>WinformsTest</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <StartupObject>WinFormsTests.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -37,9 +36,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
-    <Reference Include="MonoMac">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
+    <Reference Include="MonoMac" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -67,17 +64,18 @@
     <Compile Include="Properties\Settings.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MainMenu.xib" />
+    <InterfaceDefinition Include="MainMenu.xib" xmlns="" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="README" />
-    <None Include="TesterForm.resx" />
     <None Include="python\ExceptionForm.resx" />
     <None Include="python\FileNewForm.resx" />
     <None Include="python\FindForm.resx" />
     <None Include="python\OptionsForm.resx" />
+    <None Include="Properties\Resources.resx" />
     <None Include="Properties\Settings.settings" />
+    <None Include="TesterForm.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Mono\MonoMac\v0.0\Mono.MonoMac.targets" />
@@ -88,6 +86,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx" />
+    <EmbeddedResource Include="TesterForm.resources" />
   </ItemGroup>
 </Project>

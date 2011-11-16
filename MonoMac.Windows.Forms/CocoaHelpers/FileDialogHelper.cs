@@ -14,6 +14,7 @@
 //    limitations under the License.
 using System;
 using MonoMac.AppKit;
+using System.Threading;
 namespace System.Windows.Forms
 {
 	internal class FileDialogHelper : NSOpenPanel, IViewHelper
@@ -35,9 +36,22 @@ namespace System.Windows.Forms
 		
 		public void Show()
 		{
-			this.Begin((int result) => {
-				Console.WriteLine(result);
-			});
+			
+			bool isComplete = false;
+			this.RunModal();
+			Host.DialogResult = DialogResult.OK;
+			this.SelectionDidChange += delegate(object sender, EventArgs e) {
+				if(Host is FileDialog)
+				{
+					FileDialog fileDialog = (FileDialog)Host;
+					fileDialog.FileName = this.Url.Path;
+				}
+			};
+			this.CancelEvent += delegate {
+				Host.DialogResult = DialogResult.Cancel;
+			};
+			Console.WriteLine("complete");
+			
 		}
 	
 
