@@ -9,10 +9,12 @@ namespace System.Windows.Forms
 		{
 			Init();
 		}
+		/*
 		public DataGridViewCheckBoxCell(IntPtr handle) : base(handle)
 		{
 			Init();
 		}
+		*/
 		void Init()
 		{
 			this.SetButtonType(NSButtonType.Switch);			

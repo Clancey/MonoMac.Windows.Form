@@ -4,15 +4,11 @@ using System.Drawing;
 using MonoMac.Foundation;
 namespace System.Windows.Forms
 {
-	public partial class Panel : Control // : PanelMouseView
+	public partial class Panel : ScrollableControl // : PanelMouseView
 		//NSView
 	{
 		internal PanelMouseView m_helper;
 				
-		public Panel ()
-		{
-			BackColor = Color.DarkGray;
-		}
 		internal NSTrackingArea trackingArea;
 		protected override void CreateHandle ()
 		{

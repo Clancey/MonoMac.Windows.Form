@@ -19,7 +19,6 @@ namespace System.Windows.Forms
 Dictionary<string,string> controls = new Dictionary<string,string>();
 controls.Add("ButtonHelper","NSButton");
 controls.Add("TextBoxMouseView","NSTextView");
-controls.Add("ComboBoxMouseView","NSComboBox");
 controls.Add("ListBoxMouseView","NSScrollView");
 controls.Add("TrackBarMouseView","NSSlider");
 controls.Add("UserControlMouseView","NSControl");

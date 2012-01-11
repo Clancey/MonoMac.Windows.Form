@@ -63,6 +63,11 @@ foreach(var folder in subfolders)
 			Pen pen = new Pen(BackColor);
 			e.Graphics.DrawRectangle(pen,e.ClipRectangle);
 		}
+		
+		public void FontChanged()
+		{
+			this.Font = Host.font.ToNsFont();
+		}
 	}
 	
 	

@@ -45,7 +45,13 @@ namespace System.Windows.Forms
 			this.ContentView.MouseMoved(theEvent);
 			base.MouseMoved (theEvent);
 		}
-		
+		public override void MouseUp (NSEvent theEvent)
+		{
+			if(theEvent == null)
+				return;
+			//base.MouseUp (theEvent);
+			m_parent.HandleClick(theEvent.ClickCount,new MouseEventArgs(MouseButtons.Left,theEvent.ClickCount,theEvent.AbsoluteX,theEvent.AbsoluteY,theEvent.AbsoluteZ));
+		}	
 		public Rectangle GetClientRectangle()
 		{
 			return Rectangle.Round(GetClientRectangleF());
@@ -90,7 +96,38 @@ namespace System.Windows.Forms
 		public Form ()
 		{
 			m_helper.SetWindowStyle(true, true, true);
+			
 		}
+		
+			Form owner;
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public Form Owner {
+			get {
+				return owner;
+			}
+
+			set {
+				/*
+				if (owner != value) {
+					if (owner != null) {
+						/owner.RemoveOwnedForm(this);
+					}
+					owner = value;
+					if (owner != null)
+						owner.AddOwnedForm(this);
+					if (IsHandleCreated) {
+						if (owner != null && owner.IsHandleCreated) {
+							XplatUI.SetOwner(this.window.Handle, owner.window.Handle);
+						} else {
+							XplatUI.SetOwner(this.window.Handle, IntPtr.Zero);
+						}
+					}
+				}
+				*/
+			}
+		}
+
 		
 		FormBorderStyle			form_border_style;
 		protected override void CreateHandle ()
@@ -179,6 +216,8 @@ namespace System.Windows.Forms
 				NSApplication.SharedApplication.AbortModal ();
 			else
 				m_helper.PerformClose (this);
+			
+			OnClosed(new EventArgs());
 		}
 
 		internal NSView ContentView {
@@ -348,6 +387,8 @@ namespace System.Windows.Forms
 				Load (this, new EventArgs ());
 		}
 		public EventHandler Load { get; set; }
+		
+	
 
 		#region From Template
 		public string Name { get; set; }
@@ -392,7 +433,10 @@ namespace System.Windows.Forms
 			}
 		}
 		*/
-
+		protected virtual void OnClosed(EventArgs e)
+		{
+			
+		}
 
 
 

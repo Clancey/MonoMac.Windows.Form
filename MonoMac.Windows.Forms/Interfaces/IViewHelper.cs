@@ -6,6 +6,7 @@ namespace System.Windows.Forms
 	{
 		NSCursor Cursor {get;set;}
 		Control Host {get;set;}
+		void FontChanged();
 		//bool shouldDraw {get;set;}
 	}
 }

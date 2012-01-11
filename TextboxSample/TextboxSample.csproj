@@ -6,11 +6,10 @@
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B1CE3750-5070-40D4-BDC1-C8C1D882DBFB}</ProjectGuid>
-    <ProjectTypeGuids>{1C533B1C-72DD-4CB1-9F6B-BF11D93BCFBE};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{948B3504-5B70-4649-8FE4-BDE1FB46EC69};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>TextboxSample</RootNamespace>
     <AssemblyName>TextboxSample</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <StartupObject>Form1</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -38,8 +37,7 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Data" />
-    <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="MonoMac">
       <HintPath>..\References\MonoMac.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -53,7 +51,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MainMenu.xib" />
+    <InterfaceDefinition Include="MainMenu.xib" xmlns="" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

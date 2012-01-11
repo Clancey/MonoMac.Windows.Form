@@ -1,4 +1,17 @@
-using System;
+// 
+//  Copyright 2011  James Clancey
+// 
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+// 
+//        http://www.apache.org/licenses/LICENSE-2.0
+// 
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.using System;
 using System.Drawing;
 using System.ComponentModel;
 using MonoMac.AppKit;
@@ -7,6 +20,13 @@ namespace System.Windows.Forms
 {
 	public partial class ToolStripItem : Component
 	{
+		public static implicit operator NSMenuItem (ToolStripItem item)
+		{
+			return new NSMenuItem(item.Text ?? "",delegate(object sender, EventArgs e) {
+				item.OnClick(e);	
+			});	
+		}
+		
 		internal int Index;
 		protected ToolStripItem (string text, Image image, EventHandler onClick, string name)
 		{

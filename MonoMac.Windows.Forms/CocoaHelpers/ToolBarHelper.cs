@@ -1,55 +1,34 @@
-using System;
+// 
+//  Copyright 2011  James Clancey
+// 
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+// 
+//        http://www.apache.org/licenses/LICENSE-2.0
+// 
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.using System;
 using MonoMac.AppKit;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections;
 namespace System.Windows.Forms
 {
-	public class ToolBarHelper : NSToolbar, IViewHelper
+	public class ToolBarHelper : NSMenu, IViewHelper
 	{
 		public ToolStrip ToolStrip;
-		public ToolBarHelper()
+		public ToolBarHelper(ToolStrip parent)
 		{
-			this.Delegate = new ToolBarDelegate();	
+			Host = parent;
+			
+			//this.AllowsUserCustomization = true;
+			//this.DisplayMode = NSToolbarDisplayMode.IconAndLabel;
 		}
 		
-		internal class ToolBarDelegate : NSToolbarDelegate
-		{
-			public override NSToolbarItem WillInsertItem (NSToolbar toolbar, string itemIdentifier, bool willBeInserted)
-			{
-				throw new NotImplementedException ();
-			}
-			public override string[] AllowedItemIdentifiers (NSToolbar toolbar)
-			{
-				var bar = toolbar as ToolBarHelper;
-				return bar.Items.Select(x=> x.Label).ToArray();
-			}
-			
-			#region implemented abstract members of MonoMac.AppKit.NSToolbarDelegate
-			public override string[] DefaultItemIdentifiers (NSToolbar toolbar)
-			{
-				return new string[]{"&Save Document"};
-			}
-			
-			
-			public override string[] SelectableItemIdentifiers (NSToolbar toolbar)
-			{
-				throw new System.NotImplementedException();
-			}
-			
-			
-			public override void WillAddItem (MonoMac.Foundation.NSNotification notification)
-			{
-				throw new System.NotImplementedException();
-			}
-			
-			
-			public override void DidRemoveItem (MonoMac.Foundation.NSNotification notification)
-			{
-				throw new System.NotImplementedException();
-			}
-			
-			#endregion
-		}
 	
 
 		#region IViewHelper implementation
@@ -66,6 +45,13 @@ namespace System.Windows.Forms
 			get {return ToolStrip;}
 			set {ToolStrip = (ToolStrip)value;	}
 		}
+		#endregion
+		#region IViewHelper implementation
+		public void FontChanged ()
+		{
+			
+		}
+		
 		#endregion
 }
 }

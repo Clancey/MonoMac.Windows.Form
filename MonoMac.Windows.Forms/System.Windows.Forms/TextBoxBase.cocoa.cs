@@ -1,4 +1,17 @@
-using System.ComponentModel;
+// 
+//  Copyright 2011  James Clancey
+// 
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+// 
+//        http://www.apache.org/licenses/LICENSE-2.0
+// 
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Drawing.Text;
@@ -7,6 +20,7 @@ using System.Runtime.InteropServices;
 using System.Collections;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
+using System.ComponentModel;
 
 namespace System.Windows.Forms
 {
@@ -28,7 +42,6 @@ namespace System.Windows.Forms
 			m_helper.TextView.TextContainer.ContainerSize = new SizeF(float.MaxValue,float.MaxValue);
 			m_helper.TextView.TextContainer.WidthTracksTextView = false;
 			m_helper.TextView.Font = Font.ToNsFont();
-			
 			
 			//m_helper.ScaleUnitSquareToSize(Util.ScaleSize);
 			//m_helper.viewDidMoveToSuperview += delegate(object sender, EventArgs e) {
@@ -265,7 +278,7 @@ namespace System.Windows.Forms
 		
 		[Editor ("System.ComponentModel.Design.MultilineStringEditor, " + Consts.AssemblySystem_Design,
 			 "System.Drawing.Design.UITypeEditor, " + Consts.AssemblySystem_Drawing)]
-		[Localizable(true)]
+		[System.ComponentModel.Localizable(true)]
 		public override string Text {
 			get {
 					return m_helper.TextView.Value;

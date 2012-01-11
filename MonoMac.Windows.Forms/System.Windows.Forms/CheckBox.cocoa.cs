@@ -16,14 +16,14 @@ namespace System.Windows.Forms
 			SetStyle(ControlStyles.StandardDoubleClick, false);
 			SetAutoSizeMode (AutoSizeMode.GrowAndShrink);			
 		}
-    
-    protected override void CreateHandle()
-    {
-      ButtonHelper bh = new ButtonHelper();
-      m_view = bh;
-      bh.Host = this;
-      bh.SetButtonType(NSButtonType.Switch);
-    }
+		
+		protected override void CreateHandle()
+		{
+			ButtonHelper bh = new ButtonHelper();
+			m_view = bh;
+			bh.Host = this;
+			bh.SetButtonType(NSButtonType.Switch);
+		}
 		#endregion	// Public Constructors
 	
 		

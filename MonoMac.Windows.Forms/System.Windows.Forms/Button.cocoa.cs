@@ -18,7 +18,7 @@ namespace System.Windows.Forms
 		{
 			ButtonHelper helper = new ButtonHelper();
       		m_view = helper;
-			helper.Font = Font;
+			helper.Font = Font.ToNsFont();
 			helper.Host = this;
 			helper.BezelStyle = NSBezelStyle.Rounded;
 			

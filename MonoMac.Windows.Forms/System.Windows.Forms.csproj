@@ -9,7 +9,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>System.Windows.Forms</RootNamespace>
     <AssemblyName>System.Windows.Forms</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <newfilesearch>OnLoad</newfilesearch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -50,9 +49,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
-    <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\MonoMac.dll</HintPath>
+    <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral">
+      <Private>False</Private>
+      <Package>monodevelop-core-mac-addins</Package>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -77,9 +76,6 @@
     <Compile Include="Extenders\NSIndexSetExtender.cs" />
     <Compile Include="Templates\DrawingTemplate.g.cs">
       <DependentUpon>DrawingTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\FontTemplate.g.cs">
-      <DependentUpon>FontTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="Templates\MouseTemplate.g.cs">
       <DependentUpon>MouseTemplate.tt</DependentUpon>
@@ -258,19 +254,15 @@
     <Compile Include="System.Windows.Forms\ScrollableControl.cs" />
     <Compile Include="System.Windows.Forms\ScrollBar.cocoa.cs" />
     <Compile Include="System.Windows.Forms\ScrollBar.cs" />
-    <Compile Include="System.Windows.Forms\VScrollBar.cs" />
-    <Compile Include="System.Windows.Forms\HScrollBar.cs" />
     <Compile Include="System.Windows.Forms\ListControl.cocoa.cs" />
     <Compile Include="System.Windows.Forms\ComboBox.cs" />
     <Compile Include="CocoaHelpers\ComboBoxHelper.cs" />
     <Compile Include="System.Windows.Forms\MessageBox.cs" />
     <Compile Include="System.Windows.Forms\MessageBoxOptions.cs" />
     <Compile Include="System.Windows.Forms\HelpNavigator.cs" />
-    <Compile Include="System.Windows.Forms\Clipboard.cs" />
     <Compile Include="System.Windows.Forms\Screen.cs" />
     <Compile Include="System.Windows.Forms\ScreenOrientation.cs" />
     <Compile Include="System.Windows.Forms\FolderBrowserDialog.cs" />
-    <Compile Include="System.Windows.Forms\TreeNodeConverter.cs" />
     <Compile Include="System.Windows.Forms\TreeNodeStates.cs" />
     <Compile Include="System.Windows.Forms\TextDataFormat.cs" />
     <Compile Include="System.Windows.Forms\CheckedListBox.cs" />
@@ -348,30 +340,86 @@
     <Compile Include="System.Windows.Forms\TabPage.cocoa.cs" />
     <Compile Include="CocoaHelpers\TabViewItemHelper.cs" />
     <Compile Include="CocoaHelpers\FlippedView.cs" />
-    <Compile Include="System.Windows.Forms\ToolStrip.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripButton.cs" />
     <Compile Include="System.Windows.Forms\IToolStripData.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripItemCollection.cs" />
     <Compile Include="System.Windows.Forms\Orientation.cs" />
+    <Compile Include="System.Windows.Forms\FormBorderStyle.cs" />
+    <Compile Include="System.Windows.Forms\FormStartPosition.cs" />
+    <Compile Include="Extenders\ImageExtenders.cs" />
+    <Compile Include="Extenders\PointExtenders.cs" />
+    <Compile Include="System.Windows.Forms\Control.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\Shortcut.cs" />
+    <Compile Include="System.Windows.Forms\MainMenu.cs" />
+    <Compile Include="System.Windows.Forms\Menu.cs" />
+    <Compile Include="System.Windows.Forms\MenuItem.cs" />
+    <Compile Include="System.Windows.Forms\MenuMerge.cs" />
+    <Compile Include="System.Windows.Forms\ContextMenu.cs" />
+    <Compile Include="System.Windows.Forms\MdiLayout.cs" />
+    <Compile Include="System.Windows.Forms\FormWindowState.cs" />
+    <Compile Include="System.Windows.Forms\CaptionButton.cs" />
+    <Compile Include="System.Windows.Forms\ToolTip.cs" />
+    <Compile Include="System.Windows.Forms\ToolTipIcon.cs" />
+    <Compile Include="System.Windows.Forms\MenuAPI.cs" />
+    <Compile Include="System.Windows.Forms\ContextMenu.cocoa.cs" />
+    <Compile Include="CocoaHelpers\ContextMenuHelper.cs" />
+    <Compile Include="System.Windows.Forms\Menu.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\MenuItem.cocoa.cs" />
+    <Compile Include="CocoaHelpers\MenuItemHelper.cs" />
+    <Compile Include="System.Windows.Forms\TextImageRelation.cs" />
+    <Compile Include="System.Windows.Forms\ArrowDirection.cs" />
+    <Compile Include="System.Windows.Forms\MergeAction.cs" />
+    <Compile Include="System.Windows.Forms\Panel.cs" />
+    <Compile Include="System.Windows.Forms\LinkBehavior.cs" />
+    <Compile Include="System.Windows.Forms\ScrollProperties.cs" />
+    <Compile Include="System.Windows.Forms\RelatedImageListAttribute.cs" />
+    <Compile Include="System.Windows.Forms.VisualStyles\TrackBarThumbState.cs" />
+    <Compile Include="System.Windows.Forms.VisualStyles\EdgeStyle.cs" />
+    <Compile Include="System.Windows.Forms\VScrollBar.cs" />
+    <Compile Include="System.Windows.Forms\ToolStrip.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\ToolStrip.cs" />
+    <Compile Include="CocoaHelpers\ToolBarHelper.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItemCollection.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItemCollection.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItem.cocoa.cs" />
     <Compile Include="System.Windows.Forms\ToolStripItem.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripRenderMode.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripTextDirection.cs" />
     <Compile Include="System.Windows.Forms\ToolStripItemEventArgs.cs" />
     <Compile Include="System.Windows.Forms\ToolStripItemEventHandler.cs" />
     <Compile Include="System.Windows.Forms\ToolStripItemClickedEventArgs.cs" />
     <Compile Include="System.Windows.Forms\ToolStripItemClickedEventHandler.cs" />
     <Compile Include="System.Windows.Forms\ToolStripDropDownCloseReason.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripItemEventType.cs" />
-    <Compile Include="System.Windows.Forms\ToolStrip.cocoa.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripButton.cocoa.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripItemCollection.cocoa.cs" />
     <Compile Include="System.Windows.Forms\ToolStripItemAlignment.cs" />
-    <Compile Include="System.Windows.Forms\ToolStripItem.cocoa.cs" />
-    <Compile Include="System.Windows.Forms\FormBorderStyle.cs" />
     <Compile Include="System.Windows.Forms\ToolStripItemDisplayStyle.cs" />
-    <Compile Include="System.Windows.Forms\FormStartPosition.cs" />
-    <Compile Include="CocoaHelpers\ToolBarHelper.cs" />
-    <Compile Include="Extenders\ImageExtenders.cs" />
-    <Compile Include="Extenders\PointExtenders.cs" />
-    <Compile Include="System.Windows.Forms\Control.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItemImageScaling.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItemOverflow.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItemPlacement.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripItemEventType.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripButton.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\ToolStripButton.cs" />
+    <Compile Include="System.Windows.Forms\FolderBrowserDialog.cocoa.cs" />
+    <Compile Include="CocoaHelpers\FolderDialogHelper.cs" />
+    <Compile Include="System.Windows.Forms\CommonDialog.cs" />
+    <Compile Include="System.Windows.Forms\OpenFileDialog.cs" />
+    <Compile Include="System.Windows.Forms\FileDialog.cs" />
+    <Compile Include="System.Windows.Forms\FileDialogCustomPlacesCollection.cs" />
+    <Compile Include="System.Windows.Forms\FileDialogCustomPlace.cs" />
+    <Compile Include="System.Windows.Forms\FormClosedEventArgs.cs" />
+    <Compile Include="System.Windows.Forms\CloseReason.cs" />
+    <Compile Include="System.Windows.Forms\FileDialog.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\OpenFileDialog.cocoa.cs" />
+    <Compile Include="CocoaHelpers\FileDialogHelper.cs" />
+    <Compile Include="System.Windows.Forms\CommonDialog.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\SaveFileDialog.cs" />
+    <Compile Include="System.Windows.Forms\SaveFileDialog.cocoa.cs" />
+    <Compile Include="System.Windows.Forms\UserControl.cs" />
+    <Compile Include="System.Windows\DataObject.cs" />
+    <Compile Include="System.Windows\IDataObject.cs" />
+    <Compile Include="System.Windows.Forms\Cursor.cs" />
+    <Compile Include="System.Windows.Forms\Cursors.cs" />
+    <Compile Include="System.Windows.Forms\CursorConverter.cs" />
+    <Compile Include="System.Windows.Forms\MethodInvoker.cs" />
+    <Compile Include="System.Windows.Forms\Clipboard.cs" />
+    <Compile Include="System.Windows.Forms\DataFormats.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventArgs\" />
@@ -383,6 +431,7 @@
     <Folder Include="System.Windows.Forms\" />
     <Folder Include="CocoaHelpers\" />
     <Folder Include="System.Windows.Forms.VisualStyles\" />
+    <Folder Include="System.Windows\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -398,10 +447,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DrawingTemplate.g.cs</LastGenOutput>
     </None>
-    <None Include="Templates\FontTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FontTemplate.g.cs</LastGenOutput>
-    </None>
     <None Include="Templates\MouseTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MouseTemplate.g.cs</LastGenOutput>
@@ -415,22 +460,6 @@
     <None Include="test-results\MonoMac.Windows.Forms.csproj-Debug-2010-12-01.xml" />
     <None Include="test-results\MonoMac.Windows.Forms.csproj-Debug-2010-12-23.xml" />
     <None Include="test-results\MonoMac.Windows.Forms.csproj.test-cache" />
-    <None Include="test-results\System.Windows.Forms.csproj.test-cache" />
     <None Include="System.Windows.Forms\ScrollableControl_Old.cs" />
-    <None Include="System.Windows.Forms.Layout\DefaultLayout.cs">
-      <Visible>False</Visible>
-    </None>
-    <None Include="System.Windows.Forms.Layout\FlowLayout.cs">
-      <Visible>False</Visible>
-    </None>
-    <None Include="System.Windows.Forms.Layout\TableLayout.cs">
-      <Visible>False</Visible>
-    </None>
-    <None Include="System.Windows.Forms.Layout\TableLayoutSettingsTypeConverter.cs">
-      <Visible>False</Visible>
-    </None>
-    <None Include="obj\Release\System.Windows.Forms.csproj.FilesWrittenAbsolute.txt">
-      <Visible>False</Visible>
-    </None>
   </ItemGroup>
 </Project>

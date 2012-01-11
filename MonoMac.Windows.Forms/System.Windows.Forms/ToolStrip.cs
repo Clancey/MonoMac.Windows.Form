@@ -63,8 +63,11 @@ namespace System.Windows.Forms
 		private LayoutSettings layout_settings;
 		private Orientation orientation;
 		private List<ToolStripItem> pre_merge_items;
+		//private ToolStripRenderer renderer;
+		private ToolStripRenderMode render_mode;
 		private bool show_item_tool_tips;
 		private bool stretch;
+		private ToolStripTextDirection text_direction;
 
 		private ToolStripItem mouse_currently_over;
 		internal bool menu_selected;
@@ -77,6 +80,7 @@ namespace System.Windows.Forms
 		#region Public Constructors
 		public ToolStrip () : this (null)
 		{
+			Console.Write("toolstrip");
 		}
 
 		#endregion
@@ -330,6 +334,23 @@ namespace System.Windows.Forms
 		{
 			return String.Format ("{0}, Name: {1}, Items: {2}", base.ToString(), this.Name, this.items.Count.ToString ());
 		}
+		
+		[DefaultValue (ToolStripTextDirection.Horizontal)]
+		public virtual ToolStripTextDirection TextDirection {
+			get { return this.text_direction; }
+			set {
+				if (!Enum.IsDefined (typeof (ToolStripTextDirection), value))
+					throw new InvalidEnumArgumentException (string.Format ("Enum argument value '{0}' is not valid for ToolStripTextDirection", value));
+
+				if (this.text_direction != value) {
+					this.text_direction = value;
+					
+					this.PerformLayout (this, "TextDirection");
+						
+					this.Invalidate ();
+				}
+			}
+		}
 		#endregion
 
 		#region Protected Methods		
@@ -338,6 +359,17 @@ namespace System.Windows.Forms
 			return base.CreateControlsInstance ();
 		}
 		
+		
+		protected internal virtual ToolStripItem CreateDefaultItem (string text, Image image, EventHandler onClick)
+		{
+			//if (text == "-")
+			//	return new ToolStripSeparator ();
+
+			//if (this is ToolStripDropDown)
+			//	return new ToolStripMenuItem (text, image, onClick);
+			return null;	
+			//return new ToolStripButton (text, image, onClick);
+		}
 
 		[MonoTODO ("Stub, never called")]
 		protected virtual void OnBeginDrag (EventArgs e)

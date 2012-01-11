@@ -44,6 +44,7 @@ namespace System.Windows.Forms
 		#region Private Variables
 		private string accessible_default_action_description;
 		private bool allow_drop;
+		private ToolStripItemAlignment alignment;
 		private AnchorStyles anchor;
 		private bool available;
 		private bool auto_size;
@@ -64,21 +65,27 @@ namespace System.Windows.Forms
 		private ContentAlignment image_align;
 		private int image_index;
 		private string image_key;
+		private ToolStripItemImageScaling image_scaling;
 		private Color image_transparent_color;
 		private bool is_disposed;
 		internal bool is_pressed;
 		private bool is_selected;
 		private Padding margin;
+		private MergeAction merge_action;
 		private int merge_index;
 		private string name;
+		private ToolStripItemOverflow overflow;
 		private ToolStrip owner;
 		internal ToolStripItem owner_item;
 		private Padding padding;
+		private ToolStripItemPlacement placement;
 		private RightToLeft right_to_left;
 		private bool right_to_left_auto_mirror_image;
 		private Object tag;
 		private string text;
 		private ContentAlignment text_align;
+		private ToolStripTextDirection text_direction;
+		private TextImageRelation text_image_relation;
 		private string tool_tip_text;
 		private bool visible;
 
@@ -101,6 +108,19 @@ namespace System.Windows.Forms
 		#endregion
 
 		#region Public Properties
+		[DefaultValue (ToolStripItemAlignment.Left)]
+		public ToolStripItemAlignment Alignment {
+			get { return this.alignment; }
+			set {
+				if (!Enum.IsDefined (typeof (ToolStripItemAlignment), value))
+					throw new InvalidEnumArgumentException (string.Format ("Enum argument value '{0}' is not valid for ToolStripItemAlignment", value));
+
+				if (this.alignment != value) {
+					this.alignment = value;
+					this.CalculateAutoSize (); 
+				}
+			}
+		}
 
 		[MonoTODO ("Stub, does nothing")]
 		[Browsable (false)]
@@ -207,7 +227,7 @@ namespace System.Windows.Forms
 		public virtual bool CanSelect {
 			get { return this.can_select; }
 		}
-				
+
 		public virtual ToolStripItemDisplayStyle DisplayStyle {
 			get { return this.display_style; }
 			set {
@@ -374,7 +394,7 @@ namespace System.Windows.Forms
 
 		[Localizable (true)]
 		[Browsable (false)]
-		//[RelatedImageList ("Owner.ImageList")]
+		[RelatedImageList ("Owner.ImageList")]
 		[TypeConverter (typeof (NoneExcludedImageIndexConverter))]
 		[RefreshProperties (RefreshProperties.Repaint)]
 		[Editor ("System.Windows.Forms.Design.ToolStripImageIndexEditor, " + Consts.AssemblySystem_Design, typeof (System.Drawing.Design.UITypeEditor))]
@@ -397,7 +417,7 @@ namespace System.Windows.Forms
 
 		[Localizable (true)]
 		[Browsable (false)]
-		//[RelatedImageList ("Owner.ImageList")]
+		[RelatedImageList ("Owner.ImageList")]
 		[TypeConverter (typeof (ImageKeyConverter))]
 		[RefreshProperties (RefreshProperties.Repaint)]
 		[Editor ("System.Windows.Forms.Design.ToolStripImageIndexEditor, " + Consts.AssemblySystem_Design, typeof (System.Drawing.Design.UITypeEditor))]
@@ -410,6 +430,18 @@ namespace System.Windows.Forms
 					this.image_key = value;
 					this.CalculateAutoSize ();
 					this.Invalidate ();
+				}
+			}
+		}
+		
+		[Localizable (true)]
+		[DefaultValue (ToolStripItemImageScaling.SizeToFit)]
+		public ToolStripItemImageScaling ImageScaling {
+			get { return this.image_scaling; }
+			set { 
+				if (image_scaling != value) {
+					this.image_scaling = value; 
+					this.CalculateAutoSize (); 
 				}
 			}
 		}
@@ -428,6 +460,17 @@ namespace System.Windows.Forms
 			}
 		}
 
+		[DefaultValue (MergeAction.Append)]
+		public MergeAction MergeAction {
+			get { return this.merge_action; }
+			set {
+				if (!Enum.IsDefined (typeof (MergeAction), value))
+					throw new InvalidEnumArgumentException (string.Format ("Enum argument value '{0}' is not valid for MergeAction", value));
+					
+				this.merge_action = value;
+			}
+		}
+
 		[DefaultValue (-1)]
 		public int MergeIndex {
 			get { return this.merge_index; }
@@ -439,6 +482,22 @@ namespace System.Windows.Forms
 		public string Name {
 			get { return this.name; }
 			set { this.name = value; }
+		}
+
+		[DefaultValue (ToolStripItemOverflow.AsNeeded)]
+		public ToolStripItemOverflow Overflow {
+			get { return this.overflow; }
+			set { 
+				if (this.overflow != value) {
+					if (!Enum.IsDefined (typeof (ToolStripItemOverflow), value))
+						throw new InvalidEnumArgumentException (string.Format ("Enum argument value '{0}' is not valid for ToolStripItemOverflow", value));
+				
+					this.overflow = value;
+					
+					if (owner != null)
+						owner.PerformLayout ();
+				}
+			}
 		}
 			
 		[Browsable (false)]
@@ -471,6 +530,11 @@ namespace System.Windows.Forms
 				this.CalculateAutoSize (); 
 				this.Invalidate (); 
 			}
+		}
+
+		[Browsable (false)]
+		public ToolStripItemPlacement Placement {
+			get { return this.placement; }
 		}
 		
 		[Browsable (false)]
@@ -564,6 +628,40 @@ namespace System.Windows.Forms
 			}
 		}
 
+		public virtual ToolStripTextDirection TextDirection {
+			get {
+				if (this.text_direction == ToolStripTextDirection.Inherit) {
+					if (this.Parent != null)
+						return this.Parent.TextDirection;
+					else
+						return ToolStripTextDirection.Horizontal;
+				}
+
+				return this.text_direction;
+			}
+			set {
+				if (!Enum.IsDefined (typeof (ToolStripTextDirection), value))
+					throw new InvalidEnumArgumentException (string.Format ("Enum argument value '{0}' is not valid for ToolStripTextDirection", value));
+				
+				if (this.text_direction != value) {
+					this.text_direction = value;
+					this.CalculateAutoSize ();
+					this.Invalidate ();
+				}
+			}	
+		}
+
+		[Localizable (true)]
+		[DefaultValue (TextImageRelation.ImageBeforeText)]
+		public TextImageRelation TextImageRelation {
+			get { return this.text_image_relation; }
+			set { 
+				this.text_image_relation = value; 
+				this.CalculateAutoSize (); 
+				this.Invalidate (); 
+			}
+		}
+
 		[Localizable (true)]
 		[Editor ("System.ComponentModel.Design.MultilineStringEditor, " + Consts.AssemblySystem_Design,
 			 "System.Drawing.Design.UITypeEditor, " + Consts.AssemblySystem_Drawing)]
@@ -610,6 +708,7 @@ namespace System.Windows.Forms
 
 		#region Protected Properties
 		protected virtual bool DefaultAutoToolTip { get { return false; } }
+		protected virtual ToolStripItemDisplayStyle DefaultDisplayStyle { get { return ToolStripItemDisplayStyle.ImageAndText; } }
 		protected internal virtual Padding DefaultMargin { get { return new Padding (0, 1, 0, 2); } }
 		protected virtual Padding DefaultPadding { get { return new Padding (); } }
 		protected virtual Size DefaultSize { get { return new Size (23, 23); } }
@@ -668,6 +767,9 @@ namespace System.Windows.Forms
 		public virtual void ResetBackColor () { this.BackColor = Color.Empty; }
 
 		[EditorBrowsable (EditorBrowsableState.Never)]
+		public virtual void ResetDisplayStyle () { this.display_style = this.DefaultDisplayStyle; }
+
+		[EditorBrowsable (EditorBrowsableState.Never)]
 		public virtual void ResetFont () { this.font = null; }
 
 		[EditorBrowsable (EditorBrowsableState.Never)]
@@ -684,6 +786,9 @@ namespace System.Windows.Forms
 
 		[EditorBrowsable (EditorBrowsableState.Never)]
 		public virtual void ResetRightToLeft () { this.right_to_left = RightToLeft.Inherit; }
+		
+		[EditorBrowsable (EditorBrowsableState.Never)]
+		public virtual void ResetTextDirection () { this.TextDirection = this.DefaultTextDirection; }
 
 		public override string ToString ()
 		{
@@ -884,7 +989,6 @@ namespace System.Windows.Forms
 			}
 		}
 
-
 		protected virtual void OnOwnerChanged (EventArgs e)
 		{
 			EventHandler eh = (EventHandler)(Events [OwnerChangedEvent]);
@@ -898,8 +1002,7 @@ namespace System.Windows.Forms
 			this.CalculateAutoSize ();
 			OnFontChanged (EventArgs.Empty);
 		}
-
-
+		
 		protected virtual void OnPaint (PaintEventArgs e)
 		{
 			PaintEventHandler eh = (PaintEventHandler)(Events [PaintEvent]);
@@ -913,7 +1016,6 @@ namespace System.Windows.Forms
 		{
 		}
 		
-
 		protected internal virtual void OnParentEnabledChanged (EventArgs e)
 		{
 			this.OnEnabledChanged (e);
@@ -974,6 +1076,15 @@ namespace System.Windows.Forms
 			}
 				
 			return false;
+		}
+		
+		// ProcessMnemonic will only be called if we are supposed to handle
+		// it.  None of that fancy "thinking" needed!
+		protected internal virtual bool ProcessMnemonic (char charCode)
+		{
+			//ToolStripManager.SetActiveToolStrip (this.Parent, true);
+			this.PerformClick ();
+			return true;
 		}
 		
 		protected internal virtual void SetBounds (Rectangle bounds)
@@ -1203,9 +1314,10 @@ namespace System.Windows.Forms
 			this.CalculateTextAndImageRectangles (this.ContentRectangle, out text_rect, out image_rect);
 		}
 		
-
 		private static Font DefaultFont { get { return new Font ("Tahoma", 8.25f); } }
 		
+		internal virtual ToolStripTextDirection DefaultTextDirection { get { return ToolStripTextDirection.Inherit; } }
+
 		internal virtual void Dismiss (ToolStripDropDownCloseReason reason)
 		{
 			if (is_selected) {
@@ -1277,7 +1389,6 @@ namespace System.Windows.Forms
 			return HorizontalAlignment.Left;
 		}
 		
-		
 		internal string GetToolTip ()
 		{
 			if (this.auto_tool_tip && string.IsNullOrEmpty (this.tool_tip_text))
@@ -1330,6 +1441,10 @@ namespace System.Windows.Forms
 				this.OnClick (e);
 		}
 		
+		internal virtual void SetPlacement (ToolStripItemPlacement placement)
+		{
+			this.placement = placement;
+		}
 
 		private void BeginAnimation ()
 		{
@@ -1370,6 +1485,34 @@ namespace System.Windows.Forms
 
 			ImageAnimator.UpdateFrames (image);
 			Invalidate ();
+		}
+
+		internal bool ShowMargin {
+			get {
+				if (!this.IsOnDropDown)
+					return true;
+
+				//if (!(this.Owner is ToolStripDropDownMenu))
+					return false;
+
+				//ToolStripDropDownMenu tsddm = (ToolStripDropDownMenu)this.Owner;
+
+				//return tsddm.ShowCheckMargin || tsddm.ShowImageMargin;
+			}
+		}
+
+		internal bool UseImageMargin {
+			get {
+				if (!this.IsOnDropDown)
+					return true;
+
+				//if (!(this.Owner is ToolStripDropDownMenu))
+					return false;
+
+				//ToolStripDropDownMenu tsddm = (ToolStripDropDownMenu)this.Owner;
+
+				//return tsddm.ShowImageMargin || tsddm.ShowCheckMargin;
+			}
 		}
 
 		internal virtual bool InternalVisible {
@@ -1460,6 +1603,7 @@ namespace System.Windows.Forms
 		}
 		
 		#endregion
+
 	}
 
 	internal class NoneExcludedImageIndexConverter : ImageIndexConverter
