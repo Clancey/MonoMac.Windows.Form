@@ -45,28 +45,13 @@ namespace System.Windows.Forms
 			m_helper.TextView.MinSize = bounds.Size;
 			base.UpdateBounds ();
 		}
-		public virtual string Text {
+		public override string Text {
 			get { return m_helper.TextView.Value; }
 			set { m_helper.TextView.Value = value; 
 			if(!Multiline)
 				m_helper.TextView.SetSingleLine();}
 		}
 		
-		public string[] Lines
-		{
-			get{return m_helper.TextView.Value.Split(new char[] { '\n' });}
-			set{m_helper.TextView.Value = "";
-				foreach(var val in value)
-				{ m_helper.TextView.Value += val + "\n";}
-			}
-		}
-		private DockStyle dock = DockStyle.None;
-		public DockStyle Dock {
-			get{return dock;}
-			set{dock = value ;
-				//TODO resize;
-			}
-		}
 		
 		public void ViewDidMoveToSuperview ()
 		{

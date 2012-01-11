@@ -49,9 +49,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
-    <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral">
-      <Private>False</Private>
-      <Package>monodevelop-core-mac-addins</Package>
+    <Reference Include="MonoMac">
+      <HintPath>..\References\MonoMac.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -461,5 +460,332 @@
     <None Include="test-results\MonoMac.Windows.Forms.csproj-Debug-2010-12-23.xml" />
     <None Include="test-results\MonoMac.Windows.Forms.csproj.test-cache" />
     <None Include="System.Windows.Forms\ScrollableControl_Old.cs" />
+    <None Include="System.Windows.Forms\ColumnHeader.cocoa.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ColumnHeader.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ColumnHeaderAutoResizeStyle.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ColumnHeaderConverter.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ColumnReorderedEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ColumnReorderedEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ContextMenuStrip.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\Control.Cocoa.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\DrawListViewColumnHeaderEventArgs.cocoa.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\DrawListViewColumnHeaderEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\DrawListViewColumnHeaderEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\DrawListViewItemEventArgs.cocoa.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\DrawListViewItemEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\DrawListViewItemEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\DrawListViewSubItemEventArgs.cocoa.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\DrawListViewSubItemEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\DrawListViewSubItemEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\Form.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\HScrollBar.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\HScrollProperties.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ImplicitHScrollBar.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ImplicitVScrollBar.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ItemCheckedEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ItemCheckedEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListView.cocoa.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListView.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewGroup.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewGroupCollection.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewHitTestInfo.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewHitTestLocations.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewInsertionMark.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewItem.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewItemMouseHoverEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewItemMouseHoverEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewItemSelectionChangedEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ListViewItemSelectionChangedEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\MdiClient.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\MdiWindowManager.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\MenuStrip.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ProfessionalColorTable.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\RetrieveVirtualItemEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\RetrieveVirtualItemEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\StatusStrip.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripArrowRenderEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripArrowRenderEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripComboBox.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripContainer.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripContentPanel.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripContentPanelRenderEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripContentPanelRenderEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripControlHost.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripDropDown.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripDropDownButton.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripDropDownClosedEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripDropDownClosedEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripDropDownClosingEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripDropDownClosingEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripDropDownDirection.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripDropDownItem.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripDropDownMenu.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripGripDisplayStyle.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripGripRenderEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripGripRenderEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripGripStyle.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripItemImageRenderEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripItemImageRenderEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripItemRenderEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripItemRenderEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripItemTextRenderEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripItemTextRenderEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripLabel.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripLayoutStyle.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripManager.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripManagerRenderMode.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripMenuItem.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripOverflow.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripOverflowButton.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripPanel.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripPanelRenderEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripPanelRenderEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripPanelRow.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripProfessionalRenderer.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripProgressBar.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripRenderEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripRenderEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripRenderer.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripSeparator.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripSeparatorRenderEventArgs.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripSeparatorRenderEventHandler.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripSplitButton.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripSplitStackLayout.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripStatusLabel.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripStatusLabelBorderSides.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripSystemRenderer.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\ToolStripTextBox.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\TrackBarRenderer.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\TreeNodeConverter.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms\VScrollProperties.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms.Design\ToolStripItemDesignerAvailability.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms.Design\ToolStripItemDesignerAvailabilityAttribute.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms.Layout\DefaultLayout.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms.Layout\FlowLayout.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms.Layout\TableLayout.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="System.Windows.Forms.Layout\TableLayoutSettingsTypeConverter.cs">
+      <Visible>False</Visible>
+    </None>
+    <None Include="test-results\System.Windows.Forms.csproj-Debug-2011-03-11.xml">
+      <Visible>False</Visible>
+    </None>
+    <None Include="test-results\System.Windows.Forms.csproj-Debug-2011-03-12.xml">
+      <Visible>False</Visible>
+    </None>
+    <None Include="test-results\System.Windows.Forms.csproj-Debug-2011-03-13.xml">
+      <Visible>False</Visible>
+    </None>
+    <None Include="test-results\System.Windows.Forms.csproj-Debug-2011-03-14.xml">
+      <Visible>False</Visible>
+    </None>
+    <None Include="test-results\System.Windows.Forms.csproj.test-cache">
+      <Visible>False</Visible>
+    </None>
   </ItemGroup>
 </Project>

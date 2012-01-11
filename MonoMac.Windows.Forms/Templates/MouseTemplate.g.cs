@@ -15,7 +15,7 @@ namespace System.Windows.Forms
 			base.ResetCursorRects ();
 			if(Cursor == null)
 				Cursor = NSCursor.ArrowCursor;
-			this.AddCursorRectcursor(this.Bounds,Cursor);
+			this.AddCursorRect(this.Bounds,Cursor);
 		}
 		public event EventHandler viewDidMoveToSuperview;
 		public override void ViewDidMoveToSuperview ()
@@ -167,7 +167,7 @@ namespace System.Windows.Forms
 			base.ResetCursorRects ();
 			if(Cursor == null)
 				Cursor = NSCursor.ArrowCursor;
-			this.AddCursorRectcursor(this.Bounds,Cursor);
+			this.AddCursorRect(this.Bounds,Cursor);
 		}
 		public event EventHandler viewDidMoveToSuperview;
 		public override void ViewDidMoveToSuperview ()
@@ -318,7 +318,7 @@ namespace System.Windows.Forms
 			base.ResetCursorRects ();
 			if(Cursor == null)
 				Cursor = NSCursor.ArrowCursor;
-			this.AddCursorRectcursor(this.Bounds,Cursor);
+			this.AddCursorRect(this.Bounds,Cursor);
 		}
 		public event EventHandler viewDidMoveToSuperview;
 		public override void ViewDidMoveToSuperview ()
@@ -470,7 +470,7 @@ namespace System.Windows.Forms
 			base.ResetCursorRects ();
 			if(Cursor == null)
 				Cursor = NSCursor.ArrowCursor;
-			this.AddCursorRectcursor(this.Bounds,Cursor);
+			this.AddCursorRect(this.Bounds,Cursor);
 		}
 		public event EventHandler viewDidMoveToSuperview;
 		public override void ViewDidMoveToSuperview ()
@@ -622,7 +622,7 @@ namespace System.Windows.Forms
 			base.ResetCursorRects ();
 			if(Cursor == null)
 				Cursor = NSCursor.ArrowCursor;
-			this.AddCursorRectcursor(this.Bounds,Cursor);
+			this.AddCursorRect(this.Bounds,Cursor);
 		}
 		public event EventHandler viewDidMoveToSuperview;
 		public override void ViewDidMoveToSuperview ()
@@ -774,7 +774,7 @@ namespace System.Windows.Forms
 			base.ResetCursorRects ();
 			if(Cursor == null)
 				Cursor = NSCursor.ArrowCursor;
-			this.AddCursorRectcursor(this.Bounds,Cursor);
+			this.AddCursorRect(this.Bounds,Cursor);
 		}
 		public event EventHandler viewDidMoveToSuperview;
 		public override void ViewDidMoveToSuperview ()
@@ -919,7 +919,7 @@ namespace System.Windows.Forms
 			base.ResetCursorRects ();
 			if(Cursor == null)
 				Cursor = NSCursor.ArrowCursor;
-			this.AddCursorRectcursor(this.Bounds,Cursor);
+			this.AddCursorRect(this.Bounds,Cursor);
 		}
 		public event EventHandler viewDidMoveToSuperview;
 		public override void ViewDidMoveToSuperview ()
