@@ -184,7 +184,8 @@ namespace System.Windows.Forms
 				
 		internal void CalculateTextAndImageRectangles (Rectangle contentRectangle, out Rectangle text_rect, out Rectangle image_rect)
 		{
-		
+      text_rect = System.Drawing.Rectangle.Empty;
+      image_rect = text_rect;
 		}
 
 		

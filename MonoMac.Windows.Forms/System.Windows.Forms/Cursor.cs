@@ -169,10 +169,10 @@ namespace System.Windows.Forms {
 		#region Public Static Properties
 		public static Rectangle Clip {
 			get {
-				IntPtr		handle;
+				IntPtr		handle=IntPtr.Zero;
 				bool		confined;
-				Rectangle	rect;
-				Size		size;
+				Rectangle	rect = Rectangle.Empty;
+				Size		size = Size.Empty;
 
 				//XplatUI.GrabInfo (out handle, out confined, out rect);
 				if (handle != IntPtr.Zero) {
