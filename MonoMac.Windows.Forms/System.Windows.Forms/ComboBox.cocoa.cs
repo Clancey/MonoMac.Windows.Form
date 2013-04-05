@@ -22,7 +22,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
-using System.Linq;
 using System.Collections.Generic;
 
 #if MAC64

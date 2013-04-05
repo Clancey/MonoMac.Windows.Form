@@ -3,12 +3,10 @@
 <#@ assembly name="System.Xml"#>
 <#@ import namespace="System" #>
 <#@ import namespace="System.Xml" #>
-<#@ import namespace="System.Linq" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Collections.Generic" #>
 using System;
 using System.Collections;
-using System.Linq;
 using MonoMac.AppKit;
 using System.Drawing;
 using MonoMac.Foundation;

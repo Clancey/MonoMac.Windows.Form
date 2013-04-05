@@ -7,7 +7,6 @@ using System.Collections;
 using System.Runtime.InteropServices;
 using System.Threading;
 using MonoMac.AppKit;
-using System.Linq;
 using MonoMac.Foundation;
 
 #if MAC64
