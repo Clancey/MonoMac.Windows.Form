@@ -61,22 +61,22 @@ namespace System.Windows.Forms
 		
 		public override void MouseUp (NSEvent theEvent)
 		{
-			PointF point = this.ConvertPointFromView (theEvent.LocationInWindow, null);
+			var point = this.ConvertPointFromView (theEvent.LocationInWindow, null);
 			
 			var button = (MouseButtons)theEvent.ButtonNumber;
-			this.Host.FireMouseUp (Host, new MouseEventArgs (button, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+			this.Host.FireMouseUp (Host, new MouseEventArgs (button, (int)theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
 			base.MouseUp (theEvent);
 		}
 		public override void MouseDown (NSEvent theEvent)
 		{
-			PointF point = this.ConvertPointFromView (theEvent.LocationInWindow, null);
-			this.Host.FireMouseDown (Host, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+			var point = this.ConvertPointFromView (theEvent.LocationInWindow, null);
+			this.Host.FireMouseDown (Host, new MouseEventArgs (MouseButtons.Left, (int)theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
 			base.MouseDown (theEvent);
 		}
 		public override void MouseDragged (NSEvent theEvent)
 		{
-			PointF point = this.ConvertPointFromView (theEvent.LocationInWindow, null);
-			this.Host.FireMouseMove (Host, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+			var point = this.ConvertPointFromView (theEvent.LocationInWindow, null);
+			this.Host.FireMouseMove (Host, new MouseEventArgs (MouseButtons.Left, (int)theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
 			
 			base.MouseDragged (theEvent);
 		}
@@ -84,8 +84,8 @@ namespace System.Windows.Forms
 		{
 			if(theEvent == null)
 				return;
-			PointF point = theEvent.LocationInWindow;
-			this.Host.FireMouseMove (Host, new MouseEventArgs (MouseButtons.Left, theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
+			var point = theEvent.LocationInWindow;
+			this.Host.FireMouseMove (Host, new MouseEventArgs (MouseButtons.Left, (int)theEvent.ClickCount, (int)point.X, (int)point.Y, 0));
 			//base.MouseMoved (theEvent);
 		}
 	}

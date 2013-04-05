@@ -14,7 +14,22 @@
 //    limitations under the License.using System;
 using System.Drawing;
 using MonoMac.AppKit;
+using MonoMac.Foundation;
 using System.ComponentModel;
+
+#if MAC64
+using NSInteger = System.Int64;
+using NSUInteger = System.UInt64;
+using CGFloat = System.Double;
+#else
+using NSInteger = System.Int32;
+using NSUInteger = System.UInt32;
+using NSPoint = System.Drawing.PointF;
+using NSSize = System.Drawing.SizeF;
+using NSRect = System.Drawing.RectangleF;
+using CGFloat = System.Single;
+#endif
+
 namespace System.Windows.Forms
 {
 	public partial class ScrollableControl
@@ -78,7 +93,7 @@ namespace System.Windows.Forms
 
 			set {
 				if (value != AutoScrollPosition) {
-					m_helper.ScrollPoint (value);
+					m_helper.ScrollPoint (Util.PointToNSPoint(value));
 				}
 			}
 		}
@@ -86,7 +101,7 @@ namespace System.Windows.Forms
 		public override Rectangle DisplayRectangle {
 			get {
 				if (auto_scroll) {
-					display_rectangle = Rectangle.Round (m_helper.VisibleRect ());
+					display_rectangle = Util.NSRectToRectangle(m_helper.VisibleRect ());
 				} else {
 					display_rectangle = base.DisplayRectangle;
 				}
@@ -121,7 +136,7 @@ namespace System.Windows.Forms
 				return;
 			}
 			
-			m_helper.ScrollRectToVisible (new RectangleF (activeControl.Location, activeControl.Size));
+			m_helper.ScrollRectToVisible (new NSRect(activeControl.Location, activeControl.Size));
 		}
 
 		#endregion
@@ -317,7 +332,7 @@ namespace System.Windows.Forms
 			scroll_position.Y += YOffset;
 			var rect = ClientRectangle;
 			rect.Location = new Point (XOffset, YOffset);
-			m_helper.ScrollRectToVisible (rect);
+			m_helper.ScrollRectToVisible (Util.RectangleToNSRect(rect));
 			ResumeLayout (false);
 		}
 		#endregion

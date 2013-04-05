@@ -13,7 +13,22 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.using System;
 using MonoMac.AppKit;
+using MonoMac.Foundation;
 using System.Drawing;
+
+#if MAC64
+using NSInteger = System.Int64;
+using NSUInteger = System.UInt64;
+using CGFloat = System.Double;
+#else
+using NSInteger = System.Int32;
+using NSUInteger = System.UInt32;
+using NSPoint = System.Drawing.PointF;
+using NSSize = System.Drawing.SizeF;
+using NSRect = System.Drawing.RectangleF;
+using CGFloat = System.Single;
+#endif
+
 namespace System.Windows.Forms
 {
 	public partial class ContextMenu : Menu
@@ -50,7 +65,10 @@ namespace System.Windows.Forms
 			OnPopup (EventArgs.Empty);
 			//m_view.RemoveAllItems();
 			//m_view.InsertItem("beep",null,"",0);
-			var point = control.m_view.ConvertPointToBase(pos);
+
+
+			NSPoint _pos = new NSPoint (pos.X, pos.Y);
+			var point = control.m_view.ConvertPointToBase(_pos);
 			NSMenu.PopUpContextMenu(m_view,NSEvent.MouseEvent(NSEventType.LeftMouseUp,point,NSEventModifierMask.ShiftKeyMask,0,NSApplication.SharedApplication.MainWindow.WindowNumber,new NSGraphicsContext(),0,1,1f),control,NSFont.MenuBarFontOfSize(12));
 			//m_view.PopUpMenu(new NSMenuItem("test",""),pos,control);
 		 

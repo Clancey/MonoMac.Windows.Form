@@ -4,6 +4,20 @@ using MonoMac.ObjCRuntime;
 using MonoMac.Foundation;
 using System.Drawing;
 using System.Collections.Generic;
+
+#if MAC64
+using NSInteger = System.Int64;
+using NSUInteger = System.UInt64;
+using CGFloat = System.Double;
+#else
+using NSInteger = System.Int32;
+using NSUInteger = System.UInt32;
+using NSPoint = System.Drawing.PointF;
+using NSSize = System.Drawing.SizeF;
+using NSRect = System.Drawing.RectangleF;
+using CGFloat = System.Single;
+#endif
+
 namespace System.Windows.Forms
 {
 	public partial class Button 
@@ -25,7 +39,7 @@ namespace System.Windows.Forms
 			helper.Activated += delegate(object sender, EventArgs e) {
 					OnClick(e);
 			};
-			helper.Frame = new System.Drawing.RectangleF (0, 0, 100, 25);
+			helper.Frame = new NSRect(0, 0, 100, 25);
 			helper.ScaleUnitSquareToSize(Util.ScaleSize);
 		}
 		#endregion	// Public Constructors

@@ -13,7 +13,22 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.using System;
 using MonoMac.AppKit;
+using MonoMac.Foundation;
 using System.Drawing;
+
+#if MAC64
+using NSInteger = System.Int64;
+using NSUInteger = System.UInt64;
+using CGFloat = System.Double;
+#else
+using NSInteger = System.Int32;
+using NSUInteger = System.UInt32;
+using NSPoint = System.Drawing.PointF;
+using NSSize = System.Drawing.SizeF;
+using NSRect = System.Drawing.RectangleF;
+using CGFloat = System.Single;
+#endif
+
 namespace System.Windows.Forms
 {
 	public partial class TrackBar : Control
@@ -29,7 +44,7 @@ namespace System.Windows.Forms
 			m_helper = new TrackBarMouseView ();
 			m_view = m_helper;
 			m_helper.Host = this;
-			m_helper.Frame = new RectangleF (0, 0, 100, 25);
+			m_helper.Frame = new NSRect (0, 0, 100, 25);
 			m_helper.Activated += delegate(object sender, EventArgs e) {
 				if (Scroll != null)
 					Scroll (sender, e);

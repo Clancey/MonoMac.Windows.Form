@@ -33,7 +33,7 @@ namespace System.Windows.Forms
 		}
 
 		public int TabIndex {
-			get { return Tag; }
+			get { return (int)Tag; }
 			set { Tag = value; }
 		}
 		#region Events

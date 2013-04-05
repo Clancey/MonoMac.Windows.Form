@@ -22,6 +22,19 @@ using MonoMac.AppKit;
 using MonoMac.Foundation;
 using System.ComponentModel;
 
+#if MAC64
+using NSInteger = System.Int64;
+using NSUInteger = System.UInt64;
+using CGFloat = System.Double;
+#else
+using NSInteger = System.Int32;
+using NSUInteger = System.UInt32;
+using NSPoint = System.Drawing.PointF;
+using NSSize = System.Drawing.SizeF;
+using NSRect = System.Drawing.RectangleF;
+using CGFloat = System.Single;
+#endif
+
 namespace System.Windows.Forms
 {
 	public partial class TextBoxBase : Control
@@ -39,7 +52,7 @@ namespace System.Windows.Forms
 			m_helper.TextView.VerticallyResizable = false;
 			m_helper.TextView.HorizontallyResizable = true;
 			m_helper.TextView.AutoresizingMask = (NSViewResizingMask.HeightSizable | NSViewResizingMask.WidthSizable );
-			m_helper.TextView.TextContainer.ContainerSize = new SizeF(float.MaxValue,float.MaxValue);
+			m_helper.TextView.TextContainer.ContainerSize = new NSSize(float.MaxValue,float.MaxValue);
 			m_helper.TextView.TextContainer.WidthTracksTextView = false;
 			m_helper.TextView.Font = Font.ToNsFont();
 			
@@ -476,16 +489,14 @@ namespace System.Windows.Forms
 		
 		internal virtual char GetCharFromPositionInternal (Point p)
 		{
-			var index = m_helper.TextView.CharacterIndex(p);
-			if(index == -1)
-				return char.MinValue;
+			var index = m_helper.TextView.CharacterIndex(Util.PointToNSPoint(p));
 			return m_helper.TextView.Value[(int)index];
 		}
 		
 		
 		public virtual int GetCharIndexFromPosition (Point pt)
 		{
-			return (int)m_helper.TextView.CharacterIndex(pt);
+			return (int)m_helper.TextView.CharacterIndex(Util.PointToNSPoint(pt));
 			                 
 		}
 		//TODO:

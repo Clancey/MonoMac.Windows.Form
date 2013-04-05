@@ -11,7 +11,8 @@ namespace System.Windows.Forms
 
 		public Timer ()
 		{
-			m_helper = new NSTimer();
+			throw new NotImplementedException ("Timer not implemented yet");
+			//m_helper = new NSTimer();
 			enabled = false;
 		}
 		

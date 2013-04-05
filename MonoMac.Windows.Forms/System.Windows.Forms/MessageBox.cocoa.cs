@@ -148,7 +148,7 @@ namespace System.Windows.Forms
 				InformativeText = msgbox_text;
 				SetupButtons(msgbox_buttons);
 				SetupIcon(Icon);
-				var result = GetResult(this.RunModal (),msgbox_buttons);
+				var result = GetResult((int)this.RunModal (),msgbox_buttons);
 				return result;
 			}
 			

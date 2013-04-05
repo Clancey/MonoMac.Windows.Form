@@ -40,7 +40,7 @@ namespace System.Windows.Forms
 						tb.StringValue = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
 						tb.Font = this.Font.ToNsFont();
 						tb.SizeToFit();
-						Size s = Size.Round(tb.Frame.Size);
+						Size s = Util.NSSizeToSize(tb.Frame.Size);
 						int width = (int)Math.Round ((float)s.Width / 62f);
 						
 						return new SizeF (width, s.Height);

@@ -9,6 +9,21 @@ using System.Threading;
 using MonoMac.AppKit;
 using System.Linq;
 using MonoMac.Foundation;
+
+#if MAC64
+using NSInteger = System.Int64;
+using NSUInteger = System.UInt64;
+using CGFloat = System.Double;
+#else
+using NSInteger = System.Int32;
+using NSUInteger = System.UInt32;
+using NSPoint = System.Drawing.PointF;
+using NSSize = System.Drawing.SizeF;
+using NSRect = System.Drawing.RectangleF;
+using CGFloat = System.Single;
+#endif
+
+
 namespace System.Windows.Forms
 {
 
@@ -16,7 +31,8 @@ namespace System.Windows.Forms
 	class FormHelper : NSWindow
 	{
 		Form m_parent;
-		internal FormHelper (Form parent, RectangleF r, NSWindowStyle ws, NSBackingStore back, bool flag) : base(r, ws, back, flag)
+		internal FormHelper (Form parent, NSRect r, NSWindowStyle ws, NSBackingStore back, bool flag) : 
+			base(r, ws, back, flag)
 		{
 			m_parent = parent;
 			this.WillClose += HandleHandleWillClose;
@@ -50,7 +66,8 @@ namespace System.Windows.Forms
 			if(theEvent == null)
 				return;
 			//base.MouseUp (theEvent);
-			m_parent.HandleClick(theEvent.ClickCount,new MouseEventArgs(MouseButtons.Left,theEvent.ClickCount,theEvent.AbsoluteX,theEvent.AbsoluteY,theEvent.AbsoluteZ));
+			m_parent.HandleClick((int)theEvent.ClickCount,
+			                     new MouseEventArgs(MouseButtons.Left,(int)theEvent.ClickCount,(int)theEvent.AbsoluteX,(int)theEvent.AbsoluteY,(int)theEvent.AbsoluteZ));
 		}	
 		public Rectangle GetClientRectangle()
 		{
@@ -58,7 +75,7 @@ namespace System.Windows.Forms
 		}
 		public RectangleF GetClientRectangleF()
 		{
-			return ContentView.Bounds;
+			return Util.NSRectToRectangleF(ContentView.Bounds);
 		}
 		public override void KeyDown (NSEvent theEvent)
 		{
@@ -132,7 +149,7 @@ namespace System.Windows.Forms
 		FormBorderStyle			form_border_style;
 		protected override void CreateHandle ()
 		{
-			m_helper = new FormHelper (this, new RectangleF (50, 50, 400, 400), (NSWindowStyle)(1 | (1 << 1) | (1 << 2) | (1 << 3)), NSBackingStore.Buffered, false);
+			m_helper = new FormHelper (this, new NSRect (50, 50, 400, 400), (NSWindowStyle)(1 | (1 << 1) | (1 << 2) | (1 << 3)), NSBackingStore.Buffered, false);
 			m_helper.ContentView = new ViewHelper (this);
       		m_view = m_helper.ContentView;
 			//m_helper.ContentView.ScaleUnitSquareToSize(Util.ScaleSize);
@@ -326,13 +343,13 @@ namespace System.Windows.Forms
 				return m_helper.GetClientRectangle().Size;
 			}
 			set {
-				m_helper.SetContentSize(new SizeF(value));
+				m_helper.SetContentSize(Util.SizeToNSSize(value));
 			}
 		}
 		
 		internal override void UpdateBounds ()
 		{
-			m_helper.SetFrame(bounds,true);	
+			m_helper.SetFrame(Util.RectangleToNSRect(bounds),true);	
 		}
 
 		internal override ControlCollection controls {

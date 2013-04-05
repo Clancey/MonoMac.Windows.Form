@@ -6,7 +6,7 @@ using System.IO;
 namespace System.Windows.Forms
 {
 	[MonoMac.Foundation.Register("Form")]
-	public partial class Application : NSApplication
+	public partial class Application //: NSApplication
 	{
 		static ApplicationContext context;
 		
@@ -22,7 +22,9 @@ namespace System.Windows.Forms
 			get {				
 				var fullpath = NSBundle.MainBundle.ExecutablePath;
 				var executable = fullpath.Substring(fullpath.LastIndexOf(Path.DirectorySeparatorChar) + 1);
-				fullpath = Path.Combine( Path.GetDirectoryName( fullpath),"Contents","Resources",executable);
+				fullpath = Path.Combine( Path.GetDirectoryName( fullpath),"Contents" );
+				fullpath = Path.Combine( fullpath,"Resources" );
+				fullpath = Path.Combine( fullpath,executable);
 				return fullpath;
 			}
 		}

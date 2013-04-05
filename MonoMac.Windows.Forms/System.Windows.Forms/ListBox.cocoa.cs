@@ -7,6 +7,20 @@ using System.Collections;
 using System.Reflection;
 using System.Collections.Generic;
 using System.ComponentModel;
+
+#if MAC64
+using NSInteger = System.Int64;
+using NSUInteger = System.UInt64;
+using CGFloat = System.Double;
+#else
+using NSInteger = System.Int32;
+using NSUInteger = System.UInt32;
+using NSPoint = System.Drawing.PointF;
+using NSSize = System.Drawing.SizeF;
+using NSRect = System.Drawing.RectangleF;
+using CGFloat = System.Single;
+#endif
+
 namespace System.Windows.Forms
 {
 	
@@ -78,7 +92,7 @@ namespace System.Windows.Forms
 				List<int> newRow = new List<int>();
 				
 				if(tableView.SelectedRowCount == 1)
-					newRow.Add(tableView.SelectedRow);
+					newRow.Add((int)tableView.SelectedRow);
 				else if(tableView.SelectedRowCount > 1)
 					
 				foreach( var row in tableView.SelectedRows.ToArray())
@@ -98,7 +112,7 @@ namespace System.Windows.Forms
 		}
 		public virtual void SetupColumn()
 		{
-			column = new NSTableColumn(colString);
+			column = new NSTableColumn(colString.ToString());
 			column.DataCell.Editable = false;
 			tableView.AddColumn(column);
 		}
@@ -395,10 +409,10 @@ namespace System.Windows.Forms
 					{
 					case System.Windows.Forms.SelectionMode.One:
 						if(tableView.SelectedRow != value)
-							tableView.SelectRow(value,false);
+							tableView.SelectRow((NSUInteger)value,false);
 						break;
 					default :
-						tableView.SelectRow(value,true);
+						tableView.SelectRow((NSUInteger)value,true);
 						break;
 					}
 				}
@@ -476,20 +490,20 @@ namespace System.Windows.Forms
 				dataArray = Items;
 			}
 			private NSString returnString;
-			public override NSObject GetObjectValue (NSTableView tableView, NSTableColumn tableColumn, int row)
+			public override NSObject GetObjectValue (NSTableView tableView, NSTableColumn tableColumn, NSInteger row)
 			{
 				if(lbox == null)
 					return null;
 				if(string.IsNullOrEmpty(lbox.DisplayMember))
-					returnString = new NSString(dataArray[row].ToString());
+					returnString = new NSString(dataArray[(int)row].ToString());
 				else
-					returnString =  new NSString(Util.GetPropertyStringValue(dataArray[row],lbox.DisplayMember));
+					returnString =  new NSString(Util.GetPropertyStringValue(dataArray[(int)row],lbox.DisplayMember));
 				if(tableColumn.DataCell is DataGridViewButtonCell)
 					(tableColumn.DataCell as DataGridViewButtonCell).Text = returnString;
 				return returnString;
 				
 			}
-			public override int GetRowCount (NSTableView tableView)
+			public override NSInteger GetRowCount (NSTableView tableView)
 			{
 				if(lbox == null)
 					return 0;

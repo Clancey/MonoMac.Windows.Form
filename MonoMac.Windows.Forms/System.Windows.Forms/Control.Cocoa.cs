@@ -11,7 +11,22 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading;
 using MonoMac.AppKit;
+using MonoMac.Foundation;
 using System.Linq;
+
+#if MAC64
+using NSInteger = System.Int64;
+using NSUInteger = System.UInt64;
+using CGFloat = System.Double;
+#else
+using NSInteger = System.Int32;
+using NSUInteger = System.UInt32;
+using NSPoint = System.Drawing.PointF;
+using NSSize = System.Drawing.SizeF;
+using NSRect = System.Drawing.RectangleF;
+using CGFloat = System.Single;
+#endif
+
 
 namespace System.Windows.Forms
 {
@@ -295,9 +310,8 @@ return null;
 
 		public Point PointToClient (Point p)
 		{
-			int x = p.X;
-			int y = p.Y;
-			return Point.Round (NSViewForControl.ConvertPointToBase (p));
+			var pt = NSViewForControl.ConvertPointToBase (Util.PointToNSPoint (p));
+			return Util.NSPointToPoint (pt);
 		}
 
 		public Point PointToScreen (Point p)
@@ -313,9 +327,9 @@ return null;
 		internal virtual void UpdateBounds ()
 		{
 			if(Offset != Point.Empty)
-				NSViewForControl.Frame = new RectangleF(bounds.Location.Subtract(Offset),bounds.Size);
+				NSViewForControl.Frame = new NSRect(bounds.Location.Subtract(Offset),bounds.Size);
 			else
-				NSViewForControl.Frame = bounds;
+				NSViewForControl.Frame = Util.RectangleToNSRect(bounds);
 		}
 		
 		internal virtual Point Offset
@@ -691,7 +705,7 @@ return null;
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Rectangle ClientRectangle {
 // client rectangle is in client coordinate system
-			get { return Rectangle.Round (NSViewForControl.Bounds); }
+			get { return Util.NSRectToRectangle(NSViewForControl.Bounds); }
 		}
 
 		internal virtual Size clientSize {
@@ -1012,7 +1026,7 @@ return null;
 				
 				NotifyInvalidate (rc);
 				
-				NSViewForControl.SetNeedsDisplayInRect (rc);
+				NSViewForControl.SetNeedsDisplayInRect (Util.RectangleToNSRect(rc));
 				
 				if (invalidateChildren)
 				{
@@ -1035,7 +1049,10 @@ return null;
 		
 	
 		public static Point MousePosition {
-			get { return Point.Round( NSApplication.SharedApplication.KeyWindow.MouseLocationOutsideOfEventStream); }
+			get 
+			{
+				return Util.NSPointToPoint( NSApplication.SharedApplication.KeyWindow.MouseLocationOutsideOfEventStream); 
+			}
 		}
 		
 
@@ -1125,7 +1142,7 @@ return null;
 		protected virtual void OnInvalidated (InvalidateEventArgs e)
 		{
 			if (NSViewForControl != null)
-				NSViewForControl.SetNeedsDisplayInRect (e.InvalidRect);
+				NSViewForControl.SetNeedsDisplayInRect (Util.RectangleToNSRect(e.InvalidRect));
 			
 			InvalidateEventHandler eh = (InvalidateEventHandler)(Events[InvalidatedEvent]);
 			if (eh != null)

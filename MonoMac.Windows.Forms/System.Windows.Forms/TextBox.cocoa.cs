@@ -15,6 +15,20 @@
 using MonoMac.AppKit;
 using System.Drawing;
 using MonoMac.Foundation;
+
+#if MAC64
+using NSInteger = System.Int64;
+using NSUInteger = System.UInt64;
+using CGFloat = System.Double;
+#else
+using NSInteger = System.Int32;
+using NSUInteger = System.UInt32;
+using NSPoint = System.Drawing.PointF;
+using NSSize = System.Drawing.SizeF;
+using NSRect = System.Drawing.RectangleF;
+using CGFloat = System.Single;
+#endif
+
 namespace System.Windows.Forms
 {
 	[MonoMac.Foundation.Register("TextBox")]
@@ -42,7 +56,7 @@ namespace System.Windows.Forms
 		
 		internal override void UpdateBounds ()
 		{
-			m_helper.TextView.MinSize = bounds.Size;
+			m_helper.TextView.MinSize = new NSSize(bounds.Size);
 			base.UpdateBounds ();
 		}
 		public override string Text {
@@ -55,9 +69,11 @@ namespace System.Windows.Forms
 		
 		public void ViewDidMoveToSuperview ()
 		{
-			
-			if(Dock ==  DockStyle.Fill)
-				this.Size =  Size.Round(m_helper.Superview.Bounds.Size);
+			var sz = m_helper.Superview.Bounds.Size;
+			int width = (int)sz.Width;
+			int height = (int)sz.Height;
+			if (Dock == DockStyle.Fill)
+				this.Size = new Size (width, height);
 			setScrollBars();
 		}
 	
@@ -106,10 +122,24 @@ namespace System.Windows.Forms
 		//TODO: consolidate
 			
 		//TODO: make it work
-		public float Left{get;set;}
-		public float Right {get { if (m_helper.Superview == null) return -1;return  (m_helper.Frame.X + this.Width) - m_helper.Superview.Frame.Width ;}}
+		public float Left
+		{
+			get;
+			set;
+		}
+
+		public float Right 
+		{
+			get 
+			{
+				if (m_helper.Superview == null) return -1;
+				return (float)((m_helper.Frame.X + this.Width) - m_helper.Superview.Frame.Width);
+			}
+		}
 		
-		public int Top{ get{ return (int)this.Location.Y;}
+		public int Top
+		{
+			get { return (int)this.Location.Y;}
 			set { this.Location = new Point((int)this.Location.Y,value);}
 		}
 		
@@ -117,20 +147,19 @@ namespace System.Windows.Forms
 		{
 			this.Text = string.Empty;	
 		}
+
 		public HorizontalAlignment TextAlign
 		{
-			get {
+			get
+			{
 				switch(m_helper.TextView.Alignment)
 				{
 				case NSTextAlignment.Left:
 					return HorizontalAlignment.Left;
-					break;
 				case NSTextAlignment.Center:
 					return HorizontalAlignment.Center;
-					break;
 				case NSTextAlignment.Right:
 					return HorizontalAlignment.Right;
-					break;
 				default : return HorizontalAlignment.Left;
 					break;
 				}
@@ -164,18 +193,28 @@ namespace System.Windows.Forms
 			get{ 
 				switch(m_helper.TextView.BaseWritingDirection)
 				{
-					case NSWritingDirection.LeftToRight: return RightToLeft.No;
-					case NSWritingDirection.RightToLeft : return RightToLeft.Yes;
-					case NSWritingDirection.Natural : return RightToLeft.No;
-					default : return RightToLeft.No;
+				case MonoMac.AppKit.NSWritingDirection.LeftToRight:
+					return RightToLeft.No;
+				case MonoMac.AppKit.NSWritingDirection.RightToLeft:
+					return RightToLeft.Yes;
+				case MonoMac.AppKit.NSWritingDirection.Natural :
+					return RightToLeft.No;
+				default :
+					return RightToLeft.No;
 				}
 			}
 			set {
 				switch(value)
 				{
-					case RightToLeft.Inherit : m_helper.TextView.BaseWritingDirection = NSWritingDirection.Embedding;	break;
-					case RightToLeft.No: m_helper.TextView.BaseWritingDirection = NSWritingDirection.LeftToRight; break ;
-					case RightToLeft.Yes: m_helper.TextView.BaseWritingDirection = NSWritingDirection.RightToLeft ; break;
+				case RightToLeft.Inherit:
+					m_helper.TextView.BaseWritingDirection = MonoMac.AppKit.NSWritingDirection.Embedding;
+					break;
+				case RightToLeft.No:
+					m_helper.TextView.BaseWritingDirection = MonoMac.AppKit.NSWritingDirection.LeftToRight;
+					break;
+				case RightToLeft.Yes:
+					m_helper.TextView.BaseWritingDirection = MonoMac.AppKit.NSWritingDirection.RightToLeft;
+					break;
 				}
 			}
 		}
@@ -188,8 +227,6 @@ namespace System.Windows.Forms
 			//ScrollToCaret();
 			OnTextChanged(EventArgs.Empty);
 		}
-	
-		
 	}
 }
 

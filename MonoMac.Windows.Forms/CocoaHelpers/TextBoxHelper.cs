@@ -15,6 +15,20 @@
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using System.Drawing;
+
+#if MAC64
+using NSInteger = System.Int64;
+using NSUInteger = System.UInt64;
+using CGFloat = System.Double;
+#else
+using NSInteger = System.Int32;
+using NSUInteger = System.UInt32;
+using NSPoint = System.Drawing.PointF;
+using NSSize = System.Drawing.SizeF;
+using NSRect = System.Drawing.RectangleF;
+using CGFloat = System.Single;
+#endif
+
 namespace System.Windows.Forms
 {
 	internal partial class TextBoxHelper : NSScrollView, IViewHelper
@@ -34,9 +48,9 @@ namespace System.Windows.Forms
 			this.HasHorizontalScroller = true;
 			TextView = new TextView ();
 			TextView.Host = this;
-			TextView.TextContainerInset = new SizeF (5f, 5f);
+			TextView.TextContainerInset = new NSSize (5f, 5f);
 			TextView.AutoresizingMask = (NSViewResizingMask.HeightSizable | NSViewResizingMask.WidthSizable);
-			TextView.TextContainer.ContainerSize = new SizeF (float.MaxValue, float.MaxValue);
+			TextView.TextContainer.ContainerSize = new NSSize (float.MaxValue, float.MaxValue);
 			this.DocumentView = TextView;
 			
 			//TextView.EnclosingScrollView.HasHorizontalScroller = true;
@@ -59,7 +73,7 @@ namespace System.Windows.Forms
 			}
 		}
 
-		public override Drawing.RectangleF Frame {
+		public override NSRect Frame {
 			get { return base.Frame; }
 			set {
 				TextView.MinSize = value.Size;

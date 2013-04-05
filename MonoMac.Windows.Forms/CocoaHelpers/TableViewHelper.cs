@@ -13,7 +13,22 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.using System;
 using MonoMac.AppKit;
+using MonoMac.Foundation;
 using System.Drawing;
+
+#if MAC64
+using NSInteger = System.Int64;
+using NSUInteger = System.UInt64;
+using CGFloat = System.Double;
+#else
+using NSInteger = System.Int32;
+using NSUInteger = System.UInt32;
+using NSPoint = System.Drawing.PointF;
+using NSSize = System.Drawing.SizeF;
+using NSRect = System.Drawing.RectangleF;
+using CGFloat = System.Single;
+#endif
+
 namespace System.Windows.Forms
 {
 	internal partial class TableViewHelper : NSTableView, IViewHelper,  ITableViewHelper
@@ -30,14 +45,17 @@ namespace System.Windows.Forms
 		}
 	
 	
-		
-		public override void DrawRow (int row, Drawing.RectangleF clipRect)
+		public override void DrawRow (NSInteger row, NSRect clipRect)
 		{
 			bool shouldDraw = true;
 			using (var graphics = Graphics.FromHwnd (this.Handle))
 			{	
 				
-				var events = new DrawItemEventArgs( graphics,this.Font.ToFont(), Rectangle.Round (clipRect),row,getState(row));
+				var events = new DrawItemEventArgs(graphics,
+				                                   this.Font.ToFont(),
+				                                   Util.NSRectToRectangle(clipRect),
+				                                   (int)row,
+				                                   getState(row));
 				if(Host is ListBox)
 					((ListBox)Host).DrawItemInternal (events);				
 				shouldDraw = !events.Handled;
@@ -46,13 +64,13 @@ namespace System.Windows.Forms
 				base.DrawRow (row, clipRect);
 		}
 		
-		private DrawItemState getState(int row)
+		private DrawItemState getState(NSInteger row)
 		{
 			DrawItemState state = DrawItemState.None;
 			if(Host is ListBox)
 			{
 				var lbox = (ListBox)Host;
-				if (lbox.SelectedIndices.Contains (row))
+				if (lbox.SelectedIndices.Contains ((int)row))
 					state |= DrawItemState.Selected;
 					
 				if (lbox.has_focus && lbox.FocusedItem == row)

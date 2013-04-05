@@ -218,7 +218,10 @@ namespace System.Windows.Forms
 
 			[Browsable(false)]
 			public int Count {
-				get { return owner.m_helper.Count; }
+				get
+				{
+					return (int)owner.m_helper.Count;
+				}
 			}
 
 			public bool IsReadOnly {

@@ -13,7 +13,22 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.using System;
 using MonoMac.AppKit;
+using MonoMac.Foundation;
 using System.Drawing;
+
+#if MAC64
+using NSInteger = System.Int64;
+using NSUInteger = System.UInt64;
+using CGFloat = System.Double;
+#else
+using NSInteger = System.Int32;
+using NSUInteger = System.UInt32;
+using NSPoint = System.Drawing.PointF;
+using NSSize = System.Drawing.SizeF;
+using NSRect = System.Drawing.RectangleF;
+using CGFloat = System.Single;
+#endif
+
 namespace System.Windows.Forms
 {
 	internal class GroupBoxHelper : NSBox, IViewHelper
@@ -28,9 +43,9 @@ namespace System.Windows.Forms
 		{
 			get {
 				var parentFram = this.Frame;
-				var insideFrame = (this.ContentView as FlippedView).Frame.Location.Add(this.ContentViewMargins);
-				return insideFrame;
-				
+				var insideFrame = (this.ContentView as FlippedView).Frame.Location;
+				return new PointF((float)(insideFrame.X + this.ContentViewMargins.Width),
+				                  (float)(insideFrame.Y+this.ContentViewMargins.Height));
 			}
 		}
 

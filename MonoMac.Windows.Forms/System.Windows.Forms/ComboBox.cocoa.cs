@@ -24,6 +24,21 @@ using MonoMac.AppKit;
 using MonoMac.Foundation;
 using System.Linq;
 using System.Collections.Generic;
+
+#if MAC64
+using NSInteger = System.Int64;
+using NSUInteger = System.UInt64;
+using CGFloat = System.Double;
+#else
+using NSInteger = System.Int32;
+using NSUInteger = System.UInt32;
+using NSPoint = System.Drawing.PointF;
+using NSSize = System.Drawing.SizeF;
+using NSRect = System.Drawing.RectangleF;
+using CGFloat = System.Single;
+#endif
+
+
 namespace System.Windows.Forms
 {
 	public partial class ComboBox : ListControl
@@ -204,7 +219,7 @@ namespace System.Windows.Forms
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Bindable(true)]
 		public object SelectedItem {
-			get { return Items[m_helper.SelectedIndex]; }
+			get { return Items[(int)m_helper.SelectedIndex]; }
 			set { m_helper.SelectItem (_dataSource.IndexOfItem (m_helper, value)); }
 		}
 		/*
@@ -908,19 +923,19 @@ namespace System.Windows.Forms
 				//dataArray = Items;
 			}
 			private NSString returnString;
-			public override NSObject ObjectValueForItem (NSComboBox comboBox, int index)
+			public override NSObject ObjectValueForItem (NSComboBox comboBox, NSInteger index)
 			{
 				if (cbox == null)
 					return null;
 				if (string.IsNullOrEmpty (cbox.DisplayMember))
-					returnString = new NSString (cbox.Items[index].ToString ());
+					returnString = new NSString (cbox.Items[(int)index].ToString ());
 				else
-					returnString = new NSString (Util.GetPropertyStringValue (cbox.Items[index], cbox.DisplayMember));
+					returnString = new NSString (Util.GetPropertyStringValue (cbox.Items[(int)index], cbox.DisplayMember));
 				return returnString;
 				
 			}
 
-			public override int ItemCount (NSComboBox comboBox)
+			public override NSInteger ItemCount (NSComboBox comboBox)
 			{
 				if (cbox == null)
 					return 0;
@@ -931,7 +946,7 @@ namespace System.Windows.Forms
 			{
 				var DisplayMember = cbox.DisplayMember;
 				var ValueMember = cbox.ValueMember;
-				object l = cbox.Items[comboBox.SelectedIndex];
+				object l = cbox.Items[(int)comboBox.SelectedIndex];
 				if (!string.IsNullOrEmpty (DisplayMember))
 				{
 					//Use Display Property if they didnt set ValueMember
@@ -960,7 +975,7 @@ namespace System.Windows.Forms
 				
 			}
 
-			public override int IndexOfItem (NSComboBox comboBox, string value)
+			public override NSInteger IndexOfItem (NSComboBox comboBox, string value)
 			{
 				return cbox.Items.IndexOf (value);
 			}

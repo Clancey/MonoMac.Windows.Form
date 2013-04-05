@@ -3,6 +3,21 @@ using System.Drawing;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using MonoMac.AppKit;
+using MonoMac.Foundation;
+
+#if MAC64
+using NSInteger = System.Int64;
+using NSUInteger = System.UInt64;
+using CGFloat = System.Double;
+#else
+using NSInteger = System.Int32;
+using NSUInteger = System.UInt32;
+using NSPoint = System.Drawing.PointF;
+using NSSize = System.Drawing.SizeF;
+using NSRect = System.Drawing.RectangleF;
+using CGFloat = System.Single;
+#endif
+
 namespace System.Windows.Forms
 {
 	public partial class Label 
@@ -161,7 +176,7 @@ namespace System.Windows.Forms
 				txt.Value = Text;
 				txt.Font = Font.ToNsFont();
 				txt.SizeToFit();
-				size = Size.Round(txt.Frame.Size);
+				size = Util.NSSizeToSize(txt.Frame.Size);
 			}
 
 #if NET_2_0
@@ -210,8 +225,8 @@ namespace System.Windows.Forms
 			m_helper.TextContainer.TextView.AutoresizingMask = NSViewResizingMask.WidthSizable;
 			var frame = m_helper.TextContainer.TextView.Frame;
 			m_helper.HorizontallyResizable = true;
-			m_helper.TextContainer.TextView.Frame = new RectangleF(frame.Location,new SizeF(9999,frame.Height));
-			m_helper.Frame = new RectangleF(m_helper.Frame.Location, m_helper.TextContainer.TextView.Frame.Size);
+			m_helper.TextContainer.TextView.Frame = new NSRect(frame.Location,new NSSize(9999,(float)frame.Height));
+			m_helper.Frame = new NSRect(m_helper.Frame.Location, m_helper.TextContainer.TextView.Frame.Size);
 		}
 	}
 }
