@@ -462,7 +462,6 @@
       <LastGenOutput>MouseTemplate.g.cs</LastGenOutput>
     </None>
     <None Include="System.Windows.Forms.Layout\ChangeLog" />
-    <None Include="MonoMac.Windows.Forms.userprefs" />
     <None Include="obj\Debug\MonoMac.Windows.Forms.csproj.FileListAbsolute.txt" />
     <None Include="obj\Debug\ResolveAssemblyReference.cache" />
     <None Include="test-results\MonoMac.Windows.Forms.csproj-Debug-2010-11-03.xml" />
