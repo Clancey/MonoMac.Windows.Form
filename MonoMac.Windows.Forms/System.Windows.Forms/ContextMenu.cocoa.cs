@@ -69,7 +69,7 @@ namespace System.Windows.Forms
 
 			NSPoint _pos = new NSPoint (pos.X, pos.Y);
 			var point = control.m_view.ConvertPointToBase(_pos);
-			NSMenu.PopUpContextMenu(m_view,NSEvent.MouseEvent(NSEventType.LeftMouseUp,point,NSEventModifierMask.ShiftKeyMask,0,NSApplication.SharedApplication.MainWindow.WindowNumber,new NSGraphicsContext(),0,1,1f),control,NSFont.MenuBarFontOfSize(12));
+			NSMenu.PopUpContextMenu(m_view,NSEvent.MouseEvent(NSEventType.LeftMouseUp,point,NSEventModifierMask.Shift,0,NSApplication.SharedApplication.MainWindow.WindowNumber,new NSGraphicsContext(),0,1,1f),control,NSFont.MenuBarFontOfSize(12));
 			//m_view.PopUpMenu(new NSMenuItem("test",""),pos,control);
 		 
 			

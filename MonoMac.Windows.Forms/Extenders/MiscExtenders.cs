@@ -22,17 +22,17 @@ namespace System.Windows.Forms
 			switch (mask) {
 			//case NSEventModifierMask.AlphaShiftKeyMask:
 			//	return Keys.None;
-			case NSEventModifierMask.AlternateKeyMask:
+			case NSEventModifierMask.Alternate:
 				return Keys.Alt;
-			case NSEventModifierMask.CommandKeyMask:
+			case NSEventModifierMask.Command:
 				return Keys.LWin | Keys.RWin;
-			case NSEventModifierMask.ControlKeyMask:
+			case NSEventModifierMask.Control:
 				return Keys.Control;
 			//case NSEventModifierMask.FunctionKeyMask:
 			//	return Keys.None;
-			case NSEventModifierMask.HelpKeyMask:
+			case NSEventModifierMask.Help:
 				return Keys.Help;
-			case NSEventModifierMask.ShiftKeyMask:
+			case NSEventModifierMask.Shift:
 				return Keys.Shift;
 			}
 			return Keys.None;
