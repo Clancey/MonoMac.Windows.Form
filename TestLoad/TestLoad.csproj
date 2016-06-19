@@ -60,6 +60,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="MainMenu.xib" xmlns="" />
+    <InterfaceDefinition Include="MainMenu.xib" />
   </ItemGroup>
 </Project>
