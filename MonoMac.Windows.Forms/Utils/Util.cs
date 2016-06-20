@@ -15,10 +15,10 @@
 using System.Linq;
 using System.Reflection;
 using System.Drawing;
-using MonoMac.CoreGraphics;
+using CoreGraphics;
 using System.Runtime.InteropServices;
-using MonoMac.AppKit;
-using MonoMac.Foundation;
+using AppKit;
+using Foundation;
 
 namespace System.Windows.Forms
 {

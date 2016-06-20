@@ -6,13 +6,13 @@ using System.ComponentModel.Design.Serialization;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Threading;
-using MonoMac.AppKit;
+using AppKit;
 using System.Linq;
-using MonoMac.Foundation;
+using Foundation;
 namespace System.Windows.Forms
 {
 
-	[MonoMac.Foundation.Register("FormHelper")]
+	[Foundation.Register("FormHelper")]
 	class FormHelper : NSWindow
 	{
 		Form m_parent;

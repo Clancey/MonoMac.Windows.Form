@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
 using System.ComponentModel;
-using MonoMac.AppKit;
-using MonoMac.Foundation;
+using AppKit;
+using Foundation;
 namespace System.Windows.Forms
 {
 	public partial class Timer

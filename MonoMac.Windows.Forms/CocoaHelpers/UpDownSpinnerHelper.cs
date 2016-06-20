@@ -12,7 +12,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.using System;
-using MonoMac.AppKit;
+using AppKit;
 namespace System.Windows.Forms
 {
 	internal class UpDownSpinnerHelper: NSStepper, IViewHelper
@@ -20,7 +20,7 @@ namespace System.Windows.Forms
 		public UpDownSpinnerHelper ()
 		{
 		}
-		public override void DidChange (MonoMac.Foundation.NSKeyValueChange changeKind, MonoMac.Foundation.NSIndexSet indexes, MonoMac.Foundation.NSString forKey)
+		public override void DidChange (Foundation.NSKeyValueChange changeKind, Foundation.NSIndexSet indexes, Foundation.NSString forKey)
 		{
 			base.DidChange (changeKind, indexes, forKey);
 		}
@@ -28,7 +28,7 @@ namespace System.Windows.Forms
 		{
 			base.DidChangeValue (forKey);
 		}
-		public override void DidChange (MonoMac.Foundation.NSString forKey, MonoMac.Foundation.NSKeyValueSetMutationKind mutationKind, MonoMac.Foundation.NSSet objects)
+		public override void DidChange (Foundation.NSString forKey, Foundation.NSKeyValueSetMutationKind mutationKind, Foundation.NSSet objects)
 		{
 			base.DidChange (forKey, mutationKind, objects);
 		}

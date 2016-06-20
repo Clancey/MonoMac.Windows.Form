@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
-using MonoMac.AppKit;
-using MonoMac.Foundation;
+using AppKit;
+using Foundation;
 
 namespace System.Windows.Forms
 {

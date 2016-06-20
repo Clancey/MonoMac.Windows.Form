@@ -1,11 +1,11 @@
 using System;
-using MonoMac.AppKit;
-using MonoMac.Foundation;
+using AppKit;
+using Foundation;
 using System.IO;
 
 namespace System.Windows.Forms
 {
-	[MonoMac.Foundation.Register("Form")]
+	[Foundation.Register("Form")]
 	public partial class Application : NSApplication
 	{
 		static ApplicationContext context;

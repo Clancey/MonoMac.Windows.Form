@@ -12,12 +12,12 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.using System;
-using MonoMac.AppKit;
+using AppKit;
 using System.Drawing;
-using MonoMac.Foundation;
+using Foundation;
 namespace System.Windows.Forms
 {
-	[MonoMac.Foundation.Register("TextBox")]
+	[Foundation.Register("TextBox")]
 	public partial class TextBox : TextBoxBase // : TextBoxMouseView, IControl
 		//NSTextField
 	{
