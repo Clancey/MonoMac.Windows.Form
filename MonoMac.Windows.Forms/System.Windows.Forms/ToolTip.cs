@@ -217,7 +217,9 @@ namespace System.Windows.Forms {
 					return;
 
 				Size display_size;
+
 				//XplatUI.GetDisplaySize (out display_size);
+        display_size = new System.Drawing.Size(200,40);
 
 				associated_control = control;
 

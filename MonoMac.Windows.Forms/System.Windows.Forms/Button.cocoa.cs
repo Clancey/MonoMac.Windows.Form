@@ -1,7 +1,7 @@
 using System;
-using MonoMac.AppKit;
-using MonoMac.ObjCRuntime;
-using MonoMac.Foundation;
+using AppKit;
+using ObjCRuntime;
+using Foundation;
 using System.Drawing;
 using System.Collections.Generic;
 namespace System.Windows.Forms

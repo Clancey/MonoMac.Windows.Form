@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
-using MonoMac.AppKit;
+using AppKit;
 using System.Drawing;
-using MonoMac.Foundation;
+using Foundation;
 using System.Collections;
 using System.Reflection;
 using System.Collections.Generic;

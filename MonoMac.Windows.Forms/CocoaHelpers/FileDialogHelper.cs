@@ -13,7 +13,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 using System;
-using MonoMac.AppKit;
+using AppKit;
 using System.Threading;
 namespace System.Windows.Forms
 {
@@ -27,7 +27,7 @@ namespace System.Windows.Forms
 			this.CanChooseFiles = true;
 			this.CanChooseDirectories = false;
 		}
-		public override void Cancel (MonoMac.Foundation.NSObject sender)
+		public override void Cancel (Foundation.NSObject sender)
 		{
 			if(CancelEvent != null)
 				CancelEvent(this,null);

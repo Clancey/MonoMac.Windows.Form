@@ -1,10 +1,10 @@
 using System;
-using MonoMac.AppKit;
+using AppKit;
 using System.Drawing;
 namespace System.Windows.Forms
 {
 
-	[MonoMac.Foundation.Register("AppDelegate")]
+	[Foundation.Register("AppDelegate")]
 	public class ApplicationContext : NSApplicationDelegate
 	{
 		Form main_form;
@@ -18,7 +18,7 @@ namespace System.Windows.Forms
 			mainFormFunc = mainForm;
 		}
 
-		public override void FinishedLaunching (MonoMac.Foundation.NSObject notification)
+		public override void FinishedLaunching (Foundation.NSObject notification)
 		{
 			if (mainFormFunc != null)
 				main_form = mainFormFunc ();
@@ -59,7 +59,7 @@ namespace System.Windows.Forms
 		{
 			MainForm = null;
 		}
-		public override void WillTerminate (MonoMac.Foundation.NSNotification notification)
+		public override void WillTerminate (Foundation.NSNotification notification)
 		{
 			OnMainFormClosed (notification.Object, new EventArgs ());
 			//base.WillTerminate (notification);

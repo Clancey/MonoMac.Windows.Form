@@ -49,9 +49,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
-    <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral">
-      <Private>False</Private>
-      <Package>monodevelop-core-mac-addins</Package>
+    <Reference Include="Xamarin.Mac">
+      <HintPath>..\References\Xamarin.Mac.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

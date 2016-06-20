@@ -20,8 +20,8 @@ using System.Drawing;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using MonoMac.AppKit;
-using MonoMac.Foundation;
+using AppKit;
+using Foundation;
 using System.Linq;
 using System.Collections.Generic;
 namespace System.Windows.Forms
